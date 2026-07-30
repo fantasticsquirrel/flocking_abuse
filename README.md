@@ -54,7 +54,7 @@ npm audit
 ```bash
 npm run validate:data
 npm run build:data
-npm run scrape -- --seed-file /tmp/flock-source-urls.txt --output candidate-findings.json --public-data src/data/incidents.json
+npm run scrape -- --seed-file /tmp/flock-source-urls.txt --output candidate-findings.json --data-dir data
 npm run candidate:pr -- --candidate data/candidates/example.yaml
 ```
 

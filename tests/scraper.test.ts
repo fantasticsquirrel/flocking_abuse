@@ -1,7 +1,11 @@
+import { mkdtemp, mkdir, readFile, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { describe, expect, it, vi } from 'vitest';
 import {
   fetchDiscoverablePage,
   isPublicAddress,
+  loadExistingRecords,
   runSeedDiscovery,
   validatePublicUrl,
   type Requester,
@@ -43,6 +47,30 @@ describe('scraper network safety', () => {
     const requester = vi.fn<Requester>().mockResolvedValueOnce(response(200, 'User-agent: *\nDisallow: /blocked'));
     await expect(fetchDiscoverablePage('https://news.example/blocked/report', { lookup: publicLookup, request: requester })).rejects.toThrow(/robots\.txt/i);
     expect(requester).toHaveBeenCalledTimes(1);
+  });
+
+  it('rechecks robots rules for a same-origin redirect path before requesting it', async () => {
+    const requester = vi.fn<Requester>()
+      .mockResolvedValueOnce(response(200, 'User-agent: *\nDisallow: /blocked'))
+      .mockResolvedValueOnce(response(302, '', { location: '/blocked/report' }));
+    await expect(fetchDiscoverablePage('https://news.example/allowed/report', { lookup: publicLookup, request: requester })).rejects.toThrow(/robots\.txt/i);
+    expect(requester).toHaveBeenCalledTimes(2);
+  });
+});
+
+describe('existing record loading', () => {
+  it('loads both public incidents and review-only candidates for deterministic dedupe', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'flocking-scraper-data-'));
+    await mkdir(join(root, 'incidents'), { recursive: true });
+    await mkdir(join(root, 'candidates'), { recursive: true });
+    const fixture = await readFile('tests/fixtures/validIncident.yaml', 'utf8');
+    await writeFile(join(root, 'incidents', 'public.yaml'), fixture);
+    await writeFile(join(root, 'candidates', 'candidate.yaml'), fixture
+      .replace('2026-07-synthetic-example', 'candidate-existing-example')
+      .replace('status: "verified"', 'status: "candidate"')
+      .replace('https://example.org/investigation', 'https://example.org/candidate-source'));
+    const records = await loadExistingRecords(root);
+    expect(records.map((record) => record.status).sort()).toEqual(['candidate', 'verified']);
   });
 });
 

@@ -29,7 +29,7 @@ Run discovery against human/Hermes-curated seed URLs:
 npm run scrape -- \
   --seed-file /tmp/flock-source-urls.txt \
   --output candidate-findings.json \
-  --public-data src/data/incidents.json
+  --data-dir data
 ```
 
 Without `--seed-file`, the script uses Brave Search only when `BRAVE_SEARCH_API_KEY` exists; otherwise it fails clearly. The network path accepts only HTTP(S), rejects credentials and private/reserved DNS answers, pins requests to validated public IPs, revalidates redirects, respects robots.txt, and limits time, redirects, content type, and response size.
@@ -43,7 +43,7 @@ npm run validate:data
 npm run candidate:pr -- --candidate data/candidates/YYYY-MM-DD-source-slug.yaml
 ```
 
-With GitHub auth, candidate delivery uses an isolated worktree and opens a pull request. Without auth it writes `candidate-review.patch`; no shell interpolation is used.
+With GitHub auth, candidate delivery uses an isolated worktree, opens a pull request, and removes only unchanged **untracked** delivered files from the discovery checkout so they are not submitted again. Tracked files and files changed during delivery are preserved. Without auth it writes `candidate-review.patch`, archives unchanged untracked source candidates under ignored mode-restricted `.local/delivered-candidates/`, and preserves tracked or concurrently changed files; no shell interpolation is used.
 
 ## Daily prompt
 

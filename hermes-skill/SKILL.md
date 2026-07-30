@@ -35,7 +35,7 @@ Use this skill for the daily, source-grounded discovery workflow in the Flocking
 8. Put inspectable source URLs in `/tmp/flock-source-urls.txt`, one per line. Run:
 
 ```bash
-npm run scrape -- --seed-file /tmp/flock-source-urls.txt --output candidate-findings.json --public-data src/data/incidents.json
+npm run scrape -- --seed-file /tmp/flock-source-urls.txt --output candidate-findings.json --data-dir data
 ```
 
 9. Inspect `candidate-findings.json`. Reject generic procurement, marketing, opinion-only stories, and follow-ups to known incidents. Treat inaccessible or ambiguous sources as uncertain, not approved.

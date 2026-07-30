@@ -7,6 +7,7 @@ import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { Incident } from '../src/lib/incidentSchema.js';
 import { canonicalizeUrl } from '../src/lib/dedupe.js';
+import { validateDataDirectory } from './data-utils.js';
 
 export interface RawResponse { status: number; body: Buffer; headers: Record<string, string> }
 export type Requester = (url: string, pinnedAddress?: string) => Promise<RawResponse>;
@@ -131,14 +132,17 @@ export async function fetchDiscoverablePage(rawUrl: string, dependencies?: Parti
   const deps: ScraperDependencies = { lookup: dependencies?.lookup ?? defaultLookup, request: dependencies?.request ?? defaultRequester };
   let validated = await validatePublicUrl(rawUrl, deps.lookup);
   let current = validated.url;
-  const checkedRobots = new Set<string>();
+  const robotsByOrigin = new Map<string, string | undefined>();
   for (let redirect = 0; redirect <= 4; redirect += 1) {
-    if (!checkedRobots.has(current.origin)) {
+    if (!robotsByOrigin.has(current.origin)) {
       const robotsUrl = new URL('/robots.txt', current.origin);
       const robotsResponse = await requestValidated(robotsUrl, deps);
-      if (robotsResponse.status >= 200 && robotsResponse.status < 300 && !robotsAllows(robotsResponse.body.toString('utf8'), current.pathname)) throw new Error('robots.txt disallows this source path');
-      checkedRobots.add(current.origin);
+      robotsByOrigin.set(current.origin, robotsResponse.status >= 200 && robotsResponse.status < 300
+        ? robotsResponse.body.toString('utf8')
+        : undefined);
     }
+    const robotsBody = robotsByOrigin.get(current.origin);
+    if (robotsBody !== undefined && !robotsAllows(robotsBody, current.pathname)) throw new Error('robots.txt disallows this source path');
     validated = await validatePublicUrl(current.toString(), deps.lookup);
     const response = await deps.request(validated.url.toString(), validated.addresses[0]?.address);
     if ([301, 302, 303, 307, 308].includes(response.status)) {
@@ -244,14 +248,21 @@ async function braveSeedUrls(apiKey: string): Promise<string[]> {
   return [...urls];
 }
 
-interface CliOptions { seedFile?: string; output: string; dataFile?: string }
+export async function loadExistingRecords(dataDir: string): Promise<Incident[]> {
+  const result = await validateDataDirectory(resolve(dataDir));
+  if (!result.valid) throw new Error(`Existing incident data failed validation:\n${result.errors.join('\n')}`);
+  return result.records;
+}
+
+interface CliOptions { seedFile?: string; output: string; dataFile?: string; dataDir: string }
 const parseCli = (arguments_: string[]): CliOptions => {
-  const result: CliOptions = { output: 'candidate-findings.json' };
+  const result: CliOptions = { output: 'candidate-findings.json', dataDir: 'data' };
   for (let index = 0; index < arguments_.length; index += 1) {
     const value = arguments_[index]; const next = arguments_[index + 1];
     if (value === '--seed-file' && next) { result.seedFile = next; index += 1; }
     else if (value === '--output' && next) { result.output = next; index += 1; }
     else if (value === '--public-data' && next) { result.dataFile = next; index += 1; }
+    else if (value === '--data-dir' && next) { result.dataDir = next; index += 1; }
     else throw new Error(`Unknown or incomplete option: ${value}`);
   }
   return result;
@@ -262,7 +273,8 @@ async function runCli(): Promise<void> {
   const seeds = options.seedFile
     ? (await readFile(resolve(options.seedFile), 'utf8')).split(/\r?\n/).map((line) => line.trim()).filter((line) => line && !line.startsWith('#'))
     : await braveSeedUrls(process.env.BRAVE_SEARCH_API_KEY?.trim() || (() => { throw new Error('Use --seed-file or configure BRAVE_SEARCH_API_KEY'); })());
-  const incidents = options.dataFile ? JSON.parse(await readFile(resolve(options.dataFile), 'utf8')) as Incident[] : [];
+  const incidents = await loadExistingRecords(options.dataDir);
+  if (options.dataFile) incidents.push(...JSON.parse(await readFile(resolve(options.dataFile), 'utf8')) as Incident[]);
   let prior: DiscoveryFinding[] = [];
   try { prior = (JSON.parse(await readFile(resolve(options.output), 'utf8')) as DiscoveryReport).findings ?? []; } catch { /* first run */ }
   const report = await runSeedDiscovery(seeds, incidents, prior);

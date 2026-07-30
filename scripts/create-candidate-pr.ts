@@ -27,6 +27,71 @@ export function renderReviewPatch(files: CandidateFile[]): string {
   }).join('\n');
 }
 
+export async function cleanupDeliveredCandidates(repositoryRoot: string, files: CandidateFile[]): Promise<{ removed: string[]; preserved: string[] }> {
+  const removed: string[] = [];
+  const preserved: string[] = [];
+  for (const file of files) {
+    const relativePath = candidateRelativePath(repositoryRoot, resolve(repositoryRoot, file.path));
+    const absolutePath = resolve(repositoryRoot, relativePath);
+    const tracked = spawnSync('git', ['ls-files', '--error-unmatch', '--', relativePath], {
+      cwd: repositoryRoot, encoding: 'utf8', stdio: 'ignore',
+    }).status === 0;
+    if (tracked) {
+      preserved.push(relativePath);
+      continue;
+    }
+    let current: string;
+    try {
+      current = await readFile(absolutePath, 'utf8');
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code === 'ENOENT') continue;
+      throw error;
+    }
+    if (current !== file.content) {
+      preserved.push(relativePath);
+      continue;
+    }
+    await rm(absolutePath);
+    removed.push(relativePath);
+  }
+  return { removed, preserved };
+}
+
+export async function archiveDeliveredCandidates(repositoryRoot: string, files: CandidateFile[]): Promise<{ archived: string[]; preserved: string[] }> {
+  const archived: string[] = [];
+  const preserved: string[] = [];
+  const archiveDirectory = resolve(repositoryRoot, '.local', 'delivered-candidates');
+  await mkdir(archiveDirectory, { recursive: true, mode: 0o700 });
+  for (const file of files) {
+    const relativePath = candidateRelativePath(repositoryRoot, resolve(repositoryRoot, file.path));
+    const absolutePath = resolve(repositoryRoot, relativePath);
+    const tracked = spawnSync('git', ['ls-files', '--error-unmatch', '--', relativePath], {
+      cwd: repositoryRoot, encoding: 'utf8', stdio: 'ignore',
+    }).status === 0;
+    if (tracked) {
+      preserved.push(relativePath);
+      continue;
+    }
+    let current: string;
+    try {
+      current = await readFile(absolutePath, 'utf8');
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code === 'ENOENT') continue;
+      throw error;
+    }
+    if (current !== file.content) {
+      preserved.push(relativePath);
+      continue;
+    }
+    const basename = relativePath.split('/').at(-1) ?? 'candidate.yaml';
+    const destination = resolve(archiveDirectory, `${Date.now()}-${randomBytes(4).toString('hex')}-${basename}`);
+    await writeFile(destination, current, { mode: 0o600, flag: 'wx' });
+    await rm(absolutePath);
+    archived.push(destination);
+  }
+  return { archived, preserved };
+}
+
 const commandEnvironment = (): NodeJS.ProcessEnv => ({
   ...process.env,
   ...(process.env.GH_TOKEN ? {} : process.env.GITHUB_TOKEN ? { GH_TOKEN: process.env.GITHUB_TOKEN } : {}),
@@ -97,12 +162,17 @@ async function runCli(): Promise<void> {
   const files = await candidateFiles(repositoryRoot, options.candidates);
   if (ghAvailable(repositoryRoot)) {
     const url = await openPullRequest(repositoryRoot, files);
+    const cleanup = await cleanupDeliveredCandidates(repositoryRoot, files);
     console.log(`Candidate review pull request: ${url}`);
+    if (cleanup.preserved.length > 0) console.log(`Preserved ${cleanup.preserved.length} candidate file(s) changed during delivery.`);
     return;
   }
   const destination = resolve(repositoryRoot, options.patchPath);
   await writeFile(destination, renderReviewPatch(files), { mode: 0o600 });
+  const archive = await archiveDeliveredCandidates(repositoryRoot, files);
   console.log(`GitHub authentication unavailable; review patch written to ${destination}`);
+  if (archive.archived.length > 0) console.log(`Archived ${archive.archived.length} delivered candidate file(s) under ${resolve(repositoryRoot, '.local', 'delivered-candidates')}.`);
+  if (archive.preserved.length > 0) console.log(`Preserved ${archive.preserved.length} tracked or changed candidate file(s).`);
   console.log('Apply in a clean checkout with: git apply --check <patch>, then git apply <patch>.');
 }
 
