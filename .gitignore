@@ -5,6 +5,7 @@ dist/
 .env.*
 !.env.example
 candidate-findings.json
+candidate-review.patch
 coverage/
 playwright-report/
 test-results/

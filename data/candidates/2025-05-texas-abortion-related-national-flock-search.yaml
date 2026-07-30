@@ -1,0 +1,63 @@
+id: 2025-05-texas-abortion-related-national-flock-search
+status: candidate
+title: "Texas sheriff's office used national Flock search in abortion-related investigation"
+summary: >-
+  404 Media reported that the Johnson County Sheriff's Office in Texas searched a nationwide Flock camera
+  network for a woman who had self-administered an abortion. The sheriff's office and Flock initially described
+  the search as a missing-person safety effort; later 404 Media reporting said court records characterized the
+  matter as a death investigation and showed that investigators considered possible criminal charges.
+incident_type:
+  - law-enforcement-overreach
+  - data-sharing
+  - retention-or-access-policy
+location:
+  city: ""
+  county: Johnson
+  state: TX
+  country: US
+actors:
+  agencies:
+    - Johnson County Sheriff's Office
+  officials_or_entities: []
+  vendor_entities:
+    - Flock Safety
+dates:
+  occurred: "2025-05"
+  discovered: "2025-05"
+  reported: "2025-05-29"
+sources:
+  - url: "https://www.404media.co/a-texas-cop-searched-license-plate-cameras-nationwide-for-a-woman-who-got-an-abortion/"
+    title: "A Texas Cop Searched License Plate Cameras Nationwide for a Woman Who Got an Abortion"
+    publisher: "404 Media"
+    published_date: "2025-05-29"
+    source_type: news
+    reliability: corroborating
+    key_claims:
+      - "404 Media reported that the sheriff's office searched a nationwide Flock camera network for the woman."
+      - "The article reported that the woman had self-administered an abortion and that officials described the search as a safety effort."
+  - url: "https://www.404media.co/police-said-they-surveilled-woman-who-had-an-abortion-for-her-safety-court-records-show-they-considered-charging-her-with-a-crime/"
+    title: "Police Said They Surveilled Woman Who Had an Abortion for Her 'Safety.' Court Records Show They Considered Charging Her With a Crime"
+    publisher: "404 Media"
+    published_date: "2025-10-07"
+    source_type: news
+    reliability: background
+    key_claims:
+      - "The follow-up said court records described a death investigation into the abortion."
+      - "The follow-up said investigators considered possible criminal charges, complicating the original safety-only explanation."
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies: []
+outcomes:
+  - "Flock later restricted national lookup access involving several states after reporting about abortion and immigration searches."
+  - "Candidate remains pending independent corroboration or a stable copy of the cited court record."
+uniqueness:
+  canonical_key: "us-tx-johnson:2025-05:johnson-county-sheriffs-office:abortion-related-national-flock-search"
+  duplicate_of: null
+review:
+  added_by: manual
+  reviewed_by: ""
+  reviewed_at: ""
+  notes: >-
+    Candidate only. Both sources are from the same newsroom. Promote to verified only after adding the underlying
+    court record or an independent reliable source. The occurred month is approximate based on the initial report.
+updated_at: "2026-07-30"

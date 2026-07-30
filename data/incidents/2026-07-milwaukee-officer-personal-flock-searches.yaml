@@ -1,0 +1,70 @@
+id: 2026-07-milwaukee-officer-personal-flock-searches
+title: "Milwaukee officer sentenced after repeated personal Flock searches"
+status: verified
+summary: >-
+  Court reporting by FOX6 Milwaukee and the Milwaukee Journal Sentinel said former Milwaukee police officer
+  Josue Ayala used authorized access to the department's Flock license-plate database repeatedly for personal
+  searches involving an ex-partner and another person. The reports say he later pleaded guilty to attempted
+  misconduct in public office, resigned, and received probation and a fine.
+incident_type:
+  - unauthorized-search
+  - law-enforcement-overreach
+  - retention-or-access-policy
+location:
+  city: Milwaukee
+  county: Milwaukee
+  state: WI
+  country: US
+actors:
+  agencies:
+    - Milwaukee Police Department
+  officials_or_entities:
+    - Josue Ayala
+  vendor_entities:
+    - Flock Safety
+dates:
+  occurred: "2025-12"
+  discovered: "2026-03"
+  reported: "2026-07-15"
+sources:
+  - url: "https://www.fox6now.com/news/milwaukee-police-flock-camera-misuse-ayala-sentence"
+    title: "Flock search misuse: Former Milwaukee police officer gets probation"
+    publisher: "FOX6 News Milwaukee"
+    published_date: "2026-07-15"
+    source_type: news
+    reliability: corroborating
+    key_claims:
+      - "A criminal complaint said Ayala used authorized database access 179 times for personal reasons."
+      - "The report said he searched an ex-partner's plate more than 50 times and another person's plate more than 100 times."
+      - "The report said he pleaded guilty to attempted misconduct in public office and was sentenced to one year of probation and a $500 fine."
+  - url: "https://eu.usatoday.com/story/news/crime/2026/07/15/ex-milwaukee-cop-gets-probation-fine-for-misusing-flock-camera-system/90920378007/"
+    title: "Ex-Milwaukee police officer sentenced for misusing department's Flock system"
+    publisher: "Milwaukee Journal Sentinel / USA TODAY Network"
+    published_date: "2026-07-15"
+    source_type: news
+    reliability: corroborating
+    key_claims:
+      - "The report said Ayala pleaded guilty after improperly using the department's Flock system to track an ex-partner and that person's partner."
+      - "The report said police policy limited Flock use to bona fide law-enforcement purposes."
+      - "The report said the court imposed 12 months of probation and a $500 fine, and that Ayala resigned from the department."
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies:
+    - "Milwaukee Police Department policy limiting Flock searches to bona fide law-enforcement purposes"
+outcomes:
+  - "Ayala resigned from the Milwaukee Police Department."
+  - "He pleaded guilty to misdemeanor attempted misconduct in public office."
+  - "A judge imposed 12 months of probation and a $500 fine on July 15, 2026."
+  - "A court commissioner granted two restraining orders, according to the cited reporting."
+uniqueness:
+  canonical_key: "us-wi-milwaukee:2025-12:milwaukee-police-department-josue-ayala:personal-flock-searches"
+  duplicate_of: null
+review:
+  added_by: manual
+  reviewed_by: "Hermes Agent"
+  reviewed_at: "2026-07-30"
+  notes: >-
+    Public record built from two independent newsrooms. The occurred month is approximate and reflects the
+    latest period before the December 2025 internal investigation referenced by follow-up reporting; replace
+    it with the complaint's exact date range when a stable court-record copy is added.
+updated_at: "2026-07-30"

@@ -1,0 +1,41 @@
+[Unit]
+Description=Flocking Abuse Tracker
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=flocking-abuse
+Group=flocking-abuse
+WorkingDirectory=/opt/flocking_abuse
+Environment=NODE_ENV=production
+Environment=PORT=8110
+Environment=APP_ORIGIN=https://flockingabuse.multihost.ing
+Environment=DATA_DIR=/var/lib/flocking-abuse/data
+Environment=DIST_DIR=/opt/flocking_abuse/dist
+Environment=DOCS_DIR=/opt/flocking_abuse/docs
+EnvironmentFile=/etc/flocking-abuse/flocking-abuse.env
+ExecStart=/usr/bin/node /opt/flocking_abuse/dist-server/server/index.js
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=20
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictNamespaces=true
+LockPersonality=true
+ReadOnlyPaths=/opt/flocking_abuse
+ReadWritePaths=/var/lib/flocking-abuse/data
+CapabilityBoundingSet=
+AmbientCapabilities=
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,42 @@
+id: "2026-07-synthetic-example"
+title: "Synthetic fixture: audit report"
+status: "verified"
+summary: "Synthetic test data describing an attributed official audit finding. It is not a real incident."
+incident_type:
+  - "retention-or-access-policy"
+location:
+  city: "Exampleville"
+  county: "Example County"
+  state: "EX"
+  country: "US"
+actors:
+  agencies: ["Example Police Department"]
+  officials_or_entities: []
+  vendor_entities: ["Flock Safety"]
+dates:
+  occurred: "2026-06"
+  discovered: "2026-07-01"
+  reported: "2026-07-02"
+sources:
+  - url: "https://example.gov/audits/synthetic-report"
+    title: "Synthetic Official Audit"
+    publisher: "Example Inspector General"
+    published_date: "2026-07-02"
+    source_type: "government-record"
+    reliability: "primary"
+    key_claims:
+      - "Synthetic claim used only to test validation."
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies: ["Synthetic Policy 1"]
+outcomes:
+  - "Synthetic corrective action"
+uniqueness:
+  canonical_key: "ex/example/exampleville:2026-06:example-police:retention-or-access-policy"
+  duplicate_of: null
+review:
+  added_by: "manual"
+  reviewed_by: "Fixture Reviewer"
+  reviewed_at: "2026-07-03"
+  notes: "SYNTHETIC TEST FIXTURE — not public data."
+updated_at: "2026-07-03"

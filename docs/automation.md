@@ -1,40 +1,56 @@
-# Daily Automation Plan
+# Daily Discovery Automation
 
-Hermes skills are reusable procedures; they do not execute on their own. The daily workflow should be implemented as a Hermes cron job that loads a dedicated `flocking-abuse-discovery` skill.
+Hermes skills define procedures; a Hermes cron job supplies the daily schedule. The workflow discovers and deduplicates review candidates but never publishes allegations.
 
-## Target cron configuration
+## Installed shape
 
 ```text
 Name: flocking-abuse-daily-discovery
 Schedule: 0 7 * * *
-Workdir: /path/to/flocking_abuse
+Workdir: /opt/flocking-abuse-discovery
 Skill: flocking-abuse-discovery
-Enabled toolsets: web, terminal, file, github
+Toolsets: web, browser, terminal, file, skills
 ```
 
-## Cron prompt
+The production service checkout remains clean at `/opt/flocking_abuse`. Automation uses the separate `/opt/flocking-abuse-discovery` checkout so candidate branches cannot dirty the running release.
+
+## Deterministic tools
+
+Validate and build public data:
+
+```bash
+npm run validate:data
+npm run build:data
+```
+
+Run discovery against human/Hermes-curated seed URLs:
+
+```bash
+npm run scrape -- \
+  --seed-file /tmp/flock-source-urls.txt \
+  --output candidate-findings.json \
+  --public-data src/data/incidents.json
+```
+
+Without `--seed-file`, the script uses Brave Search only when `BRAVE_SEARCH_API_KEY` exists; otherwise it fails clearly. The network path accepts only HTTP(S), rejects credentials and private/reserved DNS answers, pins requests to validated public IPs, revalidates redirects, respects robots.txt, and limits time, redirects, content type, and response size.
+
+Run the same seed file twice to prove the second result is classified as a duplicate. Discovery output is mode `0600` and ignored by git.
+
+After Hermes converts strong findings to schema-valid candidate YAML:
+
+```bash
+npm run validate:data
+npm run candidate:pr -- --candidate data/candidates/YYYY-MM-DD-source-slug.yaml
+```
+
+With GitHub auth, candidate delivery uses an isolated worktree and opens a pull request. Without auth it writes `candidate-review.patch`; no shell interpolation is used.
+
+## Daily prompt
 
 ```text
-Run the Flocking Abuse daily discovery workflow. Search for new source-grounded reports of Flock Safety / flock camera abuse, misuse, legal challenges, audits, or policy failures. Dedupe against existing data/incidents and data/candidates records. Create candidate YAML records only for likely unique new instances with sources. Open a PR or write a patch. Report new candidates, duplicates skipped, uncertain items, queries run, and failures. Do not publish weak or unsourced claims.
+Run the Flocking Abuse daily discovery workflow. Search for new source-grounded reports of Flock Safety or flock-camera abuse, misuse, legal challenges, audits, or policy failures. Dedupe against data/incidents and data/candidates. Create candidate YAML only for likely unique incidents with exact source-supported claims. Validate the data and open a review PR or produce a patch. Never change a candidate to verified or publish it. Report queries, new candidates, duplicates, uncertain items, validation, and source-access failures.
 ```
 
-## Discovery workflow
+## Publication gate
 
-1. Load all existing incident and candidate records.
-2. Build a canonical index of source URLs, canonical URLs, case numbers, locations, agencies, dates, and title fingerprints.
-3. Search web/news/civil-liberties/legal sources using query families in the implementation plan.
-4. Extract candidate metadata and exact supported claims.
-5. Reject unrelated procurement/general surveillance stories unless they include misuse, policy violation, legal challenge, audit failure, or abuse allegations.
-6. Run deterministic dedupe.
-7. Write reviewable `candidate` YAML records.
-8. Create a PR or patch, never a silent direct publication.
-
-## Dry-run requirement
-
-The first cron run should be a dry-run after scraper implementation. It should prove:
-
-- queries ran;
-- sources were captured;
-- duplicate checks ran;
-- candidate output validates;
-- no existing incident is duplicated on a second run.
+A human must review source independence, neutral wording, uniqueness, dates, privacy, and outcomes before changing status to `verified` or `disputed`. A timeout, inaccessible source, or tool failure never counts as approval.
