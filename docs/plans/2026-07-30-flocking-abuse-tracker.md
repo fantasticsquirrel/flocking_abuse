@@ -209,7 +209,7 @@ normalized-location + main-agency/entity + approximate-occurred-date + incident-
 **Acceptance criteria:**
 
 - `npm run validate:data` validates all YAML records.
-- `npm run build:data` outputs `src/data/incidents.json` with only public statuses by default: `verified`, `disputed`.
+- `npm run build:data` outputs `src/data/incidents.json` with accepted public statuses: `verified`, `disputed`, and `retracted`. The UI hides `retracted` records from the default listing while keeping them addressable through the status filter for audit history.
 - Candidate/draft records are excluded from the public JSON unless `INCLUDE_DRAFTS=1` is set locally.
 
 ---
@@ -412,7 +412,7 @@ Prompt: Run the Flocking Abuse daily discovery workflow. Search for new source-g
 21. Add web-search mode second.
 22. Add candidate PR/patch creation.
 23. Add CI.
-24. Add Pages deployment.
+24. Deploy the selected immutable release through the dedicated loopback systemd service and nginx/TLS edge.
 25. Only after the scraper works locally, create the Hermes daily cron job.
 
 ---
@@ -430,10 +430,9 @@ Prompt: Run the Flocking Abuse daily discovery workflow. Search for new source-g
 
 ---
 
-## 10. Open decisions
+## 10. Resolved deployment decisions
 
-- Repository visibility: public is recommended for transparency, but private is possible until first verified dataset is ready.
-- Hosting: GitHub Pages is simplest; Cloudflare Pages is acceptable if admin service is deployed separately.
-- Manual admin write target: local file download, GitHub PR, or direct commit. PR is safest.
-- Search provider: generic web search through Hermes is easiest initially; a paid search API can improve reliability later.
-- Archiving service: Internet Archive Save Page Now when permitted, otherwise store source URL only.
+- **Hosting (resolved 2026-07-31):** Use the dedicated loopback systemd service plus nginx/TLS deployment described in `docs/deployment.md`. GitHub Pages was considered but superseded because password-only intake, readiness checks, and mutable review-only candidate persistence require a server runtime. GitHub Actions verifies each main commit; the immutable host release script activates only an exact green SHA.
+- **Manual admin write target:** Runtime candidate inbox followed by review-only PR/patch delivery.
+- **Search provider:** Brave Search when configured, with manual seed-file fallback; every finding preserves its originating query metadata.
+- **Archiving:** Cite existing archive URLs when permitted; never bypass paywalls or access controls.

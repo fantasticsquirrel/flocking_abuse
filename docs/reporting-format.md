@@ -54,9 +54,12 @@ review:
   approval: "pending | human-approved"
   reviewed_by: ""
   reviewed_at: ""
+  approval_reference: "unique docs/approvals/YYYY-MM-DD-decision-slug.md#approval-stable-decision-id; empty while pending"
   notes: ""
 updated_at: "YYYY-MM-DD"
 ```
+
+The approval document must include a machine-readable `approval-metadata` block containing schema version, approval/incident IDs, `public-incident-content-v1` scope, approval date, accountable human role, stable authorization evidence, reviewed base revision, and the SHA-256 digest of the approved incident after neutralizing only `review.approval_reference`. Validation rejects a missing/mismatched anchor, incident ID, content digest, or reused reference.
 
 ## Verification rules
 

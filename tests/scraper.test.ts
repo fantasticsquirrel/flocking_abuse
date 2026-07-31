@@ -102,8 +102,10 @@ describe('existing record loading', () => {
       .replace('status: "verified"', 'status: "candidate"')
       .replace('approval: "human-approved"', 'approval: "pending"')
       .replace('https://example.gov/audits/synthetic-report', 'https://example.org/candidate-source')
-      .replace('ex/example/exampleville:2026-06:example-police:retention-or-access-policy', 'ex/example/exampleville:2026-06:candidate-agency:retention-or-access-policy'));
-    const records = await loadExistingRecords(root);
+      .replace('Example Police Department', 'Candidate Agency')
+      .replace('approval_reference: "docs/approvals/2026-07-03-test-fixture-approval.md#approval-test-fixture"', 'approval_reference: ""')
+      .replace('us-ex-example-county:2026-06:example-police-department:retention-or-access-policy', 'us-ex-example-county:2026-06:candidate-agency:retention-or-access-policy'));
+    const records = await loadExistingRecords(root, 'tests/fixtures/approvals');
     expect(records.map((record) => record.status).sort()).toEqual(['candidate', 'verified']);
   });
 });
@@ -117,7 +119,8 @@ describe('deterministic seed discovery', () => {
         .mockResolvedValueOnce(response(404, ''))
         .mockResolvedValueOnce(response(200, html, { 'content-type': 'text/html; charset=utf-8' })),
     });
-    const first = await runSeedDiscovery(['https://news.example/flock-audit?utm_source=test'], [], [], makeDeps());
+    const first = await runSeedDiscovery([{ url: 'https://news.example/flock-audit?utm_source=test', searchQueries: ['"Flock Safety" audit'] }], [], [], makeDeps());
+    expect(first.searchQueries).toEqual(['"Flock Safety" audit']);
     expect(first.findings).toHaveLength(1);
     expect(first.findings[0]).toMatchObject({
       canonicalUrl: 'https://news.example/flock-audit',
@@ -125,13 +128,29 @@ describe('deterministic seed discovery', () => {
       publisher: 'Example Newsroom',
       publishedDate: '2026-07-29',
       disposition: 'new-candidate',
+      searchQueries: ['"Flock Safety" audit'],
     });
     expect(first.findings[0]?.snippet).toMatch(/unauthorized Flock camera searches/i);
     expect(first.autoPublished).toBe(false);
 
-    const second = await runSeedDiscovery(['https://news.example/flock-audit?utm_source=test'], [], first.findings, makeDeps());
+    const second = await runSeedDiscovery([{ url: 'https://news.example/flock-audit?utm_source=test', searchQueries: ['"Flock Safety" audit'] }], [], first.findings, makeDeps());
     expect(second.findings[0]?.disposition).toBe('duplicate');
     expect(second.duplicatesSkipped).toBe(1);
     expect(second.newCandidates).toBe(0);
+  });
+
+  it('merges canonical-equivalent seeds and preserves every originating query', async () => {
+    const html = `<!doctype html><html><head><title>Audit finds Flock camera access violations</title><meta name="author" content="Example Newsroom"><meta name="description" content="A city audit reported unauthorized Flock camera searches and access policy failures."><link rel="canonical" href="https://news.example/flock-audit"></head><body>Flock Safety audit</body></html>`;
+    const request = vi.fn<Requester>()
+      .mockResolvedValueOnce(response(404, ''))
+      .mockResolvedValueOnce(response(200, html, { 'content-type': 'text/html' }));
+    const report = await runSeedDiscovery([
+      { url: 'https://news.example/flock-audit?utm_source=first', searchQueries: ['query one'] },
+      { url: 'https://news.example/flock-audit?utm_source=second', searchQueries: ['query two'] },
+    ], [], [], { lookup: publicLookup, request });
+    expect(report.findings).toHaveLength(1);
+    expect(report.findings[0]?.searchQueries).toEqual(['query one', 'query two']);
+    expect(report.searchQueries).toEqual(['query one', 'query two']);
+    expect(request).toHaveBeenCalledTimes(2);
   });
 });

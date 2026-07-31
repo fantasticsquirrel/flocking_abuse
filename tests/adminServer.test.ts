@@ -109,6 +109,32 @@ describe('admin API security', () => {
     expect(saved.uniqueness.canonical_key).toBe('us-ex-example:2026-06:example-police-department:example-audit-access-finding');
   });
 
+  it('returns actionable validation rather than 500 for an invalid primary news classification', async () => {
+    const { agent } = await makeHarness();
+    const csrfToken = await login(agent);
+    const invalid = await agent.post('/api/admin/candidates').set('Origin', 'https://tracker.test').set('X-CSRF-Token', csrfToken).send({
+      ...validCandidate,
+      sourceType: 'news',
+      reliability: 'primary',
+    });
+    expect(invalid.status).toBe(400);
+    expect(invalid.body.error).toBe('Validation failed');
+    expect(invalid.body.issues).toContainEqual(expect.objectContaining({ path: ['reliability'] }));
+  });
+
+  it('rejects canonical identity values that collapse or remain too short as validation errors', async () => {
+    const { agent } = await makeHarness();
+    const csrf = await login(agent);
+    const invalid = await agent.post('/api/admin/candidates').set('Origin', 'https://tracker.test').set('X-CSRF-Token', csrf).send({
+      ...validCandidate,
+      agency: '---',
+      eventKey: 'a!!!',
+      location: { ...validCandidate.location, country: '--' },
+    });
+    expect(invalid.status).toBe(400);
+    expect(invalid.body.issues.map((issue: { path: string[] }) => issue.path.join('.'))).toEqual(expect.arrayContaining(['agency', 'eventKey', 'location.country']));
+  });
+
   it('rejects exact duplicates rather than creating a second file', async () => {
     const { agent, dataDir } = await makeHarness();
     const csrfToken = await login(agent);

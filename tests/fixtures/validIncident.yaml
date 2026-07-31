@@ -33,12 +33,13 @@ legal_or_policy_context:
 outcomes:
   - "Synthetic corrective action"
 uniqueness:
-  canonical_key: "ex/example/exampleville:2026-06:example-police:retention-or-access-policy"
+  canonical_key: "us-ex-example-county:2026-06:example-police-department:retention-or-access-policy"
   duplicate_of: null
 review:
   added_by: "manual"
   approval: "human-approved"
   reviewed_by: "Fixture Reviewer"
   reviewed_at: "2026-07-03"
+  approval_reference: "docs/approvals/2026-07-03-test-fixture-approval.md#approval-test-fixture"
   notes: "SYNTHETIC TEST FIXTURE — not public data."
 updated_at: "2026-07-03"

@@ -34,7 +34,7 @@ npm run scrape -- \
 
 Without `--seed-file`, the script uses Brave Search only when `BRAVE_SEARCH_API_KEY` exists; otherwise it fails clearly. The network path accepts only HTTP(S), rejects credentials and private/reserved DNS answers, pins requests to validated public IPs, revalidates redirects, respects robots.txt, and limits time, redirects, content type, and response size.
 
-Run the same seed file twice to prove the second result is classified as a duplicate. Discovery output is mode `0600` and ignored by git.
+Run the same seed file twice to prove the second result is classified as a duplicate. Each report preserves its originating search-query metadata (manual seed files use the explicit `manual-seed-file` provenance label). Discovery output is mode `0600` and ignored by git.
 
 After Hermes converts strong findings to schema-valid candidate YAML:
 

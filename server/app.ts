@@ -8,7 +8,7 @@ import helmet from 'helmet';
 import yaml from 'js-yaml';
 import { z } from 'zod';
 import { canonicalizeUrl, findDuplicates } from '../src/lib/dedupe.js';
-import { IncidentSchema, IncidentTypeSchema, PartialDateSchema, SourceReliabilitySchema, SourceTypeSchema, type Incident } from '../src/lib/incidentSchema.js';
+import { canonicalLocation, canonicalSlug, IncidentSchema, IncidentTypeSchema, PartialDateSchema, SourceReliabilitySchema, SourceTypeSchema, type Incident } from '../src/lib/incidentSchema.js';
 import { validateDataDirectory } from '../scripts/data-utils.js';
 
 const SESSION_COOKIE = 'flocking_admin';
@@ -18,6 +18,8 @@ const httpUrl = z.string().url().refine((value) => {
   try { return ['http:', 'https:'].includes(new URL(value).protocol); }
   catch { return false; }
 }, 'URL must use http or https');
+const directPrimarySourceTypes = new Set(['court-record', 'government-record', 'public-record', 'official-statement']);
+const hasCanonicalIdentity = (value: string, minimumLength = 1): boolean => canonicalSlug(value).length >= minimumLength;
 const CandidateInputSchema = z.object({
   url: httpUrl,
   archiveUrl: z.union([httpUrl, z.literal('')]).optional(),
@@ -37,12 +39,23 @@ const CandidateInputSchema = z.object({
   incidentTypes: z.array(IncidentTypeSchema).min(1),
   keyClaims: z.array(z.string().trim().min(1).max(1000)).min(1).max(20),
   notes: z.string().max(5000),
-}).strict();
+}).strict().superRefine((input, context) => {
+  if (!hasCanonicalIdentity(input.agency)) context.addIssue({ code: 'custom', path: ['agency'], message: 'Agency or entity must contain a canonical alphanumeric identity' });
+  if (!hasCanonicalIdentity(input.eventKey, 4)) context.addIssue({ code: 'custom', path: ['eventKey'], message: 'Distinct event key must contain at least four canonical alphanumeric characters' });
+  if (!hasCanonicalIdentity(input.location.country)) context.addIssue({ code: 'custom', path: ['location', 'country'], message: 'Country must contain a canonical alphanumeric identity' });
+  for (const field of ['state', 'county', 'city'] as const) {
+    if (input.location[field] && !hasCanonicalIdentity(input.location[field])) context.addIssue({ code: 'custom', path: ['location', field], message: `${field} must contain a canonical alphanumeric identity when provided` });
+  }
+  if (input.reliability === 'primary' && !directPrimarySourceTypes.has(input.sourceType)) {
+    context.addIssue({ code: 'custom', path: ['reliability'], message: 'Primary reliability requires a direct official or public record source type' });
+  }
+});
 
 type CandidateInput = z.infer<typeof CandidateInputSchema>;
 interface Session { exp: number; csrf: string }
 export interface AppOptions {
   dataDir: string;
+  approvalRoot?: string;
   passwordHash: string;
   sessionSecret: string;
   allowedOrigin: string;
@@ -105,11 +118,10 @@ const slugify = (value: string): string => value.toLocaleLowerCase('en-US').norm
 
 function toIncident(input: CandidateInput, now: Date): Incident {
   const date = now.toISOString().slice(0, 10);
-  const actor = slugify(input.agency);
+  const actor = canonicalSlug(input.agency);
   const eventDigest = createHash('sha256').update(canonicalizeUrl(input.url)).digest('hex').slice(0, 12);
   const occurredMonth = input.occurredDate ? input.occurredDate.slice(0, 7) : 'unknown';
-  const locality = [input.location.country, input.location.state, input.location.county || input.location.city].map(slugify).filter(Boolean).join('-');
-  const canonicalKey = `${locality}:${occurredMonth}:${actor}:${slugify(input.eventKey)}`;
+  const canonicalKey = `${canonicalLocation(input.location)}:${occurredMonth}:${actor}:${canonicalSlug(input.eventKey)}`;
   return IncidentSchema.parse({
     schema_version: 1,
     id: `${date}-${slugify(input.title)}-${eventDigest}`,
@@ -128,7 +140,7 @@ function toIncident(input: CandidateInput, now: Date): Incident {
     legal_or_policy_context: { case_numbers: [], statutes_or_policies: [] },
     outcomes: ['Unknown — candidate awaiting review'],
     uniqueness: { canonical_key: canonicalKey, duplicate_of: null },
-    review: { approval: 'pending', added_by: 'manual', reviewed_by: '', reviewed_at: '', notes: input.notes },
+    review: { approval: 'pending', added_by: 'manual', reviewed_by: '', reviewed_at: '', approval_reference: '', notes: input.notes },
     updated_at: date,
   });
 }
@@ -209,10 +221,10 @@ export function createApp(options: AppOptions): express.Express {
   app.post('/api/admin/candidates', requireOrigin(options), requireAdmin(options), requireCsrf, mutationLimiter, async (request, response, next) => {
     try {
       const parsed = CandidateInputSchema.safeParse(request.body);
-      if (!parsed.success) { response.status(400).json({ error: 'Validation failed', issues: parsed.error.flatten() }); return; }
+      if (!parsed.success) { response.status(400).json({ error: 'Validation failed', issues: parsed.error.issues.map((issue) => ({ path: issue.path, message: issue.message })) }); return; }
       const incident = toIncident(parsed.data, options.now?.() ?? new Date());
       await serializeCandidateMutation(async () => {
-        const existingResult = await validateDataDirectory(options.dataDir);
+        const existingResult = await validateDataDirectory(options.dataDir, options.approvalRoot);
         if (!existingResult.valid) { response.status(500).json({ error: 'Existing data failed validation' }); return; }
         if (existingResult.candidateRecords.length >= 5_000) { response.status(507).json({ error: 'Candidate storage quota reached' }); return; }
         const duplicates = findDuplicates(incident, existingResult.records);

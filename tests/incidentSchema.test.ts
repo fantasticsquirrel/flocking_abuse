@@ -53,7 +53,7 @@ describe('IncidentSchema', () => {
   it('allows an unknown occurrence date without presenting an estimated month as fact', () => {
     const fixture = loadFixture('validIncident.yaml') as { dates: { occurred: string }; uniqueness: { canonical_key: string } };
     fixture.dates.occurred = '';
-    fixture.uniqueness.canonical_key = 'us/example:unknown:example-agency:other';
+    fixture.uniqueness.canonical_key = 'us-ex-example-county:unknown:example-police-department:other';
     expect(IncidentSchema.safeParse(fixture).success).toBe(true);
   });
 
@@ -61,22 +61,39 @@ describe('IncidentSchema', () => {
     const fixture = loadFixture('validIncident.yaml') as { dates: { occurred: string }; uniqueness: { canonical_key: string } };
     fixture.dates.occurred = '';
     expect(IncidentSchema.safeParse(fixture).success).toBe(false);
-    fixture.uniqueness.canonical_key = 'us/example:unknown:example-agency:other';
+    fixture.uniqueness.canonical_key = 'us-ex-example-county:unknown:example-police-department:other';
     expect(IncidentSchema.safeParse(fixture).success).toBe(true);
     fixture.dates.occurred = '2026-07';
     expect(IncidentSchema.safeParse(fixture).success).toBe(false);
   });
 
-  it('requires structured human approval for public statuses', () => {
-    const fixture = loadFixture('validIncident.yaml') as { review: { approval: string; reviewed_by: string; reviewed_at: string } };
+  it('requires structured human approval and an immutable reference for public statuses', () => {
+    const fixture = loadFixture('validIncident.yaml') as { review: { approval: string; reviewed_by: string; reviewed_at: string; approval_reference: string } };
     fixture.review.approval = 'pending';
     fixture.review.reviewed_by = '';
     fixture.review.reviewed_at = '';
+    fixture.review.approval_reference = '';
     expect(IncidentSchema.safeParse(fixture).success).toBe(false);
     fixture.review.approval = 'human-approved';
     fixture.review.reviewed_by = 'Site owner';
     fixture.review.reviewed_at = '2026-07-31';
+    fixture.review.approval_reference = 'arbitrary text';
+    expect(IncidentSchema.safeParse(fixture).success).toBe(false);
+    fixture.review.approval_reference = 'docs/approvals/2026-07-03-test-fixture-approval.md#approval-test-fixture';
     expect(IncidentSchema.safeParse(fixture).success).toBe(true);
+  });
+
+  it('binds canonical identity to location, occurrence month, agency, and a factual event segment', () => {
+    const fixture = loadFixture('validIncident.yaml') as { uniqueness: { canonical_key: string } };
+    for (const invalid of [
+      'arbitrary',
+      'us-wrong-place:2026-06:example-police:retention-or-access-policy',
+      'ex-example-exampleville:2025-01:example-police-department:retention-or-access-policy',
+      'ex-example-exampleville:2026-06:wrong-agency:retention-or-access-policy',
+    ]) {
+      fixture.uniqueness.canonical_key = invalid;
+      expect(IncidentSchema.safeParse(fixture).success, invalid).toBe(false);
+    }
   });
 
   it('represents sources with an unknown publication date explicitly', () => {

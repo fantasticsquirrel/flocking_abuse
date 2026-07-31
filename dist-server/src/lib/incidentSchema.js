@@ -14,6 +14,8 @@ export const SourceTypeSchema = z.enum([
     'public-record', 'official-statement', 'other',
 ]);
 export const SourceReliabilitySchema = z.enum(['primary', 'corroborating', 'background']);
+export const canonicalSlug = (value) => value.toLocaleLowerCase('en-US').normalize('NFKD').replace(/['’]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 80);
+export const canonicalLocation = (location) => [location.country, location.state, location.county || location.city].map(canonicalSlug).filter(Boolean).join('-');
 const httpUrl = z.string().url().refine((value) => {
     const protocol = new URL(value).protocol;
     return protocol === 'http:' || protocol === 'https:';
@@ -52,6 +54,7 @@ export const SourceSchema = z.object({
         });
     }
 });
+const ApprovalReferenceSchema = z.string().trim().refine((value) => value === '' || /^docs\/approvals\/[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z0-9-]+\.md#approval-[a-z0-9-]+$/.test(value), 'Approval reference must identify an anchored repository approval record');
 export const IncidentSchema = z.object({
     schema_version: z.literal(1),
     id: z.string().min(1).max(120).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'ID must be lowercase and URL-safe (letters, numbers, hyphens)'),
@@ -90,28 +93,45 @@ export const IncidentSchema = z.object({
         approval: z.enum(['pending', 'human-approved']),
         reviewed_by: z.string().trim(),
         reviewed_at: z.union([FullDateSchema, z.literal('')]),
+        approval_reference: ApprovalReferenceSchema,
         notes: z.string(),
     }).strict(),
     updated_at: FullDateSchema,
 }).strict().superRefine((incident, context) => {
-    const canonicalDateSegment = incident.uniqueness.canonical_key.split(':')[1] ?? '';
-    if (incident.dates.occurred === '' && canonicalDateSegment !== 'unknown') {
-        context.addIssue({ code: 'custom', path: ['uniqueness', 'canonical_key'], message: 'Unknown occurrence dates require an unknown canonical-key date segment' });
+    const parts = incident.uniqueness.canonical_key.split(':');
+    const [locationSegment, canonicalDateSegment, actorSegment, eventSegment] = parts;
+    const expectedLocation = canonicalLocation(incident.location);
+    const expectedDate = incident.dates.occurred ? incident.dates.occurred.slice(0, 7) : 'unknown';
+    const mainAgency = incident.actors.agencies[0] ?? '';
+    const mainEntity = incident.actors.officials_or_entities[0] ?? '';
+    const expectedActors = new Set([
+        canonicalSlug(mainAgency || mainEntity),
+        canonicalSlug([mainAgency, mainEntity].filter(Boolean).join(' ')),
+    ].filter(Boolean));
+    if (parts.length !== 4 || parts.some((part) => !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(part))) {
+        context.addIssue({ code: 'custom', path: ['uniqueness', 'canonical_key'], message: 'Canonical key must contain four lowercase URL-safe segments: location:date:actor:event' });
     }
-    if (incident.dates.occurred !== '' && canonicalDateSegment === 'unknown') {
-        context.addIssue({ code: 'custom', path: ['uniqueness', 'canonical_key'], message: 'Known occurrence dates must use a dated canonical-key segment' });
+    else {
+        if (locationSegment !== expectedLocation)
+            context.addIssue({ code: 'custom', path: ['uniqueness', 'canonical_key'], message: 'Canonical-key location must match the record location' });
+        if (canonicalDateSegment !== expectedDate)
+            context.addIssue({ code: 'custom', path: ['uniqueness', 'canonical_key'], message: 'Canonical-key date must match the occurrence month or unknown' });
+        if (expectedActors.size === 0 || !expectedActors.has(actorSegment ?? ''))
+            context.addIssue({ code: 'custom', path: ['uniqueness', 'canonical_key'], message: 'Canonical-key actor must match the main agency or entity' });
+        if (!eventSegment || eventSegment.length < 4)
+            context.addIssue({ code: 'custom', path: ['uniqueness', 'canonical_key'], message: 'Canonical key requires a factual event segment' });
     }
     const isPublic = ['verified', 'disputed', 'retracted'].includes(incident.status);
     if (isPublic) {
-        if (incident.review.approval !== 'human-approved' || !incident.review.reviewed_by || !incident.review.reviewed_at) {
-            context.addIssue({ code: 'custom', path: ['review'], message: 'Public records require structured human approval, reviewer identity, and review date' });
+        if (incident.review.approval !== 'human-approved' || !incident.review.reviewed_by || !incident.review.reviewed_at || !incident.review.approval_reference) {
+            context.addIssue({ code: 'custom', path: ['review'], message: 'Public records require structured human approval, reviewer identity, review date, and an immutable approval reference' });
         }
         if (/hermes|agent|scraper|automation/i.test(incident.review.reviewed_by)) {
             context.addIssue({ code: 'custom', path: ['review', 'reviewed_by'], message: 'Public records require a human reviewer, not an automated agent' });
         }
     }
-    else if (incident.review.approval !== 'pending') {
-        context.addIssue({ code: 'custom', path: ['review', 'approval'], message: 'Candidate and draft records must remain pending until publication review' });
+    else if (incident.review.approval !== 'pending' || incident.review.approval_reference) {
+        context.addIssue({ code: 'custom', path: ['review', 'approval'], message: 'Candidate and draft records must remain pending without publication approval evidence' });
     }
     if (incident.status !== 'verified')
         return;

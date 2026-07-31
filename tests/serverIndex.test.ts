@@ -39,7 +39,7 @@ describe('production server configuration', () => {
     const root = await mkdtemp(join(tmpdir(), 'flocking-server-'));
     roots.push(root);
     await mkdir(join(root, 'dist', 'assets'), { recursive: true });
-    await mkdir(join(root, 'docs'), { recursive: true });
+    await mkdir(join(root, 'docs', 'approvals'), { recursive: true });
     await mkdir(join(root, 'data', 'candidates'), { recursive: true });
     await writeFile(join(root, 'dist', 'index.html'), '<!doctype html><title>tracker app</title><div id="root"></div>');
     await writeFile(join(root, 'dist', 'assets', 'app.js'), 'console.log("static")');

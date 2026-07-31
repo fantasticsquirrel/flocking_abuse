@@ -11,6 +11,8 @@ interface IncidentCardProps {
   incident: Incident;
 }
 
+const humanize = (value: string): string => value.replace(/-/g, ' ').replace(/\b\w/g, (letter) => letter.toLocaleUpperCase('en-US'));
+
 export function IncidentCard({ incident }: IncidentCardProps) {
   return (
     <article className="incident-card" aria-labelledby={`incident-${incident.id}`}>
@@ -37,9 +39,7 @@ export function IncidentCard({ incident }: IncidentCardProps) {
 
       <section aria-labelledby={`types-${incident.id}`}>
         <h3 id={`types-${incident.id}`}>Incident classification</h3>
-        <ul className="tag-list">
-          {incident.incident_type.map((type) => <li key={type}>{type}</li>)}
-        </ul>
+        <ul className="tag-list">{incident.incident_type.map((type) => <li key={type}>{humanize(type)}</li>)}</ul>
       </section>
 
       <section aria-labelledby={`accountability-${incident.id}`}>
@@ -64,7 +64,7 @@ export function IncidentCard({ incident }: IncidentCardProps) {
             <a href={source.url} target="_blank" rel="noopener noreferrer">
               {source.title} — {source.publisher} <span aria-hidden="true">↗</span> <span className="sr-only">(opens in a new tab)</span>
             </a>
-            <p className="source-record__meta">{source.published_date || 'Publication date unknown'} // {source.source_type} // {source.reliability}</p>
+            <p className="source-record__meta">{source.published_date || 'Publication date unknown'} // {humanize(source.source_type)} // {humanize(source.reliability)}</p>
             <ul>{source.key_claims.map((claim) => <li key={claim}>{claim}</li>)}</ul>
             {source.archive_url ? (
               <a className="archive-link" href={source.archive_url} target="_blank" rel="noopener noreferrer">

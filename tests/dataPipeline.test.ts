@@ -1,10 +1,13 @@
 import { mkdtemp, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import yaml from 'js-yaml';
 import { afterEach, describe, expect, it } from 'vitest';
-import { buildPublicData, validateDataDirectory } from '../scripts/data-utils.js';
+import { buildPublicData, publicationContentDigest, validateDataDirectory } from '../scripts/data-utils.js';
+import { IncidentSchema } from '../src/lib/incidentSchema.js';
 
 const dirs: string[] = [];
+const fixtureApprovalRoot = 'tests/fixtures/approvals';
 const makeData = async (): Promise<string> => {
   const root = await mkdtemp(join(tmpdir(), 'flocking-data-'));
   dirs.push(root);
@@ -22,7 +25,7 @@ describe('data pipeline', () => {
   it('validates YAML in both incident and candidate directories with file-specific errors', async () => {
     const dataDir = await makeData();
     await writeFile(join(dataDir, 'candidates', 'bad.yaml'), 'id: bad\nsources: []\n');
-    const result = await validateDataDirectory(dataDir);
+    const result = await validateDataDirectory(dataDir, fixtureApprovalRoot);
     expect(result.valid).toBe(false);
     expect(result.errors[0]).toMatch(/candidates\/bad\.yaml/);
   });
@@ -36,28 +39,47 @@ describe('data pipeline', () => {
       .replace('approval: "human-approved"', 'approval: "pending"')
       .replace('2026-07-synthetic-example', 'candidate-example')
       .replace('https://example.gov/audits/synthetic-report', 'https://example.org/candidate-source')
-      .replace('ex/example/exampleville:2026-06:example-police:retention-or-access-policy', 'ex/example/exampleville:2026-06:candidate-agency:retention-or-access-policy'));
-    expect((await buildPublicData(dataDir, false)).map((item) => item.status)).toEqual(['verified']);
-    expect((await buildPublicData(dataDir, true)).map((item) => item.id)).toEqual(['2026-07-synthetic-example']);
+      .replace('Example Police Department', 'Candidate Agency')
+      .replace('approval_reference: "docs/approvals/2026-07-03-test-fixture-approval.md#approval-test-fixture"', 'approval_reference: ""')
+      .replace('us-ex-example-county:2026-06:example-police-department:retention-or-access-policy', 'us-ex-example-county:2026-06:candidate-agency:retention-or-access-policy'));
+    expect((await buildPublicData(dataDir, false, fixtureApprovalRoot)).map((item) => item.status)).toEqual(['verified']);
+    expect((await buildPublicData(dataDir, true, fixtureApprovalRoot)).map((item) => item.status).sort()).toEqual(['candidate', 'verified']);
+  });
+
+  it('preserves retracted public records in the generated audit bundle', async () => {
+    const dataDir = await makeData();
+    const source = await readFile('tests/fixtures/validIncident.yaml', 'utf8');
+    const retracted = source.replace('status: "verified"', 'status: "retracted"');
+    await writeFile(join(dataDir, 'incidents', 'retracted.yaml'), retracted);
+    const approvalRoot = join(dataDir, '..', 'approvals');
+    await mkdir(approvalRoot, { recursive: true });
+    const digest = publicationContentDigest(IncidentSchema.parse(yaml.load(retracted)));
+    const approval = (await readFile('tests/fixtures/approvals/2026-07-03-test-fixture-approval.md', 'utf8'))
+      .replace('9331c34bdf4b3a3bdc58a605db236ea65733f7c884c1bec9fa54cbc199675618', digest);
+    await writeFile(join(approvalRoot, '2026-07-03-test-fixture-approval.md'), approval);
+    expect((await buildPublicData(dataDir, false, approvalRoot)).map((item) => item.status)).toEqual(['retracted']);
   });
 
   it('fails closed when a public status is placed in the review-only candidate directory', async () => {
     const dataDir = await makeData();
     const source = await readFile('tests/fixtures/validIncident.yaml', 'utf8');
     await writeFile(join(dataDir, 'candidates', 'misplaced.yaml'), source);
-    const result = await validateDataDirectory(dataDir);
+    const result = await validateDataDirectory(dataDir, fixtureApprovalRoot);
     expect(result.valid).toBe(false);
     expect(result.errors).toContain('candidates/misplaced.yaml: candidate storage accepts only candidate or draft status');
-    await expect(buildPublicData(dataDir)).rejects.toThrow(/candidate storage/i);
+    await expect(buildPublicData(dataDir, false, fixtureApprovalRoot)).rejects.toThrow(/candidate storage/i);
   });
 
   it('fails closed when a review-only status is placed in the public incident directory', async () => {
     const dataDir = await makeData();
     const source = (await readFile('tests/fixtures/validIncident.yaml', 'utf8'))
       .replace('status: "verified"', 'status: "candidate"')
-      .replace('approval: "human-approved"', 'approval: "pending"');
+      .replace('approval: "human-approved"', 'approval: "pending"')
+      .replace('reviewed_by: "Fixture Reviewer"', 'reviewed_by: ""')
+      .replace('reviewed_at: "2026-07-03"', 'reviewed_at: ""')
+      .replace('approval_reference: "docs/approvals/2026-07-03-test-fixture-approval.md#approval-test-fixture"', 'approval_reference: ""');
     await writeFile(join(dataDir, 'incidents', 'misplaced.yaml'), source);
-    const result = await validateDataDirectory(dataDir);
+    const result = await validateDataDirectory(dataDir, fixtureApprovalRoot);
     expect(result.valid).toBe(false);
     expect(result.errors).toContain('incidents/misplaced.yaml: public storage accepts only verified, disputed, or retracted status');
   });
@@ -71,10 +93,47 @@ describe('data pipeline', () => {
       .replace('status: "verified"', 'status: "candidate"')
       .replace('approval: "human-approved"', 'approval: "pending"')
       .replace('reviewed_by: "Fixture Reviewer"', 'reviewed_by: ""')
-      .replace('reviewed_at: "2026-07-03"', 'reviewed_at: ""'));
-    const result = await validateDataDirectory(dataDir);
+      .replace('reviewed_at: "2026-07-03"', 'reviewed_at: ""')
+      .replace('approval_reference: "docs/approvals/2026-07-03-test-fixture-approval.md#approval-test-fixture"', 'approval_reference: ""'));
+    const result = await validateDataDirectory(dataDir, fixtureApprovalRoot);
     expect(result.valid).toBe(false);
     expect(result.errors.join('\n')).toMatch(/exact duplicate.*canonical source URL match/i);
+  });
+
+  it('fails closed when an accepted record approval document root is unavailable', async () => {
+    const dataDir = await makeData();
+    const result = await validateDataDirectory(dataDir, join(dataDir, '..', 'missing-approvals'));
+    expect(result.valid).toBe(false);
+    expect(result.errors.join('\n')).toMatch(/approval document root/i);
+  });
+
+  it('rejects an approval document that is not bound to the accepted incident and its content', async () => {
+    const dataDir = await makeData();
+    const changedId = (await readFile('data/incidents/2026-07-milwaukee-officer-personal-flock-searches.yaml', 'utf8'))
+      .replace('id: 2026-07-milwaukee-officer-personal-flock-searches', 'id: 2026-07-milwaukee-officer-personal-flock-searches-copy');
+    await writeFile(join(dataDir, 'incidents', 'changed-id.yaml'), changedId);
+    const identityResult = await validateDataDirectory(dataDir, 'docs/approvals');
+    expect(identityResult.valid).toBe(false);
+    expect(identityResult.errors.join('\n')).toMatch(/approval.*incident id/i);
+
+    const changedContent = (await readFile('data/incidents/2026-07-milwaukee-officer-personal-flock-searches.yaml', 'utf8'))
+      .replace('The report said a court commissioner granted two restraining orders against Ayala.', 'The report contained a materially different claim for mismatch testing only.');
+    await writeFile(join(dataDir, 'incidents', 'changed-id.yaml'), changedContent);
+    const contentResult = await validateDataDirectory(dataDir, 'docs/approvals');
+    expect(contentResult.valid).toBe(false);
+    expect(contentResult.errors.join('\n')).toMatch(/approval.*content digest/i);
+  });
+
+  it('rejects reuse of one approval decision across multiple accepted records', async () => {
+    const dataDir = await makeData();
+    const source = await readFile('data/incidents/2026-07-milwaukee-officer-personal-flock-searches.yaml', 'utf8');
+    await writeFile(join(dataDir, 'incidents', 'first.yaml'), source);
+    await writeFile(join(dataDir, 'incidents', 'second.yaml'), source
+      .replace('id: 2026-07-milwaukee-officer-personal-flock-searches', 'id: 2026-07-milwaukee-officer-personal-flock-searches-copy')
+      .replace('title: Former Milwaukee officer used Flock searches for personal surveillance', 'title: Distinct synthetic record attempting approval reuse'));
+    const result = await validateDataDirectory(dataDir, 'docs/approvals');
+    expect(result.valid).toBe(false);
+    expect(result.errors.join('\n')).toMatch(/approval reference is already used/i);
   });
 
   it('ships a source-verified public seed without exposing the review-only abortion-search candidate', async () => {
@@ -82,6 +141,12 @@ describe('data pipeline', () => {
     expect(result.errors).toEqual([]);
     expect(result.records.map((record) => record.id)).toContain('2026-07-milwaukee-officer-personal-flock-searches');
     expect(result.records.map((record) => record.id)).toContain('2025-05-texas-abortion-related-national-flock-search');
+    const publicRecord = result.records.find((record) => record.id === '2026-07-milwaukee-officer-personal-flock-searches')!;
+    expect(publicRecord.sources.some((source) => source.key_claims.some((claim) => /restraining orders/i.test(claim)))).toBe(true);
+    expect(publicRecord.review.approval_reference).toMatch(/^docs\/approvals\/.+\.md#approval-/);
+    const [approvalPath, approvalAnchor] = publicRecord.review.approval_reference.split('#');
+    const approvalDocument = await readFile(approvalPath!, 'utf8');
+    expect(approvalDocument).toContain(`<a id="${approvalAnchor}"></a>`);
     expect((await buildPublicData('data')).map((record) => record.id)).toEqual(['2026-07-milwaukee-officer-personal-flock-searches']);
   });
 });

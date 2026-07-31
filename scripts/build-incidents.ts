@@ -4,7 +4,9 @@ import { buildPublicData } from './data-utils.js';
 
 const dataDir = resolve(process.env.DATA_DIR ?? 'data');
 const output = resolve(process.env.INCIDENTS_OUTPUT ?? 'src/data/incidents.json');
-const records = await buildPublicData(dataDir, process.env.INCLUDE_DRAFTS === '1');
+const includeReview = process.env.INCLUDE_DRAFTS === '1';
+if (includeReview && process.env.NODE_ENV === 'production') throw new Error('INCLUDE_DRAFTS is a local-review option and is forbidden in production');
+const records = await buildPublicData(dataDir, includeReview);
 await mkdir(dirname(output), { recursive: true });
 await writeFile(output, `${JSON.stringify(records, null, 2)}\n`, { encoding: 'utf8' });
 console.log(`Built ${records.length} public incident record(s) at ${output}`);

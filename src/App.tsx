@@ -57,12 +57,13 @@ export function App({ incidents }: AppProps) {
   const [filters, setFilters] = useState<FilterState>(fromQuery);
   const states = useMemo(() => [...new Set(incidents.map((incident) => incident.location.state).filter(Boolean))].sort(), [incidents]);
   const years = useMemo(() => [...new Set(incidents.map((incident) => incident.dates.reported.slice(0, 4)).filter(Boolean))].sort().reverse(), [incidents]);
+  const publicCount = useMemo(() => incidents.filter((incident) => ['verified', 'disputed'].includes(incident.status)).length, [incidents]);
   const shown = useMemo(() => incidents.filter((incident) => {
     const query = filters.q.trim().toLocaleLowerCase('en-US');
     return (!query || normalizedText(incident).includes(query))
       && (!filters.state || incident.location.state === filters.state)
       && (!filters.incidentType || incident.incident_type.includes(filters.incidentType as Incident['incident_type'][number]))
-      && (!filters.status || incident.status === filters.status)
+      && (filters.status ? incident.status === filters.status : incident.status !== 'retracted')
       && (!filters.year || incident.dates.reported.startsWith(filters.year))
       && (!filters.sourceType || incident.sources.some((source) => source.source_type === filters.sourceType));
   }), [filters, incidents]);
@@ -79,14 +80,14 @@ export function App({ incidents }: AppProps) {
       <header className="site-header">
         <a className="wordmark" href="/" aria-label="Flocking Abuse Tracker home"><span aria-hidden="true" className="record-dot" />FAT // PUBLIC LEDGER</a>
         <nav aria-label="Primary">
-          <a href="/">Incidents</a>
+          <a href="/" aria-current="page">Incidents</a>
           <a href="/docs/source-policy.html">Source policy</a>
           <a href="/docs/reporting-format.html">Reporting format</a>
           <a href="/admin">Admin intake</a>
         </nav>
       </header>
 
-      <main id="main-content">
+      <main id="main-content" tabIndex={-1}>
         <section className="hero" aria-labelledby="page-title">
           <div className="hero__copy">
             <p className="classification">OPEN-SOURCE INTELLIGENCE // CIVIL LIBERTIES</p>
@@ -96,7 +97,7 @@ export function App({ incidents }: AppProps) {
           </div>
           <aside className="monitor-panel" aria-label="Tracker publication status">
             <p className="monitor-panel__label">SYSTEM STATUS</p>
-            <strong>{String(incidents.length).padStart(3, '0')}</strong>
+            <strong>{String(publicCount).padStart(3, '0')}</strong>
             <span>verified or disputed files</span>
             <dl><div><dt>Access</dt><dd>Public</dd></div><div><dt>Review</dt><dd>Human</dd></div><div><dt>Auto-publish</dt><dd>Disabled</dd></div></dl>
           </aside>
@@ -107,7 +108,7 @@ export function App({ incidents }: AppProps) {
         <section className="incident-index" aria-labelledby="index-heading">
           <div className="index-heading"><p className="classification">RESULT SET // {String(shown.length).padStart(3, '0')}</p><h2 id="index-heading">Incident files</h2></div>
           <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">{shown.length === 1 ? '1 incident shown' : `${shown.length} incidents shown`}</p>
-          {incidents.length === 0 ? (
+          {publicCount === 0 && !filters.status ? (
             <div className="empty-state">
               <p className="empty-state__code">NO PUBLIC FILES</p>
               <h3>No verified or disputed incidents have been published yet.</h3>

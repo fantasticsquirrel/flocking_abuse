@@ -69,6 +69,7 @@ export function readRuntimeConfig(env: NodeJS.ProcessEnv, cwd = process.cwd()): 
 export function createProductionApp(config: RuntimeConfig): express.Express {
   const app = createApp({
     dataDir: config.dataDir,
+    approvalRoot: resolve(config.docsDir, 'approvals'),
     passwordHash: config.passwordHash,
     sessionSecret: config.sessionSecret,
     allowedOrigin: config.allowedOrigin,
@@ -77,7 +78,7 @@ export function createProductionApp(config: RuntimeConfig): express.Express {
       try {
         await access(resolve(config.distDir, 'index.html'), fsConstants.R_OK);
         await access(resolve(config.dataDir, 'candidates'), fsConstants.R_OK | fsConstants.W_OK);
-        const validation = await validateDataDirectory(config.dataDir);
+        const validation = await validateDataDirectory(config.dataDir, resolve(config.docsDir, 'approvals'));
         if (!validation.valid) return { ready: false, release: config.releaseSha, error: 'Incident data validation failed' };
         return { ready: true, release: config.releaseSha };
       } catch (error) {

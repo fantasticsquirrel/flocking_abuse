@@ -28,6 +28,8 @@ NGINX_ENABLED=/etc/nginx/sites-enabled/flockingabuse.multihost.ing
 RELEASE_ENV=/etc/flocking-abuse/release.env
 TARGET_NGINX_TEST=
 SERVICE_TOUCHED=0
+SERVICE_UID=$(id -u flocking-abuse)
+SERVICE_GID=$(id -g flocking-abuse)
 
 require_regular_artifact() {
   local root=$1 relative_path=$2 expected="$1/$2" resolved
@@ -109,7 +111,11 @@ rollback_on_error() {
 
 [[ ! -L /opt/flocking-abuse && ! -L $RELEASE_ROOT ]] || { echo "Release root must not be a symlink" >&2; exit 6; }
 install -d -m 0755 -o root -g root /opt/flocking-abuse "$RELEASE_ROOT"
-install -d -m 0750 -o flocking-abuse -g flocking-abuse "$DATA_DIR" "$DATA_DIR/incidents" "$DATA_DIR/candidates"
+for required_data_dir in "$DATA_DIR" "$DATA_DIR/incidents" "$DATA_DIR/candidates"; do
+  [[ -d $required_data_dir && ! -L $required_data_dir ]] || { echo "Pre-provisioned mutable data directories are required" >&2; exit 6; }
+done
+require_regular_artifact "$SOURCE_ROOT" deploy/verify-data-permissions.sh || { echo "Source permission verifier is unconfined" >&2; exit 6; }
+bash "$SOURCE_ROOT/deploy/verify-data-permissions.sh" "$DATA_DIR" 0 "$SERVICE_GID" "$SERVICE_UID" "$SERVICE_GID"
 
 if [[ -e $UNIT || -L $UNIT ]]; then
   [[ -f $UNIT && ! -L $UNIT ]] || { echo "Existing unit must be a regular persistent system unit" >&2; exit 6; }
@@ -149,13 +155,18 @@ if [[ -n $(find "$STAGING" -type l -print -quit) ]]; then
   echo "Tracked release export contains a symlink" >&2
   false
 fi
-for artifact in package.json package-lock.json deploy/flocking-abuse.service deploy/flockingabuse.multihost.ing.nginx; do
+for artifact in package.json package-lock.json deploy/flocking-abuse.service deploy/flockingabuse.multihost.ing.nginx deploy/verify-data-permissions.sh; do
   require_regular_artifact "$STAGING" "$artifact" || { echo "Release export contains an unconfined artifact: $artifact" >&2; false; }
 done
 cd "$STAGING"
 npm ci
+if [[ $PRIOR_MODE == deployed ]]; then
+  SERVICE_TOUCHED=1
+  systemctl stop flocking-abuse.service
+fi
+bash "$STAGING/deploy/verify-data-permissions.sh" "$DATA_DIR" 0 "$SERVICE_GID" "$SERVICE_UID" "$SERVICE_GID"
 DATA_DIR="$DATA_DIR" npm run validate:data
-npm run build
+DATA_DIR="$DATA_DIR" NODE_ENV=production INCLUDE_DRAFTS=0 npm run build
 npm prune --omit=dev
 for artifact in deploy/flocking-abuse.service deploy/flockingabuse.multihost.ing.nginx dist-server/server/index.js dist/index.html; do
   require_regular_artifact "$STAGING" "$artifact" || { echo "Built release contains an unconfined artifact: $artifact" >&2; false; }

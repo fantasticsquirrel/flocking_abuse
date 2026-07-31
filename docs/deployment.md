@@ -18,7 +18,7 @@ Production is an exact-commit release, not a mutable working tree. The public ed
 1. DNS resolves `flockingabuse.multihost.ing` to the host.
 2. A dedicated certificate exists under `/etc/letsencrypt/live/flockingabuse.multihost.ing/` and `certbot renew --dry-run` passes.
 3. The service account, secret file, data directories, and root-only backup directory exist.
-4. The candidate/public data tree validates under the release schema. Every YAML record declares `schema_version: 1`; public records also carry `review.approval: human-approved` and non-automation reviewer provenance.
+4. The candidate/public data tree validates under the release schema. Every YAML record declares `schema_version: 1`; public records also carry `review.approval: human-approved`, non-automation reviewer provenance, and an anchored repository approval reference.
 5. The requested Git SHA has green CI and a clean exact-SHA local release gate.
 
 Do not copy a candidate into the public incident directory. A schema migration must be reviewed and run against a backup before release; startup readiness deliberately fails closed on old or invalid data.
@@ -36,13 +36,14 @@ The script:
 1. verifies the exact clean commit;
 2. records and backs up operational configuration and enablement state;
 3. exports the commit to a new immutable release directory;
-4. runs `npm ci`, validates live data, builds, and prunes development dependencies;
-5. atomically switches `/opt/flocking-abuse/current`;
-6. installs/verifies systemd, writes the exact release identity, and restarts the service;
-7. requires `/health` to report `ready` and the exact SHA;
-8. installs/tests nginx and reloads the edge only after application readiness.
+4. verifies the pre-provisioned data boundary, installs dependencies, quiesces an existing service, and verifies again that accepted incidents are root-owned/non-writable while only the candidate inbox is service-writable;
+5. runs `npm ci`, validates live data, builds, and prunes development dependencies;
+6. atomically switches `/opt/flocking-abuse/current`;
+7. installs/verifies systemd, writes the exact release identity, and restarts the service;
+8. requires `/health` to report `ready` and the exact SHA;
+9. installs/tests nginx and reloads the edge only after application readiness.
 
-The deploy refuses invalid live data, takes an exclusive host deployment lock, and automatically restores the previous release, service enablement/activity, nginx configuration, and enabled-site link if readiness or edge activation fails. It does not copy or restore mutable candidate data during an ordinary code release; schema migrations require their own application-consistent backup and maintenance window.
+The deploy requires pre-provisioned mutable-data directories that pass `deploy/verify-data-permissions.sh`: no symlinks, special entries, or multiply linked files; accepted data is root-owned and service-readable but not service-writable; candidate data alone is service-owned. Code deployment never changes or restores mutable-data ownership, modes, or contents. Any one-time metadata migration requires a separate root-only backup and explicit maintenance operation. The release takes an exclusive host deployment lock and automatically restores the prior release, service enablement/activity, nginx configuration, and enabled-site link if readiness or edge activation fails. Schema migrations require their own application-consistent backup and maintenance window.
 
 ## Verification
 

@@ -34,6 +34,7 @@
     "zod": "^4.0.14"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.12.1",
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.54.2",
     "@testing-library/jest-dom": "^6.6.4",

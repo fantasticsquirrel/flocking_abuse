@@ -37,7 +37,7 @@ sources:
     key_claims:
       - "A criminal complaint said Ayala used authorized database access 179 times for personal reasons."
       - "The report said he searched an ex-partner's plate more than 50 times and another person's plate more than 100 times."
-      - "The report said he pleaded guilty to attempted misconduct in public office and was sentenced to one year of probation and a $500 fine."
+      - "The report said a court commissioner granted two restraining orders against Ayala."
   - url: "https://eu.usatoday.com/story/news/crime/2026/07/15/ex-milwaukee-cop-gets-probation-fine-for-misusing-flock-camera-system/90920378007/"
     title: "Ex-Milwaukee police officer sentenced for misusing department's Flock system"
     publisher: "Milwaukee Journal Sentinel / USA TODAY Network"
@@ -65,6 +65,7 @@ review:
   approval: human-approved
   reviewed_by: "Site owner"
   reviewed_at: "2026-07-31"
+  approval_reference: "docs/approvals/2026-07-31-owner-publication-approval.md#approval-owner-publication-2026-07-31-01"
   notes: >-
     The site owner authorized completion of the source-first tracker deployment after review of the
     public/candidate boundary. The public record remains limited to attributed claims and reported outcomes.

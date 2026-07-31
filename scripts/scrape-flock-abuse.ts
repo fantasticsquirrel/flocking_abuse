@@ -24,12 +24,14 @@ export interface DiscoveryFinding {
   publisher: string;
   publishedDate: string;
   snippet: string;
+  searchQueries: string[];
   relevanceScore: number;
   disposition: 'new-candidate' | 'duplicate' | 'uncertain';
   duplicateReason?: string;
 }
 export interface DiscoveryReport {
   generatedAt: string;
+  searchQueries: string[];
   findings: DiscoveryFinding[];
   newCandidates: number;
   duplicatesSkipped: number;
@@ -37,6 +39,7 @@ export interface DiscoveryReport {
   autoPublished: false;
   failures: Array<{ url: string; error: string }>;
 }
+export interface DiscoverySeed { url: string; searchQueries: string[] }
 
 const MAX_BODY_BYTES = 2 * 1024 * 1024;
 const USER_AGENT = 'FlockingAbuseTracker/1.0 (+https://flockingabuse.multihost.ing/docs/automation.md)';
@@ -254,12 +257,21 @@ const relevance = (text: string): number => {
   return Number(Math.min(1, flock + abuseTerms.filter((term) => value.includes(term)).length * 0.11).toFixed(2));
 };
 
-export async function runSeedDiscovery(seedUrls: string[], incidents: Incident[], priorFindings: DiscoveryFinding[], dependencies?: Partial<ScraperDependencies>): Promise<DiscoveryReport> {
+export async function runSeedDiscovery(seedInputs: Array<string | DiscoverySeed>, incidents: Incident[], priorFindings: DiscoveryFinding[], dependencies?: Partial<ScraperDependencies>): Promise<DiscoveryReport> {
+  const seeds = seedInputs.map((seed) => typeof seed === 'string' ? { url: seed, searchQueries: ['manual-seed'] } : seed);
   const sourceIndex = new Set(incidents.flatMap((incident) => incident.sources.map((source) => canonicalizeUrl(source.url))));
   const priorIndex = new Set(priorFindings.map((finding) => canonicalizeUrl(finding.canonicalUrl)));
   const findings: DiscoveryFinding[] = [];
+  const currentIndex = new Map<string, DiscoveryFinding>();
   const failures: Array<{ url: string; error: string }> = [];
-  for (const sourceUrl of seedUrls) {
+  for (const seed of seeds) {
+    const sourceUrl = seed.url;
+    const seedCanonicalUrl = canonicalizeUrl(sourceUrl);
+    const currentSeedFinding = currentIndex.get(seedCanonicalUrl);
+    if (currentSeedFinding) {
+      currentSeedFinding.searchQueries = [...new Set([...currentSeedFinding.searchQueries, ...seed.searchQueries])];
+      continue;
+    }
     try {
       const page = await fetchDiscoverablePage(sourceUrl, dependencies);
       const canonicalRaw = canonicalFrom(page.html);
@@ -267,24 +279,34 @@ export async function runSeedDiscovery(seedUrls: string[], incidents: Incident[]
       const title = titleFrom(page.html);
       const snippet = snippetFrom(page.html);
       const score = relevance(`${title} ${snippet}`);
+      const currentCanonicalFinding = currentIndex.get(canonicalUrl);
+      if (currentCanonicalFinding) {
+        currentCanonicalFinding.searchQueries = [...new Set([...currentCanonicalFinding.searchQueries, ...seed.searchQueries])];
+        currentIndex.set(seedCanonicalUrl, currentCanonicalFinding);
+        continue;
+      }
       const duplicate = sourceIndex.has(canonicalUrl) || priorIndex.has(canonicalUrl);
-      findings.push({
+      const finding: DiscoveryFinding = {
         sourceUrl,
         canonicalUrl,
         title,
         publisher: meta(page.html, ['author', 'og:site_name', 'application-name']) ?? new URL(canonicalUrl).hostname.replace(/^www\./, ''),
         publishedDate: dateFrom(page.html),
         snippet,
+        searchQueries: [...new Set(seed.searchQueries)],
         relevanceScore: score,
         disposition: duplicate ? 'duplicate' : score >= 0.56 ? 'new-candidate' : 'uncertain',
         ...(duplicate ? { duplicateReason: 'canonical source URL already exists' } : {}),
-      });
+      };
+      findings.push(finding);
+      currentIndex.set(seedCanonicalUrl, finding);
+      currentIndex.set(canonicalUrl, finding);
     } catch (error) {
       failures.push({ url: sourceUrl, error: error instanceof Error ? error.message : String(error) });
     }
   }
   return {
-    generatedAt: new Date().toISOString(), findings,
+    generatedAt: new Date().toISOString(), searchQueries: [...new Set(seeds.flatMap((seed) => seed.searchQueries))], findings,
     newCandidates: findings.filter((finding) => finding.disposition === 'new-candidate').length,
     duplicatesSkipped: findings.filter((finding) => finding.disposition === 'duplicate').length,
     uncertain: findings.filter((finding) => finding.disposition === 'uncertain').length,
@@ -292,22 +314,26 @@ export async function runSeedDiscovery(seedUrls: string[], incidents: Incident[]
   };
 }
 
-async function braveSeedUrls(apiKey: string): Promise<string[]> {
+export async function braveSeedUrls(apiKey: string): Promise<DiscoverySeed[]> {
   const queries = ['"Flock Safety" abuse police camera', '"Flock camera" misuse lawsuit audit', '"Flock Safety" immigration abortion protest'];
-  const urls = new Set<string>();
+  const urls = new Map<string, Set<string>>();
   for (const query of queries) {
     const endpoint = new URL('https://api.search.brave.com/res/v1/web/search');
     endpoint.searchParams.set('q', query); endpoint.searchParams.set('count', '10'); endpoint.searchParams.set('freshness', 'pm');
     const response = await fetch(endpoint, { headers: { Accept: 'application/json', 'X-Subscription-Token': apiKey }, signal: AbortSignal.timeout(15_000) });
     if (!response.ok) throw new Error(`Brave Search returned HTTP ${response.status}`);
     const payload = await response.json() as { web?: { results?: Array<{ url?: string }> } };
-    for (const result of payload.web?.results ?? []) if (result.url) urls.add(result.url);
+    for (const result of payload.web?.results ?? []) if (result.url) {
+      const matched = urls.get(result.url) ?? new Set<string>();
+      matched.add(query);
+      urls.set(result.url, matched);
+    }
   }
-  return [...urls];
+  return [...urls].map(([url, searchQueries]) => ({ url, searchQueries: [...searchQueries] }));
 }
 
-export async function loadExistingRecords(dataDir: string): Promise<Incident[]> {
-  const result = await validateDataDirectory(resolve(dataDir));
+export async function loadExistingRecords(dataDir: string, approvalRoot?: string): Promise<Incident[]> {
+  const result = await validateDataDirectory(resolve(dataDir), approvalRoot);
   if (!result.valid) throw new Error(`Existing incident data failed validation:\n${result.errors.join('\n')}`);
   return result.records;
 }
@@ -329,7 +355,7 @@ const parseCli = (arguments_: string[]): CliOptions => {
 async function runCli(): Promise<void> {
   const options = parseCli(process.argv.slice(2));
   const seeds = options.seedFile
-    ? (await readFile(resolve(options.seedFile), 'utf8')).split(/\r?\n/).map((line) => line.trim()).filter((line) => line && !line.startsWith('#'))
+    ? (await readFile(resolve(options.seedFile), 'utf8')).split(/\r?\n/).map((line) => line.trim()).filter((line) => line && !line.startsWith('#')).map((url) => ({ url, searchQueries: ['manual-seed-file'] }))
     : await braveSeedUrls(process.env.BRAVE_SEARCH_API_KEY?.trim() || (() => { throw new Error('Use --seed-file or configure BRAVE_SEARCH_API_KEY'); })());
   const incidents = await loadExistingRecords(options.dataDir);
   if (options.dataFile) incidents.push(...JSON.parse(await readFile(resolve(options.dataFile), 'utf8')) as Incident[]);

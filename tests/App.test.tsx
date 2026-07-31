@@ -29,7 +29,7 @@ describe('public tracker', () => {
     expect(within(article).getByText('2026-07-01')).toBeInTheDocument();
     expect(within(article).getByText('Flock Safety')).toBeInTheDocument();
     expect(within(article).getByText('Synthetic Policy 1')).toBeInTheDocument();
-    expect(within(article).getByText('retention-or-access-policy')).toBeInTheDocument();
+    expect(within(article).getByText('Retention Or Access Policy')).toBeInTheDocument();
     expect(within(article).getByText('Synthetic corrective action')).toBeInTheDocument();
     expect(within(article).getByText(/Synthetic claim used only to test validation/i)).toBeInTheDocument();
     const sourceLink = within(article).getByRole('link', { name: /Synthetic Official Audit — Example Inspector General/i });
@@ -46,6 +46,15 @@ describe('public tracker', () => {
     const article = screen.getByRole('article', { name: /synthetic fixture: audit report/i });
     expect(within(article).getByText('Unknown')).toBeInTheDocument();
     expect(screen.getByLabelText('Year')).not.toContainHTML('<option value="">Unknown</option>');
+  });
+
+  it('hides retractions by default but keeps them available through the status filter', async () => {
+    const retracted = fixture();
+    retracted.status = 'retracted';
+    render(<App incidents={[retracted]} />);
+    expect(screen.queryByRole('article')).not.toBeInTheDocument();
+    await userEvent.selectOptions(screen.getByLabelText('Status'), 'retracted');
+    expect(screen.getByRole('article', { name: /synthetic fixture/i })).toBeInTheDocument();
   });
 
   it('filters by full text and facets while reflecting state in URL query params', async () => {
