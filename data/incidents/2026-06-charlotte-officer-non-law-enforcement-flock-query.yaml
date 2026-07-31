@@ -1,0 +1,31 @@
+schema_version: 1
+id: 2026-06-charlotte-officer-non-law-enforcement-flock-query
+title: "Charlotte officer charged after unauthorized Flock query"
+status: verified
+summary: >-
+  The Charlotte-Mecklenburg Police Department said the North Carolina State Bureau of
+  Investigation found that Officer Seth Elliott accessed Flock and CJLEADS once for a
+  non-law-enforcement purpose. Elliott was arrested on an illegal-access charge and placed
+  on unpaid administrative leave.
+incident_type: [unauthorized-search, law-enforcement-overreach, data-sharing]
+location: {city: Charlotte, county: Mecklenburg, state: NC, country: US}
+actors:
+  agencies: [Charlotte-Mecklenburg Police Department, North Carolina State Bureau of Investigation]
+  officials_or_entities: [Seth Elliott]
+  vendor_entities: [Flock Safety]
+dates: {occurred: "2026-06-16", discovered: "2026-06-18", reported: "2026-07-29"}
+sources:
+  - url: "https://www.charlottenc.gov/cmpd/News-Information/Newsroom/CMPD-Officer-Arrested-and-Charged-with-Illegal-Access-of-a-Computer"
+    title: "CMPD Officer Arrested and Charged with Illegal Access of a Computer"
+    publisher: "Charlotte-Mecklenburg Police Department"
+    published_date: "2026-07-29"
+    source_type: official-statement
+    reliability: primary
+    key_claims: ["CMPD said SBI found Elliott accessed Flock and CJLEADS once for a non-law-enforcement purpose.", "CMPD said SBI arrested Elliott on a Class 1 misdemeanor charge of illegally accessing a government computer.", "CMPD said it accesses other agencies' Flock devices through a no-cost memorandum of understanding."]
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies: ["Illegal access of a government computer (Class 1 misdemeanor)", "CMPD-Flock memorandum of understanding"]
+outcomes: ["CMPD revoked Elliott's access to systems containing criminal intelligence information.", "CMPD placed Elliott on unpaid administrative leave after his arrest and opened an internal investigation."]
+uniqueness: {canonical_key: "us-nc-mecklenburg:2026-06:charlotte-mecklenburg-police-department:non-law-enforcement-flock-query", duplicate_of: null}
+review: {added_by: manual, approval: human-approved, reviewed_by: "Site owner", reviewed_at: "2026-08-01", approval_reference: "docs/approvals/2026-08-01-charlotte-officer-flock-query.md#approval-charlotte-officer-flock-query", notes: "Claims are limited to CMPD's official account; the criminal charge is an allegation, not a conviction."}
+updated_at: "2026-08-01"
