@@ -154,6 +154,7 @@ describe('data pipeline', () => {
       '2025-03-louisville-officer-alpr-stalking',
       '2025-11-braselton-chief-alpr-stalking',
       '2025-12-echols-employee-personal-flock-searches',
+      '2025-12-greer-officers-false-flock-search-justifications',
       '2026-04-conyers-dispatcher-non-law-enforcement-searches',
       '2026-04-san-jose-flock-constitutional-challenge',
       '2026-06-albany-officers-non-law-enforcement-searches',

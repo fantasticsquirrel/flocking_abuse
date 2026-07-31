@@ -470,6 +470,89 @@
   },
   {
     "schema_version": 1,
+    "id": "2025-12-greer-officers-false-flock-search-justifications",
+    "title": "Greer officers fired over personal Flock searches",
+    "status": "verified",
+    "summary": "Greer officials said an audit corroborated allegations that two police officers violated the department's Flock policy. Reporting based on separation records said one officer searched for a colleague with whom he had a relationship and the other searched several residents while recording false or inaccurate justifications.",
+    "incident_type": [
+      "unauthorized-search",
+      "law-enforcement-overreach"
+    ],
+    "location": {
+      "city": "Greer",
+      "county": "Greenville",
+      "state": "SC",
+      "country": "US"
+    },
+    "actors": {
+      "agencies": [
+        "Greer Police Department"
+      ],
+      "officials_or_entities": [
+        "Kareem Lynch",
+        "Sebastian Echeverry"
+      ],
+      "vendor_entities": [
+        "Flock Safety"
+      ]
+    },
+    "dates": {
+      "occurred": "2025-12",
+      "discovered": "2026-06",
+      "reported": "2026-07-14"
+    },
+    "sources": [
+      {
+        "url": "https://www.foxcarolina.com/2026/07/14/2-greer-officers-terminated-violating-policy-flock-cameras-police-say/",
+        "title": "2 Greer officers terminated for violating policy on Flock cameras, police say",
+        "publisher": "FOX Carolina",
+        "published_date": "2026-07-14",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "City Administrator Andrew Merriman said an audit corroborated the initial allegations and both officers were terminated.",
+          "FOX Carolina reported Lynch searched for an officer with whom he had a relationship and Echeverry searched several residents while entering false reasons."
+        ]
+      },
+      {
+        "url": "https://www.aol.com/news/two-greer-police-officers-fired-195424534.html",
+        "title": "Two Greer police officers fired over misuse of license plate reader system",
+        "publisher": "Greenville News",
+        "published_date": "2026-07-15",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "Greenville News reported the city said both officers were terminated after an investigation found violations of the department's ALPR policy.",
+          "The report said Greer's policy limits the system to public-safety-related agency missions."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [],
+      "statutes_or_policies": [
+        "Greer Police Department Automatic License Plate Recognition policy"
+      ]
+    },
+    "outcomes": [
+      "Greer terminated Lynch on June 26, 2026, and Echeverry on June 29, 2026.",
+      "The department reported both terminations to the South Carolina Criminal Justice Academy for certification review."
+    ],
+    "uniqueness": {
+      "canonical_key": "us-sc-greenville:2025-12:greer-police-department:false-flock-search-justifications",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-01",
+      "approval_reference": "docs/approvals/2026-08-01-greer-officers-flock-misuse.md#approval-greer-officers-flock-misuse",
+      "notes": "One record covers the related audit and two resulting terminations. No criminal conviction is asserted."
+    },
+    "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
     "id": "2026-04-conyers-dispatcher-non-law-enforcement-searches",
     "title": "Conyers dispatcher supervisor charged after Flock audit",
     "status": "verified",
