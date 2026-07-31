@@ -16,7 +16,7 @@ Environment=DIST_DIR=/opt/flocking-abuse/current/dist
 Environment=DOCS_DIR=/opt/flocking-abuse/current/docs
 EnvironmentFile=/etc/flocking-abuse/flocking-abuse.env
 EnvironmentFile=/etc/flocking-abuse/release.env
-ExecStart=/usr/bin/node /opt/flocking-abuse/current/dist-server/server/index.js
+ExecStart=/usr/bin/node --preserve-symlinks-main /opt/flocking-abuse/current/dist-server/server/index.js
 Restart=on-failure
 RestartSec=5
 TimeoutStopSec=20

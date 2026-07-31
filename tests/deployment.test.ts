@@ -104,6 +104,11 @@ describe('immutable deployment and rollback scripts', () => {
     expect((await stat('deploy/rollback.sh')).mode & 0o111).toBe(0o111);
   });
 
+  it('preserves the atomic current symlink for Node entrypoint and dependency resolution', async () => {
+    const unit = await readFile('deploy/flocking-abuse.service', 'utf8');
+    expect(unit).toContain('ExecStart=/usr/bin/node --preserve-symlinks-main /opt/flocking-abuse/current/dist-server/server/index.js');
+  });
+
   it('documents the dedicated rollback tool instead of an unsafe inline sequence', async () => {
     const documentation = await readFile('docs/deployment.md', 'utf8');
     expect(documentation).toContain('sudo ./deploy/rollback.sh');
