@@ -17,6 +17,15 @@ describe('immutable deployment and rollback scripts', () => {
     expect(script).toContain('restore_operational_files');
   });
 
+  it('distinguishes an absent first-install link from invalid and valid current-release entries', async () => {
+    const script = await readFile('deploy/release.sh', 'utf8');
+    expect(script).toContain('PREVIOUS=\nif [[ -L $CURRENT ]]; then');
+    expect(script).toContain('PREVIOUS=$(readlink -f -- "$CURRENT")');
+    expect(script).toContain('elif [[ -e $CURRENT ]]; then');
+    expect(script).toContain('Current release path must be a symlink');
+    expect(script).not.toContain('PREVIOUS=$(readlink -f "$CURRENT" 2>/dev/null || true)');
+  });
+
   it('serializes deployments, verifies immutable data permissions without mutating them, and quiesces an existing service', async () => {
     const script = await readFile('deploy/release.sh', 'utf8');
     expect(script).toContain('flock -n 9');

@@ -20,7 +20,13 @@ CURRENT=/opt/flocking-abuse/current
 STAGING=${RELEASE_ROOT}/.${RELEASE_SHA}.staging-$$
 DATA_DIR=/var/lib/flocking-abuse/data
 BACKUP=
-PREVIOUS=$(readlink -f "$CURRENT" 2>/dev/null || true)
+PREVIOUS=
+if [[ -L $CURRENT ]]; then
+  PREVIOUS=$(readlink -f -- "$CURRENT") || { echo "Current release link cannot be resolved" >&2; exit 6; }
+elif [[ -e $CURRENT ]]; then
+  echo "Current release path must be a symlink" >&2
+  exit 6
+fi
 PREVIOUS_SHA=$(basename "$PREVIOUS" 2>/dev/null || true)
 UNIT=/etc/systemd/system/flocking-abuse.service
 NGINX_SITE=/etc/nginx/sites-available/flockingabuse.multihost.ing
