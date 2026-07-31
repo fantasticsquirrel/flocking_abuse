@@ -23,6 +23,11 @@ Production is an exact-commit release, not a mutable working tree. The public ed
 
 Do not copy a candidate into the public incident directory. A schema migration must be reviewed and run against a backup before release; startup readiness deliberately fails closed on old or invalid data.
 
+Approved incident records are published by installing their reviewed YAML files into
+`/var/lib/flocking-abuse/data/incidents` as `root:flocking-abuse` with mode `0640`
+before running the release script. The release build reads that protected mutable
+store; committing a record alone does not publish it.
+
 ## Deploy an exact SHA
 
 From a clean checkout at the exact reviewed commit:
