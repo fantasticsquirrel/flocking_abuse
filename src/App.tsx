@@ -78,7 +78,10 @@ export function App({ incidents }: AppProps) {
       <a className="skip-link" href="#main-content">Skip to incident records</a>
       <div className="scanlines" aria-hidden="true" />
       <header className="site-header">
-        <a className="wordmark" href="/" aria-label="Flocking Abuse Tracker home"><span aria-hidden="true" className="record-dot" />FAT // PUBLIC LEDGER</a>
+        <a className="wordmark" href="/" aria-label="Flocking Abuse Tracker home">
+          <span aria-hidden="true" className="wordmark__mark">FA</span>
+          <span className="wordmark__text"><strong>Flocking Abuse</strong><small>Public incident tracker</small></span>
+        </a>
         <nav aria-label="Primary">
           <a href="/" aria-current="page">Incidents</a>
           <a href="/docs/source-policy.html">Source policy</a>
@@ -90,23 +93,23 @@ export function App({ incidents }: AppProps) {
       <main id="main-content" tabIndex={-1}>
         <section className="hero" aria-labelledby="page-title">
           <div className="hero__copy">
-            <p className="classification">OPEN-SOURCE INTELLIGENCE // CIVIL LIBERTIES</p>
+            <p className="eyebrow">Public records of camera misuse</p>
             <h1 id="page-title">Flocking<br /><span>Abuse Tracker</span></h1>
-            <p className="hero__lede">A source-grounded public record of reported Flock Safety camera misuse, legal challenges, audit findings, and policy failures.</p>
-            <p className="hero__note">Every published entry is attributed. Allegations remain allegations unless an official record establishes otherwise.</p>
+            <p className="hero__lede">Reported Flock Safety camera misuse, legal challenges, audit findings, and policy failures—documented with links to the record.</p>
+            <p className="hero__note">Claims are attributed to their sources. Allegations remain allegations unless established by an official record.</p>
           </div>
-          <aside className="monitor-panel" aria-label="Tracker publication status">
-            <p className="monitor-panel__label">SYSTEM STATUS</p>
+          <aside className="monitor-panel" aria-label="Published incident count">
+            <p className="monitor-panel__label">Documented incidents</p>
             <strong>{String(publicCount).padStart(3, '0')}</strong>
-            <span>verified or disputed files</span>
-            <dl><div><dt>Access</dt><dd>Public</dd></div><div><dt>Review</dt><dd>Human</dd></div><div><dt>Auto-publish</dt><dd>Disabled</dd></div></dl>
+            <span>published records</span>
+            <a href="#incident-records">Browse the records</a>
           </aside>
         </section>
 
         <IncidentFilters filters={filters} states={states} years={years} onChange={changeFilters} />
 
-        <section className="incident-index" aria-labelledby="index-heading">
-          <div className="index-heading"><p className="classification">RESULT SET // {String(shown.length).padStart(3, '0')}</p><h2 id="index-heading">Incident files</h2></div>
+        <section className="incident-index" id="incident-records" aria-labelledby="index-heading">
+          <div className="index-heading"><p className="eyebrow">{shown.length === 1 ? '1 record' : `${shown.length} records`}</p><h2 id="index-heading">Documented incidents</h2></div>
           <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">{shown.length === 1 ? '1 incident shown' : `${shown.length} incidents shown`}</p>
           {publicCount === 0 && !filters.status ? (
             <div className="empty-state">
@@ -123,7 +126,7 @@ export function App({ incidents }: AppProps) {
         </section>
       </main>
 
-      <footer><p>Evidence before accusation. Review before publication.</p><p>FLOCKING ABUSE TRACKER // PUBLIC ACCESS</p></footer>
+      <footer><p>Flocking Abuse Tracker</p><p>Sources and reporting links accompany each record.</p></footer>
     </div>
   );
 }

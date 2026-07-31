@@ -18,7 +18,7 @@ export function IncidentCard({ incident }: IncidentCardProps) {
     <article className="incident-card" aria-labelledby={`incident-${incident.id}`}>
       <header className="incident-card__header">
         <div>
-          <p className="classification">CASE FILE // {incident.id}</p>
+          <p className="eyebrow">Record {incident.id}</p>
           <h2 id={`incident-${incident.id}`}>{incident.title}</h2>
         </div>
         <span className={`status-badge status-badge--${incident.status}`}>

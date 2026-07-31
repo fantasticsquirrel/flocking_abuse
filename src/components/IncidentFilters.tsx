@@ -34,8 +34,8 @@ export function IncidentFilters({ filters, states, years, onChange }: IncidentFi
     <section className="filters" aria-labelledby="filter-heading">
       <div className="filters__heading">
         <div>
-          <p className="classification">QUERY CONSOLE // PUBLIC INDEX</p>
-          <h2 id="filter-heading">Search the record</h2>
+          <p className="eyebrow">Public records</p>
+          <h2 id="filter-heading">Search records</h2>
         </div>
         <button className="button button--quiet" type="button" onClick={() => onChange({ q: '', state: '', incidentType: '', status: '', year: '', sourceType: '' })}>
           Clear filters
