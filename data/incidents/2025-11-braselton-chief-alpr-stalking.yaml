@@ -1,0 +1,30 @@
+schema_version: 1
+id: 2025-11-braselton-chief-alpr-stalking
+title: "Braselton police chief charged after alleged ALPR stalking"
+status: verified
+summary: >-
+  The Georgia Bureau of Investigation said Braselton Police Chief Michael Steffman misused automated
+  license-plate recognition systems to harass and stalk multiple people. He was arrested on charges
+  including stalking, harassing communications, violation of oath, and multiple ALPR-misuse counts.
+incident_type: [unauthorized-search, law-enforcement-overreach]
+location: {city: Braselton, county: Jackson, state: GA, country: US}
+actors:
+  agencies: [Braselton Police Department]
+  officials_or_entities: [Michael Steffman]
+  vendor_entities: [Flock Safety]
+dates: {occurred: "", discovered: "2025-11", reported: "2025-11-19"}
+sources:
+  - url: "https://gbi.georgia.gov/press-releases/2025-11-19/gbi-arrests-braselton-police-chief-harassment-and-stalking"
+    title: "GBI Arrests Braselton Police Chief for Harassment and Stalking"
+    publisher: "Georgia Bureau of Investigation"
+    published_date: "2025-11-19"
+    source_type: official-statement
+    reliability: primary
+    key_claims: ["GBI said Steffman misused ALPR systems to harass and stalk multiple people.", "GBI arrested him on stalking, harassment, oath, and ALPR-misuse charges."]
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies: ["Georgia prohibitions on misuse of automated license plate recognition systems", "Violation of oath by public officer"]
+outcomes: ["Steffman was arrested and booked into the Jackson County Jail.", "GBI said the case would be sent to the Piedmont Judicial Circuit for prosecution."]
+uniqueness: {canonical_key: "us-ga-jackson:unknown:braselton-police-department-michael-steffman:alpr-stalking", duplicate_of: null}
+review: {added_by: manual, approval: human-approved, reviewed_by: "Site owner", reviewed_at: "2026-08-01", approval_reference: "docs/approvals/2026-08-01-braselton-chief-alpr-stalking.md#approval-braselton-chief-alpr-stalking", notes: "Published at the site owner's request; charges and allegations remain attributed to GBI."}
+updated_at: "2026-08-01"

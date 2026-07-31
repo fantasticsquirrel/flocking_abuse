@@ -1,0 +1,30 @@
+schema_version: 1
+id: 2023-06-costa-mesa-officer-personal-flock-tracking
+title: "Costa Mesa officer pleaded guilty after personal Flock tracking"
+status: verified
+summary: >-
+  The Orange County District Attorney said former Costa Mesa officer Robert Jay Josett used Flock
+  and other confidential police databases to locate his wife, an ex-girlfriend, and another person.
+  He pleaded guilty to three misdemeanor counts and received three years of informal probation.
+incident_type: [unauthorized-search, law-enforcement-overreach, retention-or-access-policy]
+location: {city: Costa Mesa, county: Orange, state: CA, country: US}
+actors:
+  agencies: [Costa Mesa Police Department]
+  officials_or_entities: [Robert Jay Josett]
+  vendor_entities: [Flock Safety]
+dates: {occurred: "2023-06", discovered: "2023-12", reported: "2026-04-14"}
+sources:
+  - url: "https://www.publicnow.com/view/E006AFF60E9A37C94E6FEBBF4F449B155474AA2B"
+    title: "Former Costa Mesa Police Officer Pleads Guilty to Illegally Accessing Confidential Law Enforcement Databases"
+    publisher: "Orange County District Attorney"
+    published_date: "2026-04-14"
+    source_type: official-statement
+    reliability: primary
+    key_claims: ["The DA said Josett used Flock to track his wife, ex-girlfriend, and another person.", "The DA said he continued accessing Flock after being placed on leave."]
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies: ["Unauthorized computer access and fraud", "Contempt of court", "Annoying and repeated phone calls"]
+outcomes: ["Josett pleaded guilty to three misdemeanor counts.", "He was sentenced to three years of informal probation."]
+uniqueness: {canonical_key: "us-ca-orange:2023-06:costa-mesa-police-department-robert-jay-josett:personal-flock-tracking", duplicate_of: null}
+review: {added_by: manual, approval: human-approved, reviewed_by: "Site owner", reviewed_at: "2026-08-01", approval_reference: "docs/approvals/2026-08-01-costa-mesa-personal-flock-tracking.md#approval-costa-mesa-personal-flock-tracking", notes: "The source is a verbatim syndication of the Orange County DA release."}
+updated_at: "2026-08-01"

@@ -1,0 +1,38 @@
+schema_version: 1
+id: 2024-06-orange-city-officer-flock-stalking
+title: "Orange City officer accused of repeated Flock tracking"
+status: verified
+summary: >-
+  A Volusia County arrest affidavit, as reported by WKMG, said Orange City officer Jarmarus Brown
+  repeatedly searched three vehicles in Flock over roughly seven months while allegedly stalking a
+  former partner. Brown was arrested, and a later Florida certification report recorded his no-
+  contest plea to a computer offense.
+incident_type: [unauthorized-search, law-enforcement-overreach]
+location: {city: Orange City, county: Volusia, state: FL, country: US}
+actors:
+  agencies: [Orange City Police Department]
+  officials_or_entities: [Jarmarus Brown]
+  vendor_entities: [Flock Safety]
+dates: {occurred: "2024-06", discovered: "2024-11", reported: "2025-02-05"}
+sources:
+  - url: "https://www.clickorlando.com/news/local/2025/02/05/dumb-as-hell-orange-city-officer-accused-of-stalking-woman-using-license-plate-readers/"
+    title: "Orange City officer accused of stalking woman using license plate readers"
+    publisher: "WKMG News 6"
+    published_date: "2025-02-05"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["The report quotes an arrest affidavit saying an audit found repeated Flock searches for three vehicles.", "The report said Brown was arrested on stalking and improper-computer-access charges."]
+  - url: "https://www.fdle.state.fl.us/getContentAsset/b131867a-a9c8-4377-8749-aec4355b8967/73aabf56-e6e5-4330-95a3-5f2a270a1d2b/Spring-Quarterly-Update-2026-AW4-27.pdf?language=en"
+    title: "Criminal Justice Standards and Training Commission Spring 2026 Quarterly Update"
+    publisher: "Florida Department of Law Enforcement"
+    published_date: "2026-04-01"
+    source_type: government-record
+    reliability: primary
+    key_claims: ["The state report records Brown's no-contest plea to a computer offense and a certification sanction."]
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies: ["Stalking", "Unauthorized access to an electronic device"]
+outcomes: ["Brown was arrested.", "Florida's certification report recorded a no-contest plea and a 60-day suspension followed by one year of probation and ethics training."]
+uniqueness: {canonical_key: "us-fl-volusia:2024-06:orange-city-police-department-jarmarus-brown:flock-stalking", duplicate_of: null}
+review: {added_by: manual, approval: human-approved, reviewed_by: "Site owner", reviewed_at: "2026-08-01", approval_reference: "docs/approvals/2026-08-01-orange-city-flock-stalking.md#approval-orange-city-flock-stalking", notes: "Claims about searches are attributed to the arrest affidavit as reported by WKMG."}
+updated_at: "2026-08-01"

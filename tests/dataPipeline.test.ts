@@ -147,6 +147,18 @@ describe('data pipeline', () => {
     const [approvalPath, approvalAnchor] = publicRecord.review.approval_reference.split('#');
     const approvalDocument = await readFile(approvalPath!, 'utf8');
     expect(approvalDocument).toContain(`<a id="${approvalAnchor}"></a>`);
-    expect((await buildPublicData('data')).map((record) => record.id)).toEqual(['2026-07-milwaukee-officer-personal-flock-searches']);
+    expect((await buildPublicData('data')).map((record) => record.id)).toEqual([
+      '2023-06-costa-mesa-officer-personal-flock-tracking',
+      '2024-06-orange-city-officer-flock-stalking',
+      '2024-10-norfolk-flock-constitutional-challenge',
+      '2025-03-louisville-officer-alpr-stalking',
+      '2025-11-braselton-chief-alpr-stalking',
+      '2025-12-echols-employee-personal-flock-searches',
+      '2026-04-conyers-dispatcher-non-law-enforcement-searches',
+      '2026-04-san-jose-flock-constitutional-challenge',
+      '2026-06-albany-officers-non-law-enforcement-searches',
+      '2026-06-ogeechee-investigator-retained-flock-access',
+      '2026-07-milwaukee-officer-personal-flock-searches',
+    ]);
   });
 });

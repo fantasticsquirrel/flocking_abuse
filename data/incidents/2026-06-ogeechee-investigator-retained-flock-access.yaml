@@ -1,0 +1,31 @@
+schema_version: 1
+id: 2026-06-ogeechee-investigator-retained-flock-access
+title: "Former sheriff's employee charged after 60-plus Flock searches"
+status: verified
+summary: >-
+  The Georgia Bureau of Investigation said Ogeechee Circuit District Attorney's Office investigator
+  Andrae Wright retained access to a former employer's Flock account and used it more than 60 times
+  for non-law-enforcement purposes. He was arrested on stalking, computer-privacy, oath, and ALPR-
+  misuse charges.
+incident_type: [unauthorized-search, law-enforcement-overreach, retention-or-access-policy]
+location: {city: Statesboro, county: Bulloch, state: GA, country: US}
+actors:
+  agencies: [Ogeechee Circuit District Attorney's Office, Effingham County Sheriff's Office]
+  officials_or_entities: [Andrae Wright]
+  vendor_entities: [Flock Safety]
+dates: {occurred: "2026-06", discovered: "2026-07-09", reported: "2026-07-27"}
+sources:
+  - url: "https://gbi.georgia.gov/press-releases/2026-07-27/gbi-arrests-former-ogeechee-circuit-district-attorneys-office"
+    title: "GBI Arrests Former Ogeechee Circuit District Attorney's Office Investigator for Stalking and Misuse of a License Plate Reader System"
+    publisher: "Georgia Bureau of Investigation"
+    published_date: "2026-07-27"
+    source_type: official-statement
+    reliability: primary
+    key_claims: ["GBI said Wright retained access to his former employer's Flock account.", "GBI said he accessed Flock more than 60 times between June 15 and July 5 for non-law-enforcement purposes."]
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies: ["Misuse of a License Plate Reader System", "Computer Invasion of Privacy", "Stalking", "Violation of Oath of Office"]
+outcomes: ["Wright was arrested and booked into the Bulloch County Jail.", "GBI said the case would go to the Prosecuting Attorneys' Council of Georgia."]
+uniqueness: {canonical_key: "us-ga-bulloch:2026-06:ogeechee-circuit-district-attorneys-office-andrae-wright:retained-flock-access", duplicate_of: null}
+review: {added_by: manual, approval: human-approved, reviewed_by: "Site owner", reviewed_at: "2026-08-01", approval_reference: "docs/approvals/2026-08-01-ogeechee-retained-flock-access.md#approval-ogeechee-retained-flock-access", notes: "Published at the site owner's request; preliminary findings remain attributed to GBI."}
+updated_at: "2026-08-01"

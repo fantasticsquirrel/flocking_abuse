@@ -1,0 +1,31 @@
+schema_version: 1
+id: 2024-10-norfolk-flock-constitutional-challenge
+title: "Norfolk residents challenged warrantless citywide Flock tracking"
+status: verified
+summary: >-
+  Two Norfolk-area residents sued the City of Norfolk and its police chief, alleging that the city's
+  network of more than 170 Flock cameras creates a searchable record of drivers' movements without
+  a warrant or probable cause in violation of the Fourth Amendment. The complaint was filed in the
+  U.S. District Court for the Eastern District of Virginia.
+incident_type: [law-enforcement-overreach, retention-or-access-policy]
+location: {city: Norfolk, county: Norfolk, state: VA, country: US}
+actors:
+  agencies: [Norfolk Police Department, City of Norfolk]
+  officials_or_entities: [Lee Schmidt, Crystal Arrington]
+  vendor_entities: [Flock Safety]
+dates: {occurred: "2023-02", discovered: "2024-10-21", reported: "2024-10-21"}
+sources:
+  - url: "https://ij.org/wp-content/uploads/2024/10/2024.10.21-1-Complaint.pdf"
+    title: "Complaint for Declaratory and Injunctive Relief, Schmidt v. City of Norfolk"
+    publisher: "U.S. District Court for the Eastern District of Virginia"
+    published_date: "2024-10-21"
+    source_type: court-record
+    reliability: primary
+    key_claims: ["The complaint alleges Norfolk's Flock network records drivers' movements without warrants or probable cause.", "The plaintiffs sought declaratory and injunctive relief under the Fourth Amendment."]
+legal_or_policy_context:
+  case_numbers: ["2:24-cv-00621"]
+  statutes_or_policies: ["Fourth Amendment to the U.S. Constitution", "42 U.S.C. § 1983"]
+outcomes: ["The federal complaint was filed on October 21, 2024.", "The litigation challenged continued warrantless collection and searching of Flock data."]
+uniqueness: {canonical_key: "us-va-norfolk:2023-02:norfolk-police-department-lee-schmidt:warrantless-citywide-flock-tracking", duplicate_of: null}
+review: {added_by: manual, approval: human-approved, reviewed_by: "Site owner", reviewed_at: "2026-08-01", approval_reference: "docs/approvals/2026-08-01-norfolk-flock-challenge.md#approval-norfolk-flock-challenge", notes: "The record describes filed allegations and does not state that liability was established."}
+updated_at: "2026-08-01"

@@ -1,0 +1,30 @@
+schema_version: 1
+id: 2026-04-conyers-dispatcher-non-law-enforcement-searches
+title: "Conyers dispatcher supervisor charged after Flock audit"
+status: verified
+summary: >-
+  The Georgia Bureau of Investigation said Conyers Police Department dispatcher supervisor Paige
+  Forte accessed the Flock system more than 30 times from April through July 2026 for non-law-
+  enforcement purposes. She was arrested after an internal audit and GBI investigation.
+incident_type: [unauthorized-search, retention-or-access-policy]
+location: {city: Conyers, county: Rockdale, state: GA, country: US}
+actors:
+  agencies: [Conyers Police Department]
+  officials_or_entities: [Paige Forte]
+  vendor_entities: [Flock Safety]
+dates: {occurred: "2026-04", discovered: "2026-07-21", reported: "2026-07-23"}
+sources:
+  - url: "https://gbi.georgia.gov/press-releases/2026-07-23/gbi-arrests-conyers-police-department-employee-misuse-license-plate"
+    title: "GBI Arrests Conyers Police Department Employee for Misuse of a License Plate Reader System"
+    publisher: "Georgia Bureau of Investigation"
+    published_date: "2026-07-23"
+    source_type: official-statement
+    reliability: primary
+    key_claims: ["GBI said Forte accessed Flock more than 30 times between April and July 2026 for non-law-enforcement purposes.", "The investigation followed an internal department audit."]
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies: ["Misuse of a License Plate Reader System"]
+outcomes: ["Forte was arrested and booked into the Rockdale County Jail.", "GBI said the case would go to the Rockdale County Judicial Circuit District Attorney."]
+uniqueness: {canonical_key: "us-ga-rockdale:2026-04:conyers-police-department-paige-forte:non-law-enforcement-flock-searches", duplicate_of: null}
+review: {added_by: manual, approval: human-approved, reviewed_by: "Site owner", reviewed_at: "2026-08-01", approval_reference: "docs/approvals/2026-08-01-conyers-dispatcher-flock-audit.md#approval-conyers-dispatcher-flock-audit", notes: "Published at the site owner's request; preliminary findings remain attributed to GBI."}
+updated_at: "2026-08-01"

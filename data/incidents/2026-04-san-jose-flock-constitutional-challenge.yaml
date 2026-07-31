@@ -1,0 +1,31 @@
+schema_version: 1
+id: 2026-04-san-jose-flock-constitutional-challenge
+title: "San José residents challenged large-scale warrantless Flock surveillance"
+status: verified
+summary: >-
+  San José residents filed a federal class-action complaint alleging that the police department's
+  Flock network collected hundreds of millions of vehicle photographs and allowed more than 1,000
+  employees to search movement data without a warrant, probable cause, or individualized suspicion.
+  The plaintiffs sought declaratory and injunctive relief under the Fourth Amendment.
+incident_type: [law-enforcement-overreach, retention-or-access-policy, data-sharing]
+location: {city: San Jose, county: Santa Clara, state: CA, country: US}
+actors:
+  agencies: [San Jose Police Department, City of San Jose]
+  officials_or_entities: [Colin Tan]
+  vendor_entities: [Flock Safety]
+dates: {occurred: "2024-01", discovered: "2026-04-15", reported: "2026-04-15"}
+sources:
+  - url: "https://ij.org/wp-content/uploads/2026/04/Doc.-1-Complaint-for-Declaratory-and-Injunctive-Relief.pdf"
+    title: "Complaint for Declaratory and Injunctive Relief, Tan v. City of San Jose"
+    publisher: "U.S. District Court for the Northern District of California"
+    published_date: "2026-04-15"
+    source_type: court-record
+    reliability: primary
+    key_claims: ["The complaint alleges San Jose collected more than 360 million vehicle photographs in 2024.", "It alleges more than 1,000 employees could access Flock data without warrants or individualized suspicion."]
+legal_or_policy_context:
+  case_numbers: ["5:26-cv-03181"]
+  statutes_or_policies: ["Fourth Amendment to the U.S. Constitution", "42 U.S.C. § 1983"]
+outcomes: ["The federal class-action complaint was filed on April 15, 2026.", "Plaintiffs requested limits on retention and warrantless access plus nominal damages."]
+uniqueness: {canonical_key: "us-ca-santa-clara:2024-01:san-jose-police-department-colin-tan:warrantless-large-scale-flock-surveillance", duplicate_of: null}
+review: {added_by: manual, approval: human-approved, reviewed_by: "Site owner", reviewed_at: "2026-08-01", approval_reference: "docs/approvals/2026-08-01-san-jose-flock-challenge.md#approval-san-jose-flock-challenge", notes: "The record describes filed allegations and does not state that liability was established."}
+updated_at: "2026-08-01"

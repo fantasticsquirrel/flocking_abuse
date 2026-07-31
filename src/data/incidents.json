@@ -1,6 +1,771 @@
 [
   {
     "schema_version": 1,
+    "id": "2023-06-costa-mesa-officer-personal-flock-tracking",
+    "title": "Costa Mesa officer pleaded guilty after personal Flock tracking",
+    "status": "verified",
+    "summary": "The Orange County District Attorney said former Costa Mesa officer Robert Jay Josett used Flock and other confidential police databases to locate his wife, an ex-girlfriend, and another person. He pleaded guilty to three misdemeanor counts and received three years of informal probation.",
+    "incident_type": [
+      "unauthorized-search",
+      "law-enforcement-overreach",
+      "retention-or-access-policy"
+    ],
+    "location": {
+      "city": "Costa Mesa",
+      "county": "Orange",
+      "state": "CA",
+      "country": "US"
+    },
+    "actors": {
+      "agencies": [
+        "Costa Mesa Police Department"
+      ],
+      "officials_or_entities": [
+        "Robert Jay Josett"
+      ],
+      "vendor_entities": [
+        "Flock Safety"
+      ]
+    },
+    "dates": {
+      "occurred": "2023-06",
+      "discovered": "2023-12",
+      "reported": "2026-04-14"
+    },
+    "sources": [
+      {
+        "url": "https://www.publicnow.com/view/E006AFF60E9A37C94E6FEBBF4F449B155474AA2B",
+        "title": "Former Costa Mesa Police Officer Pleads Guilty to Illegally Accessing Confidential Law Enforcement Databases",
+        "publisher": "Orange County District Attorney",
+        "published_date": "2026-04-14",
+        "source_type": "official-statement",
+        "reliability": "primary",
+        "key_claims": [
+          "The DA said Josett used Flock to track his wife, ex-girlfriend, and another person.",
+          "The DA said he continued accessing Flock after being placed on leave."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [],
+      "statutes_or_policies": [
+        "Unauthorized computer access and fraud",
+        "Contempt of court",
+        "Annoying and repeated phone calls"
+      ]
+    },
+    "outcomes": [
+      "Josett pleaded guilty to three misdemeanor counts.",
+      "He was sentenced to three years of informal probation."
+    ],
+    "uniqueness": {
+      "canonical_key": "us-ca-orange:2023-06:costa-mesa-police-department-robert-jay-josett:personal-flock-tracking",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-01",
+      "approval_reference": "docs/approvals/2026-08-01-costa-mesa-personal-flock-tracking.md#approval-costa-mesa-personal-flock-tracking",
+      "notes": "The source is a verbatim syndication of the Orange County DA release."
+    },
+    "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
+    "id": "2024-06-orange-city-officer-flock-stalking",
+    "title": "Orange City officer accused of repeated Flock tracking",
+    "status": "verified",
+    "summary": "A Volusia County arrest affidavit, as reported by WKMG, said Orange City officer Jarmarus Brown repeatedly searched three vehicles in Flock over roughly seven months while allegedly stalking a former partner. Brown was arrested, and a later Florida certification report recorded his no- contest plea to a computer offense.",
+    "incident_type": [
+      "unauthorized-search",
+      "law-enforcement-overreach"
+    ],
+    "location": {
+      "city": "Orange City",
+      "county": "Volusia",
+      "state": "FL",
+      "country": "US"
+    },
+    "actors": {
+      "agencies": [
+        "Orange City Police Department"
+      ],
+      "officials_or_entities": [
+        "Jarmarus Brown"
+      ],
+      "vendor_entities": [
+        "Flock Safety"
+      ]
+    },
+    "dates": {
+      "occurred": "2024-06",
+      "discovered": "2024-11",
+      "reported": "2025-02-05"
+    },
+    "sources": [
+      {
+        "url": "https://www.clickorlando.com/news/local/2025/02/05/dumb-as-hell-orange-city-officer-accused-of-stalking-woman-using-license-plate-readers/",
+        "title": "Orange City officer accused of stalking woman using license plate readers",
+        "publisher": "WKMG News 6",
+        "published_date": "2025-02-05",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "The report quotes an arrest affidavit saying an audit found repeated Flock searches for three vehicles.",
+          "The report said Brown was arrested on stalking and improper-computer-access charges."
+        ]
+      },
+      {
+        "url": "https://www.fdle.state.fl.us/getContentAsset/b131867a-a9c8-4377-8749-aec4355b8967/73aabf56-e6e5-4330-95a3-5f2a270a1d2b/Spring-Quarterly-Update-2026-AW4-27.pdf?language=en",
+        "title": "Criminal Justice Standards and Training Commission Spring 2026 Quarterly Update",
+        "publisher": "Florida Department of Law Enforcement",
+        "published_date": "2026-04-01",
+        "source_type": "government-record",
+        "reliability": "primary",
+        "key_claims": [
+          "The state report records Brown's no-contest plea to a computer offense and a certification sanction."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [],
+      "statutes_or_policies": [
+        "Stalking",
+        "Unauthorized access to an electronic device"
+      ]
+    },
+    "outcomes": [
+      "Brown was arrested.",
+      "Florida's certification report recorded a no-contest plea and a 60-day suspension followed by one year of probation and ethics training."
+    ],
+    "uniqueness": {
+      "canonical_key": "us-fl-volusia:2024-06:orange-city-police-department-jarmarus-brown:flock-stalking",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-01",
+      "approval_reference": "docs/approvals/2026-08-01-orange-city-flock-stalking.md#approval-orange-city-flock-stalking",
+      "notes": "Claims about searches are attributed to the arrest affidavit as reported by WKMG."
+    },
+    "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
+    "id": "2024-10-norfolk-flock-constitutional-challenge",
+    "title": "Norfolk residents challenged warrantless citywide Flock tracking",
+    "status": "verified",
+    "summary": "Two Norfolk-area residents sued the City of Norfolk and its police chief, alleging that the city's network of more than 170 Flock cameras creates a searchable record of drivers' movements without a warrant or probable cause in violation of the Fourth Amendment. The complaint was filed in the U.S. District Court for the Eastern District of Virginia.",
+    "incident_type": [
+      "law-enforcement-overreach",
+      "retention-or-access-policy"
+    ],
+    "location": {
+      "city": "Norfolk",
+      "county": "Norfolk",
+      "state": "VA",
+      "country": "US"
+    },
+    "actors": {
+      "agencies": [
+        "Norfolk Police Department",
+        "City of Norfolk"
+      ],
+      "officials_or_entities": [
+        "Lee Schmidt",
+        "Crystal Arrington"
+      ],
+      "vendor_entities": [
+        "Flock Safety"
+      ]
+    },
+    "dates": {
+      "occurred": "2023-02",
+      "discovered": "2024-10-21",
+      "reported": "2024-10-21"
+    },
+    "sources": [
+      {
+        "url": "https://ij.org/wp-content/uploads/2024/10/2024.10.21-1-Complaint.pdf",
+        "title": "Complaint for Declaratory and Injunctive Relief, Schmidt v. City of Norfolk",
+        "publisher": "U.S. District Court for the Eastern District of Virginia",
+        "published_date": "2024-10-21",
+        "source_type": "court-record",
+        "reliability": "primary",
+        "key_claims": [
+          "The complaint alleges Norfolk's Flock network records drivers' movements without warrants or probable cause.",
+          "The plaintiffs sought declaratory and injunctive relief under the Fourth Amendment."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [
+        "2:24-cv-00621"
+      ],
+      "statutes_or_policies": [
+        "Fourth Amendment to the U.S. Constitution",
+        "42 U.S.C. § 1983"
+      ]
+    },
+    "outcomes": [
+      "The federal complaint was filed on October 21, 2024.",
+      "The litigation challenged continued warrantless collection and searching of Flock data."
+    ],
+    "uniqueness": {
+      "canonical_key": "us-va-norfolk:2023-02:norfolk-police-department-lee-schmidt:warrantless-citywide-flock-tracking",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-01",
+      "approval_reference": "docs/approvals/2026-08-01-norfolk-flock-challenge.md#approval-norfolk-flock-challenge",
+      "notes": "The record describes filed allegations and does not state that liability was established."
+    },
+    "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
+    "id": "2025-03-louisville-officer-alpr-stalking",
+    "title": "Louisville officer indicted after alleged ALPR stalking",
+    "status": "verified",
+    "summary": "Louisville police said an internal investigation found criminal conduct by former officer Roberto Cedeno, who was accused in court of using law-enforcement systems, including Flock reporting, to track a former partner and others. A grand jury indicted him on nine charges including stalking, unlawful computer access, tampering with records, and official misconduct.",
+    "incident_type": [
+      "unauthorized-search",
+      "law-enforcement-overreach"
+    ],
+    "location": {
+      "city": "Louisville",
+      "county": "Jefferson",
+      "state": "KY",
+      "country": "US"
+    },
+    "actors": {
+      "agencies": [
+        "Louisville Metro Police Department"
+      ],
+      "officials_or_entities": [
+        "Roberto Cedeno"
+      ],
+      "vendor_entities": [
+        "Flock Safety"
+      ]
+    },
+    "dates": {
+      "occurred": "2025-03",
+      "discovered": "2025-03-12",
+      "reported": "2025-04-17"
+    },
+    "sources": [
+      {
+        "url": "https://spectrumlocalnews.com/hi/hawaii/news/2025/04/17/louisville-officer-indicted-",
+        "title": "Former Louisville officer indicted on 9 criminal charges",
+        "publisher": "Spectrum News 1",
+        "published_date": "2025-04-17",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "LMPD said its Public Integrity Unit found criminal conduct and arrested Cedeno.",
+          "A grand jury indicted Cedeno on nine charges including stalking and unlawful computer access."
+        ]
+      },
+      {
+        "url": "https://www.wlky.com/article/former-lmpd-officer-court-charges-stalking-louisville/64527892",
+        "title": "Former LMPD officer appeared in court facing charges including stalking",
+        "publisher": "WLKY",
+        "published_date": "2025-04-14",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "Court reporting described allegations that Cedeno used official police systems to track a former partner and others.",
+          "The report said a protective order had been obtained against Cedeno."
+        ]
+      },
+      {
+        "url": "https://www.yahoo.com/news/articles/flock-cameras-see-locations-louisville-100313604.html",
+        "title": "What are Flock cameras? See some locations in Louisville",
+        "publisher": "Louisville Courier Journal",
+        "published_date": "2026-01-07",
+        "source_type": "news",
+        "reliability": "background",
+        "key_claims": [
+          "The report identified Cedeno's access as Flock access and said it was used to stalk and follow a former partner."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [],
+      "statutes_or_policies": [
+        "First-degree unlawful access to a computer",
+        "First-degree stalking",
+        "Tampering with public records",
+        "First-degree official misconduct"
+      ]
+    },
+    "outcomes": [
+      "Cedeno resigned before the department's termination process finished.",
+      "A grand jury indicted him on nine criminal charges."
+    ],
+    "uniqueness": {
+      "canonical_key": "us-ky-jefferson:2025-03:louisville-metro-police-department-roberto-cedeno:alpr-stalking",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-01",
+      "approval_reference": "docs/approvals/2026-08-01-louisville-alpr-stalking.md#approval-louisville-alpr-stalking",
+      "notes": "Allegations remain attributed; two independent local reports satisfy the secondary-source gate."
+    },
+    "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
+    "id": "2025-11-braselton-chief-alpr-stalking",
+    "title": "Braselton police chief charged after alleged ALPR stalking",
+    "status": "verified",
+    "summary": "The Georgia Bureau of Investigation said Braselton Police Chief Michael Steffman misused automated license-plate recognition systems to harass and stalk multiple people. He was arrested on charges including stalking, harassing communications, violation of oath, and multiple ALPR-misuse counts.",
+    "incident_type": [
+      "unauthorized-search",
+      "law-enforcement-overreach"
+    ],
+    "location": {
+      "city": "Braselton",
+      "county": "Jackson",
+      "state": "GA",
+      "country": "US"
+    },
+    "actors": {
+      "agencies": [
+        "Braselton Police Department"
+      ],
+      "officials_or_entities": [
+        "Michael Steffman"
+      ],
+      "vendor_entities": [
+        "Flock Safety"
+      ]
+    },
+    "dates": {
+      "occurred": "",
+      "discovered": "2025-11",
+      "reported": "2025-11-19"
+    },
+    "sources": [
+      {
+        "url": "https://gbi.georgia.gov/press-releases/2025-11-19/gbi-arrests-braselton-police-chief-harassment-and-stalking",
+        "title": "GBI Arrests Braselton Police Chief for Harassment and Stalking",
+        "publisher": "Georgia Bureau of Investigation",
+        "published_date": "2025-11-19",
+        "source_type": "official-statement",
+        "reliability": "primary",
+        "key_claims": [
+          "GBI said Steffman misused ALPR systems to harass and stalk multiple people.",
+          "GBI arrested him on stalking, harassment, oath, and ALPR-misuse charges."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [],
+      "statutes_or_policies": [
+        "Georgia prohibitions on misuse of automated license plate recognition systems",
+        "Violation of oath by public officer"
+      ]
+    },
+    "outcomes": [
+      "Steffman was arrested and booked into the Jackson County Jail.",
+      "GBI said the case would be sent to the Piedmont Judicial Circuit for prosecution."
+    ],
+    "uniqueness": {
+      "canonical_key": "us-ga-jackson:unknown:braselton-police-department-michael-steffman:alpr-stalking",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-01",
+      "approval_reference": "docs/approvals/2026-08-01-braselton-chief-alpr-stalking.md#approval-braselton-chief-alpr-stalking",
+      "notes": "Published at the site owner's request; charges and allegations remain attributed to GBI."
+    },
+    "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
+    "id": "2025-12-echols-employee-personal-flock-searches",
+    "title": "Echols County employee charged over personal Flock searches",
+    "status": "verified",
+    "summary": "The Georgia Bureau of Investigation said former Echols County Sheriff's Office secretary Anna Altobello used the agency's Flock account repeatedly for non-law-enforcement purposes to search tag information for two people she knew. GBI arrested her on data-misuse, stalking, family-violence stalking, and oath-violation charges.",
+    "incident_type": [
+      "unauthorized-search",
+      "law-enforcement-overreach"
+    ],
+    "location": {
+      "city": "Statenville",
+      "county": "Echols",
+      "state": "GA",
+      "country": "US"
+    },
+    "actors": {
+      "agencies": [
+        "Echols County Sheriff's Office"
+      ],
+      "officials_or_entities": [
+        "Anna Altobello"
+      ],
+      "vendor_entities": [
+        "Flock Safety"
+      ]
+    },
+    "dates": {
+      "occurred": "",
+      "discovered": "2025-12-18",
+      "reported": "2026-01-07"
+    },
+    "sources": [
+      {
+        "url": "https://gbi.georgia.gov/press-releases/2026-01-07/former-echols-county-sheriffs-office-employee-arrested-multiple-charges",
+        "title": "Former Echols County Sheriff's Office Employee Arrested on Multiple Charges",
+        "publisher": "Georgia Bureau of Investigation",
+        "published_date": "2026-01-07",
+        "source_type": "official-statement",
+        "reliability": "primary",
+        "key_claims": [
+          "GBI said Altobello accessed the agency Flock account for non-law-enforcement purposes multiple times.",
+          "GBI said she searched tag information for two people she knew personally."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [],
+      "statutes_or_policies": [
+        "Misuse of License Plate Data",
+        "Stalking",
+        "Violation of Oath of Office"
+      ]
+    },
+    "outcomes": [
+      "Altobello was arrested and booked into the Lowndes County Jail.",
+      "GBI said additional charges were expected as documents were received."
+    ],
+    "uniqueness": {
+      "canonical_key": "us-ga-echols:unknown:echols-county-sheriffs-office-anna-altobello:personal-flock-searches",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-01",
+      "approval_reference": "docs/approvals/2026-08-01-echols-personal-flock-searches.md#approval-echols-personal-flock-searches",
+      "notes": "Published at the site owner's request; charges and allegations remain attributed to GBI."
+    },
+    "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
+    "id": "2026-04-conyers-dispatcher-non-law-enforcement-searches",
+    "title": "Conyers dispatcher supervisor charged after Flock audit",
+    "status": "verified",
+    "summary": "The Georgia Bureau of Investigation said Conyers Police Department dispatcher supervisor Paige Forte accessed the Flock system more than 30 times from April through July 2026 for non-law- enforcement purposes. She was arrested after an internal audit and GBI investigation.",
+    "incident_type": [
+      "unauthorized-search",
+      "retention-or-access-policy"
+    ],
+    "location": {
+      "city": "Conyers",
+      "county": "Rockdale",
+      "state": "GA",
+      "country": "US"
+    },
+    "actors": {
+      "agencies": [
+        "Conyers Police Department"
+      ],
+      "officials_or_entities": [
+        "Paige Forte"
+      ],
+      "vendor_entities": [
+        "Flock Safety"
+      ]
+    },
+    "dates": {
+      "occurred": "2026-04",
+      "discovered": "2026-07-21",
+      "reported": "2026-07-23"
+    },
+    "sources": [
+      {
+        "url": "https://gbi.georgia.gov/press-releases/2026-07-23/gbi-arrests-conyers-police-department-employee-misuse-license-plate",
+        "title": "GBI Arrests Conyers Police Department Employee for Misuse of a License Plate Reader System",
+        "publisher": "Georgia Bureau of Investigation",
+        "published_date": "2026-07-23",
+        "source_type": "official-statement",
+        "reliability": "primary",
+        "key_claims": [
+          "GBI said Forte accessed Flock more than 30 times between April and July 2026 for non-law-enforcement purposes.",
+          "The investigation followed an internal department audit."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [],
+      "statutes_or_policies": [
+        "Misuse of a License Plate Reader System"
+      ]
+    },
+    "outcomes": [
+      "Forte was arrested and booked into the Rockdale County Jail.",
+      "GBI said the case would go to the Rockdale County Judicial Circuit District Attorney."
+    ],
+    "uniqueness": {
+      "canonical_key": "us-ga-rockdale:2026-04:conyers-police-department-paige-forte:non-law-enforcement-flock-searches",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-01",
+      "approval_reference": "docs/approvals/2026-08-01-conyers-dispatcher-flock-audit.md#approval-conyers-dispatcher-flock-audit",
+      "notes": "Published at the site owner's request; preliminary findings remain attributed to GBI."
+    },
+    "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
+    "id": "2026-04-san-jose-flock-constitutional-challenge",
+    "title": "San José residents challenged large-scale warrantless Flock surveillance",
+    "status": "verified",
+    "summary": "San José residents filed a federal class-action complaint alleging that the police department's Flock network collected hundreds of millions of vehicle photographs and allowed more than 1,000 employees to search movement data without a warrant, probable cause, or individualized suspicion. The plaintiffs sought declaratory and injunctive relief under the Fourth Amendment.",
+    "incident_type": [
+      "law-enforcement-overreach",
+      "retention-or-access-policy",
+      "data-sharing"
+    ],
+    "location": {
+      "city": "San Jose",
+      "county": "Santa Clara",
+      "state": "CA",
+      "country": "US"
+    },
+    "actors": {
+      "agencies": [
+        "San Jose Police Department",
+        "City of San Jose"
+      ],
+      "officials_or_entities": [
+        "Colin Tan"
+      ],
+      "vendor_entities": [
+        "Flock Safety"
+      ]
+    },
+    "dates": {
+      "occurred": "2024-01",
+      "discovered": "2026-04-15",
+      "reported": "2026-04-15"
+    },
+    "sources": [
+      {
+        "url": "https://ij.org/wp-content/uploads/2026/04/Doc.-1-Complaint-for-Declaratory-and-Injunctive-Relief.pdf",
+        "title": "Complaint for Declaratory and Injunctive Relief, Tan v. City of San Jose",
+        "publisher": "U.S. District Court for the Northern District of California",
+        "published_date": "2026-04-15",
+        "source_type": "court-record",
+        "reliability": "primary",
+        "key_claims": [
+          "The complaint alleges San Jose collected more than 360 million vehicle photographs in 2024.",
+          "It alleges more than 1,000 employees could access Flock data without warrants or individualized suspicion."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [
+        "5:26-cv-03181"
+      ],
+      "statutes_or_policies": [
+        "Fourth Amendment to the U.S. Constitution",
+        "42 U.S.C. § 1983"
+      ]
+    },
+    "outcomes": [
+      "The federal class-action complaint was filed on April 15, 2026.",
+      "Plaintiffs requested limits on retention and warrantless access plus nominal damages."
+    ],
+    "uniqueness": {
+      "canonical_key": "us-ca-santa-clara:2024-01:san-jose-police-department-colin-tan:warrantless-large-scale-flock-surveillance",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-01",
+      "approval_reference": "docs/approvals/2026-08-01-san-jose-flock-challenge.md#approval-san-jose-flock-challenge",
+      "notes": "The record describes filed allegations and does not state that liability was established."
+    },
+    "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
+    "id": "2026-06-albany-officers-non-law-enforcement-searches",
+    "title": "Five Albany officers charged after Flock audit",
+    "status": "verified",
+    "summary": "The Georgia Bureau of Investigation said an Albany Police Department audit found five officers accessed retained Flock license-plate data for non-law-enforcement purposes. All five were fired and arrested on license-plate-data misuse and oath-violation charges.",
+    "incident_type": [
+      "unauthorized-search",
+      "law-enforcement-overreach",
+      "retention-or-access-policy"
+    ],
+    "location": {
+      "city": "Albany",
+      "county": "Dougherty",
+      "state": "GA",
+      "country": "US"
+    },
+    "actors": {
+      "agencies": [
+        "Albany Police Department"
+      ],
+      "officials_or_entities": [
+        "Tytianna Davis",
+        "Jade Jackson",
+        "Nicholas Richardson",
+        "Brittney Smith",
+        "Issac Whitus"
+      ],
+      "vendor_entities": [
+        "Flock Safety"
+      ]
+    },
+    "dates": {
+      "occurred": "",
+      "discovered": "2026-06-25",
+      "reported": "2026-07-06"
+    },
+    "sources": [
+      {
+        "url": "https://gbi.georgia.gov/press-releases/2026-07-06/gbi-arrests-five-former-albany-police-department-officers-misuse-license",
+        "title": "GBI Arrests Five Former Albany Police Department Officers for Misuse of a License Plate Reader",
+        "publisher": "Georgia Bureau of Investigation",
+        "published_date": "2026-07-06",
+        "source_type": "official-statement",
+        "reliability": "primary",
+        "key_claims": [
+          "GBI said an audit found five officers used retained Flock plate data for non-law-enforcement purposes.",
+          "GBI listed 21 total license-plate-data misuse counts across the five officers."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [],
+      "statutes_or_policies": [
+        "Misuse of License Plate Data",
+        "Violation of Oath of Office"
+      ]
+    },
+    "outcomes": [
+      "All five officers were fired, arrested, and booked into the Dougherty County Jail.",
+      "GBI said the case would go to the Dougherty Judicial Circuit District Attorney."
+    ],
+    "uniqueness": {
+      "canonical_key": "us-ga-dougherty:unknown:albany-police-department-tytianna-davis:non-law-enforcement-flock-searches",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-01",
+      "approval_reference": "docs/approvals/2026-08-01-albany-officers-flock-audit.md#approval-albany-officers-flock-audit",
+      "notes": "One record covers the single audit and resulting joint GBI investigation."
+    },
+    "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
+    "id": "2026-06-ogeechee-investigator-retained-flock-access",
+    "title": "Former sheriff's employee charged after 60-plus Flock searches",
+    "status": "verified",
+    "summary": "The Georgia Bureau of Investigation said Ogeechee Circuit District Attorney's Office investigator Andrae Wright retained access to a former employer's Flock account and used it more than 60 times for non-law-enforcement purposes. He was arrested on stalking, computer-privacy, oath, and ALPR- misuse charges.",
+    "incident_type": [
+      "unauthorized-search",
+      "law-enforcement-overreach",
+      "retention-or-access-policy"
+    ],
+    "location": {
+      "city": "Statesboro",
+      "county": "Bulloch",
+      "state": "GA",
+      "country": "US"
+    },
+    "actors": {
+      "agencies": [
+        "Ogeechee Circuit District Attorney's Office",
+        "Effingham County Sheriff's Office"
+      ],
+      "officials_or_entities": [
+        "Andrae Wright"
+      ],
+      "vendor_entities": [
+        "Flock Safety"
+      ]
+    },
+    "dates": {
+      "occurred": "2026-06",
+      "discovered": "2026-07-09",
+      "reported": "2026-07-27"
+    },
+    "sources": [
+      {
+        "url": "https://gbi.georgia.gov/press-releases/2026-07-27/gbi-arrests-former-ogeechee-circuit-district-attorneys-office",
+        "title": "GBI Arrests Former Ogeechee Circuit District Attorney's Office Investigator for Stalking and Misuse of a License Plate Reader System",
+        "publisher": "Georgia Bureau of Investigation",
+        "published_date": "2026-07-27",
+        "source_type": "official-statement",
+        "reliability": "primary",
+        "key_claims": [
+          "GBI said Wright retained access to his former employer's Flock account.",
+          "GBI said he accessed Flock more than 60 times between June 15 and July 5 for non-law-enforcement purposes."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [],
+      "statutes_or_policies": [
+        "Misuse of a License Plate Reader System",
+        "Computer Invasion of Privacy",
+        "Stalking",
+        "Violation of Oath of Office"
+      ]
+    },
+    "outcomes": [
+      "Wright was arrested and booked into the Bulloch County Jail.",
+      "GBI said the case would go to the Prosecuting Attorneys' Council of Georgia."
+    ],
+    "uniqueness": {
+      "canonical_key": "us-ga-bulloch:2026-06:ogeechee-circuit-district-attorneys-office-andrae-wright:retained-flock-access",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-01",
+      "approval_reference": "docs/approvals/2026-08-01-ogeechee-retained-flock-access.md#approval-ogeechee-retained-flock-access",
+      "notes": "Published at the site owner's request; preliminary findings remain attributed to GBI."
+    },
+    "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
     "id": "2026-07-milwaukee-officer-personal-flock-searches",
     "title": "Milwaukee officer sentenced after repeated personal Flock searches",
     "status": "verified",

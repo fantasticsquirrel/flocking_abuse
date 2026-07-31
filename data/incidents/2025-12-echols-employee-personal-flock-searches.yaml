@@ -1,0 +1,31 @@
+schema_version: 1
+id: 2025-12-echols-employee-personal-flock-searches
+title: "Echols County employee charged over personal Flock searches"
+status: verified
+summary: >-
+  The Georgia Bureau of Investigation said former Echols County Sheriff's Office secretary Anna
+  Altobello used the agency's Flock account repeatedly for non-law-enforcement purposes to search
+  tag information for two people she knew. GBI arrested her on data-misuse, stalking, family-violence
+  stalking, and oath-violation charges.
+incident_type: [unauthorized-search, law-enforcement-overreach]
+location: {city: Statenville, county: Echols, state: GA, country: US}
+actors:
+  agencies: [Echols County Sheriff's Office]
+  officials_or_entities: [Anna Altobello]
+  vendor_entities: [Flock Safety]
+dates: {occurred: "", discovered: "2025-12-18", reported: "2026-01-07"}
+sources:
+  - url: "https://gbi.georgia.gov/press-releases/2026-01-07/former-echols-county-sheriffs-office-employee-arrested-multiple-charges"
+    title: "Former Echols County Sheriff's Office Employee Arrested on Multiple Charges"
+    publisher: "Georgia Bureau of Investigation"
+    published_date: "2026-01-07"
+    source_type: official-statement
+    reliability: primary
+    key_claims: ["GBI said Altobello accessed the agency Flock account for non-law-enforcement purposes multiple times.", "GBI said she searched tag information for two people she knew personally."]
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies: ["Misuse of License Plate Data", "Stalking", "Violation of Oath of Office"]
+outcomes: ["Altobello was arrested and booked into the Lowndes County Jail.", "GBI said additional charges were expected as documents were received."]
+uniqueness: {canonical_key: "us-ga-echols:unknown:echols-county-sheriffs-office-anna-altobello:personal-flock-searches", duplicate_of: null}
+review: {added_by: manual, approval: human-approved, reviewed_by: "Site owner", reviewed_at: "2026-08-01", approval_reference: "docs/approvals/2026-08-01-echols-personal-flock-searches.md#approval-echols-personal-flock-searches", notes: "Published at the site owner's request; charges and allegations remain attributed to GBI."}
+updated_at: "2026-08-01"

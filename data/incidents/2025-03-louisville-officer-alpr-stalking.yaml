@@ -1,0 +1,45 @@
+schema_version: 1
+id: 2025-03-louisville-officer-alpr-stalking
+title: "Louisville officer indicted after alleged ALPR stalking"
+status: verified
+summary: >-
+  Louisville police said an internal investigation found criminal conduct by former officer Roberto
+  Cedeno, who was accused in court of using law-enforcement systems, including Flock reporting, to
+  track a former partner and others. A grand jury indicted him on nine charges including stalking,
+  unlawful computer access, tampering with records, and official misconduct.
+incident_type: [unauthorized-search, law-enforcement-overreach]
+location: {city: Louisville, county: Jefferson, state: KY, country: US}
+actors:
+  agencies: [Louisville Metro Police Department]
+  officials_or_entities: [Roberto Cedeno]
+  vendor_entities: [Flock Safety]
+dates: {occurred: "2025-03", discovered: "2025-03-12", reported: "2025-04-17"}
+sources:
+  - url: "https://spectrumlocalnews.com/hi/hawaii/news/2025/04/17/louisville-officer-indicted-"
+    title: "Former Louisville officer indicted on 9 criminal charges"
+    publisher: "Spectrum News 1"
+    published_date: "2025-04-17"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["LMPD said its Public Integrity Unit found criminal conduct and arrested Cedeno.", "A grand jury indicted Cedeno on nine charges including stalking and unlawful computer access."]
+  - url: "https://www.wlky.com/article/former-lmpd-officer-court-charges-stalking-louisville/64527892"
+    title: "Former LMPD officer appeared in court facing charges including stalking"
+    publisher: "WLKY"
+    published_date: "2025-04-14"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["Court reporting described allegations that Cedeno used official police systems to track a former partner and others.", "The report said a protective order had been obtained against Cedeno."]
+  - url: "https://www.yahoo.com/news/articles/flock-cameras-see-locations-louisville-100313604.html"
+    title: "What are Flock cameras? See some locations in Louisville"
+    publisher: "Louisville Courier Journal"
+    published_date: "2026-01-07"
+    source_type: news
+    reliability: background
+    key_claims: ["The report identified Cedeno's access as Flock access and said it was used to stalk and follow a former partner."]
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies: ["First-degree unlawful access to a computer", "First-degree stalking", "Tampering with public records", "First-degree official misconduct"]
+outcomes: ["Cedeno resigned before the department's termination process finished.", "A grand jury indicted him on nine criminal charges."]
+uniqueness: {canonical_key: "us-ky-jefferson:2025-03:louisville-metro-police-department-roberto-cedeno:alpr-stalking", duplicate_of: null}
+review: {added_by: manual, approval: human-approved, reviewed_by: "Site owner", reviewed_at: "2026-08-01", approval_reference: "docs/approvals/2026-08-01-louisville-alpr-stalking.md#approval-louisville-alpr-stalking", notes: "Allegations remain attributed; two independent local reports satisfy the secondary-source gate."}
+updated_at: "2026-08-01"
