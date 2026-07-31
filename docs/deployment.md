@@ -34,7 +34,7 @@ sudo ./deploy/release.sh /opt/flocking_abuse "$(git rev-parse HEAD)"
 The script:
 
 1. verifies the exact clean commit;
-2. backs up mutable data and operational configuration;
+2. records and backs up operational configuration and enablement state;
 3. exports the commit to a new immutable release directory;
 4. runs `npm ci`, validates live data, builds, and prunes development dependencies;
 5. atomically switches `/opt/flocking-abuse/current`;
@@ -42,7 +42,7 @@ The script:
 7. requires `/health` to report `ready` and the exact SHA;
 8. installs/tests nginx and reloads the edge only after application readiness.
 
-The deploy refuses invalid live data and automatically returns the service link to the previous release if readiness fails.
+The deploy refuses invalid live data, takes an exclusive host deployment lock, and automatically restores the previous release, service enablement/activity, nginx configuration, and enabled-site link if readiness or edge activation fails. It does not copy or restore mutable candidate data during an ordinary code release; schema migrations require their own application-consistent backup and maintenance window.
 
 ## Verification
 
@@ -60,21 +60,15 @@ Verify security headers, public filtering/details/source links, password-only lo
 
 ## Rollback
 
-Choose a previously deployed 40-character release directory and switch the symlink and release identity atomically:
+Choose a previously deployed 40-character release SHA and run the dedicated fail-fast rollback tool:
 
 ```bash
-old_sha=<reviewed-40-character-sha>
-next=/opt/flocking-abuse/.rollback-$$
-ln -s "/opt/flocking-abuse/releases/$old_sha" "$next"
-mv -Tf "$next" /opt/flocking-abuse/current
-printf 'RELEASE_SHA=%s\n' "$old_sha" >/tmp/flocking-release.env
-install -m 0644 -o root -g root /tmp/flocking-release.env /etc/flocking-abuse/release.env
-rm -f /tmp/flocking-release.env
-systemctl restart flocking-abuse.service
-curl --fail --silent http://127.0.0.1:8110/health
+sudo ./deploy/rollback.sh <reviewed-40-character-sha>
 ```
 
-If the release included a data migration, restore the matching data backup before starting the old binary. Never restore secrets into Git or a world-readable path.
+The rollback tool uses the same exclusive host lock as deployment, preflights the target artifacts and current healthy release before mutation, switches the application and operational files, verifies exact target readiness, and automatically recovers the previous release if any systemd or nginx step fails. Recovery failure exits distinctly with status `90` and requires manual intervention.
+
+If a separate schema migration must be rolled back, stop intake first and reconcile every candidate accepted after the backup before restoring anything. Never blindly restore a mutable-data snapshot over newer candidate writes. Never restore secrets into Git or a world-readable path.
 
 ## Secret rotation
 

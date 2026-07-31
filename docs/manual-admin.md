@@ -43,7 +43,7 @@ No secret value is printed. `.local/` is ignored by git.
 
 ## Submission fields
 
-Enter the source URL, optional archive URL, publisher, source title/date/type/reliability, location, agency or entity, incident classifications, neutral summary, exact source-supported claims, and reviewer notes.
+Enter the source URL, optional archive URL, publisher, source title, optional publication date, source type/reliability, location, agency or entity, occurrence date when known, a stable factual event key, incident classifications, neutral summary, exact source-supported claims, and reviewer notes. The event key identifies the underlying event rather than the article, so independent follow-up URLs can match the same canonical incident. Leave unknown dates empty; the service never substitutes the intake date for an unsupported source date.
 
 The service validates the record, compares it with incidents and candidates, rejects explicitly classified exact duplicates, and returns probable fuzzy matches as warnings before writing a mode-0600 YAML candidate under `/var/lib/flocking-abuse/data/candidates`. Validation enforces that only `candidate` or `draft` records can exist there; the public builder reads accepted records only from `data/incidents`.
 

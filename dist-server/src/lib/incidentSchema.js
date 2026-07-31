@@ -73,7 +73,7 @@ export const IncidentSchema = z.object({
     dates: z.object({
         occurred: z.union([PartialDateSchema, z.literal('')]),
         discovered: PartialDateSchema,
-        reported: FullDateSchema,
+        reported: z.union([FullDateSchema, z.literal('')]),
     }).strict(),
     sources: z.array(SourceSchema).min(1, 'At least one source is required'),
     legal_or_policy_context: z.object({

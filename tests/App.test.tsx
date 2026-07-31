@@ -39,6 +39,15 @@ describe('public tracker', () => {
     expect(sourceLink).toHaveAttribute('rel', expect.stringContaining('noreferrer'));
   });
 
+  it('shows unknown reported dates without adding an empty year filter', () => {
+    const incident = fixture();
+    incident.dates.reported = '';
+    render(<App incidents={[incident]} />);
+    const article = screen.getByRole('article', { name: /synthetic fixture: audit report/i });
+    expect(within(article).getByText('Unknown')).toBeInTheDocument();
+    expect(screen.getByLabelText('Year')).not.toContainHTML('<option value="">Unknown</option>');
+  });
+
   it('filters by full text and facets while reflecting state in URL query params', async () => {
     const first = fixture();
     const second = structuredClone(first);

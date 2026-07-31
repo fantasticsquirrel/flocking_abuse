@@ -17,6 +17,7 @@ const fromQuery = (): FilterState => {
 };
 
 const normalizedText = (incident: Incident): string => [
+  incident.id,
   incident.title,
   incident.summary,
   incident.location.city,
@@ -55,7 +56,7 @@ interface AppProps {
 export function App({ incidents }: AppProps) {
   const [filters, setFilters] = useState<FilterState>(fromQuery);
   const states = useMemo(() => [...new Set(incidents.map((incident) => incident.location.state).filter(Boolean))].sort(), [incidents]);
-  const years = useMemo(() => [...new Set(incidents.map((incident) => incident.dates.reported.slice(0, 4)))].sort().reverse(), [incidents]);
+  const years = useMemo(() => [...new Set(incidents.map((incident) => incident.dates.reported.slice(0, 4)).filter(Boolean))].sort().reverse(), [incidents]);
   const shown = useMemo(() => incidents.filter((incident) => {
     const query = filters.q.trim().toLocaleLowerCase('en-US');
     return (!query || normalizedText(incident).includes(query))

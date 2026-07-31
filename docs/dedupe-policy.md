@@ -34,6 +34,8 @@ country-state-locality:occurred-month:main-agency-or-entity:distinct-event
 
 Do not use publication date alone. Two different improper searches by one agency are distinct incidents; two articles about one search are not.
 
+Manual intake therefore requires an explicit factual event key and an occurrence date when known. The event key describes the underlying event (for example, `mayor plate search`), not the source article. Different source URLs for the same locality, occurrence month, agency, and event key resolve to one canonical incident.
+
 ## Commands
 
 ```bash

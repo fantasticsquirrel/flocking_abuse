@@ -4,8 +4,9 @@ import { basename, join, resolve } from 'node:path';
 import bcrypt from 'bcryptjs';
 import request from 'supertest';
 import { afterEach, beforeAll, describe, expect, it } from 'vitest';
+import yaml from 'js-yaml';
 import { createApp } from '../server/app.js';
-import { buildPublicData } from '../scripts/data-utils.js';
+import { buildPublicData, validateDataDirectory } from '../scripts/data-utils.js';
 import { bootstrapAdmin } from '../scripts/bootstrap-admin.js';
 
 let passwordHash = '';
@@ -39,6 +40,8 @@ const validCandidate = {
   reliability: 'corroborating',
   location: { city: 'Example City', county: 'Example', state: 'EX', country: 'US' },
   agency: 'Example Police Department',
+  eventKey: 'example audit access finding',
+  occurredDate: '2026-06',
   summary: 'Example News reported a synthetic audit finding for integration testing only.',
   incidentTypes: ['retention-or-access-policy'],
   keyClaims: ['The source reported a synthetic audit finding.'],
@@ -101,7 +104,9 @@ describe('admin API security', () => {
     const files = await readdir(join(dataDir, 'candidates'));
     expect(files).toEqual([created.body.filename]);
     expect(await buildPublicData(dataDir)).toEqual([]);
-    expect(await readFile(join(dataDir, 'candidates', created.body.filename), 'utf8')).toMatch(/status: candidate/);
+    const saved = yaml.load(await readFile(join(dataDir, 'candidates', created.body.filename), 'utf8')) as { status: string; uniqueness: { canonical_key: string } };
+    expect(saved.status).toBe('candidate');
+    expect(saved.uniqueness.canonical_key).toBe('us-ex-example:2026-06:example-police-department:example-audit-access-finding');
   });
 
   it('rejects exact duplicates rather than creating a second file', async () => {
@@ -113,6 +118,40 @@ describe('admin API security', () => {
     expect(duplicate.status).toBe(409);
     expect(duplicate.body.duplicates[0].reasons).toContain('canonical source URL match');
     expect((await readdir(join(dataDir, 'candidates'))).length).toBe(1);
+  });
+
+  it('rejects different source URLs for the same factual event key', async () => {
+    const { agent, dataDir } = await makeHarness();
+    const csrfToken = await login(agent);
+    expect((await agent.post('/api/admin/candidates').set('Origin', 'https://tracker.test').set('X-CSRF-Token', csrfToken).send(validCandidate)).status).toBe(201);
+    const followUp = await agent.post('/api/admin/candidates').set('Origin', 'https://tracker.test').set('X-CSRF-Token', csrfToken).send({
+      ...validCandidate,
+      url: 'https://another.example.org/follow-up',
+      title: 'Independent follow-up on the audit finding',
+    });
+    expect(followUp.status).toBe(409);
+    expect(followUp.body.duplicates[0].reasons).toContain('canonical incident key match');
+    expect((await readdir(join(dataDir, 'candidates'))).length).toBe(1);
+  });
+
+  it('assigns distinct IDs and event keys to same-title incidents and accepts unknown source publication dates', async () => {
+    const { agent, dataDir } = await makeHarness();
+    const csrfToken = await login(agent);
+    const first = await agent.post('/api/admin/candidates').set('Origin', 'https://tracker.test').set('X-CSRF-Token', csrfToken).send(validCandidate);
+    const second = await agent.post('/api/admin/candidates').set('Origin', 'https://tracker.test').set('X-CSRF-Token', csrfToken).send({
+      ...validCandidate,
+      url: 'https://example.org/a-different-event',
+      publishedDate: '',
+      agency: 'Different Police Department',
+      location: { city: 'Elsewhere', county: '', state: 'EX', country: 'US' },
+      incidentTypes: ['other'],
+    });
+    expect([first.status, second.status]).toEqual([201, 201]);
+    const records = await Promise.all((await readdir(join(dataDir, 'candidates'))).map(async (filename) => yaml.load(await readFile(join(dataDir, 'candidates', filename), 'utf8')) as { id: string; dates: { reported: string }; uniqueness: { canonical_key: string }; sources: Array<{ published_date: string }> }));
+    expect(new Set(records.map((record) => record.id)).size).toBe(2);
+    expect(new Set(records.map((record) => record.uniqueness.canonical_key)).size).toBe(2);
+    expect(records.some((record) => record.sources[0]?.published_date === '' && record.dates.reported === '')).toBe(true);
+    expect((await validateDataDirectory(dataDir)).valid).toBe(true);
   });
 
   it('serializes concurrent duplicate submissions into one creation and one conflict', async () => {

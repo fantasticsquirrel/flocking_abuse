@@ -6,7 +6,7 @@ Each public incident record should be stored as structured data and rendered by 
 
 ```yaml
 schema_version: 1
-id: "YYYY-MM-jurisdiction-short-slug"
+id: "lowercase-url-safe-stable-id" # manual intake emits YYYY-MM-DD-title-slug-12-character-source-hash
 title: "Short factual title"
 status: "verified" # draft | candidate | verified | disputed | retracted
 summary: "2-4 sentence neutral summary of what was reported."
@@ -30,12 +30,12 @@ actors:
 dates:
   occurred: "YYYY-MM-DD or YYYY-MM if known; empty string when unknown"
   discovered: "YYYY-MM-DD or YYYY-MM if known"
-  reported: "YYYY-MM-DD"
+  reported: "YYYY-MM-DD; empty string when the source publication/report date is unknown"
 sources:
   - url: "https://..."
     title: "Source title"
     publisher: "Publisher / court / agency"
-    published_date: "YYYY-MM-DD"
+    published_date: "YYYY-MM-DD; empty string when unknown"
     source_type: "news" # news | court-record | government-record | advocacy-report | public-record | official-statement | other
     archive_url: "https://web.archive.org/... optional"
     reliability: "primary" # primary only for direct official/public record types; otherwise corroborating | background
@@ -47,7 +47,7 @@ legal_or_policy_context:
 outcomes:
   - "Investigation opened / lawsuit filed / policy changed / unknown"
 uniqueness:
-  canonical_key: "state/county/city:occurred-date:main-actor:incident-type"
+  canonical_key: "country-state-locality:occurred-month-or-unknown:main-agency-or-entity:distinct-event-key"
   duplicate_of: null
 review:
   added_by: "manual | daily-scraper"

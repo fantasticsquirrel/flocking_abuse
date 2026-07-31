@@ -115,4 +115,13 @@ describe('candidate review delivery', () => {
     second.id = 'second-batch-candidate';
     expect(evaluateCandidateDelivery([first, second], []).exact).toHaveLength(1);
   });
+
+  it('blocks an exact runtime inbox duplicate but permits an explicitly identified repository self-record', async () => {
+    const existing = await fixture();
+    const selected = structuredClone(existing);
+    selected.status = 'candidate';
+    existing.status = 'candidate';
+    expect(evaluateCandidateDelivery([selected], [existing]).exact).toHaveLength(1);
+    expect(evaluateCandidateDelivery([selected], [existing], { selfRecordIds: new Set([selected.id]) }).exact).toEqual([]);
+  });
 });

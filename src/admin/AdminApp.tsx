@@ -77,6 +77,12 @@ export function AdminApp() {
     setNotice('');
     setPending('save');
     const data = new FormData(form);
+    const selectedIncidentTypes = data.getAll('incidentTypes').map(String);
+    if (selectedIncidentTypes.length === 0) {
+      setPending('');
+      setError('Choose at least one incident type before saving.');
+      return;
+    }
     try {
       const response = await fetch('/api/admin/candidates', {
         method: 'POST', credentials: 'same-origin',
@@ -88,6 +94,7 @@ export function AdminApp() {
           reliability: String(data.get('reliability') ?? ''),
           location: { city: String(data.get('city') ?? ''), county: String(data.get('county') ?? ''), state: String(data.get('state') ?? ''), country: String(data.get('country') ?? '') },
           agency: String(data.get('agency') ?? ''), summary: String(data.get('summary') ?? ''),
+          eventKey: String(data.get('eventKey') ?? ''), occurredDate: String(data.get('occurredDate') ?? ''),
           incidentTypes: data.getAll('incidentTypes').map(String),
           keyClaims: String(data.get('keyClaims') ?? '').split('\n').map((claim) => claim.trim()).filter(Boolean),
           notes: String(data.get('notes') ?? ''),
@@ -150,7 +157,7 @@ export function AdminApp() {
                 <label className="wide"><span>Archive URL <small>optional</small></span><input name="archiveUrl" type="url" /></label>
                 <label><span>Publisher</span><input name="publisher" required /></label>
                 <label><span>Source title</span><input name="title" required minLength={4} /></label>
-                <label><span>Publication date</span><input name="publishedDate" type="date" required /></label>
+                <label><span>Publication date <small>optional if unavailable</small></span><input name="publishedDate" type="date" /></label>
                 <label><span>Source type</span><select name="sourceType" defaultValue="news">{sourceTypes.map((value) => <option key={value} value={value}>{humanize(value)}</option>)}</select></label>
                 <label><span>Source reliability</span><select name="reliability" defaultValue="corroborating">{reliabilities.map((value) => <option key={value} value={value}>{humanize(value)}</option>)}</select></label>
               </div></fieldset>
@@ -158,6 +165,8 @@ export function AdminApp() {
                 <label><span>City</span><input name="city" /></label><label><span>County</span><input name="county" /></label>
                 <label><span>State</span><input name="state" /></label><label><span>Country</span><input name="country" defaultValue="US" required /></label>
                 <label className="wide"><span>Agency or entity</span><input name="agency" required /></label>
+                <label><span>Occurrence date <small>optional when unknown</small></span><input name="occurredDate" type="text" inputMode="numeric" pattern="[0-9]{4}-[0-9]{2}(-[0-9]{2})?" placeholder="YYYY-MM or YYYY-MM-DD" /></label>
+                <label><span>Distinct event key</span><input name="eventKey" required minLength={4} /><small>Stable factual label for the event, not the article title.</small></label>
                 <fieldset className="wide classification-options"><legend>Incident types</legend><p>Select every classification that applies.</p><div>{incidentTypes.map((value) => <label key={value}><input name="incidentTypes" type="checkbox" value={value} /><span>{humanize(value)}</span></label>)}</div></fieldset>
                 <label className="wide"><span>Neutral summary</span><textarea name="summary" minLength={20} required rows={5} /></label>
                 <label className="wide"><span>Key claims</span><textarea name="keyClaims" required rows={4} /><small>One source-supported claim per line.</small></label>

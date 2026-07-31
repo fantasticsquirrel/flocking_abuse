@@ -55,7 +55,7 @@ const inV4Range = (address: string, network: string, prefix: number): boolean =>
 const blockedV6 = new BlockList();
 for (const [network, prefix] of [
   ['::', 96], ['::ffff:0:0', 96], ['64:ff9b::', 96], ['64:ff9b:1::', 48], ['100::', 64],
-  ['2001::', 23], ['2001:db8::', 32], ['2002::', 16], ['3fff::', 20], ['fc00::', 7], ['fe80::', 10], ['fec0::', 10], ['ff00::', 8],
+  ['5f00::', 16], ['2001::', 23], ['2001:db8::', 32], ['2002::', 16], ['3fff::', 20], ['fc00::', 7], ['fe80::', 10], ['fec0::', 10], ['ff00::', 8],
 ] as const) blockedV6.addSubnet(network, prefix, 'ipv6');
 
 export function isPublicAddress(address: string): boolean {
@@ -175,7 +175,7 @@ const requestValidated = async (url: URL, deps: ScraperDependencies): Promise<Ra
 
 const fetchRobots = async (origin: string, deps: ScraperDependencies): Promise<string> => {
   let current = new URL('/robots.txt', origin);
-  for (let redirect = 0; redirect <= 4; redirect += 1) {
+  for (let redirect = 0; redirect <= 5; redirect += 1) {
     const response = await requestValidated(current, deps);
     if ([301, 302, 303, 307, 308].includes(response.status)) {
       const location = response.headers.location;
@@ -197,7 +197,7 @@ export async function fetchDiscoverablePage(rawUrl: string, dependencies?: Parti
   let validated = await validatePublicUrl(rawUrl, deps.lookup);
   let current = validated.url;
   const robotsByOrigin = new Map<string, string>();
-  for (let redirect = 0; redirect <= 4; redirect += 1) {
+  for (let redirect = 0; redirect <= 5; redirect += 1) {
     if (!robotsByOrigin.has(current.origin)) robotsByOrigin.set(current.origin, await fetchRobots(current.origin, deps));
     const robotsBody = robotsByOrigin.get(current.origin) ?? '';
     if (!robotsAllows(robotsBody, `${current.pathname}${current.search}`)) throw new Error('robots.txt disallows this source path');

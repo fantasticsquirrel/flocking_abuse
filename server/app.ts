@@ -1,4 +1,4 @@
-import { createHmac, randomBytes, timingSafeEqual } from 'node:crypto';
+import { createHash, createHmac, randomBytes, timingSafeEqual } from 'node:crypto';
 import { mkdir, link, unlink, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import bcrypt from 'bcryptjs';
@@ -7,8 +7,8 @@ import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import yaml from 'js-yaml';
 import { z } from 'zod';
-import { findDuplicates } from '../src/lib/dedupe.js';
-import { IncidentSchema, IncidentTypeSchema, SourceReliabilitySchema, SourceTypeSchema, type Incident } from '../src/lib/incidentSchema.js';
+import { canonicalizeUrl, findDuplicates } from '../src/lib/dedupe.js';
+import { IncidentSchema, IncidentTypeSchema, PartialDateSchema, SourceReliabilitySchema, SourceTypeSchema, type Incident } from '../src/lib/incidentSchema.js';
 import { validateDataDirectory } from '../scripts/data-utils.js';
 
 const SESSION_COOKIE = 'flocking_admin';
@@ -23,7 +23,7 @@ const CandidateInputSchema = z.object({
   archiveUrl: z.union([httpUrl, z.literal('')]).optional(),
   publisher: z.string().trim().min(1).max(200),
   title: z.string().trim().min(4).max(240),
-  publishedDate: z.iso.date(),
+  publishedDate: z.union([z.iso.date(), z.literal('')]),
   sourceType: SourceTypeSchema,
   reliability: SourceReliabilitySchema,
   location: z.object({
@@ -31,6 +31,8 @@ const CandidateInputSchema = z.object({
     state: z.string().trim().max(80), country: z.string().trim().min(2).max(80),
   }).strict(),
   agency: z.string().trim().min(1).max(200),
+  eventKey: z.string().trim().min(4).max(160),
+  occurredDate: z.union([PartialDateSchema, z.literal('')]),
   summary: z.string().trim().min(20).max(3000),
   incidentTypes: z.array(IncidentTypeSchema).min(1),
   keyClaims: z.array(z.string().trim().min(1).max(1000)).min(1).max(20),
@@ -104,17 +106,20 @@ const slugify = (value: string): string => value.toLocaleLowerCase('en-US').norm
 function toIncident(input: CandidateInput, now: Date): Incident {
   const date = now.toISOString().slice(0, 10);
   const actor = slugify(input.agency);
-  const canonicalKey = `${slugify(input.location.state || input.location.country)}/${slugify(input.location.county || input.location.city)}:unknown:${actor}:${input.incidentTypes[0]}`;
+  const eventDigest = createHash('sha256').update(canonicalizeUrl(input.url)).digest('hex').slice(0, 12);
+  const occurredMonth = input.occurredDate ? input.occurredDate.slice(0, 7) : 'unknown';
+  const locality = [input.location.country, input.location.state, input.location.county || input.location.city].map(slugify).filter(Boolean).join('-');
+  const canonicalKey = `${locality}:${occurredMonth}:${actor}:${slugify(input.eventKey)}`;
   return IncidentSchema.parse({
     schema_version: 1,
-    id: `${date}-${slugify(input.title)}`,
+    id: `${date}-${slugify(input.title)}-${eventDigest}`,
     title: input.title,
     status: 'candidate',
     summary: input.summary,
     incident_type: input.incidentTypes,
     location: input.location,
     actors: { agencies: [input.agency], officials_or_entities: [], vendor_entities: ['Flock Safety'] },
-    dates: { occurred: '', discovered: date, reported: input.publishedDate },
+    dates: { occurred: input.occurredDate, discovered: date, reported: input.publishedDate },
     sources: [{
       url: input.url, title: input.title, publisher: input.publisher, published_date: input.publishedDate,
       source_type: input.sourceType, ...(input.archiveUrl ? { archive_url: input.archiveUrl } : {}),

@@ -87,13 +87,14 @@ export async function archiveDeliveredCandidates(repositoryRoot: string, files: 
 
 export interface CandidateDeliveryMatch extends DuplicateComparison { candidateId: string }
 
-export function evaluateCandidateDelivery(candidates: Incident[], existing: Incident[]): {
-  exact: CandidateDeliveryMatch[];
-  probable: CandidateDeliveryMatch[];
-} {
+export function evaluateCandidateDelivery(
+  candidates: Incident[],
+  existing: Incident[],
+  options: { selfRecordIds?: ReadonlySet<string> } = {},
+): { exact: CandidateDeliveryMatch[]; probable: CandidateDeliveryMatch[] } {
   const matches: CandidateDeliveryMatch[] = [];
-  const selectedIds = new Set(candidates.map((candidate) => candidate.id));
-  const frontier = existing.filter((record) => !selectedIds.has(record.id));
+  const selfRecordIds = options.selfRecordIds ?? new Set<string>();
+  const frontier = existing.filter((record) => !selfRecordIds.has(record.id));
   for (const candidate of candidates) {
     matches.push(...findDuplicates(candidate, frontier).map((match) => ({ ...match, candidateId: candidate.id })));
   }
@@ -209,7 +210,14 @@ async function runCli(): Promise<void> {
   const files = await loadCandidateFiles(repositoryRoot, options.candidates, options.candidateInbox);
   const candidates = files.map((file) => IncidentSchema.parse(yaml.load(file.content)));
   if (candidates.some((candidate) => !['candidate', 'draft'].includes(candidate.status))) throw new Error('Candidate delivery accepts only candidate or draft status');
-  const delivery = evaluateCandidateDelivery(candidates, validation.records);
+  const repositoryCandidateRoot = resolve(repositoryRoot, 'data', 'candidates');
+  const selfRecordIds = new Set(candidates.filter((_candidate, index) => {
+    const sourcePath = files[index]?.sourcePath;
+    if (!sourcePath) return false;
+    const candidatePath = relative(repositoryCandidateRoot, resolve(sourcePath));
+    return Boolean(candidatePath) && candidatePath !== '..' && !candidatePath.startsWith(`..${sep}`) && !isAbsolute(candidatePath);
+  }).map((candidate) => candidate.id));
+  const delivery = evaluateCandidateDelivery(candidates, validation.records, { selfRecordIds });
   if (delivery.exact.length > 0) {
     const detail = delivery.exact.map((match) => `${match.candidateId} duplicates ${match.incidentId}: ${match.reasons.join(', ')}`).join('\n');
     throw new Error(`Candidate delivery blocked by exact duplicate(s):\n${detail}`);

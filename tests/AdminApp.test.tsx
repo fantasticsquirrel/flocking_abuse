@@ -39,6 +39,7 @@ describe('admin intake accessibility and recovery', () => {
     const form = await screen.findByRole('heading', { name: 'Candidate intake' });
     expect(form).toBeInTheDocument();
     const saveButton = screen.getByRole('button', { name: 'Save candidate for review' });
+    await userEvent.click(screen.getAllByRole('checkbox')[0]!);
     fireEvent.submit(saveButton.closest('form')!);
     expect(await screen.findByRole('alert')).toHaveTextContent(/session expired/i);
     expect(await screen.findByLabelText('Admin password')).toHaveFocus();

@@ -20,7 +20,7 @@ const response = (status: number, body: string, headers: Record<string, string> 
 
 describe('scraper network safety', () => {
   it('rejects loopback, private, link-local, carrier-grade NAT, documentation, multicast, and reserved addresses', () => {
-    for (const address of ['127.0.0.1', '10.1.2.3', '169.254.2.3', '172.16.2.3', '192.168.1.2', '100.64.0.1', '192.0.2.1', '198.51.100.2', '203.0.113.2', '224.0.0.1', '::1', 'fc00::1', 'fe80::1', 'fec0::1', '2001:db8::1', '64:ff9b::7f00:1', '::ffff:127.0.0.1', '2002:7f00:1::']) {
+    for (const address of ['127.0.0.1', '10.1.2.3', '169.254.2.3', '172.16.2.3', '192.168.1.2', '100.64.0.1', '192.0.2.1', '198.51.100.2', '203.0.113.2', '224.0.0.1', '::1', 'fc00::1', 'fe80::1', 'fec0::1', '5f00::1', '2001:db8::1', '64:ff9b::7f00:1', '::ffff:127.0.0.1', '2002:7f00:1::']) {
       expect(isPublicAddress(address), address).toBe(false);
     }
     expect(isPublicAddress('93.184.216.34')).toBe(true);
