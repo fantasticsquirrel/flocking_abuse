@@ -38,6 +38,9 @@ describe('immutable deployment and rollback scripts', () => {
     expect(script).toContain('restore_service_state');
     expect(script).toContain('recovery_failed=0');
     expect(script).toContain('DATA_DIR="$DATA_DIR" NODE_ENV=production INCLUDE_DRAFTS=0 npm run build');
+    expect(script).toContain('npm ci --omit=dev');
+    expect(script).toContain("import(name)");
+    expect(script).not.toContain('npm prune --omit=dev');
     expect(script).toContain('deploy/verify-data-permissions.sh');
     expect(script).toContain('systemctl stop flocking-abuse.service');
     expect(script).not.toMatch(/(?:chown|chmod).*\$DATA_DIR/);

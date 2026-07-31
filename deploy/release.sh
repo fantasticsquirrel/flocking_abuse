@@ -173,7 +173,8 @@ fi
 bash "$STAGING/deploy/verify-data-permissions.sh" "$DATA_DIR" 0 "$SERVICE_GID" "$SERVICE_UID" "$SERVICE_GID"
 DATA_DIR="$DATA_DIR" npm run validate:data
 DATA_DIR="$DATA_DIR" NODE_ENV=production INCLUDE_DRAFTS=0 npm run build
-npm prune --omit=dev
+npm ci --omit=dev
+node -e "Promise.all(['express','bcryptjs','helmet','js-yaml','marked','zod'].map((name) => import(name)))"
 for artifact in deploy/flocking-abuse.service deploy/flockingabuse.multihost.ing.nginx dist-server/server/index.js dist/index.html; do
   require_regular_artifact "$STAGING" "$artifact" || { echo "Built release contains an unconfined artifact: $artifact" >&2; false; }
 done
