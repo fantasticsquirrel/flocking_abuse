@@ -923,6 +923,88 @@
   },
   {
     "schema_version": 1,
+    "id": "2026-07-greenville-county-employees-romantic-partner-tracking",
+    "title": "Greenville County employees fired for partner tracking",
+    "status": "verified",
+    "summary": "Greenville County Sheriff Hobart Lewis said an internal audit found that two sheriff's-office employees misused Flock license-plate readers. In a subsequent interview, Lewis said one tracked her boyfriend and the other tracked a woman he was seeing; both employees were fired.",
+    "incident_type": [
+      "unauthorized-search",
+      "law-enforcement-overreach"
+    ],
+    "location": {
+      "city": "Greenville",
+      "county": "Greenville",
+      "state": "SC",
+      "country": "US"
+    },
+    "actors": {
+      "agencies": [
+        "Greenville County Sheriff's Office"
+      ],
+      "officials_or_entities": [
+        "Two undisclosed sheriff's-office employees"
+      ],
+      "vendor_entities": [
+        "Flock Safety"
+      ]
+    },
+    "dates": {
+      "occurred": "",
+      "discovered": "2026-07",
+      "reported": "2026-07-26"
+    },
+    "sources": [
+      {
+        "url": "https://www.foxcarolina.com/2026/07/26/sheriff-2-upstate-sheriffs-office-employees-fired-after-audit-reveals-flock-camera-misuse/",
+        "title": "Sheriff: 2 Upstate sheriff's office employees fired after audit reveals Flock camera misuse",
+        "publisher": "FOX Carolina",
+        "published_date": "2026-07-26",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "Sheriff Hobart Lewis said an internal audit found two employees misused the county's Flock system.",
+          "Lewis said the conduct severely violated policy and both employees were fired."
+        ]
+      },
+      {
+        "url": "https://www.audacy.com/989word/news/local/sheriff-elaborates-on-positive-and-negative-of-flock-cameras",
+        "title": "Sheriff elaborates on positive and negative of Flock Cameras",
+        "publisher": "News/Talk 98.9 WORD",
+        "published_date": "2026-07-27",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "Lewis said one employee tracked her boyfriend and the other tracked a woman he was talking to.",
+          "Lewis said neither tracked person wanted to pursue harassment or stalking charges."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [],
+      "statutes_or_policies": [
+        "Greenville County Sheriff's Office acceptable-use policy"
+      ]
+    },
+    "outcomes": [
+      "The sheriff's office terminated both employees after its audit and interviews.",
+      "Sheriff Lewis said neither tracked person sought criminal harassment or stalking charges."
+    ],
+    "uniqueness": {
+      "canonical_key": "us-sc-greenville:unknown:greenville-county-sheriffs-office:romantic-partner-flock-tracking",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-01",
+      "approval_reference": "docs/approvals/2026-08-01-greenville-county-partner-tracking.md#approval-greenville-county-partner-tracking",
+      "notes": "The employees were not named in the cited reports. The record does not assert criminal charges."
+    },
+    "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
     "id": "2026-07-milwaukee-officer-personal-flock-searches",
     "title": "Milwaukee officer sentenced after repeated personal Flock searches",
     "status": "verified",
