@@ -45,6 +45,6 @@ No secret value is printed. `.local/` is ignored by git.
 
 Enter the source URL, optional archive URL, publisher, source title/date/type/reliability, location, agency or entity, incident classifications, neutral summary, exact source-supported claims, and reviewer notes.
 
-The service validates the record, compares it with incidents and candidates, rejects exact duplicates, and writes a mode-0600 YAML candidate under `/var/lib/flocking-abuse/data/candidates`. Candidates are excluded from the public build.
+The service validates the record, compares it with incidents and candidates, rejects explicitly classified exact duplicates, and returns probable fuzzy matches as warnings before writing a mode-0600 YAML candidate under `/var/lib/flocking-abuse/data/candidates`. Validation enforces that only `candidate` or `draft` records can exist there; the public builder reads accepted records only from `data/incidents`.
 
 The MVP intentionally does **not** fetch arbitrary metadata from submitted URLs. Manual metadata avoids turning the admin API into an SSRF surface. Automated discovery uses a separate robots-aware, DNS-pinned, bounded fetcher.

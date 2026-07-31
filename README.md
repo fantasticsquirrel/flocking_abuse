@@ -58,7 +58,7 @@ npm run scrape -- --seed-file /tmp/flock-source-urls.txt --output candidate-find
 npm run candidate:pr -- --candidate data/candidates/example.yaml
 ```
 
-`candidate-findings.json` and candidate YAML records are review inputs. The scraper never publishes an incident.
+`candidate-findings.json` and candidate YAML records are review inputs. The scraper never publishes an incident. Directory/status validation prevents review-only files from entering the public build, and candidate delivery blocks exact duplicates while surfacing probable matches.
 
 ## Production architecture
 

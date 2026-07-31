@@ -17,6 +17,8 @@ A `verified` public incident requires either:
 
 Candidates with only one secondary source may be tracked privately as `candidate` until corroborated.
 
+`reliability: primary` is accepted only with `court-record`, `government-record`, `public-record`, or `official-statement`. News and advocacy reporting cannot become primary merely by changing a label. Secondary-source independence requires distinct publisher identities and distinct canonical source hosts.
+
 ## Citation requirements
 
 Every source must include:

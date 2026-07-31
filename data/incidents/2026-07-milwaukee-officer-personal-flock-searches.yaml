@@ -23,7 +23,7 @@ actors:
   vendor_entities:
     - Flock Safety
 dates:
-  occurred: "2025-12"
+  occurred: ""
   discovered: "2026-03"
   reported: "2026-07-15"
 sources:
@@ -57,14 +57,13 @@ outcomes:
   - "A judge imposed 12 months of probation and a $500 fine on July 15, 2026."
   - "A court commissioner granted two restraining orders, according to the cited reporting."
 uniqueness:
-  canonical_key: "us-wi-milwaukee:2025-12:milwaukee-police-department-josue-ayala:personal-flock-searches"
+  canonical_key: "us-wi-milwaukee:unknown:milwaukee-police-department-josue-ayala:personal-flock-searches"
   duplicate_of: null
 review:
   added_by: manual
   reviewed_by: "Hermes Agent"
   reviewed_at: "2026-07-30"
   notes: >-
-    Public record built from two independent newsrooms. The occurred month is approximate and reflects the
-    latest period before the December 2025 internal investigation referenced by follow-up reporting; replace
-    it with the complaint's exact date range when a stable court-record copy is added.
+    Public record built from two independent newsrooms. The cited reports do not state a reliable occurrence
+    date range for Ayala's searches, so occurred is explicitly unknown until a stable court-record copy is added.
 updated_at: "2026-07-30"

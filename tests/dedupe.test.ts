@@ -14,13 +14,14 @@ describe('canonicalizeUrl', () => {
 });
 
 describe('compareIncidents', () => {
-  it('marks exact and canonical source URLs as duplicates with explained scores', () => {
+  it('marks exact and canonical source URLs as exact duplicates with explained scores', () => {
     const existing = fixture();
     const candidate = structuredClone(existing);
     candidate.id = 'candidate-two';
     candidate.sources[0]!.url = 'https://EXAMPLE.gov/audits/synthetic-report/?utm_campaign=test#top';
     const comparison = compareIncidents(candidate, existing);
     expect(comparison.isDuplicate).toBe(true);
+    expect(comparison.classification).toBe('exact');
     expect(comparison.score).toBe(1);
     expect(comparison.reasons).toContain('canonical source URL match');
   });
@@ -32,9 +33,11 @@ describe('compareIncidents', () => {
     candidate.id = 'another';
     candidate.sources[0]!.url = 'https://different.example/article';
     candidate.uniqueness.canonical_key = 'different';
+    expect(compareIncidents(candidate, existing).classification).toBe('exact');
     expect(compareIncidents(candidate, existing).reasons).toContain('case number match: case 24-cv-100');
     candidate.legal_or_policy_context.case_numbers = [];
     candidate.uniqueness.canonical_key = existing.uniqueness.canonical_key;
+    expect(compareIncidents(candidate, existing).classification).toBe('exact');
     expect(compareIncidents(candidate, existing).reasons).toContain('canonical incident key match');
   });
 
@@ -47,10 +50,34 @@ describe('compareIncidents', () => {
     candidate.uniqueness.canonical_key = 'different-key';
     const comparison = compareIncidents(candidate, existing);
     expect(comparison.isDuplicate).toBe(true);
+    expect(comparison.classification).toBe('probable');
     expect(comparison.score).toBeGreaterThanOrEqual(0.7);
     expect(comparison.reasons).toEqual(expect.arrayContaining([
       expect.stringMatching(/title similarity/), 'agency match', 'location match', 'date window match', 'incident type match',
     ]));
+  });
+
+  it('does not misclassify a maximum-scoring fuzzy match as exact', () => {
+    const existing = fixture();
+    const candidate = structuredClone(existing);
+    candidate.id = 'maximum-fuzzy-candidate';
+    candidate.sources[0]!.url = 'https://different.example/follow-up';
+    candidate.uniqueness.canonical_key = 'different-key';
+    candidate.legal_or_policy_context.case_numbers = [];
+    const comparison = compareIncidents(candidate, existing);
+    expect(comparison.score).toBe(1);
+    expect(comparison.classification).toBe('probable');
+  });
+
+  it('does not award a date-window match when either occurrence date is unknown', () => {
+    const existing = fixture();
+    const candidate = structuredClone(existing);
+    candidate.id = 'unknown-date-candidate';
+    candidate.dates.occurred = '';
+    candidate.sources[0]!.url = 'https://different.example/follow-up';
+    candidate.uniqueness.canonical_key = 'different-key';
+    const comparison = compareIncidents(candidate, existing);
+    expect(comparison.reasons).not.toContain('date window match');
   });
 
   it('keeps a different event distinct and returns the best comparisons in stable score order', () => {

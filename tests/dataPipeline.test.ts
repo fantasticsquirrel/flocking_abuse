@@ -27,14 +27,32 @@ describe('data pipeline', () => {
     expect(result.errors[0]).toMatch(/candidates\/bad\.yaml/);
   });
 
-  it('publishes only verified and disputed records by default', async () => {
+  it('publishes only accepted records from the public incident directory', async () => {
     const dataDir = await makeData();
     const source = await readFile('tests/fixtures/validIncident.yaml', 'utf8');
     await writeFile(join(dataDir, 'incidents', 'verified.yaml'), source);
-    await writeFile(join(dataDir, 'incidents', 'draft.yaml'), source.replace('status: "verified"', 'status: "draft"').replace('2026-07-synthetic-example', 'draft-example'));
     await writeFile(join(dataDir, 'candidates', 'candidate.yaml'), source.replace('status: "verified"', 'status: "candidate"').replace('2026-07-synthetic-example', 'candidate-example'));
     expect((await buildPublicData(dataDir, false)).map((item) => item.status)).toEqual(['verified']);
-    expect((await buildPublicData(dataDir, true)).map((item) => item.id)).toEqual(['2026-07-synthetic-example', 'candidate-example', 'draft-example']);
+    expect((await buildPublicData(dataDir, true)).map((item) => item.id)).toEqual(['2026-07-synthetic-example']);
+  });
+
+  it('fails closed when a public status is placed in the review-only candidate directory', async () => {
+    const dataDir = await makeData();
+    const source = await readFile('tests/fixtures/validIncident.yaml', 'utf8');
+    await writeFile(join(dataDir, 'candidates', 'misplaced.yaml'), source);
+    const result = await validateDataDirectory(dataDir);
+    expect(result.valid).toBe(false);
+    expect(result.errors).toContain('candidates/misplaced.yaml: candidate storage accepts only candidate or draft status');
+    await expect(buildPublicData(dataDir)).rejects.toThrow(/candidate storage/i);
+  });
+
+  it('fails closed when a review-only status is placed in the public incident directory', async () => {
+    const dataDir = await makeData();
+    const source = (await readFile('tests/fixtures/validIncident.yaml', 'utf8')).replace('status: "verified"', 'status: "candidate"');
+    await writeFile(join(dataDir, 'incidents', 'misplaced.yaml'), source);
+    const result = await validateDataDirectory(dataDir);
+    expect(result.valid).toBe(false);
+    expect(result.errors).toContain('incidents/misplaced.yaml: public storage accepts only verified, disputed, or retracted status');
   });
 
   it('ships a source-verified public seed without exposing the review-only abortion-search candidate', async () => {

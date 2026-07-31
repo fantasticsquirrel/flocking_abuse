@@ -1,10 +1,13 @@
 import { randomBytes } from 'node:crypto';
-import { mkdir, mkdtemp, readFile, readdir, rm, writeFile } from 'node:fs/promises';
+import { chmod, mkdir, mkdtemp, readFile, readdir, rename, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { dirname, extname, isAbsolute, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
+import yaml from 'js-yaml';
 import { validateDataDirectory } from './data-utils.js';
+import { IncidentSchema, type Incident } from '../src/lib/incidentSchema.js';
+import { findDuplicates, type DuplicateComparison } from '../src/lib/dedupe.js';
 
 export interface CandidateFile { path: string; content: string }
 
@@ -27,41 +30,12 @@ export function renderReviewPatch(files: CandidateFile[]): string {
   }).join('\n');
 }
 
-export async function cleanupDeliveredCandidates(repositoryRoot: string, files: CandidateFile[]): Promise<{ removed: string[]; preserved: string[] }> {
-  const removed: string[] = [];
-  const preserved: string[] = [];
-  for (const file of files) {
-    const relativePath = candidateRelativePath(repositoryRoot, resolve(repositoryRoot, file.path));
-    const absolutePath = resolve(repositoryRoot, relativePath);
-    const tracked = spawnSync('git', ['ls-files', '--error-unmatch', '--', relativePath], {
-      cwd: repositoryRoot, encoding: 'utf8', stdio: 'ignore',
-    }).status === 0;
-    if (tracked) {
-      preserved.push(relativePath);
-      continue;
-    }
-    let current: string;
-    try {
-      current = await readFile(absolutePath, 'utf8');
-    } catch (error) {
-      if ((error as NodeJS.ErrnoException).code === 'ENOENT') continue;
-      throw error;
-    }
-    if (current !== file.content) {
-      preserved.push(relativePath);
-      continue;
-    }
-    await rm(absolutePath);
-    removed.push(relativePath);
-  }
-  return { removed, preserved };
-}
-
 export async function archiveDeliveredCandidates(repositoryRoot: string, files: CandidateFile[]): Promise<{ archived: string[]; preserved: string[] }> {
   const archived: string[] = [];
   const preserved: string[] = [];
   const archiveDirectory = resolve(repositoryRoot, '.local', 'delivered-candidates');
   await mkdir(archiveDirectory, { recursive: true, mode: 0o700 });
+  await chmod(archiveDirectory, 0o700);
   for (const file of files) {
     const relativePath = candidateRelativePath(repositoryRoot, resolve(repositoryRoot, file.path));
     const absolutePath = resolve(repositoryRoot, relativePath);
@@ -72,24 +46,44 @@ export async function archiveDeliveredCandidates(repositoryRoot: string, files: 
       preserved.push(relativePath);
       continue;
     }
-    let current: string;
     try {
-      current = await readFile(absolutePath, 'utf8');
+      const basename = relativePath.split('/').at(-1) ?? 'candidate.yaml';
+      const destination = resolve(archiveDirectory, `${Date.now()}-${randomBytes(8).toString('hex')}-${basename}`);
+      await rename(absolutePath, destination);
+      await chmod(destination, 0o600);
+      archived.push(destination);
     } catch (error) {
       if ((error as NodeJS.ErrnoException).code === 'ENOENT') continue;
       throw error;
     }
-    if (current !== file.content) {
-      preserved.push(relativePath);
-      continue;
-    }
-    const basename = relativePath.split('/').at(-1) ?? 'candidate.yaml';
-    const destination = resolve(archiveDirectory, `${Date.now()}-${randomBytes(4).toString('hex')}-${basename}`);
-    await writeFile(destination, current, { mode: 0o600, flag: 'wx' });
-    await rm(absolutePath);
-    archived.push(destination);
   }
   return { archived, preserved };
+}
+
+export interface CandidateDeliveryMatch extends DuplicateComparison { candidateId: string }
+
+export function evaluateCandidateDelivery(candidates: Incident[], existing: Incident[]): {
+  exact: CandidateDeliveryMatch[];
+  probable: CandidateDeliveryMatch[];
+} {
+  const matches: CandidateDeliveryMatch[] = [];
+  const selectedIds = new Set(candidates.map((candidate) => candidate.id));
+  const frontier = existing.filter((record) => !selectedIds.has(record.id));
+  for (const candidate of candidates) {
+    matches.push(...findDuplicates(candidate, frontier).map((match) => ({ ...match, candidateId: candidate.id })));
+  }
+  for (let left = 0; left < candidates.length; left += 1) {
+    for (let right = left + 1; right < candidates.length; right += 1) {
+      const candidate = candidates[left];
+      const peer = candidates[right];
+      if (!candidate || !peer) continue;
+      matches.push(...findDuplicates(candidate, [peer]).map((match) => ({ ...match, candidateId: candidate.id })));
+    }
+  }
+  return {
+    exact: matches.filter((match) => match.classification === 'exact'),
+    probable: matches.filter((match) => match.classification === 'probable'),
+  };
 }
 
 const commandEnvironment = (): NodeJS.ProcessEnv => ({
@@ -160,11 +154,22 @@ async function runCli(): Promise<void> {
   const validation = await validateDataDirectory(resolve(repositoryRoot, 'data'));
   if (!validation.valid) throw new Error(`Candidate validation failed:\n${validation.errors.join('\n')}`);
   const files = await candidateFiles(repositoryRoot, options.candidates);
+  const candidates = files.map((file) => IncidentSchema.parse(yaml.load(file.content)));
+  if (candidates.some((candidate) => !['candidate', 'draft'].includes(candidate.status))) throw new Error('Candidate delivery accepts only candidate or draft status');
+  const delivery = evaluateCandidateDelivery(candidates, validation.records);
+  if (delivery.exact.length > 0) {
+    const detail = delivery.exact.map((match) => `${match.candidateId} duplicates ${match.incidentId}: ${match.reasons.join(', ')}`).join('\n');
+    throw new Error(`Candidate delivery blocked by exact duplicate(s):\n${detail}`);
+  }
+  if (delivery.probable.length > 0) {
+    console.log(`Probable duplicate warning(s): ${delivery.probable.map((match) => `${match.candidateId} ~ ${match.incidentId} (${match.score})`).join('; ')}`);
+  }
   if (ghAvailable(repositoryRoot)) {
     const url = await openPullRequest(repositoryRoot, files);
-    const cleanup = await cleanupDeliveredCandidates(repositoryRoot, files);
+    const cleanup = await archiveDeliveredCandidates(repositoryRoot, files);
     console.log(`Candidate review pull request: ${url}`);
-    if (cleanup.preserved.length > 0) console.log(`Preserved ${cleanup.preserved.length} candidate file(s) changed during delivery.`);
+    if (cleanup.archived.length > 0) console.log(`Archived ${cleanup.archived.length} delivered candidate file(s).`);
+    if (cleanup.preserved.length > 0) console.log(`Preserved ${cleanup.preserved.length} tracked candidate file(s).`);
     return;
   }
   const destination = resolve(repositoryRoot, options.patchPath);

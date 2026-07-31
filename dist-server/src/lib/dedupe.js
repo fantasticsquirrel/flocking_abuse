@@ -29,6 +29,8 @@ const overlaps = (left, right) => {
     return right.some((item) => normalized.has(normalize(item)));
 };
 const monthIndex = (value) => {
+    if (!value)
+        return undefined;
     const [year = '0', month = '1'] = value.split('-');
     return Number(year) * 12 + Number(month) - 1;
 };
@@ -36,14 +38,14 @@ export function compareIncidents(candidate, existing) {
     const reasons = [];
     const candidateUrls = new Set(candidate.sources.map((source) => canonicalizeUrl(source.url)));
     if (existing.sources.some((source) => candidateUrls.has(canonicalizeUrl(source.url)))) {
-        return { incidentId: existing.id, isDuplicate: true, score: 1, reasons: ['canonical source URL match'] };
+        return { incidentId: existing.id, isDuplicate: true, classification: 'exact', score: 1, reasons: ['canonical source URL match'] };
     }
     const candidateCases = new Set(candidate.legal_or_policy_context.case_numbers.map(normalize));
     const caseMatch = existing.legal_or_policy_context.case_numbers.find((item) => candidateCases.has(normalize(item)));
     if (caseMatch)
-        return { incidentId: existing.id, isDuplicate: true, score: 1, reasons: [`case number match: ${caseMatch.toLocaleLowerCase('en-US')}`] };
+        return { incidentId: existing.id, isDuplicate: true, classification: 'exact', score: 1, reasons: [`case number match: ${caseMatch.toLocaleLowerCase('en-US')}`] };
     if (normalize(candidate.uniqueness.canonical_key) === normalize(existing.uniqueness.canonical_key)) {
-        return { incidentId: existing.id, isDuplicate: true, score: 1, reasons: ['canonical incident key match'] };
+        return { incidentId: existing.id, isDuplicate: true, classification: 'exact', score: 1, reasons: ['canonical incident key match'] };
     }
     let score = 0;
     const similarity = tokenSimilarity(candidate.title, existing.title);
@@ -61,7 +63,9 @@ export function compareIncidents(candidate, existing) {
         score += 0.15;
         reasons.push('location match');
     }
-    if (Math.abs(monthIndex(candidate.dates.occurred) - monthIndex(existing.dates.occurred)) <= 1) {
+    const candidateMonth = monthIndex(candidate.dates.occurred);
+    const existingMonth = monthIndex(existing.dates.occurred);
+    if (typeof candidateMonth === 'number' && typeof existingMonth === 'number' && Math.abs(candidateMonth - existingMonth) <= 1) {
         score += 0.2;
         reasons.push('date window match');
     }
@@ -70,7 +74,8 @@ export function compareIncidents(candidate, existing) {
         reasons.push('incident type match');
     }
     const rounded = Math.min(1, Number(score.toFixed(3)));
-    return { incidentId: existing.id, isDuplicate: rounded >= 0.7, score: rounded, reasons };
+    const isDuplicate = rounded >= 0.7;
+    return { incidentId: existing.id, isDuplicate, classification: isDuplicate ? 'probable' : 'distinct', score: rounded, reasons };
 }
 export function findDuplicates(candidate, existing) {
     return existing

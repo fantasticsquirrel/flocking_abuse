@@ -43,7 +43,9 @@ npm run validate:data
 npm run candidate:pr -- --candidate data/candidates/YYYY-MM-DD-source-slug.yaml
 ```
 
-With GitHub auth, candidate delivery uses an isolated worktree, opens a pull request, and removes only unchanged **untracked** delivered files from the discovery checkout so they are not submitted again. Tracked files and files changed during delivery are preserved. Without auth it writes `candidate-review.patch`, archives unchanged untracked source candidates under ignored mode-restricted `.local/delivered-candidates/`, and preserves tracked or concurrently changed files; no shell interpolation is used.
+Before any patch, commit, push, or PR, candidate delivery compares the selected records against published incidents, stored candidates, and the current delivery batch. Exact URL/key/case matches block delivery; probable fuzzy matches are printed with scores for human review.
+
+With GitHub auth, delivery uses an isolated worktree and opens a pull request. After confirmed PR or patch delivery, each untracked source candidate is atomically moved—not read/compared/deleted—into ignored mode-restricted `.local/delivered-candidates/`; concurrent replacement content therefore remains preserved in the archive. Tracked files are never moved. Without auth it writes `candidate-review.patch`; no shell interpolation is used.
 
 ## Daily prompt
 

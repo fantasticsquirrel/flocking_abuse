@@ -31,6 +31,31 @@ describe('IncidentSchema', () => {
     expect(IncidentSchema.safeParse(fixture).success).toBe(true);
   });
 
+  it('rejects news or advocacy sources mislabeled as primary', () => {
+    const fixture = loadFixture('validIncident.yaml') as { sources: Array<Record<string, unknown>> };
+    fixture.sources[0]!.source_type = 'news';
+    fixture.sources[0]!.reliability = 'primary';
+    const result = IncidentSchema.safeParse(fixture);
+    expect(result.success).toBe(false);
+    if (!result.success) expect(result.error.issues.map((issue) => issue.message).join(' ')).toMatch(/direct official or public record/i);
+  });
+
+  it('does not count publisher aliases on one source host as independent corroboration', () => {
+    const fixture = loadFixture('validIncident.yaml') as Record<string, unknown>;
+    const baseSource = {
+      url: 'https://news.example/story-one', title: 'Story one', publisher: 'News Brand One',
+      published_date: '2026-07-02', source_type: 'news', reliability: 'corroborating', key_claims: ['Reported claim'],
+    };
+    fixture.sources = [baseSource, { ...baseSource, url: 'https://news.example/story-two', publisher: 'News Brand Two' }];
+    expect(IncidentSchema.safeParse(fixture).success).toBe(false);
+  });
+
+  it('allows an unknown occurrence date without presenting an estimated month as fact', () => {
+    const fixture = loadFixture('validIncident.yaml') as { dates: { occurred: string } };
+    fixture.dates.occurred = '';
+    expect(IncidentSchema.safeParse(fixture).success).toBe(true);
+  });
+
   it('rejects invalid calendar dates and identifies the failing path', () => {
     const fixture = loadFixture('validIncident.yaml') as { dates: { occurred: string } };
     fixture.dates.occurred = '2026-13-40';

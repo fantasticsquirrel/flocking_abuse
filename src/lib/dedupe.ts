@@ -3,6 +3,7 @@ import type { Incident } from './incidentSchema.js';
 export interface DuplicateComparison {
   incidentId: string;
   isDuplicate: boolean;
+  classification: 'exact' | 'probable' | 'distinct';
   score: number;
   reasons: string[];
 }
@@ -37,7 +38,8 @@ const overlaps = (left: string[], right: string[]): boolean => {
   return right.some((item) => normalized.has(normalize(item)));
 };
 
-const monthIndex = (value: string): number => {
+const monthIndex = (value: string): number | undefined => {
+  if (!value) return undefined;
   const [year = '0', month = '1'] = value.split('-');
   return Number(year) * 12 + Number(month) - 1;
 };
@@ -46,15 +48,15 @@ export function compareIncidents(candidate: Incident, existing: Incident): Dupli
   const reasons: string[] = [];
   const candidateUrls = new Set(candidate.sources.map((source) => canonicalizeUrl(source.url)));
   if (existing.sources.some((source) => candidateUrls.has(canonicalizeUrl(source.url)))) {
-    return { incidentId: existing.id, isDuplicate: true, score: 1, reasons: ['canonical source URL match'] };
+    return { incidentId: existing.id, isDuplicate: true, classification: 'exact', score: 1, reasons: ['canonical source URL match'] };
   }
 
   const candidateCases = new Set(candidate.legal_or_policy_context.case_numbers.map(normalize));
   const caseMatch = existing.legal_or_policy_context.case_numbers.find((item) => candidateCases.has(normalize(item)));
-  if (caseMatch) return { incidentId: existing.id, isDuplicate: true, score: 1, reasons: [`case number match: ${caseMatch.toLocaleLowerCase('en-US')}`] };
+  if (caseMatch) return { incidentId: existing.id, isDuplicate: true, classification: 'exact', score: 1, reasons: [`case number match: ${caseMatch.toLocaleLowerCase('en-US')}`] };
 
   if (normalize(candidate.uniqueness.canonical_key) === normalize(existing.uniqueness.canonical_key)) {
-    return { incidentId: existing.id, isDuplicate: true, score: 1, reasons: ['canonical incident key match'] };
+    return { incidentId: existing.id, isDuplicate: true, classification: 'exact', score: 1, reasons: ['canonical incident key match'] };
   }
 
   let score = 0;
@@ -69,10 +71,13 @@ export function compareIncidents(candidate: Incident, existing: Incident): Dupli
   if (candidateLocation.some((part) => existingLocation.includes(part)) && normalize(candidate.location.state) === normalize(existing.location.state)) {
     score += 0.15; reasons.push('location match');
   }
-  if (Math.abs(monthIndex(candidate.dates.occurred) - monthIndex(existing.dates.occurred)) <= 1) { score += 0.2; reasons.push('date window match'); }
+  const candidateMonth = monthIndex(candidate.dates.occurred);
+  const existingMonth = monthIndex(existing.dates.occurred);
+  if (typeof candidateMonth === 'number' && typeof existingMonth === 'number' && Math.abs(candidateMonth - existingMonth) <= 1) { score += 0.2; reasons.push('date window match'); }
   if (overlaps(candidate.incident_type, existing.incident_type)) { score += 0.2; reasons.push('incident type match'); }
   const rounded = Math.min(1, Number(score.toFixed(3)));
-  return { incidentId: existing.id, isDuplicate: rounded >= 0.7, score: rounded, reasons };
+  const isDuplicate = rounded >= 0.7;
+  return { incidentId: existing.id, isDuplicate, classification: isDuplicate ? 'probable' : 'distinct', score: rounded, reasons };
 }
 
 export function findDuplicates(candidate: Incident, existing: Incident[]): DuplicateComparison[] {

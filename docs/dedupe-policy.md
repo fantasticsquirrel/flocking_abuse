@@ -22,7 +22,7 @@ The deterministic comparison also scores:
 - occurred dates within one month;
 - overlapping incident types.
 
-A score of `0.70` or higher is a probable duplicate. The tool returns the score and every contributing reason so a human can override a false match.
+A score of `0.70` or higher is a probable duplicate. The tool returns the score and every contributing reason so a human can override a false match. Unknown occurrence dates receive no date-window score.
 
 ## Canonical key
 

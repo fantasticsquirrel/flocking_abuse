@@ -100,7 +100,7 @@ const slugify = (value: string): string => value.toLocaleLowerCase('en-US').norm
 function toIncident(input: CandidateInput, now: Date): Incident {
   const date = now.toISOString().slice(0, 10);
   const actor = slugify(input.agency);
-  const canonicalKey = `${slugify(input.location.state || input.location.country)}/${slugify(input.location.county || input.location.city)}:${input.publishedDate.slice(0, 7)}:${actor}:${input.incidentTypes[0]}`;
+  const canonicalKey = `${slugify(input.location.state || input.location.country)}/${slugify(input.location.county || input.location.city)}:unknown:${actor}:${input.incidentTypes[0]}`;
   return IncidentSchema.parse({
     id: `${date}-${slugify(input.title)}`,
     title: input.title,
@@ -109,7 +109,7 @@ function toIncident(input: CandidateInput, now: Date): Incident {
     incident_type: input.incidentTypes,
     location: input.location,
     actors: { agencies: [input.agency], officials_or_entities: [], vendor_entities: ['Flock Safety'] },
-    dates: { occurred: input.publishedDate, discovered: date, reported: input.publishedDate },
+    dates: { occurred: '', discovered: date, reported: input.publishedDate },
     sources: [{
       url: input.url, title: input.title, publisher: input.publisher, published_date: input.publishedDate,
       source_type: input.sourceType, ...(input.archiveUrl ? { archive_url: input.archiveUrl } : {}),
@@ -186,7 +186,7 @@ export function createApp(options: AppOptions): express.Express {
       const existingResult = await validateDataDirectory(options.dataDir);
       if (!existingResult.valid) { response.status(500).json({ error: 'Existing data failed validation' }); return; }
       const duplicates = findDuplicates(incident, existingResult.records);
-      const exact = duplicates.filter((duplicate) => duplicate.score === 1);
+      const exact = duplicates.filter((duplicate) => duplicate.classification === 'exact');
       if (exact.length > 0) { response.status(409).json({ error: 'Exact duplicate', duplicates: exact }); return; }
       const filename = await writeCandidate(options.dataDir, incident);
       response.status(201).json({ filename, id: incident.id, duplicateWarnings: duplicates });

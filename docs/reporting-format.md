@@ -27,7 +27,7 @@ actors:
   officials_or_entities: []
   vendor_entities: ["Flock Safety"]
 dates:
-  occurred: "YYYY-MM-DD or YYYY-MM if known"
+  occurred: "YYYY-MM-DD or YYYY-MM if known; empty string when unknown"
   discovered: "YYYY-MM-DD or YYYY-MM if known"
   reported: "YYYY-MM-DD"
 sources:
@@ -37,7 +37,7 @@ sources:
     published_date: "YYYY-MM-DD"
     source_type: "news" # news | court-record | government-record | advocacy-report | public-record | official-statement | other
     archive_url: "https://web.archive.org/... optional"
-    reliability: "primary" # primary | corroborating | background
+    reliability: "primary" # primary only for direct official/public record types; otherwise corroborating | background
     key_claims:
       - "Specific claim supported by this source."
 legal_or_policy_context:
@@ -62,7 +62,9 @@ updated_at: "YYYY-MM-DD"
 2. **Verified incidents need either:**
    - one primary source, such as a court filing, official record, public-record document, official statement, or direct admission; or
    - two independent reliable secondary sources.
+   Publisher labels and canonical source hosts must both be independent; two brand labels on one host do not satisfy this gate.
 3. **Use neutral wording.** Attribute claims to sources unless legally/adjudicatively established.
 4. **No private personal data** unless it is central to the public report and already published by a reliable source.
 5. **Do not merge distinct incidents** just because they involve the same jurisdiction; track each separate misuse/reportable event independently.
 6. **Do not duplicate the same incident** across follow-up articles; add follow-up sources and outcomes to the canonical incident.
+7. **Do not invent occurrence dates.** Use an empty `occurred` value and an `unknown` canonical-key segment until a cited source establishes the date or month.

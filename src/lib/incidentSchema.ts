@@ -37,6 +37,8 @@ export const PartialDateSchema = z.string().superRefine((value, context) => {
 });
 const FullDateSchema = PartialDateSchema.refine((value) => value.length === 10, 'Use YYYY-MM-DD');
 
+const directPrimarySourceTypes = new Set(['court-record', 'government-record', 'public-record', 'official-statement']);
+
 export const SourceSchema = z.object({
   url: httpUrl,
   title: z.string().trim().min(1),
@@ -46,7 +48,15 @@ export const SourceSchema = z.object({
   archive_url: httpUrl.optional(),
   reliability: SourceReliabilitySchema,
   key_claims: z.array(z.string().trim().min(1)).min(1, 'Each source needs at least one key claim'),
-}).strict();
+}).strict().superRefine((source, context) => {
+  if (source.reliability === 'primary' && !directPrimarySourceTypes.has(source.source_type)) {
+    context.addIssue({
+      code: 'custom',
+      path: ['reliability'],
+      message: 'Primary reliability requires a direct official or public record source type',
+    });
+  }
+});
 
 export const IncidentSchema = z.object({
   id: z.string().min(1).max(120).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'ID must be lowercase and URL-safe (letters, numbers, hyphens)'),
@@ -66,7 +76,7 @@ export const IncidentSchema = z.object({
     vendor_entities: z.array(z.string().trim().min(1)),
   }).strict(),
   dates: z.object({
-    occurred: PartialDateSchema,
+    occurred: z.union([PartialDateSchema, z.literal('')]),
     discovered: PartialDateSchema,
     reported: FullDateSchema,
   }).strict(),
@@ -95,7 +105,12 @@ export const IncidentSchema = z.object({
       .filter((source) => source.reliability === 'corroborating')
       .map((source) => source.publisher.trim().toLocaleLowerCase('en-US')),
   );
-  if (independentPublishers.size < 2) {
+  const independentHosts = new Set(
+    incident.sources
+      .filter((source) => source.reliability === 'corroborating')
+      .map((source) => new URL(source.url).hostname.toLocaleLowerCase('en-US').replace(/^www\./, '')),
+  );
+  if (independentPublishers.size < 2 || independentHosts.size < 2) {
     context.addIssue({
       code: 'custom',
       path: ['sources'],
