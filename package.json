@@ -28,6 +28,7 @@
     "express-rate-limit": "^8.0.1",
     "helmet": "^8.1.0",
     "js-yaml": "^4.1.0",
+    "marked": "16.4.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "zod": "^4.0.14"

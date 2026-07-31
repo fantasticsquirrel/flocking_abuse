@@ -25,7 +25,10 @@ export function IncidentCard({ incident }: IncidentCardProps) {
       </header>
 
       <dl className="incident-meta">
+        <div><dt>Occurred</dt><dd>{incident.dates.occurred || 'Unknown'}</dd></div>
+        <div><dt>Discovered</dt><dd>{incident.dates.discovered}</dd></div>
         <div><dt>Reported</dt><dd>{incident.dates.reported}</dd></div>
+        <div><dt>Updated</dt><dd>{incident.updated_at}</dd></div>
         <div><dt>Location</dt><dd>{formatLocation(incident)}</dd></div>
         <div><dt>Agency / entity</dt><dd>{incident.actors.agencies.join(', ') || 'Not identified'}</dd></div>
       </dl>
@@ -39,6 +42,16 @@ export function IncidentCard({ incident }: IncidentCardProps) {
         </ul>
       </section>
 
+      <section aria-labelledby={`accountability-${incident.id}`}>
+        <h3 id={`accountability-${incident.id}`}>Accountability context</h3>
+        <dl className="accountability-meta">
+          <div><dt>Officials or entities</dt><dd>{incident.actors.officials_or_entities.join(', ') || 'Not identified'}</dd></div>
+          <div><dt>Technology vendors</dt><dd>{incident.actors.vendor_entities.join(', ') || 'Not identified'}</dd></div>
+          <div><dt>Cases</dt><dd>{incident.legal_or_policy_context.case_numbers.join(', ') || 'None cited'}</dd></div>
+          <div><dt>Policies or statutes</dt><dd>{incident.legal_or_policy_context.statutes_or_policies.join(', ') || 'None cited'}</dd></div>
+        </dl>
+      </section>
+
       <section aria-labelledby={`outcomes-${incident.id}`}>
         <h3 id={`outcomes-${incident.id}`}>Reported outcomes</h3>
         <ul>{incident.outcomes.map((outcome) => <li key={outcome}>{outcome}</li>)}</ul>
@@ -49,13 +62,13 @@ export function IncidentCard({ incident }: IncidentCardProps) {
         {incident.sources.map((source) => (
           <div className="source-record" key={source.url}>
             <a href={source.url} target="_blank" rel="noopener noreferrer">
-              {source.title} — {source.publisher}
+              {source.title} — {source.publisher} <span className="sr-only">(opens in a new tab)</span>
             </a>
-            <p className="source-record__meta">{source.published_date} // {source.source_type} // {source.reliability}</p>
+            <p className="source-record__meta">{source.published_date || 'Publication date unknown'} // {source.source_type} // {source.reliability}</p>
             <ul>{source.key_claims.map((claim) => <li key={claim}>{claim}</li>)}</ul>
             {source.archive_url ? (
               <a className="archive-link" href={source.archive_url} target="_blank" rel="noopener noreferrer">
-                Archived copy <span className="sr-only">of {source.title}</span>
+                Archived copy <span className="sr-only">of {source.title} (opens in a new tab)</span>
               </a>
             ) : null}
           </div>

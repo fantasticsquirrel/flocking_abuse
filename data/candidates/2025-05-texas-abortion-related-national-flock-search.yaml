@@ -1,3 +1,4 @@
+schema_version: 1
 id: 2025-05-texas-abortion-related-national-flock-search
 status: candidate
 title: "Texas sheriff's office used national Flock search in abortion-related investigation"
@@ -55,6 +56,7 @@ uniqueness:
   duplicate_of: null
 review:
   added_by: manual
+  approval: pending
   reviewed_by: ""
   reviewed_at: ""
   notes: >-

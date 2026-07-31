@@ -14,6 +14,7 @@ const validEnv = {
   ADMIN_SESSION_SECRET: 'a-production-session-secret-with-more-than-32-bytes',
   APP_ORIGIN: 'https://tracker.example.org',
   PORT: '4173',
+  RELEASE_SHA: '0123456789abcdef0123456789abcdef01234567',
 };
 
 describe('production server configuration', () => {
@@ -22,6 +23,7 @@ describe('production server configuration', () => {
     expect(() => readRuntimeConfig({ ...validEnv, APP_ORIGIN: 'javascript:alert(1)' }, '/srv/tracker')).toThrow(/APP_ORIGIN/);
     expect(() => readRuntimeConfig({ ...validEnv, ADMIN_SESSION_SECRET: 'short' }, '/srv/tracker')).toThrow(/ADMIN_SESSION_SECRET/);
     expect(() => readRuntimeConfig({ ...validEnv, PORT: '70000' }, '/srv/tracker')).toThrow(/PORT/);
+    expect(() => readRuntimeConfig({ ...validEnv, APP_ORIGIN: 'http://tracker.example.org' }, '/srv/tracker')).toThrow(/https/i);
   });
 
   it('binds to loopback and resolves data, static, and docs paths from the working directory', () => {
@@ -38,14 +40,18 @@ describe('production server configuration', () => {
     roots.push(root);
     await mkdir(join(root, 'dist', 'assets'), { recursive: true });
     await mkdir(join(root, 'docs'), { recursive: true });
-    await mkdir(join(root, 'data'), { recursive: true });
+    await mkdir(join(root, 'data', 'candidates'), { recursive: true });
     await writeFile(join(root, 'dist', 'index.html'), '<!doctype html><title>tracker app</title><div id="root"></div>');
     await writeFile(join(root, 'dist', 'assets', 'app.js'), 'console.log("static")');
     await writeFile(join(root, 'docs', 'source-policy.md'), '# Source Policy');
     const config = readRuntimeConfig({ ...validEnv, NODE_ENV: 'test', DATA_DIR: join(root, 'data'), DIST_DIR: join(root, 'dist'), DOCS_DIR: join(root, 'docs') }, root);
     const app = createProductionApp(config);
-    expect((await request(app).get('/health')).body).toEqual({ status: 'ok' });
-    expect((await request(app).get('/docs/source-policy.md')).text).toContain('# Source Policy');
+    expect((await request(app).get('/live')).body).toEqual({ status: 'ok' });
+    expect((await request(app).get('/health')).body).toMatchObject({ status: 'ready' });
+    const documentation = await request(app).get('/docs/source-policy.html');
+    expect(documentation.status).toBe(200);
+    expect(documentation.type).toMatch(/html/);
+    expect(documentation.text).toContain('<h1>Source Policy</h1>');
     expect((await request(app).get('/assets/app.js')).text).toContain('static');
     expect((await request(app).get('/admin')).text).toContain('tracker app');
     expect((await request(app).get('/../../etc/passwd')).status).toBe(200);

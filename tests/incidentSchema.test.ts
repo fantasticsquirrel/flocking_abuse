@@ -51,8 +51,37 @@ describe('IncidentSchema', () => {
   });
 
   it('allows an unknown occurrence date without presenting an estimated month as fact', () => {
-    const fixture = loadFixture('validIncident.yaml') as { dates: { occurred: string } };
+    const fixture = loadFixture('validIncident.yaml') as { dates: { occurred: string }; uniqueness: { canonical_key: string } };
     fixture.dates.occurred = '';
+    fixture.uniqueness.canonical_key = 'us/example:unknown:example-agency:other';
+    expect(IncidentSchema.safeParse(fixture).success).toBe(true);
+  });
+
+  it('couples unknown occurrence dates to an unknown canonical-key segment', () => {
+    const fixture = loadFixture('validIncident.yaml') as { dates: { occurred: string }; uniqueness: { canonical_key: string } };
+    fixture.dates.occurred = '';
+    expect(IncidentSchema.safeParse(fixture).success).toBe(false);
+    fixture.uniqueness.canonical_key = 'us/example:unknown:example-agency:other';
+    expect(IncidentSchema.safeParse(fixture).success).toBe(true);
+    fixture.dates.occurred = '2026-07';
+    expect(IncidentSchema.safeParse(fixture).success).toBe(false);
+  });
+
+  it('requires structured human approval for public statuses', () => {
+    const fixture = loadFixture('validIncident.yaml') as { review: { approval: string; reviewed_by: string; reviewed_at: string } };
+    fixture.review.approval = 'pending';
+    fixture.review.reviewed_by = '';
+    fixture.review.reviewed_at = '';
+    expect(IncidentSchema.safeParse(fixture).success).toBe(false);
+    fixture.review.approval = 'human-approved';
+    fixture.review.reviewed_by = 'Site owner';
+    fixture.review.reviewed_at = '2026-07-31';
+    expect(IncidentSchema.safeParse(fixture).success).toBe(true);
+  });
+
+  it('represents sources with an unknown publication date explicitly', () => {
+    const fixture = loadFixture('validIncident.yaml') as { sources: Array<{ published_date: string }> };
+    fixture.sources[0]!.published_date = '';
     expect(IncidentSchema.safeParse(fixture).success).toBe(true);
   });
 

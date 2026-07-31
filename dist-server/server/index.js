@@ -1,8 +1,12 @@
+import { constants as fsConstants } from 'node:fs';
+import { access, readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
 import express from 'express';
+import { marked } from 'marked';
 import { z } from 'zod';
 import { createApp } from './app.js';
+import { validateDataDirectory } from '../scripts/data-utils.js';
 const portSchema = z.coerce.number().int().min(1).max(65_535);
 const originSchema = z.string().url().superRefine((value, context) => {
     const parsed = new URL(value);
@@ -32,6 +36,11 @@ export function readRuntimeConfig(env, cwd = process.cwd()) {
     const parsedOrigin = originSchema.safeParse(origin.replace(/\/$/, ''));
     if (!parsedOrigin.success)
         throw new Error(`APP_ORIGIN is invalid: ${parsedOrigin.error.issues.map((issue) => issue.message).join('; ')}`);
+    if (nodeEnv === 'production' && new URL(parsedOrigin.data).protocol !== 'https:')
+        throw new Error('APP_ORIGIN must use https in production');
+    const releaseSha = nodeEnv === 'production' ? requireValue(env, 'RELEASE_SHA') : (env.RELEASE_SHA?.trim() || 'development');
+    if (nodeEnv === 'production' && !/^[a-f0-9]{40}$/i.test(releaseSha))
+        throw new Error('RELEASE_SHA must be a full 40-character Git commit SHA');
     return {
         nodeEnv,
         host: '127.0.0.1',
@@ -43,6 +52,7 @@ export function readRuntimeConfig(env, cwd = process.cwd()) {
         sessionSecret,
         allowedOrigin: parsedOrigin.data,
         secureCookies: nodeEnv === 'production',
+        releaseSha,
     };
 }
 export function createProductionApp(config) {
@@ -52,6 +62,42 @@ export function createProductionApp(config) {
         sessionSecret: config.sessionSecret,
         allowedOrigin: config.allowedOrigin,
         secureCookies: config.secureCookies,
+        readiness: async () => {
+            try {
+                await access(resolve(config.distDir, 'index.html'), fsConstants.R_OK);
+                await access(resolve(config.dataDir, 'candidates'), fsConstants.R_OK | fsConstants.W_OK);
+                const validation = await validateDataDirectory(config.dataDir);
+                if (!validation.valid)
+                    return { ready: false, release: config.releaseSha, error: 'Incident data validation failed' };
+                return { ready: true, release: config.releaseSha };
+            }
+            catch (error) {
+                return { ready: false, release: config.releaseSha, error: error instanceof Error ? error.message : 'Readiness check failed' };
+            }
+        },
+    });
+    const documentation = new Map([
+        ['source-policy', 'Source policy'],
+        ['reporting-format', 'Reporting format'],
+        ['manual-admin', 'Admin manual'],
+        ['automation', 'Discovery automation'],
+        ['dedupe-policy', 'Deduplication policy'],
+    ]);
+    app.get('/docs/:document.html', async (request, response, next) => {
+        try {
+            const documentName = request.params.document ?? '';
+            const title = documentation.get(documentName);
+            if (!title) {
+                response.status(404).json({ error: 'Not found' });
+                return;
+            }
+            const markdown = await readFile(resolve(config.docsDir, `${documentName}.md`), 'utf8');
+            const content = await marked.parse(markdown, { gfm: true });
+            response.type('html').send(`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title} — Flocking Abuse Tracker</title><style>body{max-width:76ch;margin:auto;padding:2rem;font:18px/1.65 system-ui;background:#050907;color:#eef8ee}a{color:#72ff9d}code,pre{background:#0d1712}pre{padding:1rem;overflow:auto}</style></head><body><header><nav aria-label="Primary"><a href="/">Public ledger</a> · <a href="/admin">Admin intake</a></nav></header><main>${content}</main></body></html>`);
+        }
+        catch (error) {
+            next(error);
+        }
     });
     app.use('/docs', express.static(config.docsDir, {
         dotfiles: 'deny',

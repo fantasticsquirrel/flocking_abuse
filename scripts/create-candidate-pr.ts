@@ -1,15 +1,16 @@
 import { randomBytes } from 'node:crypto';
-import { chmod, mkdir, mkdtemp, readFile, readdir, rename, rm, writeFile } from 'node:fs/promises';
+import { chmod, link, mkdir, mkdtemp, readFile, readdir, rename, rm, unlink, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { dirname, extname, isAbsolute, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 import yaml from 'js-yaml';
+import { atomicWriteRestricted } from './atomic-file.js';
 import { validateDataDirectory } from './data-utils.js';
 import { IncidentSchema, type Incident } from '../src/lib/incidentSchema.js';
 import { findDuplicates, type DuplicateComparison } from '../src/lib/dedupe.js';
 
-export interface CandidateFile { path: string; content: string }
+export interface CandidateFile { path: string; content: string; sourcePath?: string }
 
 export function candidateRelativePath(repositoryRoot: string, candidatePath: string): string {
   const root = resolve(repositoryRoot);
@@ -33,29 +34,53 @@ export function renderReviewPatch(files: CandidateFile[]): string {
 export async function archiveDeliveredCandidates(repositoryRoot: string, files: CandidateFile[]): Promise<{ archived: string[]; preserved: string[] }> {
   const archived: string[] = [];
   const preserved: string[] = [];
-  const archiveDirectory = resolve(repositoryRoot, '.local', 'delivered-candidates');
-  await mkdir(archiveDirectory, { recursive: true, mode: 0o700 });
-  await chmod(archiveDirectory, 0o700);
+  const repository = resolve(repositoryRoot);
   for (const file of files) {
     const relativePath = candidateRelativePath(repositoryRoot, resolve(repositoryRoot, file.path));
-    const absolutePath = resolve(repositoryRoot, relativePath);
-    const tracked = spawnSync('git', ['ls-files', '--error-unmatch', '--', relativePath], {
+    const sourcePath = resolve(file.sourcePath ?? resolve(repositoryRoot, relativePath));
+    const sourceInsideRepository = relative(repository, sourcePath);
+    const sourceIsInRepository = sourceInsideRepository !== '..' && !sourceInsideRepository.startsWith(`..${sep}`) && !isAbsolute(sourceInsideRepository);
+    const tracked = sourceIsInRepository && spawnSync('git', ['ls-files', '--error-unmatch', '--', sourceInsideRepository.split(sep).join('/')], {
       cwd: repositoryRoot, encoding: 'utf8', stdio: 'ignore',
     }).status === 0;
     if (tracked) {
       preserved.push(relativePath);
       continue;
     }
-    try {
-      const basename = relativePath.split('/').at(-1) ?? 'candidate.yaml';
-      const destination = resolve(archiveDirectory, `${Date.now()}-${randomBytes(8).toString('hex')}-${basename}`);
-      await rename(absolutePath, destination);
-      await chmod(destination, 0o600);
-      archived.push(destination);
-    } catch (error) {
+
+    const claimPath = join(dirname(sourcePath), `.${sourcePath.split(sep).at(-1) ?? 'candidate.yaml'}.claim-${randomBytes(8).toString('hex')}`);
+    try { await rename(sourcePath, claimPath); }
+    catch (error) {
       if ((error as NodeJS.ErrnoException).code === 'ENOENT') continue;
       throw error;
     }
+    const claimedContent = await readFile(claimPath, 'utf8');
+    if (claimedContent !== file.content) {
+      let restorePath = sourcePath;
+      try {
+        await link(claimPath, restorePath);
+      } catch (error) {
+        if ((error as NodeJS.ErrnoException).code !== 'EEXIST') throw error;
+        const extension = extname(sourcePath);
+        const stem = sourcePath.slice(0, -extension.length);
+        restorePath = `${stem}-revised-${randomBytes(4).toString('hex')}${extension}`;
+        await link(claimPath, restorePath);
+      }
+      await unlink(claimPath);
+      preserved.push(sourceIsInRepository ? relative(repository, restorePath).split(sep).join('/') : restorePath);
+      continue;
+    }
+
+    const archiveDirectory = sourceIsInRepository
+      ? resolve(repositoryRoot, '.local', 'delivered-candidates')
+      : resolve(dirname(sourcePath), '..', '.delivered-candidates');
+    await mkdir(archiveDirectory, { recursive: true, mode: 0o700 });
+    await chmod(archiveDirectory, 0o700);
+    const basename = relativePath.split('/').at(-1) ?? 'candidate.yaml';
+    const destination = resolve(archiveDirectory, `${Date.now()}-${randomBytes(8).toString('hex')}-${basename}`);
+    await rename(claimPath, destination);
+    await chmod(destination, 0o600);
+    archived.push(destination);
   }
   return { archived, preserved };
 }
@@ -98,14 +123,41 @@ const run = (command: string, arguments_: string[], cwd: string, allowFailure = 
   return (result.stdout || '').trim();
 };
 
-async function candidateFiles(repositoryRoot: string, explicit: string[]): Promise<CandidateFile[]> {
+export async function loadCandidateFiles(repositoryRoot: string, explicit: string[], inboxDirectory?: string): Promise<CandidateFile[]> {
+  const inboxRoot = inboxDirectory ? resolve(inboxDirectory) : undefined;
+  const repositoryCandidateRoot = resolve(repositoryRoot, 'data', 'candidates');
   const paths = explicit.length > 0
-    ? explicit.map((path) => resolve(repositoryRoot, path))
-    : (await readdir(resolve(repositoryRoot, 'data', 'candidates'), { withFileTypes: true }))
-      .filter((entry) => entry.isFile() && /\.ya?ml$/i.test(entry.name))
-      .map((entry) => resolve(repositoryRoot, 'data', 'candidates', entry.name));
+    ? explicit.map((path) => isAbsolute(path) ? resolve(path) : resolve(repositoryRoot, path))
+    : await (async () => {
+      const sourceDirectory = inboxRoot ?? repositoryCandidateRoot;
+      return (await readdir(sourceDirectory, { withFileTypes: true }))
+        .filter((entry) => entry.isFile() && /\.ya?ml$/i.test(entry.name))
+        .map((entry) => resolve(sourceDirectory, entry.name));
+    })();
   if (paths.length === 0) throw new Error('No candidate YAML files found');
-  return await Promise.all(paths.sort().map(async (path) => ({ path: candidateRelativePath(repositoryRoot, path), content: await readFile(path, 'utf8') })));
+  const files = await Promise.all(paths.sort().map(async (path): Promise<CandidateFile> => {
+    let patchPath: string;
+    const relativeToRepositoryCandidates = relative(repositoryCandidateRoot, path);
+    const inRepositoryCandidates = relativeToRepositoryCandidates && relativeToRepositoryCandidates !== '..'
+      && !relativeToRepositoryCandidates.startsWith(`..${sep}`) && !isAbsolute(relativeToRepositoryCandidates);
+    if (inRepositoryCandidates) patchPath = candidateRelativePath(repositoryRoot, path);
+    else {
+      if (!inboxRoot) throw new Error('External candidate files require --candidate-inbox');
+      const relativeToInbox = relative(inboxRoot, path);
+      if (!relativeToInbox || relativeToInbox === '..' || relativeToInbox.startsWith(`..${sep}`) || isAbsolute(relativeToInbox) || relativeToInbox.includes(sep)) {
+        throw new Error('Candidate files must be direct YAML children of the configured inbox');
+      }
+      if (!/\.ya?ml$/i.test(relativeToInbox)) throw new Error('Candidate files must use YAML');
+      patchPath = `data/candidates/${relativeToInbox}`;
+    }
+    return { path: patchPath, sourcePath: path, content: await readFile(path, 'utf8') };
+  }));
+  const targets = new Set<string>();
+  for (const file of files) {
+    if (targets.has(file.path)) throw new Error(`Multiple candidate sources map to ${file.path}`);
+    targets.add(file.path);
+  }
+  return files;
 }
 
 const ghAvailable = (repositoryRoot: string): boolean => {
@@ -136,13 +188,14 @@ async function openPullRequest(repositoryRoot: string, files: CandidateFile[]): 
   }
 }
 
-interface CliOptions { candidates: string[]; patchPath: string }
+interface CliOptions { candidates: string[]; patchPath: string; candidateInbox?: string }
 const parseCli = (arguments_: string[]): CliOptions => {
   const options: CliOptions = { candidates: [], patchPath: 'candidate-review.patch' };
   for (let index = 0; index < arguments_.length; index += 1) {
     const value = arguments_[index]; const next = arguments_[index + 1];
     if (value === '--candidate' && next) { options.candidates.push(next); index += 1; }
     else if (value === '--patch' && next) { options.patchPath = next; index += 1; }
+    else if (value === '--candidate-inbox' && next) { options.candidateInbox = next; index += 1; }
     else throw new Error(`Unknown or incomplete option: ${value}`);
   }
   return options;
@@ -153,7 +206,7 @@ async function runCli(): Promise<void> {
   const options = parseCli(process.argv.slice(2));
   const validation = await validateDataDirectory(resolve(repositoryRoot, 'data'));
   if (!validation.valid) throw new Error(`Candidate validation failed:\n${validation.errors.join('\n')}`);
-  const files = await candidateFiles(repositoryRoot, options.candidates);
+  const files = await loadCandidateFiles(repositoryRoot, options.candidates, options.candidateInbox);
   const candidates = files.map((file) => IncidentSchema.parse(yaml.load(file.content)));
   if (candidates.some((candidate) => !['candidate', 'draft'].includes(candidate.status))) throw new Error('Candidate delivery accepts only candidate or draft status');
   const delivery = evaluateCandidateDelivery(candidates, validation.records);
@@ -173,7 +226,7 @@ async function runCli(): Promise<void> {
     return;
   }
   const destination = resolve(repositoryRoot, options.patchPath);
-  await writeFile(destination, renderReviewPatch(files), { mode: 0o600 });
+  await atomicWriteRestricted(destination, renderReviewPatch(files));
   const archive = await archiveDeliveredCandidates(repositoryRoot, files);
   console.log(`GitHub authentication unavailable; review patch written to ${destination}`);
   if (archive.archived.length > 0) console.log(`Archived ${archive.archived.length} delivered candidate file(s) under ${resolve(repositoryRoot, '.local', 'delivered-candidates')}.`);

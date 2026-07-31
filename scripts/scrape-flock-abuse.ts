@@ -1,12 +1,13 @@
 import { lookup as dnsLookup } from 'node:dns/promises';
-import { readFile, writeFile } from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
 import http from 'node:http';
 import https from 'node:https';
-import { isIP } from 'node:net';
+import { BlockList, isIP } from 'node:net';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { Incident } from '../src/lib/incidentSchema.js';
 import { canonicalizeUrl } from '../src/lib/dedupe.js';
+import { atomicWriteRestricted } from './atomic-file.js';
 import { validateDataDirectory } from './data-utils.js';
 
 export interface RawResponse { status: number; body: Buffer; headers: Record<string, string> }
@@ -51,14 +52,17 @@ const inV4Range = (address: string, network: string, prefix: number): boolean =>
   return (v4Number(address) & mask) === (v4Number(network) & mask);
 };
 
+const blockedV6 = new BlockList();
+for (const [network, prefix] of [
+  ['::', 96], ['::ffff:0:0', 96], ['64:ff9b::', 96], ['64:ff9b:1::', 48], ['100::', 64],
+  ['2001::', 23], ['2001:db8::', 32], ['2002::', 16], ['3fff::', 20], ['fc00::', 7], ['fe80::', 10], ['fec0::', 10], ['ff00::', 8],
+] as const) blockedV6.addSubnet(network, prefix, 'ipv6');
+
 export function isPublicAddress(address: string): boolean {
   const family = isIP(address);
   if (family === 4) return !blockedV4.some(([network, prefix]) => inV4Range(address, network, prefix));
   if (family !== 6) return false;
-  const normalized = address.toLocaleLowerCase('en-US');
-  if (normalized === '::' || normalized === '::1' || normalized.startsWith('fc') || normalized.startsWith('fd') || normalized.startsWith('fe8') || normalized.startsWith('fe9') || normalized.startsWith('fea') || normalized.startsWith('feb') || normalized.startsWith('ff') || normalized.startsWith('2001:db8:')) return false;
-  if (normalized.startsWith('::ffff:')) return isPublicAddress(normalized.slice(7));
-  return true;
+  return !blockedV6.check(address, 'ipv6');
 }
 
 const defaultLookup: ScraperDependencies['lookup'] = async (hostname) => await dnsLookup(hostname, { all: true, verbatim: true });
@@ -75,11 +79,18 @@ export async function validatePublicUrl(raw: string, lookup: ScraperDependencies
   return { url, addresses };
 }
 
-const defaultRequester: Requester = async (rawUrl, pinnedAddress) => {
+export const requestWithLimits = async (rawUrl: string, pinnedAddress?: string, absoluteTimeoutMs = 10_000): Promise<RawResponse> => {
   const url = new URL(rawUrl);
   const address = pinnedAddress ?? url.hostname;
   const transport = url.protocol === 'https:' ? https : http;
   return await new Promise<RawResponse>((resolveRequest, reject) => {
+    let settled = false;
+    const finish = (operation: () => void): void => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(deadline);
+      operation();
+    };
     const request = transport.request({
       protocol: url.protocol,
       hostname: address,
@@ -88,7 +99,7 @@ const defaultRequester: Requester = async (rawUrl, pinnedAddress) => {
       method: 'GET',
       headers: { Host: url.host, 'User-Agent': USER_AGENT, Accept: 'text/html,application/xhtml+xml,text/plain;q=0.8,*/*;q=0.2' },
       servername: url.protocol === 'https:' ? url.hostname : undefined,
-      timeout: 10_000,
+      timeout: absoluteTimeoutMs,
     }, (response) => {
       const chunks: Buffer[] = [];
       let size = 0;
@@ -100,27 +111,61 @@ const defaultRequester: Requester = async (rawUrl, pinnedAddress) => {
       response.on('end', () => {
         const headers: Record<string, string> = {};
         for (const [key, value] of Object.entries(response.headers)) if (value !== undefined) headers[key] = Array.isArray(value) ? value.join(', ') : value;
-        resolveRequest({ status: response.statusCode ?? 0, body: Buffer.concat(chunks), headers });
+        finish(() => resolveRequest({ status: response.statusCode ?? 0, body: Buffer.concat(chunks), headers }));
       });
     });
+    const deadline = setTimeout(() => request.destroy(new Error('Source request exceeded absolute deadline')), absoluteTimeoutMs);
     request.on('timeout', () => request.destroy(new Error('Source request timed out')));
-    request.on('error', reject);
+    request.on('error', (error) => finish(() => reject(error)));
     request.end();
   });
 };
+const defaultRequester: Requester = async (rawUrl, pinnedAddress) => await requestWithLimits(rawUrl, pinnedAddress);
 
-const robotsAllows = (body: string, pathname: string): boolean => {
-  let applies = false;
+interface RobotsRule { allow: boolean; pattern: string }
+interface RobotsGroup { agents: string[]; rules: RobotsRule[] }
+
+const robotsPattern = (pattern: string): RegExp => {
+  const anchored = pattern.endsWith('$');
+  const source = (anchored ? pattern.slice(0, -1) : pattern)
+    .replace(/[.+?^${}()|[\]\\]/g, '\\$&')
+    .replace(/\*/g, '.*');
+  return new RegExp(`^${source}${anchored ? '$' : ''}`);
+};
+
+export const robotsAllows = (body: string, pathname: string): boolean => {
+  const groups: RobotsGroup[] = [];
+  let group: RobotsGroup | undefined;
+  let sawRule = false;
   for (const rawLine of body.split(/\r?\n/)) {
     const line = rawLine.replace(/#.*$/, '').trim();
     const separator = line.indexOf(':');
     if (separator < 0) continue;
     const field = line.slice(0, separator).trim().toLocaleLowerCase('en-US');
     const value = line.slice(separator + 1).trim();
-    if (field === 'user-agent') applies = value === '*' || value.toLocaleLowerCase('en-US').includes('flockingabusetracker');
-    if (applies && field === 'disallow' && value && pathname.startsWith(value)) return false;
+    if (field === 'user-agent') {
+      if (!group || sawRule) {
+        group = { agents: [], rules: [] };
+        groups.push(group);
+        sawRule = false;
+      }
+      group.agents.push(value.toLocaleLowerCase('en-US'));
+    } else if ((field === 'allow' || field === 'disallow') && group) {
+      sawRule = true;
+      if (value) group.rules.push({ allow: field === 'allow', pattern: value });
+    }
   }
-  return true;
+  const crawler = 'flockingabusetracker';
+  const ranked = groups.map((candidate) => ({
+    candidate,
+    specificity: Math.max(-1, ...candidate.agents.map((agent) => agent === '*' ? 0 : crawler.includes(agent) ? agent.length : -1)),
+  })).filter(({ specificity }) => specificity >= 0);
+  const bestSpecificity = Math.max(-1, ...ranked.map(({ specificity }) => specificity));
+  const matchingRules = ranked.filter(({ specificity }) => specificity === bestSpecificity).flatMap(({ candidate }) => candidate.rules);
+  const matches = matchingRules
+    .filter((rule) => robotsPattern(rule.pattern).test(pathname))
+    .sort((left, right) => right.pattern.replace(/[*$]/g, '').length - left.pattern.replace(/[*$]/g, '').length || Number(right.allow) - Number(left.allow));
+  return matches[0]?.allow ?? true;
 };
 
 const requestValidated = async (url: URL, deps: ScraperDependencies): Promise<RawResponse> => {
@@ -128,21 +173,34 @@ const requestValidated = async (url: URL, deps: ScraperDependencies): Promise<Ra
   return await deps.request(validated.url.toString(), validated.addresses[0]?.address);
 };
 
+const fetchRobots = async (origin: string, deps: ScraperDependencies): Promise<string> => {
+  let current = new URL('/robots.txt', origin);
+  for (let redirect = 0; redirect <= 4; redirect += 1) {
+    const response = await requestValidated(current, deps);
+    if ([301, 302, 303, 307, 308].includes(response.status)) {
+      const location = response.headers.location;
+      if (!location) throw new Error('robots.txt redirect omitted Location');
+      current = new URL(location, current);
+      await validatePublicUrl(current.toString(), deps.lookup);
+      continue;
+    }
+    if (response.status >= 200 && response.status < 300) return response.body.toString('utf8');
+    if (response.status === 401 || response.status === 403) return 'User-agent: *\nDisallow: /';
+    if (response.status >= 500) throw new Error(`robots.txt returned HTTP ${response.status}`);
+    return '';
+  }
+  throw new Error('robots.txt exceeded redirect limit');
+};
+
 export async function fetchDiscoverablePage(rawUrl: string, dependencies?: Partial<ScraperDependencies>): Promise<{ finalUrl: string; html: string }> {
   const deps: ScraperDependencies = { lookup: dependencies?.lookup ?? defaultLookup, request: dependencies?.request ?? defaultRequester };
   let validated = await validatePublicUrl(rawUrl, deps.lookup);
   let current = validated.url;
-  const robotsByOrigin = new Map<string, string | undefined>();
+  const robotsByOrigin = new Map<string, string>();
   for (let redirect = 0; redirect <= 4; redirect += 1) {
-    if (!robotsByOrigin.has(current.origin)) {
-      const robotsUrl = new URL('/robots.txt', current.origin);
-      const robotsResponse = await requestValidated(robotsUrl, deps);
-      robotsByOrigin.set(current.origin, robotsResponse.status >= 200 && robotsResponse.status < 300
-        ? robotsResponse.body.toString('utf8')
-        : undefined);
-    }
-    const robotsBody = robotsByOrigin.get(current.origin);
-    if (robotsBody !== undefined && !robotsAllows(robotsBody, current.pathname)) throw new Error('robots.txt disallows this source path');
+    if (!robotsByOrigin.has(current.origin)) robotsByOrigin.set(current.origin, await fetchRobots(current.origin, deps));
+    const robotsBody = robotsByOrigin.get(current.origin) ?? '';
+    if (!robotsAllows(robotsBody, `${current.pathname}${current.search}`)) throw new Error('robots.txt disallows this source path');
     validated = await validatePublicUrl(current.toString(), deps.lookup);
     const response = await deps.request(validated.url.toString(), validated.addresses[0]?.address);
     if ([301, 302, 303, 307, 308].includes(response.status)) {
@@ -276,9 +334,14 @@ async function runCli(): Promise<void> {
   const incidents = await loadExistingRecords(options.dataDir);
   if (options.dataFile) incidents.push(...JSON.parse(await readFile(resolve(options.dataFile), 'utf8')) as Incident[]);
   let prior: DiscoveryFinding[] = [];
-  try { prior = (JSON.parse(await readFile(resolve(options.output), 'utf8')) as DiscoveryReport).findings ?? []; } catch { /* first run */ }
+  const outputPath = resolve(options.output);
+  try {
+    prior = (JSON.parse(await readFile(outputPath, 'utf8')) as DiscoveryReport).findings ?? [];
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw new Error(`Existing discovery state is malformed or unreadable: ${outputPath}`, { cause: error });
+  }
   const report = await runSeedDiscovery(seeds, incidents, prior);
-  await writeFile(resolve(options.output), `${JSON.stringify(report, null, 2)}\n`, { mode: 0o600 });
+  await atomicWriteRestricted(outputPath, `${JSON.stringify(report, null, 2)}\n`);
   console.log(`Discovery complete: ${report.newCandidates} new, ${report.duplicatesSkipped} duplicates, ${report.uncertain} uncertain, ${report.failures.length} failures. No records were auto-published.`);
   if (report.failures.length > 0 && report.findings.length === 0) process.exitCode = 1;
 }

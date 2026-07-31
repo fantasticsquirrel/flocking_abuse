@@ -17,6 +17,8 @@ A `verified` public incident requires either:
 
 Candidates with only one secondary source may be tracked privately as `candidate` until corroborated.
 
+Every public record also requires `review.approval: human-approved`, a non-automation reviewer identity or accountable role, and a full `reviewed_at` date. Candidate and draft records must remain `pending`; scraper, agent, or automation labels never satisfy this gate. Deployment authorization must explicitly include the public record boundary before the accountable site-owner role is recorded.
+
 `reliability: primary` is accepted only with `court-record`, `government-record`, `public-record`, or `official-statement`. News and advocacy reporting cannot become primary merely by changing a label. Secondary-source independence requires distinct publisher identities and distinct canonical source hosts.
 
 ## Citation requirements

@@ -17,7 +17,7 @@ describe('public tracker', () => {
     render(<App incidents={[]} />);
     expect(screen.getByRole('heading', { name: 'Flocking Abuse Tracker', level: 1 })).toBeInTheDocument();
     expect(screen.getByText(/no verified or disputed incidents have been published/i)).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /read the source policy/i })).toHaveAttribute('href', '/docs/source-policy.md');
+    expect(screen.getByRole('link', { name: /read the source policy/i })).toHaveAttribute('href', '/docs/source-policy.html');
     expect(screen.queryByText(/synthetic fixture/i)).not.toBeInTheDocument();
   });
 
@@ -25,10 +25,15 @@ describe('public tracker', () => {
     render(<App incidents={[fixture()]} />);
     const article = screen.getByRole('article', { name: /synthetic fixture: audit report/i });
     expect(within(article).getByText(/Exampleville, Example County, EX/i)).toBeInTheDocument();
+    expect(within(article).getByText('2026-06')).toBeInTheDocument();
+    expect(within(article).getByText('2026-07-01')).toBeInTheDocument();
+    expect(within(article).getByText('Flock Safety')).toBeInTheDocument();
+    expect(within(article).getByText('Synthetic Policy 1')).toBeInTheDocument();
     expect(within(article).getByText('retention-or-access-policy')).toBeInTheDocument();
     expect(within(article).getByText('Synthetic corrective action')).toBeInTheDocument();
     expect(within(article).getByText(/Synthetic claim used only to test validation/i)).toBeInTheDocument();
     const sourceLink = within(article).getByRole('link', { name: /Synthetic Official Audit — Example Inspector General/i });
+    expect(sourceLink).toHaveAccessibleName(/opens in a new tab/i);
     expect(sourceLink).toHaveAttribute('target', '_blank');
     expect(sourceLink).toHaveAttribute('rel', expect.stringContaining('noopener'));
     expect(sourceLink).toHaveAttribute('rel', expect.stringContaining('noreferrer'));
@@ -49,6 +54,7 @@ describe('public tracker', () => {
     const user = userEvent.setup();
     await user.type(screen.getByRole('searchbox', { name: /search incidents/i }), 'Example Inspector');
     expect(screen.getAllByRole('article')).toHaveLength(1);
+    expect(screen.getByRole('status')).toHaveTextContent('1 incident shown');
     expect(new URLSearchParams(window.location.search).get('q')).toBe('Example Inspector');
     await user.clear(screen.getByRole('searchbox', { name: /search incidents/i }));
     await user.selectOptions(screen.getByLabelText('State'), 'ZZ');
@@ -58,5 +64,15 @@ describe('public tracker', () => {
     await user.selectOptions(screen.getByLabelText('Incident type'), 'vendor-or-contracting');
     expect(screen.getByRole('heading', { name: 'Different contracting challenge' })).toBeInTheDocument();
     expect(window.location.search).toContain('state=ZZ');
+  });
+
+  it('searches accountability fields such as agencies and policy context', async () => {
+    render(<App incidents={[fixture()]} />);
+    const user = userEvent.setup();
+    await user.type(screen.getByRole('searchbox', { name: /search incidents/i }), 'Example Police Department');
+    expect(screen.getAllByRole('article')).toHaveLength(1);
+    await user.clear(screen.getByRole('searchbox', { name: /search incidents/i }));
+    await user.type(screen.getByRole('searchbox', { name: /search incidents/i }), 'Synthetic Policy 1');
+    expect(screen.getAllByRole('article')).toHaveLength(1);
   });
 });

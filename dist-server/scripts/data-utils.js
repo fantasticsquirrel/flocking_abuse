@@ -1,6 +1,7 @@
 import { readdir, readFile } from 'node:fs/promises';
 import { join, relative } from 'node:path';
 import yaml from 'js-yaml';
+import { compareIncidents } from '../src/lib/dedupe.js';
 import { IncidentSchema } from '../src/lib/incidentSchema.js';
 async function yamlFiles(directory) {
     try {
@@ -59,6 +60,18 @@ export async function validateDataDirectory(dataDir) {
         }
         catch (error) {
             errors.push(`${relativePath}: ${error instanceof Error ? error.message : String(error)}`);
+        }
+    }
+    for (let left = 0; left < records.length; left += 1) {
+        for (let right = left + 1; right < records.length; right += 1) {
+            const first = records[left];
+            const second = records[right];
+            if (!first || !second)
+                continue;
+            const comparison = compareIncidents(first, second);
+            if (comparison.classification === 'exact') {
+                errors.push(`exact duplicate ${first.id} and ${second.id}: ${comparison.reasons.join(', ')}`);
+            }
         }
     }
     return { valid: errors.length === 0, records, publicRecords, candidateRecords, errors };

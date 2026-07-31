@@ -1,0 +1,92 @@
+# Production deployment and rollback
+
+Production is an exact-commit release, not a mutable working tree. The public edge terminates TLS in nginx; the application listens only on `127.0.0.1:8110` as the unprivileged `flocking-abuse` account.
+
+## Layout
+
+- immutable releases: `/opt/flocking-abuse/releases/<40-character Git SHA>`
+- atomic active link: `/opt/flocking-abuse/current`
+- mutable accepted/candidate data: `/var/lib/flocking-abuse/data`
+- secrets: `/etc/flocking-abuse/flocking-abuse.env` (`0600`, root-owned)
+- non-secret release identity: `/etc/flocking-abuse/release.env`
+- systemd unit: `/etc/systemd/system/flocking-abuse.service`
+- nginx site: `/etc/nginx/sites-available/flockingabuse.multihost.ing`
+- deployment backups: `/var/backups/flocking-abuse/release-*`
+
+## Prerequisites
+
+1. DNS resolves `flockingabuse.multihost.ing` to the host.
+2. A dedicated certificate exists under `/etc/letsencrypt/live/flockingabuse.multihost.ing/` and `certbot renew --dry-run` passes.
+3. The service account, secret file, data directories, and root-only backup directory exist.
+4. The candidate/public data tree validates under the release schema. Every YAML record declares `schema_version: 1`; public records also carry `review.approval: human-approved` and non-automation reviewer provenance.
+5. The requested Git SHA has green CI and a clean exact-SHA local release gate.
+
+Do not copy a candidate into the public incident directory. A schema migration must be reviewed and run against a backup before release; startup readiness deliberately fails closed on old or invalid data.
+
+## Deploy an exact SHA
+
+From a clean checkout at the exact reviewed commit:
+
+```bash
+sudo ./deploy/release.sh /opt/flocking_abuse "$(git rev-parse HEAD)"
+```
+
+The script:
+
+1. verifies the exact clean commit;
+2. backs up mutable data and operational configuration;
+3. exports the commit to a new immutable release directory;
+4. runs `npm ci`, validates live data, builds, and prunes development dependencies;
+5. atomically switches `/opt/flocking-abuse/current`;
+6. installs/verifies systemd, writes the exact release identity, and restarts the service;
+7. requires `/health` to report `ready` and the exact SHA;
+8. installs/tests nginx and reloads the edge only after application readiness.
+
+The deploy refuses invalid live data and automatically returns the service link to the previous release if readiness fails.
+
+## Verification
+
+```bash
+systemctl is-active flocking-abuse.service
+systemctl show flocking-abuse.service -p User -p Group -p FragmentPath
+ss -ltnp | grep '127.0.0.1:8110'
+curl --fail --silent http://127.0.0.1:8110/live
+curl --fail --silent http://127.0.0.1:8110/health
+curl --fail --silent --show-error https://flockingabuse.multihost.ing/health
+curl -I https://flockingabuse.multihost.ing/
+```
+
+Verify security headers, public filtering/details/source links, password-only login, CSRF/origin rejection, candidate persistence, logout, restart persistence, semantic documentation pages, and absence of candidates from the public bundle. Remove only the uniquely identified smoke candidate after proving persistence.
+
+## Rollback
+
+Choose a previously deployed 40-character release directory and switch the symlink and release identity atomically:
+
+```bash
+old_sha=<reviewed-40-character-sha>
+next=/opt/flocking-abuse/.rollback-$$
+ln -s "/opt/flocking-abuse/releases/$old_sha" "$next"
+mv -Tf "$next" /opt/flocking-abuse/current
+printf 'RELEASE_SHA=%s\n' "$old_sha" >/tmp/flocking-release.env
+install -m 0644 -o root -g root /tmp/flocking-release.env /etc/flocking-abuse/release.env
+rm -f /tmp/flocking-release.env
+systemctl restart flocking-abuse.service
+curl --fail --silent http://127.0.0.1:8110/health
+```
+
+If the release included a data migration, restore the matching data backup before starting the old binary. Never restore secrets into Git or a world-readable path.
+
+## Secret rotation
+
+Generate a new password hash and session secret offline, replace `/etc/flocking-abuse/flocking-abuse.env` atomically with mode `0600`, restart the service, and confirm all old sessions fail. Never print secret values into deployment logs.
+
+## Candidate review delivery
+
+Manual admin intake writes to `/var/lib/flocking-abuse/data/candidates`. Deliver that inbox into a review-only PR or patch from the discovery checkout:
+
+```bash
+cd /opt/flocking-abuse-discovery
+npm run candidate:pr -- --candidate-inbox /var/lib/flocking-abuse/data/candidates --patch /var/lib/flocking-abuse/data/candidate-review.patch
+```
+
+A successful delivery atomically archives only the delivered snapshot. Concurrent replacements remain queued. The command never publishes records.

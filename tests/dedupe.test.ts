@@ -80,6 +80,21 @@ describe('compareIncidents', () => {
     expect(comparison.reasons).not.toContain('date window match');
   });
 
+  it('does not award a locality score for country-only records', () => {
+    const existing = fixture();
+    const candidate = structuredClone(existing);
+    candidate.id = 'country-only-candidate';
+    candidate.sources[0]!.url = 'https://different.example/country-only';
+    candidate.uniqueness.canonical_key = 'different-country-only-key';
+    for (const record of [existing, candidate]) {
+      record.location.city = '';
+      record.location.county = '';
+      record.location.state = '';
+      record.dates.occurred = '';
+    }
+    expect(compareIncidents(candidate, existing).reasons).not.toContain('location match');
+  });
+
   it('keeps a different event distinct and returns the best comparisons in stable score order', () => {
     const existing = fixture();
     const candidate = structuredClone(existing);

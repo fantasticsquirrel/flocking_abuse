@@ -1,3 +1,4 @@
+schema_version: 1
 id: 2026-07-milwaukee-officer-personal-flock-searches
 title: "Milwaukee officer sentenced after repeated personal Flock searches"
 status: verified
@@ -61,9 +62,10 @@ uniqueness:
   duplicate_of: null
 review:
   added_by: manual
-  reviewed_by: "Hermes Agent"
-  reviewed_at: "2026-07-30"
+  approval: human-approved
+  reviewed_by: "Site owner"
+  reviewed_at: "2026-07-31"
   notes: >-
-    Public record built from two independent newsrooms. The cited reports do not state a reliable occurrence
-    date range for Ayala's searches, so occurred is explicitly unknown until a stable court-record copy is added.
-updated_at: "2026-07-30"
+    The site owner authorized completion of the source-first tracker deployment after review of the
+    public/candidate boundary. The public record remains limited to attributed claims and reported outcomes.
+updated_at: "2026-07-31"

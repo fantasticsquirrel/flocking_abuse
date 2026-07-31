@@ -1,3 +1,5 @@
+import { createServer } from 'node:http';
+import type { AddressInfo } from 'node:net';
 import { mkdtemp, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -6,6 +8,7 @@ import {
   fetchDiscoverablePage,
   isPublicAddress,
   loadExistingRecords,
+  requestWithLimits,
   runSeedDiscovery,
   validatePublicUrl,
   type Requester,
@@ -17,7 +20,7 @@ const response = (status: number, body: string, headers: Record<string, string> 
 
 describe('scraper network safety', () => {
   it('rejects loopback, private, link-local, carrier-grade NAT, documentation, multicast, and reserved addresses', () => {
-    for (const address of ['127.0.0.1', '10.1.2.3', '169.254.2.3', '172.16.2.3', '192.168.1.2', '100.64.0.1', '192.0.2.1', '198.51.100.2', '203.0.113.2', '224.0.0.1', '::1', 'fc00::1', 'fe80::1', '2001:db8::1']) {
+    for (const address of ['127.0.0.1', '10.1.2.3', '169.254.2.3', '172.16.2.3', '192.168.1.2', '100.64.0.1', '192.0.2.1', '198.51.100.2', '203.0.113.2', '224.0.0.1', '::1', 'fc00::1', 'fe80::1', 'fec0::1', '2001:db8::1', '64:ff9b::7f00:1', '::ffff:127.0.0.1', '2002:7f00:1::']) {
       expect(isPublicAddress(address), address).toBe(false);
     }
     expect(isPublicAddress('93.184.216.34')).toBe(true);
@@ -29,6 +32,20 @@ describe('scraper network safety', () => {
     await expect(validatePublicUrl('https://user:pass@example.org/report', publicLookup)).rejects.toThrow(/credentials/i);
     await expect(validatePublicUrl('http://localhost/report', publicLookup)).rejects.toThrow(/hostname/i);
     await expect(validatePublicUrl('https://example.org/report', async () => [{ address: '93.184.216.34', family: 4 }, { address: '127.0.0.1', family: 4 }])).rejects.toThrow(/non-public/i);
+  });
+
+  it('enforces an absolute response deadline even while bytes keep arriving', async () => {
+    const server = createServer((_request, response) => {
+      const interval = setInterval(() => response.write('x'), 10);
+      response.on('close', () => clearInterval(interval));
+    });
+    await new Promise<void>((resolveListen) => server.listen(0, '127.0.0.1', resolveListen));
+    const { port } = server.address() as AddressInfo;
+    try {
+      await expect(requestWithLimits(`http://source.example:${port}/`, '127.0.0.1', 50)).rejects.toThrow(/absolute deadline/i);
+    } finally {
+      await new Promise<void>((resolveClose) => server.close(() => resolveClose()));
+    }
   });
 
   it('checks every redirect target and blocks a redirect into a private network', async () => {
@@ -56,6 +73,21 @@ describe('scraper network safety', () => {
     await expect(fetchDiscoverablePage('https://news.example/allowed/report', { lookup: publicLookup, request: requester })).rejects.toThrow(/robots\.txt/i);
     expect(requester).toHaveBeenCalledTimes(2);
   });
+
+  it('implements robots groups, wildcard rules, and fail-closed temporary errors', async () => {
+    const grouped = vi.fn<Requester>().mockResolvedValueOnce(response(200, [
+      'User-agent: FlockingAbuseTracker',
+      'User-agent: OtherBot',
+      'Disallow: /secret',
+    ].join('\n')));
+    await expect(fetchDiscoverablePage('https://news.example/secret/report', { lookup: publicLookup, request: grouped })).rejects.toThrow(/robots\.txt/i);
+
+    const wildcard = vi.fn<Requester>().mockResolvedValueOnce(response(200, 'User-agent: *\nDisallow: /*.pdf$'));
+    await expect(fetchDiscoverablePage('https://news.example/document.pdf', { lookup: publicLookup, request: wildcard })).rejects.toThrow(/robots\.txt/i);
+
+    const temporaryFailure = vi.fn<Requester>().mockResolvedValueOnce(response(503, 'retry later'));
+    await expect(fetchDiscoverablePage('https://news.example/report', { lookup: publicLookup, request: temporaryFailure })).rejects.toThrow(/robots.*503/i);
+  });
 });
 
 describe('existing record loading', () => {
@@ -68,7 +100,9 @@ describe('existing record loading', () => {
     await writeFile(join(root, 'candidates', 'candidate.yaml'), fixture
       .replace('2026-07-synthetic-example', 'candidate-existing-example')
       .replace('status: "verified"', 'status: "candidate"')
-      .replace('https://example.org/investigation', 'https://example.org/candidate-source'));
+      .replace('approval: "human-approved"', 'approval: "pending"')
+      .replace('https://example.gov/audits/synthetic-report', 'https://example.org/candidate-source')
+      .replace('ex/example/exampleville:2026-06:example-police:retention-or-access-policy', 'ex/example/exampleville:2026-06:candidate-agency:retention-or-access-policy'));
     const records = await loadExistingRecords(root);
     expect(records.map((record) => record.status).sort()).toEqual(['candidate', 'verified']);
   });

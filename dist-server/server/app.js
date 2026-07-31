@@ -40,7 +40,14 @@ const CandidateInputSchema = z.object({
 }).strict();
 const cookieValue = (request, name) => {
     const pair = request.headers.cookie?.split(';').map((item) => item.trim()).find((item) => item.startsWith(`${name}=`));
-    return pair ? decodeURIComponent(pair.slice(name.length + 1)) : undefined;
+    if (!pair)
+        return undefined;
+    try {
+        return decodeURIComponent(pair.slice(name.length + 1));
+    }
+    catch {
+        return undefined;
+    }
 };
 const signature = (payload, secret) => createHmac('sha256', secret).update(payload).digest('base64url');
 const createSessionToken = (session, secret) => {
@@ -109,6 +116,7 @@ function toIncident(input, now) {
     const actor = slugify(input.agency);
     const canonicalKey = `${slugify(input.location.state || input.location.country)}/${slugify(input.location.county || input.location.city)}:unknown:${actor}:${input.incidentTypes[0]}`;
     return IncidentSchema.parse({
+        schema_version: 1,
         id: `${date}-${slugify(input.title)}`,
         title: input.title,
         status: 'candidate',
@@ -125,7 +133,7 @@ function toIncident(input, now) {
         legal_or_policy_context: { case_numbers: [], statutes_or_policies: [] },
         outcomes: ['Unknown — candidate awaiting review'],
         uniqueness: { canonical_key: canonicalKey, duplicate_of: null },
-        review: { added_by: 'manual', reviewed_by: '', reviewed_at: '', notes: input.notes },
+        review: { approval: 'pending', added_by: 'manual', reviewed_by: '', reviewed_at: '', notes: input.notes },
         updated_at: date,
     });
 }
@@ -164,12 +172,34 @@ export function createApp(options) {
         response.set({ 'Cache-Control': 'no-store, max-age=0', Pragma: 'no-cache', Expires: '0' });
         next();
     });
-    app.get('/health', (_request, response) => response.json({ status: 'ok' }));
+    app.get('/live', (_request, response) => response.json({ status: 'ok' }));
+    app.get('/health', async (_request, response) => {
+        const result = options.readiness ? await options.readiness() : { ready: true };
+        response.status(result.ready ? 200 : 503).json({
+            status: result.ready ? 'ready' : 'not-ready',
+            ...(result.release ? { release: result.release } : {}),
+            ...(result.error ? { error: result.error } : {}),
+        });
+    });
     app.get('/api/admin/session', (request, response) => {
         const session = readSession(request, options);
         response.json(session ? { authenticated: true, csrfToken: session.csrf } : { authenticated: false });
     });
     const loginLimiter = rateLimit({ windowMs: 15 * 60 * 1000, limit: options.loginLimit ?? 8, standardHeaders: true, legacyHeaders: false });
+    const mutationLimiter = rateLimit({ windowMs: 60 * 60 * 1000, limit: options.mutationLimit ?? 120, standardHeaders: true, legacyHeaders: false });
+    let candidateQueue = Promise.resolve();
+    const serializeCandidateMutation = async (operation) => {
+        const previous = candidateQueue;
+        let release = () => undefined;
+        candidateQueue = new Promise((resolveQueue) => { release = resolveQueue; });
+        await previous;
+        try {
+            return await operation();
+        }
+        finally {
+            release();
+        }
+    };
     app.post('/api/admin/login', requireOrigin(options), loginLimiter, async (request, response) => {
         const supplied = z.object({ password: z.string() }).strict().safeParse(request.body);
         const valid = await bcrypt.compare(supplied.success ? supplied.data.password : '', options.passwordHash).catch(() => false);
@@ -186,7 +216,7 @@ export function createApp(options) {
         setSessionCookie(response, '', options.secureCookies, 0);
         response.status(204).end();
     });
-    app.post('/api/admin/candidates', requireOrigin(options), requireAdmin(options), requireCsrf, async (request, response, next) => {
+    app.post('/api/admin/candidates', requireOrigin(options), requireAdmin(options), requireCsrf, mutationLimiter, async (request, response, next) => {
         try {
             const parsed = CandidateInputSchema.safeParse(request.body);
             if (!parsed.success) {
@@ -194,25 +224,35 @@ export function createApp(options) {
                 return;
             }
             const incident = toIncident(parsed.data, options.now?.() ?? new Date());
-            const existingResult = await validateDataDirectory(options.dataDir);
-            if (!existingResult.valid) {
-                response.status(500).json({ error: 'Existing data failed validation' });
-                return;
-            }
-            const duplicates = findDuplicates(incident, existingResult.records);
-            const exact = duplicates.filter((duplicate) => duplicate.classification === 'exact');
-            if (exact.length > 0) {
-                response.status(409).json({ error: 'Exact duplicate', duplicates: exact });
-                return;
-            }
-            const filename = await writeCandidate(options.dataDir, incident);
-            response.status(201).json({ filename, id: incident.id, duplicateWarnings: duplicates });
+            await serializeCandidateMutation(async () => {
+                const existingResult = await validateDataDirectory(options.dataDir);
+                if (!existingResult.valid) {
+                    response.status(500).json({ error: 'Existing data failed validation' });
+                    return;
+                }
+                if (existingResult.candidateRecords.length >= 5_000) {
+                    response.status(507).json({ error: 'Candidate storage quota reached' });
+                    return;
+                }
+                const duplicates = findDuplicates(incident, existingResult.records);
+                const exact = duplicates.filter((duplicate) => duplicate.classification === 'exact');
+                if (exact.length > 0) {
+                    response.status(409).json({ error: 'Exact duplicate', duplicates: exact });
+                    return;
+                }
+                const filename = await writeCandidate(options.dataDir, incident);
+                response.status(201).json({ filename, id: incident.id, duplicateWarnings: duplicates });
+            });
         }
         catch (error) {
             next(error);
         }
     });
     app.use((error, _request, response, _next) => {
+        if (error.type === 'entity.too.large' || error.status === 413) {
+            response.status(413).json({ error: 'Request body too large' });
+            return;
+        }
         if (error instanceof SyntaxError) {
             response.status(400).json({ error: 'Invalid JSON' });
             return;

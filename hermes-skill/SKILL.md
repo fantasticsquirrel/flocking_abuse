@@ -41,7 +41,7 @@ npm run scrape -- --seed-file /tmp/flock-source-urls.txt --output candidate-find
 9. Inspect `candidate-findings.json`. Reject generic procurement, marketing, opinion-only stories, and follow-ups to known incidents. Treat inaccessible or ambiguous sources as uncertain, not approved.
 10. For each likely unique incident, write one `status: candidate` YAML record in `data/candidates/` using the complete reporting schema. Include neutral attribution, exact source metadata, `key_claims`, uniqueness reasoning, and review notes. Never write `verified` or `disputed`.
 11. Run `npm run validate:data` again.
-12. Deliver candidates with `npm run candidate:pr -- --candidate <path>`. The command blocks exact duplicates against incidents, candidates, and the current batch and surfaces probable matches. If GitHub auth is unavailable, retain the generated review patch and report its absolute path. Delivered untracked candidates are atomically archived; tracked files are never moved.
+12. Deliver repository candidates with `npm run candidate:pr -- --candidate <path>`, or manual runtime candidates with `npm run candidate:pr -- --candidate-inbox /var/lib/flocking-abuse/data/candidates`. The command blocks exact duplicates against incidents, candidates, and the current batch and surfaces probable matches. If GitHub auth is unavailable, retain the generated review patch and report its absolute path. Delivered untracked snapshots are atomically archived; concurrent replacements remain queued and tracked files are never moved.
 
 ## Final report
 

@@ -1,3 +1,4 @@
+schema_version: 1
 id: "2026-07-synthetic-example"
 title: "Synthetic fixture: audit report"
 status: "verified"
@@ -36,6 +37,7 @@ uniqueness:
   duplicate_of: null
 review:
   added_by: "manual"
+  approval: "human-approved"
   reviewed_by: "Fixture Reviewer"
   reviewed_at: "2026-07-03"
   notes: "SYNTHETIC TEST FIXTURE — not public data."

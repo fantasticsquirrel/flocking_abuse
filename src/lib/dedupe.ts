@@ -66,9 +66,11 @@ export function compareIncidents(candidate: Incident, existing: Incident): Dupli
     reasons.push(`title similarity ${similarity.toFixed(2)}`);
   }
   if (overlaps(candidate.actors.agencies, existing.actors.agencies)) { score += 0.2; reasons.push('agency match'); }
-  const candidateLocation = [candidate.location.country, candidate.location.state, candidate.location.county, candidate.location.city].map(normalize).filter(Boolean);
-  const existingLocation = [existing.location.country, existing.location.state, existing.location.county, existing.location.city].map(normalize).filter(Boolean);
-  if (candidateLocation.some((part) => existingLocation.includes(part)) && normalize(candidate.location.state) === normalize(existing.location.state)) {
+  const candidateState = normalize(candidate.location.state);
+  const existingState = normalize(existing.location.state);
+  const candidateLocality = [candidate.location.county, candidate.location.city].map(normalize).filter(Boolean);
+  const existingLocality = [existing.location.county, existing.location.city].map(normalize).filter(Boolean);
+  if (candidateState && candidateState === existingState && (candidateLocality.length === 0 || candidateLocality.some((part) => existingLocality.includes(part)))) {
     score += 0.15; reasons.push('location match');
   }
   const candidateMonth = monthIndex(candidate.dates.occurred);

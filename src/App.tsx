@@ -23,7 +23,17 @@ const normalizedText = (incident: Incident): string => [
   incident.location.county,
   incident.location.state,
   incident.location.country,
-  ...incident.sources.flatMap((source) => [source.title, source.publisher, ...source.key_claims]),
+  ...incident.actors.agencies,
+  ...incident.actors.officials_or_entities,
+  ...incident.actors.vendor_entities,
+  incident.dates.occurred,
+  incident.dates.discovered,
+  incident.dates.reported,
+  incident.updated_at,
+  ...incident.legal_or_policy_context.case_numbers,
+  ...incident.legal_or_policy_context.statutes_or_policies,
+  ...incident.outcomes,
+  ...incident.sources.flatMap((source) => [source.title, source.publisher, source.published_date, ...source.key_claims]),
 ].join(' ').toLocaleLowerCase('en-US');
 
 const updateQuery = (filters: FilterState) => {
@@ -69,8 +79,8 @@ export function App({ incidents }: AppProps) {
         <a className="wordmark" href="/" aria-label="Flocking Abuse Tracker home"><span aria-hidden="true" className="record-dot" />FAT // PUBLIC LEDGER</a>
         <nav aria-label="Primary">
           <a href="/">Incidents</a>
-          <a href="/docs/source-policy.md">Source policy</a>
-          <a href="/docs/reporting-format.md">Reporting format</a>
+          <a href="/docs/source-policy.html">Source policy</a>
+          <a href="/docs/reporting-format.html">Reporting format</a>
           <a href="/admin">Admin intake</a>
         </nav>
       </header>
@@ -95,12 +105,13 @@ export function App({ incidents }: AppProps) {
 
         <section className="incident-index" aria-labelledby="index-heading">
           <div className="index-heading"><p className="classification">RESULT SET // {String(shown.length).padStart(3, '0')}</p><h2 id="index-heading">Incident files</h2></div>
+          <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">{shown.length === 1 ? '1 incident shown' : `${shown.length} incidents shown`}</p>
           {incidents.length === 0 ? (
             <div className="empty-state">
               <p className="empty-state__code">NO PUBLIC FILES</p>
               <h3>No verified or disputed incidents have been published yet.</h3>
               <p>The public ledger stays empty until records meet the publication and source requirements. Candidate allegations are never shown here.</p>
-              <div className="empty-state__links"><a href="/docs/source-policy.md">Read the source policy</a><a href="/docs/reporting-format.md">Review the reporting format</a></div>
+              <div className="empty-state__links"><a href="/docs/source-policy.html">Read the source policy</a><a href="/docs/reporting-format.html">Review the reporting format</a></div>
             </div>
           ) : shown.length === 0 ? (
             <div className="empty-state"><p className="empty-state__code">NO MATCHES</p><h3>No incident files match these filters.</h3><p>Clear or change the query to search the complete public record.</p></div>

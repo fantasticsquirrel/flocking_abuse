@@ -1,3 +1,4 @@
+schema_version: 1
 id: "2026-07-synthetic-no-sources"
 title: "Synthetic invalid fixture"
 status: "candidate"
@@ -10,5 +11,5 @@ sources: []
 legal_or_policy_context: { case_numbers: [], statutes_or_policies: [] }
 outcomes: ["Unknown"]
 uniqueness: { canonical_key: "synthetic-invalid", duplicate_of: null }
-review: { added_by: "manual", reviewed_by: "", reviewed_at: "", notes: "SYNTHETIC" }
+review: { added_by: "manual", approval: "pending", reviewed_by: "", reviewed_at: "", notes: "SYNTHETIC" }
 updated_at: "2026-07-01"

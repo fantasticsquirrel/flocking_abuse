@@ -64,7 +64,8 @@ npm run candidate:pr -- --candidate data/candidates/example.yaml
 
 The admin API prevents a GitHub-Pages-only deployment. Production uses one loopback Node/Express service behind nginx and a dedicated Let's Encrypt certificate:
 
-- Checkout: `/opt/flocking_abuse`
+- Immutable releases: `/opt/flocking-abuse/releases/<40-character Git SHA>`
+- Atomic active link: `/opt/flocking-abuse/current`
 - Service: `flocking-abuse.service`
 - Loopback: `127.0.0.1:8110`
 - Public host: `https://flockingabuse.multihost.ing`
@@ -72,4 +73,4 @@ The admin API prevents a GitHub-Pages-only deployment. Production uses one loopb
 - Secret env: `/etc/flocking-abuse/flocking-abuse.env` (`0600`)
 - Copyable owner password: `/root/.credentials/flocking-abuse-admin-password.txt` (`0600`)
 
-Deployment templates live in `deploy/`. See [`docs/manual-admin.md`](docs/manual-admin.md) and [`docs/automation.md`](docs/automation.md).
+Deployment templates live in `deploy/`. See [`docs/deployment.md`](docs/deployment.md), [`docs/manual-admin.md`](docs/manual-admin.md), and [`docs/automation.md`](docs/automation.md).

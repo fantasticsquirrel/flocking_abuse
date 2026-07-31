@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import yaml from 'js-yaml';
 import { describe, expect, it } from 'vitest';
-import { archiveDeliveredCandidates, candidateRelativePath, evaluateCandidateDelivery, renderReviewPatch } from '../scripts/create-candidate-pr.js';
+import { archiveDeliveredCandidates, candidateRelativePath, evaluateCandidateDelivery, loadCandidateFiles, renderReviewPatch } from '../scripts/create-candidate-pr.js';
 import type { Incident } from '../src/lib/incidentSchema.js';
 
 const fixture = async (): Promise<Incident> => yaml.load(await readFile('tests/fixtures/validIncident.yaml', 'utf8')) as Incident;
@@ -41,18 +41,36 @@ describe('candidate review delivery', () => {
     }
   });
 
-  it('preserves a concurrent candidate change in the atomic archive', async () => {
+  it('preserves a concurrent candidate change in the active review queue', async () => {
     const root = await mkdtemp(join(tmpdir(), 'flocking-delivery-'));
     try {
       const candidate = join(root, 'data', 'candidates', 'report.yaml');
       await mkdir(join(root, 'data', 'candidates'), { recursive: true });
       await writeFile(candidate, 'status: candidate\nnotes: revised\n');
       const result = await archiveDeliveredCandidates(root, [{ path: 'data/candidates/report.yaml', content: 'status: candidate\n' }]);
-      expect(result.preserved).toEqual([]);
-      expect(result.archived).toHaveLength(1);
-      expect(await readFile(result.archived[0]!, 'utf8')).toContain('notes: revised');
+      expect(result.archived).toEqual([]);
+      expect(result.preserved).toContain('data/candidates/report.yaml');
+      expect(await readFile(candidate, 'utf8')).toContain('notes: revised');
     } finally {
       await rm(root, { recursive: true, force: true });
+    }
+  });
+
+  it('loads a production candidate inbox into safe repository patch paths', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'flocking-delivery-'));
+    const inbox = await mkdtemp(join(tmpdir(), 'flocking-inbox-'));
+    try {
+      await mkdir(join(root, 'data', 'candidates'), { recursive: true });
+      await writeFile(join(inbox, 'manual.yaml'), 'status: candidate\n');
+      const files = await loadCandidateFiles(root, [], inbox);
+      expect(files).toEqual([{
+        path: 'data/candidates/manual.yaml',
+        sourcePath: join(inbox, 'manual.yaml'),
+        content: 'status: candidate\n',
+      }]);
+    } finally {
+      await rm(root, { recursive: true, force: true });
+      await rm(inbox, { recursive: true, force: true });
     }
   });
 

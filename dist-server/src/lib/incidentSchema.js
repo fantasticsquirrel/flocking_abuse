@@ -38,7 +38,7 @@ export const SourceSchema = z.object({
     url: httpUrl,
     title: z.string().trim().min(1),
     publisher: z.string().trim().min(1),
-    published_date: FullDateSchema,
+    published_date: z.union([FullDateSchema, z.literal('')]),
     source_type: SourceTypeSchema,
     archive_url: httpUrl.optional(),
     reliability: SourceReliabilitySchema,
@@ -53,6 +53,7 @@ export const SourceSchema = z.object({
     }
 });
 export const IncidentSchema = z.object({
+    schema_version: z.literal(1),
     id: z.string().min(1).max(120).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'ID must be lowercase and URL-safe (letters, numbers, hyphens)'),
     title: z.string().trim().min(4).max(240),
     status: IncidentStatusSchema,
@@ -86,12 +87,32 @@ export const IncidentSchema = z.object({
     }).strict(),
     review: z.object({
         added_by: z.enum(['manual', 'daily-scraper']),
+        approval: z.enum(['pending', 'human-approved']),
         reviewed_by: z.string().trim(),
         reviewed_at: z.union([FullDateSchema, z.literal('')]),
         notes: z.string(),
     }).strict(),
     updated_at: FullDateSchema,
 }).strict().superRefine((incident, context) => {
+    const canonicalDateSegment = incident.uniqueness.canonical_key.split(':')[1] ?? '';
+    if (incident.dates.occurred === '' && canonicalDateSegment !== 'unknown') {
+        context.addIssue({ code: 'custom', path: ['uniqueness', 'canonical_key'], message: 'Unknown occurrence dates require an unknown canonical-key date segment' });
+    }
+    if (incident.dates.occurred !== '' && canonicalDateSegment === 'unknown') {
+        context.addIssue({ code: 'custom', path: ['uniqueness', 'canonical_key'], message: 'Known occurrence dates must use a dated canonical-key segment' });
+    }
+    const isPublic = ['verified', 'disputed', 'retracted'].includes(incident.status);
+    if (isPublic) {
+        if (incident.review.approval !== 'human-approved' || !incident.review.reviewed_by || !incident.review.reviewed_at) {
+            context.addIssue({ code: 'custom', path: ['review'], message: 'Public records require structured human approval, reviewer identity, and review date' });
+        }
+        if (/hermes|agent|scraper|automation/i.test(incident.review.reviewed_by)) {
+            context.addIssue({ code: 'custom', path: ['review', 'reviewed_by'], message: 'Public records require a human reviewer, not an automated agent' });
+        }
+    }
+    else if (incident.review.approval !== 'pending') {
+        context.addIssue({ code: 'custom', path: ['review', 'approval'], message: 'Candidate and draft records must remain pending until publication review' });
+    }
     if (incident.status !== 'verified')
         return;
     if (incident.sources.some((source) => source.reliability === 'primary'))

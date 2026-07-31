@@ -5,6 +5,7 @@ Each public incident record should be stored as structured data and rendered by 
 ## Required fields
 
 ```yaml
+schema_version: 1
 id: "YYYY-MM-jurisdiction-short-slug"
 title: "Short factual title"
 status: "verified" # draft | candidate | verified | disputed | retracted
@@ -50,6 +51,7 @@ uniqueness:
   duplicate_of: null
 review:
   added_by: "manual | daily-scraper"
+  approval: "pending | human-approved"
   reviewed_by: ""
   reviewed_at: ""
   notes: ""

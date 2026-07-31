@@ -45,7 +45,7 @@ npm run candidate:pr -- --candidate data/candidates/YYYY-MM-DD-source-slug.yaml
 
 Before any patch, commit, push, or PR, candidate delivery compares the selected records against published incidents, stored candidates, and the current delivery batch. Exact URL/key/case matches block delivery; probable fuzzy matches are printed with scores for human review.
 
-With GitHub auth, delivery uses an isolated worktree and opens a pull request. After confirmed PR or patch delivery, each untracked source candidate is atomically moved—not read/compared/deleted—into ignored mode-restricted `.local/delivered-candidates/`; concurrent replacement content therefore remains preserved in the archive. Tracked files are never moved. Without auth it writes `candidate-review.patch`; no shell interpolation is used.
+With GitHub auth, delivery uses an isolated worktree and opens a pull request. After confirmed PR or patch delivery, each untracked source candidate is atomically claimed. Only the exact delivered snapshot is moved into a mode-restricted archive; content changed before or during cleanup is restored to the active inbox under a collision-safe name. Tracked files are never moved. `--candidate-inbox /var/lib/flocking-abuse/data/candidates` maps manual runtime intake into review-only repository paths. Without auth the command atomically writes a mode-`0600` review patch; no shell interpolation is used.
 
 ## Daily prompt
 

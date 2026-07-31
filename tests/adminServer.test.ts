@@ -54,7 +54,8 @@ async function login(agent: ReturnType<typeof request.agent>) {
 describe('admin API security', () => {
   it('returns health and an unauthenticated session without exposing secrets', async () => {
     const { app } = await makeHarness();
-    expect((await request(app).get('/health')).body).toEqual({ status: 'ok' });
+    expect((await request(app).get('/live')).body).toEqual({ status: 'ok' });
+    expect((await request(app).get('/health')).body).toEqual({ status: 'ready' });
     const response = await request(app).get('/api/admin/session');
     expect(response.body).toEqual({ authenticated: false });
     expect(response.headers['cache-control']).toContain('no-store');
@@ -112,6 +113,31 @@ describe('admin API security', () => {
     expect(duplicate.status).toBe(409);
     expect(duplicate.body.duplicates[0].reasons).toContain('canonical source URL match');
     expect((await readdir(join(dataDir, 'candidates'))).length).toBe(1);
+  });
+
+  it('serializes concurrent duplicate submissions into one creation and one conflict', async () => {
+    const { agent, dataDir } = await makeHarness();
+    const csrfToken = await login(agent);
+    const submit = () => agent.post('/api/admin/candidates')
+      .set('Origin', 'https://tracker.test')
+      .set('X-CSRF-Token', csrfToken)
+      .send(validCandidate);
+    const responses = await Promise.all([submit(), submit()]);
+    expect(responses.map((response) => response.status).sort()).toEqual([201, 409]);
+    expect((await readdir(join(dataDir, 'candidates'))).length).toBe(1);
+  });
+
+  it('treats malformed cookies as unauthenticated and oversized JSON as 413', async () => {
+    const { app } = await makeHarness();
+    const malformed = await request(app).get('/api/admin/session').set('Cookie', 'flocking_admin=%E0%A4%A');
+    expect(malformed.status).toBe(200);
+    expect(malformed.body).toEqual({ authenticated: false });
+    const oversized = await request(app).post('/api/admin/login')
+      .set('Origin', 'https://tracker.test')
+      .set('Content-Type', 'application/json')
+      .send({ password: 'x'.repeat(33_000) });
+    expect(oversized.status).toBe(413);
+    expect(oversized.body).toEqual({ error: 'Request body too large' });
   });
 
   it('logs out only with a valid CSRF token and clears the session', async () => {

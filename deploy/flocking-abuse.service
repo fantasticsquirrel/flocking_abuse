@@ -7,15 +7,16 @@ Wants=network-online.target
 Type=simple
 User=flocking-abuse
 Group=flocking-abuse
-WorkingDirectory=/opt/flocking_abuse
+WorkingDirectory=/opt/flocking-abuse/current
 Environment=NODE_ENV=production
 Environment=PORT=8110
 Environment=APP_ORIGIN=https://flockingabuse.multihost.ing
 Environment=DATA_DIR=/var/lib/flocking-abuse/data
-Environment=DIST_DIR=/opt/flocking_abuse/dist
-Environment=DOCS_DIR=/opt/flocking_abuse/docs
+Environment=DIST_DIR=/opt/flocking-abuse/current/dist
+Environment=DOCS_DIR=/opt/flocking-abuse/current/docs
 EnvironmentFile=/etc/flocking-abuse/flocking-abuse.env
-ExecStart=/usr/bin/node /opt/flocking_abuse/dist-server/server/index.js
+EnvironmentFile=/etc/flocking-abuse/release.env
+ExecStart=/usr/bin/node /opt/flocking-abuse/current/dist-server/server/index.js
 Restart=on-failure
 RestartSec=5
 TimeoutStopSec=20
@@ -31,7 +32,7 @@ ProtectControlGroups=true
 RestrictSUIDSGID=true
 RestrictNamespaces=true
 LockPersonality=true
-ReadOnlyPaths=/opt/flocking_abuse
+ReadOnlyPaths=/opt/flocking-abuse/current
 ReadWritePaths=/var/lib/flocking-abuse/data
 CapabilityBoundingSet=
 AmbientCapabilities=
