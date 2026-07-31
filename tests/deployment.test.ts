@@ -41,6 +41,8 @@ describe('immutable deployment and rollback scripts', () => {
     expect(script).toContain('npm ci --omit=dev');
     expect(script).toContain("import(name)");
     expect(script).not.toContain('npm prune --omit=dev');
+    expect(script).toMatch(/cd "\$STAGING"\n+umask 022\n+npm ci/);
+    expect(script).toMatch(/node -e .*import\(name\).*\n+umask 077/);
     expect(script).toContain('deploy/verify-data-permissions.sh');
     expect(script).toContain('systemctl stop flocking-abuse.service');
     expect(script).not.toMatch(/(?:chown|chmod).*\$DATA_DIR/);

@@ -165,6 +165,7 @@ for artifact in package.json package-lock.json deploy/flocking-abuse.service dep
   require_regular_artifact "$STAGING" "$artifact" || { echo "Release export contains an unconfined artifact: $artifact" >&2; false; }
 done
 cd "$STAGING"
+umask 022
 npm ci
 if [[ $PRIOR_MODE == deployed ]]; then
   SERVICE_TOUCHED=1
@@ -175,6 +176,7 @@ DATA_DIR="$DATA_DIR" npm run validate:data
 DATA_DIR="$DATA_DIR" NODE_ENV=production INCLUDE_DRAFTS=0 npm run build
 npm ci --omit=dev
 node -e "Promise.all(['express','bcryptjs','helmet','js-yaml','marked','zod'].map((name) => import(name)))"
+umask 077
 for artifact in deploy/flocking-abuse.service deploy/flockingabuse.multihost.ing.nginx dist-server/server/index.js dist/index.html; do
   require_regular_artifact "$STAGING" "$artifact" || { echo "Built release contains an unconfined artifact: $artifact" >&2; false; }
 done
