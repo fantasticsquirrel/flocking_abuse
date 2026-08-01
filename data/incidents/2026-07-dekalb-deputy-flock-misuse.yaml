@@ -1,0 +1,37 @@
+schema_version: 1
+id: 2026-07-dekalb-deputy-flock-misuse
+title: "DeKalb County deputy fired and charged over Flock misuse"
+status: verified
+summary: >-
+  The DeKalb County Sheriff's Office said an internal investigation found that Sgt. Kabiru Salawu
+  misused the agency's Flock license-plate reader system. The sheriff's office fired and arrested
+  Salawu on alleged violation-of-oath and license-plate-data offenses.
+incident_type: [unauthorized-search, law-enforcement-overreach]
+location: {city: Decatur, county: DeKalb, state: GA, country: US}
+actors:
+  agencies: [DeKalb County Sheriff's Office]
+  officials_or_entities: [Kabiru Salawu]
+  vendor_entities: [Flock Safety]
+dates: {occurred: "", discovered: "2026-07", reported: "2026-07-17"}
+sources:
+  - url: "https://www.wabe.org/dekalb-deputy-accused-of-misusing-flock-camera-arrested/"
+    title: "DeKalb deputy accused of misusing Flock camera arrested"
+    publisher: "WABE"
+    published_date: "2026-07-18"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["WABE reported that Salawu was fired and arrested after alleged misuse of Flock technology.", "Sheriff Melody Maddox described unauthorized use of law-enforcement technology or confidential information as a serious breach of public trust."]
+  - url: "https://www.walb.com/2026/07/18/dekalb-county-deputy-fired-arrested-allegedly-misusing-license-plate-readers/"
+    title: "DeKalb County deputy fired, arrested for allegedly misusing license plate readers"
+    publisher: "WALB"
+    published_date: "2026-07-17"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["The sheriff's office identified the former deputy as Sgt. Kabiru Salawu.", "Salawu was charged with violation of oath of office and misuse of license plate data."]
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies: ["Georgia violation of oath of office", "Georgia misuse of license plate data"]
+outcomes: ["The sheriff's office terminated Salawu and he was arrested.", "The cited reports described pending charges and did not report a final disposition."]
+uniqueness: {canonical_key: "us-ga-dekalb:unknown:dekalb-county-sheriffs-office-kabiru-salawu:flock-misuse", duplicate_of: null}
+review: {added_by: manual, approval: human-approved, reviewed_by: "Site owner", reviewed_at: "2026-08-01", approval_reference: "docs/approvals/2026-08-01-dekalb-deputy-flock-misuse.md#approval-dekalb-deputy-flock-misuse", notes: "Charges are allegations; this record does not assert guilt or a final disposition."}
+updated_at: "2026-08-01"

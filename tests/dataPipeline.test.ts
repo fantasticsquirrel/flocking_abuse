@@ -160,6 +160,7 @@ describe('data pipeline', () => {
       '2026-06-albany-officers-non-law-enforcement-searches',
       '2026-06-charlotte-officer-non-law-enforcement-flock-query',
       '2026-06-ogeechee-investigator-retained-flock-access',
+      '2026-07-dekalb-deputy-flock-misuse',
       '2026-07-greene-county-deputy-personal-searches',
       '2026-07-greenville-county-employees-romantic-partner-tracking',
       '2026-07-milwaukee-officer-personal-flock-searches',
