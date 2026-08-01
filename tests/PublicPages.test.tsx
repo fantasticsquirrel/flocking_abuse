@@ -6,7 +6,7 @@ import { UnverifiedPage } from '../src/UnverifiedPage.js';
 import reports from '../src/data/unverified.json';
 import type { UnverifiedReport } from '../src/lib/unverifiedSchema.js';
 import { SourcePolicyPage } from '../src/SourcePolicyPage.js';
-import { TimelinePage } from '../src/TimelinePage.js';
+import { TimelinePage, timelineGapRem } from '../src/TimelinePage.js';
 import incidents from '../src/data/incidents.json';
 import type { Incident } from '../src/lib/incidentSchema.js';
 import { ReportPage } from '../src/ReportPage.js';
@@ -53,6 +53,14 @@ describe('public information pages', () => {
     expect(links.every((link) => (link.textContent?.trim().split(/\s+/).length ?? 0) <= 3)).toBe(true);
     const gaps = within(timeline).getAllByRole('listitem').map((item) => Number(item.getAttribute('data-elapsed-months')));
     expect(Math.max(...gaps)).toBeGreaterThan(Math.min(...gaps));
+  });
+
+  it('makes quiet chronological periods visibly wider than clustered reports', () => {
+    expect(timelineGapRem(0)).toBe(0);
+    expect(timelineGapRem(1)).toBe(0);
+    expect(timelineGapRem(4)).toBe(4.5);
+    expect(timelineGapRem(7)).toBe(9);
+    expect(timelineGapRem(24)).toBe(12);
   });
 
   it('renders a dedicated full-report page', () => {

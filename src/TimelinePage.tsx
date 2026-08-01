@@ -8,6 +8,9 @@ const monthIndex = (value: string): number => {
   return Number(year) * 12 + Number(month) - 1;
 };
 
+export const timelineGapRem = (elapsedMonths: number): number =>
+  Math.min(Math.max(elapsedMonths - 1, 0) * 1.5, 12);
+
 const timelineLabel = (incident: Incident): string => {
   const place = incident.location.city || incident.location.county || incident.location.state || 'Report';
   return place.trim().split(/\s+/).slice(0, 3).join(' ');
@@ -27,7 +30,7 @@ export function TimelinePage({ incidents }: { incidents: Incident[] }) {
         const date = timelineDate(incident);
         const previousDate = timelineDate(entries[index - 1] ?? incident);
         const elapsedMonths = Math.max(0, monthIndex(date) - monthIndex(previousDate));
-        const extraGapRem = Math.min(Math.max(elapsedMonths - 1, 0) * .45, 5);
+        const extraGapRem = timelineGapRem(elapsedMonths);
         const spacing = { '--timeline-gap': `${extraGapRem}rem` } as CSSProperties;
         return <li className="report-timeline__item" key={incident.id} style={spacing} data-elapsed-months={elapsedMonths}>
           <time dateTime={date}>{date}</time>
