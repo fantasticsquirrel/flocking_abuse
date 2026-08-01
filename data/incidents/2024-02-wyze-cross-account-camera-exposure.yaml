@@ -1,0 +1,50 @@
+schema_version: 1
+id: 2024-02-wyze-cross-account-camera-exposure
+title: "Wyze incident exposed camera thumbnails and videos across customer accounts"
+status: verified
+summary: >-
+  After a February 16, 2024 service outage, Wyze's systems associated some camera-event data
+  with the wrong customer accounts. Wyze said about 13,000 users received thumbnails from
+  cameras that were not their own and 1,504 users opened those thumbnails; in some cases an
+  attached event video was viewed. Wyze removed the caching library involved and added another
+  verification layer between users and event videos.
+incident_type: [data-sharing, retention-or-access-policy]
+location: {city: Kirkland, county: King, state: WA, country: US}
+actors:
+  agencies: []
+  officials_or_entities: [Wyze Labs]
+  vendor_entities: [Wyze Labs, Amazon Web Services]
+dates: {occurred: "2024-02-16", discovered: "2024-02-16", reported: "2024-02-19"}
+sources:
+  - url: "https://forums.wyze.com/t/wyze-outage-and-investigation-of-security-issue/290462?page=8"
+    title: "Wyze Outage and Investigation of Security Issue"
+    publisher: "Wyze Labs"
+    published_date: "2024-02-19"
+    source_type: official-statement
+    archive_url: "https://web.archive.org/web/20240310192223/https://forums.wyze.com/t/wyze-outage-and-investigation-of-security-issue/290462?page=8"
+    reliability: primary
+    key_claims: ["Wyze stated that about 13,000 users received thumbnails from cameras not their own and that 1,504 users opened them.", "Wyze said a few event-video attachments were viewed, while live streams were not affected.", "Wyze attributed the cross-account mapping to an overloaded third-party caching client library and said it removed the library and added verification controls."]
+  - url: "https://www.incibe.es/en/incibe-cert/publications/cybersecurity-highlights/security-flaw-wyze-devices"
+    title: "Security flaw in Wyze devices"
+    publisher: "INCIBE-CERT"
+    published_date: "2024-02-27"
+    source_type: government-record
+    archive_url: "https://web.archive.org/web/20260517174309/https://www.incibe.es/en/incibe-cert/publications/cybersecurity-highlights/security-flaw-wyze-devices"
+    reliability: primary
+    key_claims: ["Spain's national cybersecurity institute documented that Wyze users could access other users' home-camera views after the outage.", "INCIBE-CERT reported that Wyze contacted approximately 13,000 affected users and forced logouts to reset tokens."]
+  - url: "https://www.geekwire.com/2024/wyze-security-cam-incident-that-exposed-images-to-other-users-impacts-more-than-13000-customers/"
+    title: "Wyze security cam incident that exposed images to other users impacts more than 13,000 customers"
+    publisher: "GeekWire"
+    published_date: "2024-02-19"
+    source_type: news
+    archive_url: "https://web.archive.org/web/20250723024458/https://www.geekwire.com/2024/wyze-security-cam-incident-that-exposed-images-to-other-users-impacts-more-than-13000-customers/"
+    reliability: corroborating
+    key_claims: ["GeekWire independently reported Wyze's disclosure that more than 13,000 customers saw images from other users' cameras."]
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies: ["Wyze account authorization controls", "Cross-account event-video access controls"]
+outcomes: ["Wyze disabled the affected event access while investigating and forced user logouts.", "Wyze removed the caching client library and added another verification layer between users and event videos."]
+uniqueness: {canonical_key: "us-wa-king:2024-02:wyze-labs:cross-account-camera-events-exposed", duplicate_of: null}
+review: {added_by: manual, approval: human-approved, reviewed_by: "Site owner", reviewed_at: "2026-08-01", approval_reference: "docs/approvals/2026-08-01-wyze-camera-breach.md#approval-wyze-camera-breach", notes: "Publication authorized by the owner's standing August 1, 2026 Telegram instruction to continue adding qualifying reports until told to stop."}
+updated_at: "2026-08-01"
+
