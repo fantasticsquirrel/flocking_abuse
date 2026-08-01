@@ -83,6 +83,7 @@ input:hover, select:hover, textarea:hover { border-color: #4d805e; }
 .empty-state__links { display: flex; flex-wrap: wrap; gap: 1.4rem; margin-top: 2rem; font: 600 .75rem var(--mono); text-transform: uppercase; }
 .incident-list { display: grid; gap: 2rem; }
 .incident-card { position: relative; padding: clamp(1.3rem, 3vw, 2.5rem); border: 1px solid var(--line); background: var(--surface); }
+.incident-card[id] { scroll-margin-top: 1rem; }
 .incident-card__header { display: flex; align-items: start; justify-content: space-between; gap: 1.5rem; }
 .incident-card h2 { margin: 0; font: 700 clamp(1.7rem, 3vw, 2.8rem)/1.08 var(--display); }
 .incident-card h3 { margin: 2rem 0 .7rem; color: var(--green-strong); font: 600 .8rem/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
@@ -137,6 +138,35 @@ footer { display: flex; justify-content: space-between; gap: 1rem; padding: 2rem
 .analytics-table-wrap caption { margin: 1.5rem 0 .5rem; text-align: left; }
 .analytics-table-wrap th, .analytics-table-wrap td { padding: .6rem; border-bottom: 1px solid var(--line); text-align: left; }
 
+.policy-page > section { max-width: 900px; padding-top: 2.5rem; border-top: 1px solid var(--line); }
+.policy-page h3 { color: var(--green-strong); font: 700 1.1rem/1.25 var(--display); }
+.policy-callout { position: relative; padding: clamp(1.5rem, 4vw, 2.5rem); border: 1px solid #a77c31 !important; background: linear-gradient(135deg, rgba(230,173,77,.08), transparent 60%), var(--surface); }
+.policy-callout::before { content: ''; position: absolute; inset: -1px auto auto -1px; width: 36px; height: 3px; background: var(--amber); }
+.policy-levels { display: grid; gap: 1px; padding: 0; border: 1px solid var(--line); background: var(--line); list-style: none; counter-reset: policy-level; }
+.policy-levels li { display: grid; grid-template-columns: minmax(150px, .45fr) 1fr; gap: 1.5rem; padding: 1.25rem; background: var(--surface); counter-increment: policy-level; }
+.policy-levels strong { color: var(--green-strong); }
+.policy-levels span { color: var(--muted); line-height: 1.6; }
+.policy-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; border: 1px solid var(--line); background: var(--line); }
+.policy-grid > div { padding: 1.25rem; background: var(--surface); }
+.policy-grid p { color: var(--muted); }
+.policy-technical { margin-top: 1rem; border: 1px solid var(--line); padding: 1rem 1.25rem; background: #060d08; }
+.policy-technical summary { min-height: 44px; cursor: pointer; color: var(--green); font: 600 .78rem/1.5 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.policy-technical code { overflow-wrap: anywhere; color: var(--green-strong); font-family: var(--mono); }
+.policy-checklist { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; padding: 1px; background: var(--line); list-style: none; }
+.policy-checklist li { position: relative; padding: 1rem 1rem 1rem 2.5rem; background: var(--surface); }
+.policy-checklist li::before { content: '✓'; position: absolute; left: 1rem; color: var(--green); font-family: var(--mono); }
+
+.timeline-page { max-width: 1100px; }
+.report-timeline { --timeline-center: 50%; position: relative; display: grid; gap: 1.35rem; margin: 4rem 0 0; padding: 0 0 2rem; list-style: none; }
+.report-timeline::before { content: ''; position: absolute; top: 0; bottom: 0; left: var(--timeline-center); width: 2px; transform: translateX(-50%); background: linear-gradient(var(--green), var(--line)); }
+.report-timeline__item { position: relative; display: grid; grid-template-columns: 1fr 2.5rem 1fr; align-items: center; min-height: 64px; }
+.report-timeline__item time { grid-column: 1; justify-self: end; padding-right: 1rem; color: var(--muted); font: 600 .76rem/1.4 var(--mono); }
+.report-timeline__dot { z-index: 1; grid-column: 2; grid-row: 1; justify-self: center; width: 14px; height: 14px; border: 3px solid var(--background); border-radius: 50%; background: var(--green); box-shadow: 0 0 0 1px var(--green); }
+.report-timeline__bubble { grid-column: 3; grid-row: 1; justify-self: start; min-width: 9rem; margin-left: 1rem; border: 1px solid var(--line); padding: .9rem 1.1rem; background: var(--surface); color: var(--ink); font: 700 1.05rem/1.1 var(--display); text-decoration: none; }
+.report-timeline__bubble:hover { border-color: var(--green); color: var(--green); background: rgba(114,255,157,.06); }
+.report-timeline__item:nth-child(even) time { grid-column: 3; justify-self: start; padding-right: 0; padding-left: 1rem; }
+.report-timeline__item:nth-child(even) .report-timeline__bubble { grid-column: 1; justify-self: end; margin-right: 1rem; margin-left: 0; }
+
 .admin-main { max-width: 1100px; margin: 0 auto; padding-block: clamp(3rem, 7vw, 6rem); }
 .admin-intro { max-width: 750px; margin-bottom: 2rem; }
 .admin-intro h1 { margin: 0; font-size: clamp(2.8rem, 7vw, 6rem); line-height: .95; letter-spacing: -.055em; text-transform: uppercase; }
@@ -185,6 +215,12 @@ footer { display: flex; justify-content: space-between; gap: 1rem; padding: 2rem
   .classification-options > div { grid-template-columns: 1fr; }
   .login-panel form { grid-template-columns: 1fr; }
   footer { flex-direction: column; }
+  .policy-levels li, .policy-grid, .policy-checklist { grid-template-columns: 1fr; }
+  .report-timeline { --timeline-center: 8px; margin-top: 2.5rem; gap: 1rem; }
+  .report-timeline__item, .report-timeline__item:nth-child(even) { grid-template-columns: 1rem minmax(0, 1fr); gap: .9rem; align-items: start; }
+  .report-timeline__dot { grid-column: 1; margin-top: .35rem; }
+  .report-timeline__item time, .report-timeline__item:nth-child(even) time { grid-column: 2; grid-row: 1; justify-self: start; padding: 0; }
+  .report-timeline__bubble, .report-timeline__item:nth-child(even) .report-timeline__bubble { grid-column: 2; grid-row: 2; justify-self: stretch; min-width: 0; margin: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }

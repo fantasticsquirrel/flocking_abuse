@@ -90,12 +90,16 @@ export function createProductionApp(config: RuntimeConfig): express.Express {
     },
   });
   const documentation = new Map([
-    ['source-policy', 'Source policy'],
     ['reporting-format', 'Reporting format'],
     ['manual-admin', 'Admin manual'],
     ['automation', 'Discovery automation'],
     ['dedupe-policy', 'Deduplication policy'],
   ]);
+  app.get('/docs/source-policy.html', (_request, response, next) => {
+    response.sendFile('index.html', { root: config.distDir, dotfiles: 'deny' }, (error) => {
+      if (error) next(error);
+    });
+  });
   app.get('/docs/:document.html', async (request, response, next) => {
     try {
       const documentName = request.params.document ?? '';

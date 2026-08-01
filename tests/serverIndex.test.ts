@@ -51,7 +51,7 @@ describe('production server configuration', () => {
     const documentation = await request(app).get('/docs/source-policy.html');
     expect(documentation.status).toBe(200);
     expect(documentation.type).toMatch(/html/);
-    expect(documentation.text).toContain('<h1>Source Policy</h1>');
+    expect(documentation.text).toContain('tracker app');
     expect((await request(app).get('/assets/app.js')).text).toContain('static');
     expect((await request(app).get('/admin')).text).toContain('tracker app');
     expect((await request(app).get('/../../etc/passwd')).status).toBe(200);

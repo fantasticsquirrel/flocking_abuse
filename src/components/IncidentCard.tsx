@@ -15,7 +15,7 @@ const humanize = (value: string): string => value.replace(/-/g, ' ').replace(/\b
 
 export function IncidentCard({ incident }: IncidentCardProps) {
   return (
-    <article className="incident-card" aria-labelledby={`incident-${incident.id}`}>
+    <article className="incident-card" id={incident.id} aria-labelledby={`incident-${incident.id}`}>
       <header className="incident-card__header">
         <div>
           <p className="eyebrow">Record {incident.id}</p>

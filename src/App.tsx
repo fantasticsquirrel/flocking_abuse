@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { IncidentCard } from './components/IncidentCard.js';
 import { IncidentFilters, type FilterState } from './components/IncidentFilters.js';
 import type { Incident } from './lib/incidentSchema.js';
@@ -68,6 +68,12 @@ export function App({ incidents }: AppProps) {
       && (!filters.year || incident.dates.reported.startsWith(filters.year))
       && (!filters.sourceType || incident.sources.some((source) => source.source_type === filters.sourceType));
   }), [filters, incidents]);
+
+  useEffect(() => {
+    const id = decodeURIComponent(window.location.hash.slice(1));
+    if (!id) return;
+    window.requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView());
+  }, [shown]);
 
   const changeFilters = (next: FilterState) => {
     setFilters(next);
