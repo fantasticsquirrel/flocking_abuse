@@ -2,15 +2,13 @@ import type { CSSProperties } from 'react';
 import { PublicShell } from './components/SiteChrome.js';
 import type { Incident } from './lib/incidentSchema.js';
 import { categoryForIncident, incidentCategories } from './lib/incidentCategory.js';
+import { timelineGapRem } from './lib/timelineSpacing.js';
 
 const timelineDate = (incident: Incident): string => incident.dates.occurred || incident.dates.discovered || incident.dates.reported || incident.updated_at;
 const monthIndex = (value: string): number => {
   const [year = '0', month = '1'] = value.split('-');
   return Number(year) * 12 + Number(month) - 1;
 };
-
-export const timelineGapRem = (elapsedMonths: number): number =>
-  Math.min(Math.max(elapsedMonths - 1, 0) * 1.5, 12);
 
 const timelineLabel = (incident: Incident): string => {
   const place = incident.location.city || incident.location.county || incident.location.state || 'Report';
