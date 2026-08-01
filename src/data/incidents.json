@@ -1555,6 +1555,90 @@
   },
   {
     "schema_version": 1,
+    "id": "2026-07-baytown-officer-alleged-flock-misuse",
+    "title": "Baytown opened internal and criminal probes into alleged Flock misuse",
+    "status": "verified",
+    "summary": "Baytown Police Chief John Stringer said the department opened internal-affairs and criminal investigations after receiving allegations that an unidentified officer misused its Flock license-plate reader system. The department requested assistance from the Harris County District Attorney's Office. Officials did not disclose the nature of the alleged misuse or announce a finding.",
+    "incident_type": [
+      "unauthorized-search",
+      "law-enforcement-overreach",
+      "retention-or-access-policy"
+    ],
+    "location": {
+      "city": "Baytown",
+      "county": "Harris",
+      "state": "TX",
+      "country": "US"
+    },
+    "actors": {
+      "agencies": [
+        "Baytown Police Department"
+      ],
+      "officials_or_entities": [
+        "Unidentified Baytown police officer"
+      ],
+      "vendor_entities": [
+        "Flock Safety"
+      ]
+    },
+    "dates": {
+      "occurred": "",
+      "discovered": "2026-07",
+      "reported": "2026-07-24"
+    },
+    "sources": [
+      {
+        "url": "https://abc13.com/post/baytown-police-chief-launches-investigation-misuse-flock-cameras-officer/19570969/",
+        "title": "Baytown police chief launches investigation into misuse of Flock cameras by officer",
+        "publisher": "ABC13 / KTRK",
+        "published_date": "2026-07-24",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "Chief John Stringer said the department received allegations that an officer misused the Flock license-plate reader system and opened an internal investigation.",
+          "Stringer did not identify the officer or describe the alleged misuse and said accountability would follow if the allegations were sustained."
+        ]
+      },
+      {
+        "url": "https://www.click2houston.com/news/local/2026/07/27/baytown-police-investigating-officer-accused-of-misusing-flock-license-plate-reader-system/",
+        "title": "Baytown Police investigating officer accused of misusing Flock license plate reader system",
+        "publisher": "KPRC 2 / Click2Houston",
+        "published_date": "2026-07-27",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "KPRC reported that Baytown opened both internal-affairs and criminal investigations into alleged officer misuse of Flock.",
+          "The department requested help from the Harris County District Attorney's Office, which confirmed receiving a referral; no officer identity, specific allegation, timeline, or finding was released."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [],
+      "statutes_or_policies": [
+        "Baytown Police Department Flock acceptable-use policy"
+      ]
+    },
+    "outcomes": [
+      "The department opened internal-affairs and criminal investigations.",
+      "The Harris County District Attorney's Office confirmed it received a referral.",
+      "The cited reports did not identify the officer, disclose the specific alleged conduct, or announce a final finding or charge."
+    ],
+    "uniqueness": {
+      "canonical_key": "us-tx-harris:unknown:baytown-police-department:unidentified-officer-alleged-flock-misuse",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-01",
+      "approval_reference": "docs/approvals/2026-08-01-baytown-officer.md#approval-baytown-officer",
+      "notes": "The investigations and Flock allegation were publicly confirmed by the police chief, but the underlying conduct remains unspecified and unresolved. This record does not infer facts beyond the department's announcement."
+    },
+    "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
     "id": "2026-07-dekalb-deputy-flock-misuse",
     "title": "DeKalb County deputy fired and charged over Flock misuse",
     "status": "verified",

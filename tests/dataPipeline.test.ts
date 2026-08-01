@@ -167,6 +167,7 @@ describe('data pipeline', () => {
       '2026-06-cherokee-county-supervisors-non-law-enforcement-searches',
       '2026-06-ogeechee-investigator-retained-flock-access',
       '2026-06-richmond-county-deputy-personal-flock-searches',
+      '2026-07-baytown-officer-alleged-flock-misuse',
       '2026-07-dekalb-deputy-flock-misuse',
       '2026-07-fayetteville-three-officers-personal-flock-searches',
       '2026-07-greene-county-deputy-personal-searches',
