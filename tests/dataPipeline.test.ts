@@ -168,6 +168,7 @@ describe('data pipeline', () => {
       '2026-04-san-jose-flock-constitutional-challenge',
       '2026-05-coffee-county-deputy-license-plate-data-stalking',
       '2026-05-pasadena-sergeant-flock-tracking',
+      '2026-05-racine-county-officers-flock-misuse',
       '2026-06-albany-officers-non-law-enforcement-searches',
       '2026-06-charlotte-officer-non-law-enforcement-flock-query',
       '2026-06-cherokee-county-deputy-coworker-plate-searches',

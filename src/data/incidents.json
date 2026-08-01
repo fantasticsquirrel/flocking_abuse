@@ -1780,6 +1780,109 @@
   },
   {
     "schema_version": 1,
+    "id": "2026-05-racine-county-officers-flock-misuse",
+    "title": "Racine agencies investigated four Flock-misuse cases involving five officers",
+    "status": "verified",
+    "summary": "Racine police, the Racine County Sheriff's Office, and the county district attorney confirmed four separate Flock-misuse cases involving five unidentified officers. One sheriff's deputy searched after a significant other reported fear of immediate harm from an ex-husband; one Racine officer searched for a vehicle the officer co-owned. Prosecutors declined charges in those two cases. Outside agencies continued investigating a second sheriff's-office case and a Racine police case involving two officers. Officials had not disclosed the active cases' underlying conduct or announced charging decisions when reviewed.",
+    "incident_type": [
+      "unauthorized-search",
+      "law-enforcement-overreach",
+      "retention-or-access-policy"
+    ],
+    "location": {
+      "city": "Racine",
+      "county": "Racine",
+      "state": "WI",
+      "country": "US"
+    },
+    "actors": {
+      "agencies": [
+        "Racine Police Department",
+        "Racine County Sheriff's Office",
+        "Racine County District Attorney's Office",
+        "Wisconsin Department of Justice Division of Criminal Investigation",
+        "Kenosha County Sheriff's Office"
+      ],
+      "officials_or_entities": [
+        "Five unidentified officers"
+      ],
+      "vendor_entities": [
+        "Flock Safety"
+      ]
+    },
+    "dates": {
+      "occurred": "2026-05",
+      "discovered": "2026-05",
+      "reported": "2026-07-13"
+    },
+    "sources": [
+      {
+        "url": "https://www.tmj4.com/news/local-news/in-your-community/racine-county/two-racine-police-officers-under-investigation-for-alleged-flock-camera-misuse-da-also-reviewing-rcso-case",
+        "title": "Two Racine police officers under investigation for alleged Flock camera misuse; DA also reviewing RCSO case",
+        "publisher": "TMJ4",
+        "published_date": "2026-07-13",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "Racine police confirmed that two officers were under investigation for alleged Flock misuse and withheld their identities and allegation details while the matter remained active.",
+          "District Attorney Patricia Hanson said three other alleged Racine County Flock-misuse cases had reached her office; prosecutors declined two and had not decided the third."
+        ]
+      },
+      {
+        "url": "https://www.fox6now.com/news/racine-county-flock-camera-system-misuse-new-measures-implemented.amp",
+        "title": "Racine County Flock camera system misuse; new measures implemented",
+        "publisher": "FOX6 Milwaukee",
+        "published_date": "2026-07-23",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "FOX6 reported four cases across the Racine Police Department and sheriff's office, with prosecutors declining charges in one case from each agency and two investigations still active.",
+          "The declined cases involved a deputy responding to a significant other's stated fear of immediate harm and an officer searching for a vehicle the officer co-owned."
+        ]
+      },
+      {
+        "url": "https://www.aclu-wi.org/press-releases/who-watches-the-watchers-aclu-of-wisconsin-reacts-to-reports-of-at-least-two-more-police-under-investigation-for-flock-misuse/",
+        "title": "Who Watches the Watchers? ACLU of Wisconsin reacts to reports of at least two more police under investigation for Flock misuse",
+        "publisher": "ACLU of Wisconsin",
+        "published_date": "2026-07-14",
+        "source_type": "advocacy-report",
+        "reliability": "corroborating",
+        "key_claims": [
+          "The ACLU independently identified the Racine Police Department investigation involving two officers and linked to the underlying local report.",
+          "Its statement treated the Racine matters as allegations under investigation rather than established criminal conduct."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [],
+      "statutes_or_policies": [
+        "Racine Police Department Flock-use policy",
+        "Racine County Sheriff's Office Flock-use policy",
+        "Wisconsin misconduct in public office law"
+      ]
+    },
+    "outcomes": [
+      "The Racine County District Attorney's Office declined criminal charges in one sheriff's-office case and one police-department case.",
+      "The Wisconsin Department of Justice Division of Criminal Investigation continued reviewing the active Racine police case involving two officers.",
+      "The Kenosha County Sheriff's Office continued reviewing the second sheriff's-office case.",
+      "Both Racine agencies began limiting authorized Flock use and strengthening audit procedures."
+    ],
+    "uniqueness": {
+      "canonical_key": "us-wi-racine:2026-05:racine-police-department:four-flock-misuse-cases",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-01",
+      "approval_reference": "docs/approvals/2026-08-01-racine-county-officers.md#approval-racine-county-officers",
+      "notes": "Two independent local reports quote agency and prosecutor confirmations. Because officials described four cases but withheld identities and details for two active investigations, this record groups the verified cluster and avoids guessing, naming, or characterizing undisclosed conduct."
+    },
+    "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
     "id": "2026-06-albany-officers-non-law-enforcement-searches",
     "title": "Five Albany officers charged after Flock audit",
     "status": "verified",
