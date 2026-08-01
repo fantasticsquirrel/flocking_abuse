@@ -1,0 +1,45 @@
+schema_version: 1
+id: 2026-05-pasadena-sergeant-flock-tracking
+title: "Pasadena sergeant resigned amid alleged Flock tracking probe"
+status: verified
+summary: >-
+  Pasadena police confirmed that Sgt. Michael Palitz resigned while under an active internal
+  investigation. City Council Member Emmanuel Guerrero said the investigation concerned
+  allegations that Palitz used the department's Flock license-plate system to track a female
+  officer. The department said its investigation would continue after the resignation.
+incident_type: [unauthorized-search, law-enforcement-overreach, retention-or-access-policy]
+location: {city: Pasadena, county: Harris, state: TX, country: US}
+actors:
+  agencies: [Pasadena Police Department]
+  officials_or_entities: [Michael Palitz]
+  vendor_entities: [Flock Safety]
+dates: {occurred: "", discovered: "2026-05", reported: "2026-07-10"}
+sources:
+  - url: "https://www.click2houston.com/news/local/2026/07/10/pasadena-police-sergeant-resigns-while-under-internal-investigation-council-member-cites-alleged-misuse-of-flock-camer/"
+    title: "Pasadena police sergeant resigns while under internal investigation; council member cites alleged misuse of Flock camera"
+    publisher: "KPRC 2 / Click2Houston"
+    published_date: "2026-07-10"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["Pasadena police confirmed Palitz resigned while an internal investigation remained active and said the investigation would continue.", "Council Member Emmanuel Guerrero said the probe concerned allegations that Palitz used the department's Flock system to track a female officer; KPRC stated it had not independently verified the specific allegations."]
+  - url: "https://abc13.com/amp/post/pasadena-police-officer-accused-misusing-flock-camera-councilmember-says/19501287/"
+    title: "Pasadena police officer accused of misusing Flock camera, councilmember says"
+    publisher: "ABC13 / KTRK"
+    published_date: "2026-07-14"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["ABC13 reported that Pasadena police confirmed an investigation begun in May 2026 and declined further detail while it remained open.", "Guerrero told ABC13 the allegations involved stalking or following a female officer through misuse of the Flock system."]
+  - url: "https://www.houstonchronicle.com/news/houston-texas/trending/article/flock-camera-investigation-22344988.php"
+    title: "Pasadena officer accused of misusing Flock cameras resigns during internal investigation"
+    publisher: "Houston Chronicle"
+    published_date: "2026-07-14"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["The Chronicle reported that Palitz resigned during the internal probe and that police said the investigation would continue.", "The report attributed the alleged Flock tracking of a female officer to Council Member Guerrero."]
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies: ["Pasadena Police Department Flock acceptable-use policy"]
+outcomes: ["Palitz resigned while the internal investigation remained active.", "Pasadena police said the investigation would continue after his resignation.", "The cited reports did not identify criminal charges or a final investigative finding."]
+uniqueness: {canonical_key: "us-tx-harris:unknown:pasadena-police-department:palitz-alleged-flock-tracking", duplicate_of: null}
+review: {added_by: manual, approval: human-approved, reviewed_by: "Site owner", reviewed_at: "2026-08-01", approval_reference: "docs/approvals/2026-08-01-pasadena-palitz.md#approval-pasadena-palitz", notes: "The department confirmed the active investigation and resignation but did not publicly confirm the underlying Flock allegation. This record attributes that allegation to Council Member Guerrero and notes the absence of a final finding."}
+updated_at: "2026-08-01"
