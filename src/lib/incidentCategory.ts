@@ -1,4 +1,4 @@
-import type { Incident } from './incidentSchema.js';
+import type { Incident, IncidentCategory } from './incidentSchema.js';
 
 export const incidentCategories = {
   'system-abuse': { label: 'System abuse', color: '#72ff9d' },
@@ -8,9 +8,8 @@ export const incidentCategories = {
   'institutional-overreach': { label: 'Institutional overreach', color: '#59c7ff' },
 } as const;
 
-export type IncidentCategory = keyof typeof incidentCategories;
-
 export function categoryForIncident(incident: Incident): IncidentCategory {
+  if (incident.category) return incident.category;
   const types = new Set(incident.incident_type);
   if (types.has('political-targeting')) return 'political-abuse';
   if (types.has('unauthorized-search')) return 'system-abuse';

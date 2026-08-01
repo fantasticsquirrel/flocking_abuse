@@ -8,8 +8,8 @@ import helmet from 'helmet';
 import yaml from 'js-yaml';
 import { z } from 'zod';
 import { canonicalizeUrl, findDuplicates } from '../src/lib/dedupe.js';
-import { canonicalLocation, canonicalSlug, IncidentSchema, IncidentTypeSchema, PartialDateSchema, SourceReliabilitySchema, SourceTypeSchema } from '../src/lib/incidentSchema.js';
-import { validateDataDirectory } from '../scripts/data-utils.js';
+import { canonicalLocation, canonicalSlug, IncidentCategorySchema, IncidentSchema, IncidentTypeSchema, PartialDateSchema, SourceReliabilitySchema, SourceTypeSchema } from '../src/lib/incidentSchema.js';
+import { buildPublicData, validateDataDirectory } from '../scripts/data-utils.js';
 const SESSION_COOKIE = 'flocking_admin';
 const SESSION_TTL_SECONDS = 30 * 60;
 const httpUrl = z.string().url().refine((value) => {
@@ -56,6 +56,16 @@ const CandidateInputSchema = z.object({
     if (input.reliability === 'primary' && !directPrimarySourceTypes.has(input.sourceType)) {
         context.addIssue({ code: 'custom', path: ['reliability'], message: 'Primary reliability requires a direct official or public record source type' });
     }
+});
+const PublicationInputSchema = z.object({
+    candidateId: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+    category: IncidentCategorySchema,
+    outcomes: z.array(z.string().trim().min(1).max(1000)).min(1).max(20),
+    reviewerNotes: z.string().trim().max(5000),
+    confirmation: z.string().max(180),
+}).strict().superRefine((input, context) => {
+    if (input.confirmation !== `PUBLISH ${input.candidateId}`)
+        context.addIssue({ code: 'custom', path: ['confirmation'], message: `Type PUBLISH ${input.candidateId} exactly` });
 });
 const cookieValue = (request, name) => {
     const pair = request.headers.cookie?.split(';').map((item) => item.trim()).find((item) => item.startsWith(`${name}=`));
@@ -202,6 +212,15 @@ export function createApp(options) {
             ...(result.error ? { error: result.error } : {}),
         });
     });
+    app.get('/api/incidents', async (_request, response, next) => {
+        try {
+            const incidents = await buildPublicData(options.dataDir, false, options.approvalRoot);
+            response.set('Cache-Control', 'no-store').json({ incidents });
+        }
+        catch (error) {
+            next(error);
+        }
+    });
     app.get('/api/admin/session', (request, response) => {
         const session = readSession(request, options);
         response.json(session ? { authenticated: true, csrfToken: session.csrf } : { authenticated: false });
@@ -231,6 +250,19 @@ export function createApp(options) {
                 return;
             }
             response.json(await options.analyticsStore.summary());
+        }
+        catch (error) {
+            next(error);
+        }
+    });
+    app.get('/api/admin/candidates', requireAdmin(options), async (_request, response, next) => {
+        try {
+            const result = await validateDataDirectory(options.dataDir, options.approvalRoot);
+            if (!result.valid) {
+                response.status(500).json({ error: 'Existing data failed validation' });
+                return;
+            }
+            response.json({ candidates: result.candidateRecords });
         }
         catch (error) {
             next(error);
@@ -294,6 +326,32 @@ export function createApp(options) {
                 const filename = await writeCandidate(options.dataDir, incident);
                 response.status(201).json({ filename, id: incident.id, duplicateWarnings: duplicates });
             });
+        }
+        catch (error) {
+            next(error);
+        }
+    });
+    app.post('/api/admin/publications', requireOrigin(options), requireAdmin(options), requireCsrf, mutationLimiter, async (request, response, next) => {
+        try {
+            if (!options.publishCandidate) {
+                response.status(503).json({ error: 'Publisher is unavailable' });
+                return;
+            }
+            const parsed = PublicationInputSchema.safeParse(request.body);
+            if (!parsed.success) {
+                response.status(400).json({ error: 'Validation failed', issues: parsed.error.issues.map((issue) => ({ path: issue.path, message: issue.message })) });
+                return;
+            }
+            const existing = await validateDataDirectory(options.dataDir, options.approvalRoot);
+            if (!existing.valid) {
+                response.status(500).json({ error: 'Existing data failed validation' });
+                return;
+            }
+            if (!existing.candidateRecords.some((candidate) => candidate.id === parsed.data.candidateId)) {
+                response.status(404).json({ error: 'Candidate not found' });
+                return;
+            }
+            response.status(201).json(await options.publishCandidate(parsed.data));
         }
         catch (error) {
             next(error);

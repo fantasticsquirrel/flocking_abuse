@@ -48,3 +48,9 @@ Enter the source URL, optional archive URL, publisher, source title, optional pu
 The service validates the record, compares it with incidents and candidates, rejects explicitly classified exact duplicates, and returns probable fuzzy matches as warnings before writing a mode-0600 YAML candidate under `/var/lib/flocking-abuse/data/candidates`. Validation enforces that only `candidate` or `draft` records can exist there; the public builder reads accepted records only from `data/incidents`.
 
 The MVP intentionally does **not** fetch arbitrary metadata from submitted URLs. Manual metadata avoids turning the admin API into an SSRF surface. Automated discovery uses a separate robots-aware, DNS-pinned, bounded fetcher.
+
+## Review and publish from the site
+
+Authenticated owners can review queued candidates on `/admin`, choose the public category, record outcomes and reviewer notes, and publish by typing the candidate-specific confirmation shown by the form. Publication is rejected unless the candidate already satisfies the public evidence policy and exact schema checks.
+
+The web process cannot write accepted reports. It sends a tightly scoped request over a group-only Unix socket to the root-owned publisher service. That service can only promote an existing, validated candidate; it writes a digest-bound approval record and accepted incident atomically, then archives the candidate. The public API reloads accepted data on request, so a successful publication appears on report lists, details, and the timeline without an application build or code change.

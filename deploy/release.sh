@@ -29,11 +29,14 @@ elif [[ -e $CURRENT ]]; then
 fi
 PREVIOUS_SHA=$(basename "$PREVIOUS" 2>/dev/null || true)
 UNIT=/etc/systemd/system/flocking-abuse.service
+PUBLISHER_UNIT=/etc/systemd/system/flocking-abuse-publisher.service
 NGINX_SITE=/etc/nginx/sites-available/flockingabuse.multihost.ing
 NGINX_ENABLED=/etc/nginx/sites-enabled/flockingabuse.multihost.ing
 RELEASE_ENV=/etc/flocking-abuse/release.env
 TARGET_NGINX_TEST=
 SERVICE_TOUCHED=0
+PUBLISHER_WAS_PRESENT=0
+[[ -f $PUBLISHER_UNIT && ! -L $PUBLISHER_UNIT ]] && PUBLISHER_WAS_PRESENT=1
 SERVICE_UID=$(id -u flocking-abuse)
 SERVICE_GID=$(id -g flocking-abuse)
 
@@ -58,7 +61,7 @@ verify_health() {
 
 restore_operational_files() {
   local target backup_file failed=0
-  for target in "$UNIT" "$NGINX_SITE" "$RELEASE_ENV"; do
+  for target in "$UNIT" "$PUBLISHER_UNIT" "$NGINX_SITE" "$RELEASE_ENV"; do
     backup_file="$BACKUP/$(basename "$target")"
     rm -f "$target" || failed=1
     if [[ -e $backup_file || -L $backup_file ]]; then cp -a "$backup_file" "$target" || failed=1; fi
@@ -77,6 +80,12 @@ restore_service_state() {
   prior_mode=$(<"$BACKUP/prior.mode") || failed=1
   systemctl daemon-reload || failed=1
   if [[ $prior_mode == deployed ]]; then
+    if (( PUBLISHER_WAS_PRESENT != 0 )); then
+      systemctl enable flocking-abuse-publisher.service >/dev/null || failed=1
+      systemctl restart flocking-abuse-publisher.service || failed=1
+    else
+      systemctl disable --now flocking-abuse-publisher.service >/dev/null 2>&1 || true
+    fi
     systemctl enable flocking-abuse.service >/dev/null || failed=1
     systemctl restart flocking-abuse.service || failed=1
     verify_health "$PREVIOUS_SHA" || failed=1
@@ -117,7 +126,7 @@ rollback_on_error() {
 
 [[ ! -L /opt/flocking-abuse && ! -L $RELEASE_ROOT ]] || { echo "Release root must not be a symlink" >&2; exit 6; }
 install -d -m 0755 -o root -g root /opt/flocking-abuse "$RELEASE_ROOT"
-for required_data_dir in "$DATA_DIR" "$DATA_DIR/incidents" "$DATA_DIR/candidates" "$DATA_DIR/unverified" "$DATA_DIR/analytics"; do
+for required_data_dir in "$DATA_DIR" "$DATA_DIR/incidents" "$DATA_DIR/candidates" "$DATA_DIR/unverified" "$DATA_DIR/analytics" "$DATA_DIR/approvals" "$DATA_DIR/published-candidates"; do
   [[ -d $required_data_dir && ! -L $required_data_dir ]] || { echo "Pre-provisioned mutable data directories are required" >&2; exit 6; }
 done
 require_regular_artifact "$SOURCE_ROOT" deploy/verify-data-permissions.sh || { echo "Source permission verifier is unconfined" >&2; exit 6; }
@@ -142,7 +151,7 @@ install -d -m 0700 -o root -g root /var/backups/flocking-abuse
 BACKUP=$(mktemp -d "/var/backups/flocking-abuse/release-$(date -u +%Y%m%dT%H%M%SZ)-${RELEASE_SHA:0:12}-XXXXXX")
 chmod 0700 "$BACKUP"
 printf '%s\n' "$PRIOR_MODE" > "$BACKUP/prior.mode"
-for path in "$UNIT" "$NGINX_SITE" "$RELEASE_ENV"; do
+for path in "$UNIT" "$PUBLISHER_UNIT" "$NGINX_SITE" "$RELEASE_ENV"; do
   if [[ -e $path || -L $path ]]; then cp -a "$path" "$BACKUP/"; fi
 done
 if [[ -L $NGINX_ENABLED ]]; then
@@ -161,7 +170,7 @@ if [[ -n $(find "$STAGING" -type l -print -quit) ]]; then
   echo "Tracked release export contains a symlink" >&2
   false
 fi
-for artifact in package.json package-lock.json deploy/flocking-abuse.service deploy/flockingabuse.multihost.ing.nginx deploy/verify-data-permissions.sh; do
+for artifact in package.json package-lock.json deploy/flocking-abuse.service deploy/flocking-abuse-publisher.service deploy/flockingabuse.multihost.ing.nginx deploy/verify-data-permissions.sh; do
   require_regular_artifact "$STAGING" "$artifact" || { echo "Release export contains an unconfined artifact: $artifact" >&2; false; }
 done
 cd "$STAGING"
@@ -170,6 +179,7 @@ npm ci
 if [[ $PRIOR_MODE == deployed ]]; then
   SERVICE_TOUCHED=1
   systemctl stop flocking-abuse.service
+  systemctl stop flocking-abuse-publisher.service 2>/dev/null || true
 fi
 bash "$STAGING/deploy/verify-data-permissions.sh" "$DATA_DIR" 0 "$SERVICE_GID" "$SERVICE_UID" "$SERVICE_GID"
 DATA_DIR="$DATA_DIR" npm run validate:data
@@ -177,10 +187,11 @@ DATA_DIR="$DATA_DIR" NODE_ENV=production INCLUDE_DRAFTS=0 npm run build
 npm ci --omit=dev
 node -e "Promise.all(['express','bcryptjs','helmet','js-yaml','marked','zod'].map((name) => import(name)))"
 umask 077
-for artifact in deploy/flocking-abuse.service deploy/flockingabuse.multihost.ing.nginx dist-server/server/index.js dist/index.html; do
+for artifact in deploy/flocking-abuse.service deploy/flocking-abuse-publisher.service deploy/flockingabuse.multihost.ing.nginx dist-server/server/index.js dist-server/server/publisher.js dist/index.html; do
   require_regular_artifact "$STAGING" "$artifact" || { echo "Built release contains an unconfined artifact: $artifact" >&2; false; }
 done
 systemd-analyze verify "$STAGING/deploy/flocking-abuse.service"
+systemd-analyze verify "$STAGING/deploy/flocking-abuse-publisher.service"
 TARGET_NGINX_TEST=$(mktemp /etc/nginx/.flocking-release-target.XXXXXX.conf)
 printf 'events {}\nhttp { include /etc/nginx/mime.types; include %s; }\n' "$STAGING/deploy/flockingabuse.multihost.ing.nginx" > "$TARGET_NGINX_TEST"
 if ! nginx -t -c "$TARGET_NGINX_TEST"; then
@@ -194,16 +205,20 @@ chmod -R go-w "$STAGING"
 mv "$STAGING" "$RELEASE_DIR"
 
 install -m 0644 -o root -g root "$RELEASE_DIR/deploy/flocking-abuse.service" "$UNIT"
+install -m 0644 -o root -g root "$RELEASE_DIR/deploy/flocking-abuse-publisher.service" "$PUBLISHER_UNIT"
 printf 'RELEASE_SHA=%s\n' "$RELEASE_SHA" > "$BACKUP/release.env.new"
 install -m 0644 -o root -g root "$BACKUP/release.env.new" "$RELEASE_ENV"
 systemd-analyze verify "$UNIT"
+systemd-analyze verify "$PUBLISHER_UNIT"
 
 NEXT=/opt/flocking-abuse/.current-${RELEASE_SHA}-$$
 ln -s "$RELEASE_DIR" "$NEXT"
 mv -Tf "$NEXT" "$CURRENT"
 systemctl daemon-reload
+systemctl enable flocking-abuse-publisher.service >/dev/null
 systemctl enable flocking-abuse.service >/dev/null
 SERVICE_TOUCHED=1
+systemctl restart flocking-abuse-publisher.service
 systemctl restart flocking-abuse.service
 verify_health "$RELEASE_SHA"
 

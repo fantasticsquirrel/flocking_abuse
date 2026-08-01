@@ -15,10 +15,38 @@ afterEach(() => {
 });
 
 describe('admin intake accessibility and recovery', () => {
+  const candidate = {
+    schema_version: 1, id: 'candidate-review-test', title: 'Candidate ready for owner review', status: 'candidate', category: 'system-abuse',
+    summary: 'A neutral candidate summary with enough detail for the owner to review before publication.', incident_type: ['unauthorized-search'],
+    location: { city: 'Example', county: 'Example', state: 'EX', country: 'US' },
+    actors: { agencies: ['Example Police'], officials_or_entities: [], vendor_entities: ['Flock Safety'] },
+    dates: { occurred: '2026-06', discovered: '2026-07-30', reported: '2026-07-29' },
+    sources: [{ url: 'https://example.gov/report', title: 'Official report', publisher: 'Example Agency', published_date: '2026-07-29', source_type: 'government-record', reliability: 'primary', key_claims: ['The report documents the event.'] }],
+    legal_or_policy_context: { case_numbers: [], statutes_or_policies: [] }, outcomes: ['Unknown — candidate awaiting review'],
+    uniqueness: { canonical_key: 'us-ex-example:2026-06:example-police:review-test', duplicate_of: null },
+    review: { added_by: 'manual', approval: 'pending', reviewed_by: '', reviewed_at: '', approval_reference: '', notes: 'Review carefully.' }, updated_at: '2026-07-30',
+  };
+
+  it('reviews and publishes a candidate only after exact owner confirmation', async () => {
+    const fetchMock = vi.fn()
+      .mockResolvedValueOnce(jsonResponse({ authenticated: true, csrfToken: 'csrf-token' }))
+      .mockResolvedValueOnce(jsonResponse({ candidates: [candidate] }))
+      .mockResolvedValueOnce(jsonResponse({ incidentId: candidate.id, status: 'published' }, 201));
+    vi.stubGlobal('fetch', fetchMock);
+    render(<AdminApp />);
+    expect(await screen.findByRole('heading', { name: candidate.title })).toBeInTheDocument();
+    await userEvent.type(screen.getByRole('textbox', { name: /Reported outcomes/i }), 'Access was revoked.');
+    await userEvent.type(screen.getByRole('textbox', { name: /Type PUBLISH/i }), `PUBLISH ${candidate.id}`);
+    await userEvent.click(screen.getByRole('button', { name: 'Approve and publish' }));
+    expect(await screen.findByRole('status')).toHaveTextContent(/published candidate ready/i);
+    expect(fetchMock).toHaveBeenLastCalledWith('/api/admin/publications', expect.objectContaining({ method: 'POST' }));
+  });
+
   it('focuses intake after login, uses touch-friendly incident checkboxes, and sets an admin title', async () => {
     const fetchMock = vi.fn()
       .mockResolvedValueOnce(jsonResponse({ authenticated: false }))
-      .mockResolvedValueOnce(jsonResponse({ authenticated: true, csrfToken: 'csrf-token' }));
+      .mockResolvedValueOnce(jsonResponse({ authenticated: true, csrfToken: 'csrf-token' }))
+      .mockResolvedValueOnce(jsonResponse({ candidates: [] }));
     vi.stubGlobal('fetch', fetchMock);
     render(<AdminApp />);
     const user = userEvent.setup();
@@ -32,7 +60,9 @@ describe('admin intake accessibility and recovery', () => {
   });
 
   it('focuses the incident-type group when client validation rejects an empty selection', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValueOnce(jsonResponse({ authenticated: true, csrfToken: 'csrf-token' })));
+    vi.stubGlobal('fetch', vi.fn()
+      .mockResolvedValueOnce(jsonResponse({ authenticated: true, csrfToken: 'csrf-token' }))
+      .mockResolvedValueOnce(jsonResponse({ candidates: [] })));
     render(<AdminApp />);
     await screen.findByRole('heading', { name: 'Candidate intake' });
     fireEvent.submit(screen.getByRole('button', { name: 'Save candidate for review' }).closest('form')!);
@@ -44,6 +74,7 @@ describe('admin intake accessibility and recovery', () => {
   it('announces probable duplicate warnings and maps server validation to the failing field', async () => {
     const fetchMock = vi.fn()
       .mockResolvedValueOnce(jsonResponse({ authenticated: true, csrfToken: 'csrf-token' }))
+      .mockResolvedValueOnce(jsonResponse({ candidates: [] }))
       .mockResolvedValueOnce(jsonResponse({ filename: 'candidate.yaml', duplicateWarnings: [{ incidentId: 'existing-record', score: 0.82, reasons: ['same agency'] }] }, 201))
       .mockResolvedValueOnce(jsonResponse({ error: 'Validation failed', issues: [{ path: ['keyClaims', 0], message: 'Claim is too long' }] }, 400));
     vi.stubGlobal('fetch', fetchMock);
@@ -65,6 +96,7 @@ describe('admin intake accessibility and recovery', () => {
     const save = new Promise<Response>((resolve) => { resolveSave = resolve; });
     const fetchMock = vi.fn()
       .mockResolvedValueOnce(jsonResponse({ authenticated: true, csrfToken: 'csrf-token' }))
+      .mockResolvedValueOnce(jsonResponse({ candidates: [] }))
       .mockReturnValueOnce(save);
     vi.stubGlobal('fetch', fetchMock);
     render(<AdminApp />);
@@ -79,8 +111,10 @@ describe('admin intake accessibility and recovery', () => {
   it('recovers from an expired session, preserves fields, and announces network failures', async () => {
     const fetchMock = vi.fn()
       .mockResolvedValueOnce(jsonResponse({ authenticated: true, csrfToken: 'csrf-token' }))
+      .mockResolvedValueOnce(jsonResponse({ candidates: [] }))
       .mockResolvedValueOnce(jsonResponse({ error: 'Authentication required' }, 401))
-      .mockResolvedValueOnce(jsonResponse({ authenticated: true, csrfToken: 'fresh-csrf-token' }));
+      .mockResolvedValueOnce(jsonResponse({ authenticated: true, csrfToken: 'fresh-csrf-token' }))
+      .mockResolvedValueOnce(jsonResponse({ candidates: [] }));
     vi.stubGlobal('fetch', fetchMock);
     render(<AdminApp />);
     const form = await screen.findByRole('heading', { name: 'Candidate intake' });

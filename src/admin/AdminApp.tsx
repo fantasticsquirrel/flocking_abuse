@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
-import { IncidentTypeSchema, SourceReliabilitySchema, SourceTypeSchema } from '../lib/incidentSchema.js';
+import { IncidentTypeSchema, SourceReliabilitySchema, SourceTypeSchema, type Incident } from '../lib/incidentSchema.js';
+import { categoryForIncident, incidentCategories } from '../lib/incidentCategory.js';
 
 interface SessionResponse { authenticated: boolean; csrfToken?: string }
 interface ApiIssue { path: Array<string | number>; message: string }
 interface DuplicateWarning { incidentId: string; score: number; reasons: string[] }
 interface ApiPayload { filename?: string; error?: string; issues?: ApiIssue[]; duplicateWarnings?: DuplicateWarning[] }
+interface CandidatePayload extends ApiPayload { candidates?: Incident[] }
 interface AnalyticsPayload { today: { date: string; pageViews: number; visitors: number }; totalPageViews: number; totalVisitors: number; daily: Array<{ date: string; pageViews: number; visitors: number }> }
-type PendingOperation = '' | 'login' | 'save' | 'logout';
+type PendingOperation = '' | 'login' | 'save' | 'publish' | 'logout';
 
 const incidentTypes = IncidentTypeSchema.options;
 const sourceTypes = SourceTypeSchema.options;
@@ -33,6 +35,7 @@ export function AdminApp() {
   const [reliability, setReliability] = useState('corroborating');
   const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
   const [analytics, setAnalytics] = useState<AnalyticsPayload | null>(null);
+  const [candidates, setCandidates] = useState<Incident[]>([]);
   const intakeHeading = useRef<HTMLHeadingElement>(null);
   const passwordInput = useRef<HTMLInputElement>(null);
 
@@ -51,6 +54,19 @@ export function AdminApp() {
     else intakeHeading.current?.focus();
   }, [csrfToken, loading, sessionExpired]);
 
+  useEffect(() => {
+    if (!csrfToken || sessionExpired) return;
+    void fetch('/api/admin/candidates', { credentials: 'same-origin', cache: 'no-store' })
+      .then(async (response) => {
+        if (response.status === 401) { expireSession(); return undefined; }
+        const payload = await readJson<CandidatePayload>(response);
+        if (!response.ok || !Array.isArray(payload.candidates)) throw new Error(payload.error || 'candidate request failed');
+        return payload.candidates;
+      })
+      .then((records) => { if (records) setCandidates(records); })
+      .catch(() => setError('Candidate review queue could not be loaded. Intake remains available.'));
+  }, [csrfToken, sessionExpired]);
+
   const loadAnalytics = async () => {
     try {
       const response = await fetch('/api/admin/analytics', { credentials: 'same-origin', cache: 'no-store' });
@@ -62,11 +78,11 @@ export function AdminApp() {
     } catch { setAnalytics(null); setError('Analytics could not be loaded. Intake remains available.'); }
   };
 
-  const expireSession = () => {
+  function expireSession() {
     setSessionExpired(true);
     setNotice('');
     setError('Session expired — authenticate again. Your completed form fields remain available below.');
-  };
+  }
 
   const login = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -174,6 +190,31 @@ export function AdminApp() {
     }
   };
 
+  const publishCandidate = async (event: FormEvent<HTMLFormElement>, candidate: Incident) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    setError(''); setNotice(''); setPending('publish');
+    try {
+      const response = await fetch('/api/admin/publications', {
+        method: 'POST', credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
+        body: JSON.stringify({
+          candidateId: candidate.id,
+          category: String(data.get('category') ?? ''),
+          outcomes: String(data.get('outcomes') ?? '').split('\n').map((item) => item.trim()).filter(Boolean),
+          reviewerNotes: String(data.get('reviewerNotes') ?? ''),
+          confirmation: String(data.get('confirmation') ?? ''),
+        }),
+      });
+      const payload = await readJson<ApiPayload & { incidentId?: string }>(response);
+      if (response.status === 401) { expireSession(); return; }
+      if (!response.ok || !payload.incidentId) { setError(payload.error ?? 'Publication failed'); return; }
+      setCandidates((current) => current.filter((record) => record.id !== candidate.id));
+      setNotice(`Published ${candidate.title}. The public report is available at /reports/${payload.incidentId}.`);
+    } catch { setError('Unable to reach the protected publisher. The candidate remains unpublished.'); }
+    finally { setPending(''); }
+  };
+
   const fieldProps = (name: string) => ({
     id: fieldId(name),
     'aria-invalid': fieldErrors[name] ? true as const : undefined,
@@ -209,6 +250,20 @@ export function AdminApp() {
             ) : null}
             <section className="admin-panel" aria-labelledby="candidate-heading">
               <div className="analytics-panel" aria-labelledby="analytics-heading"><div className="admin-panel__heading"><div><p className="classification">PRIVATE AGGREGATE ANALYTICS</p><h2 id="analytics-heading">Site activity</h2></div><button className="button button--quiet" type="button" onClick={() => { void loadAnalytics(); }}>Load analytics</button></div>{analytics ? <><dl className="analytics-totals"><div><dt>Visitors today</dt><dd>{analytics.today.visitors}</dd></div><div><dt>Total visitors</dt><dd>{analytics.totalVisitors}</dd></div><div><dt>Views today</dt><dd>{analytics.today.pageViews}</dd></div><div><dt>Total views</dt><dd>{analytics.totalPageViews}</dd></div></dl><div className="analytics-table-wrap"><table><caption>Recent daily activity</caption><thead><tr><th>Date</th><th>Visitors</th><th>Views</th></tr></thead><tbody>{analytics.daily.slice(0, 30).map((day) => <tr key={day.date}><td>{day.date}</td><td>{day.visitors}</td><td>{day.pageViews}</td></tr>)}</tbody></table></div></> : <p>Load the privacy-preserving visitor and page-view totals when needed.</p>}</div>
+              <section className="publisher-panel" aria-labelledby="publisher-heading">
+                <div className="admin-panel__heading"><div><p className="classification">REVIEW + PUBLISH</p><h2 id="publisher-heading">Candidate publication queue</h2></div><span>{candidates.length} pending</span></div>
+                {candidates.length === 0 ? <p>No candidates are awaiting review.</p> : candidates.map((candidate) => <article className="publisher-candidate" key={candidate.id}>
+                  <h3>{candidate.title}</h3><p>{candidate.summary}</p>
+                  <dl><div><dt>Source</dt><dd><a href={candidate.sources[0]?.url} target="_blank" rel="noreferrer">{candidate.sources[0]?.publisher}</a></dd></div><div><dt>Companies</dt><dd>{candidate.actors.vendor_entities.join(', ')}</dd></div><div><dt>Evidence</dt><dd>{candidate.sources.map((source) => `${source.reliability}: ${source.title}`).join('; ')}</dd></div></dl>
+                  <form onSubmit={(event) => { void publishCandidate(event, candidate); }}>
+                    <label><span>Public category</span><select name="category" defaultValue={candidate.category ?? categoryForIncident(candidate)}>{Object.entries(incidentCategories).map(([value, details]) => <option value={value} key={value}>{details.label}</option>)}</select></label>
+                    <label><span>Reported outcomes <small>one per line</small></span><textarea name="outcomes" rows={3} required defaultValue={candidate.outcomes.filter((outcome) => !outcome.startsWith('Unknown —')).join('\n')} /></label>
+                    <label><span>Final reviewer notes</span><textarea name="reviewerNotes" rows={3} defaultValue={candidate.review.notes} /></label>
+                    <label><span>Type <code>PUBLISH {candidate.id}</code> to approve the exact record</span><input name="confirmation" required autoComplete="off" /></label>
+                    <button disabled={formLocked} className="button button--primary" type="submit">{pending === 'publish' ? 'Publishing…' : 'Approve and publish'}</button>
+                  </form>
+                </article>)}
+              </section>
               <div className="admin-panel__heading"><div><p className="classification">MANUAL SOURCE ENTRY</p><h2 ref={intakeHeading} tabIndex={-1} id="candidate-heading">Candidate intake</h2></div><button disabled={pending !== '' || sessionExpired} className="button button--quiet" type="button" onClick={() => { void logout(); }}>End session</button></div>
               <form className="intake-form" onSubmit={(event) => { void saveCandidate(event); }}>
                 <fieldset disabled={formLocked}><legend>Source record</legend><div className="form-grid">

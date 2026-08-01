@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 export const IncidentStatusSchema = z.enum(['candidate', 'draft', 'verified', 'disputed', 'retracted']);
+export const IncidentCategorySchema = z.enum(['system-abuse', 'security-breach', 'political-abuse', 'policy-abuse', 'institutional-overreach']);
 export const IncidentTypeSchema = z.enum([
   'unauthorized-search',
   'political-targeting',
@@ -62,13 +63,14 @@ export const SourceSchema = z.object({
   }
 });
 
-const ApprovalReferenceSchema = z.string().trim().refine((value) => value === '' || /^docs\/approvals\/[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z0-9-]+\.md#approval-[a-z0-9-]+$/.test(value), 'Approval reference must identify an anchored repository approval record');
+const ApprovalReferenceSchema = z.string().trim().refine((value) => value === '' || /^(?:docs|data)\/approvals\/[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z0-9-]+\.md#approval-[a-z0-9-]+$/.test(value), 'Approval reference must identify an anchored repository or runtime approval record');
 
 export const IncidentSchema = z.object({
   schema_version: z.literal(1),
   id: z.string().min(1).max(120).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'ID must be lowercase and URL-safe (letters, numbers, hyphens)'),
   title: z.string().trim().min(4).max(240),
   status: IncidentStatusSchema,
+  category: IncidentCategorySchema.optional(),
   summary: z.string().trim().min(20).max(3000),
   incident_type: z.array(IncidentTypeSchema).min(1),
   location: z.object({
@@ -161,5 +163,6 @@ export const IncidentSchema = z.object({
 
 export type Incident = z.infer<typeof IncidentSchema>;
 export type IncidentStatus = z.infer<typeof IncidentStatusSchema>;
+export type IncidentCategory = z.infer<typeof IncidentCategorySchema>;
 export type IncidentType = z.infer<typeof IncidentTypeSchema>;
 export type SourceType = z.infer<typeof SourceTypeSchema>;

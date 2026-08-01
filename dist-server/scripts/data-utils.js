@@ -43,7 +43,7 @@ async function yamlFiles(directory) {
         throw error;
     }
 }
-export async function validateDataDirectory(dataDir, approvalRoot = join(process.cwd(), 'docs', 'approvals')) {
+export async function validateDataDirectory(dataDir, approvalRoot = join(process.cwd(), 'docs', 'approvals'), runtimeApprovalRoot = join(dataDir, 'approvals')) {
     const publicFiles = await yamlFiles(join(dataDir, 'incidents'));
     const candidateFiles = await yamlFiles(join(dataDir, 'candidates'));
     const unverifiedFiles = await yamlFiles(join(dataDir, 'unverified'));
@@ -123,8 +123,9 @@ export async function validateDataDirectory(dataDir, approvalRoot = join(process
                 usedApprovalReferences.set(reference, record.id);
             const [documentPath, anchor] = reference.split('#');
             try {
-                const approvalFilename = (documentPath ?? '').replace(/^docs\/approvals\//, '');
-                const document = await readFile(join(approvalRoot, approvalFilename), 'utf8');
+                const runtimeApproval = documentPath?.startsWith('data/approvals/');
+                const approvalFilename = (documentPath ?? '').replace(/^(?:docs|data)\/approvals\//, '');
+                const document = await readFile(join(runtimeApproval ? runtimeApprovalRoot : approvalRoot, approvalFilename), 'utf8');
                 if (!anchor || !document.includes(`<a id="${anchor}"></a>`)) {
                     errors.push(`${record.id}: approval reference anchor is missing from ${documentPath}`);
                     continue;
@@ -160,8 +161,8 @@ export async function validateDataDirectory(dataDir, approvalRoot = join(process
     }
     return { valid: errors.length === 0, records, publicRecords, candidateRecords, unverifiedRecords, errors };
 }
-export async function buildPublicData(dataDir, includeReview = false, approvalRoot = join(process.cwd(), 'docs', 'approvals')) {
-    const result = await validateDataDirectory(dataDir, approvalRoot);
+export async function buildPublicData(dataDir, includeReview = false, approvalRoot = join(process.cwd(), 'docs', 'approvals'), runtimeApprovalRoot = join(dataDir, 'approvals')) {
+    const result = await validateDataDirectory(dataDir, approvalRoot, runtimeApprovalRoot);
     if (!result.valid)
         throw new Error(`Incident data validation failed:\n${result.errors.join('\n')}`);
     const records = includeReview ? [...result.publicRecords, ...result.candidateRecords] : result.publicRecords;

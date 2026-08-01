@@ -60,6 +60,8 @@ describe('immutable deployment and rollback scripts', () => {
     const candidates = join(dataDir, 'candidates');
     const unverified = join(dataDir, 'unverified');
     const analytics = join(dataDir, 'analytics');
+    const approvals = join(dataDir, 'approvals');
+    const publishedCandidates = join(dataDir, 'published-candidates');
     const uid = process.getuid?.() ?? 0;
     const gid = process.getgid?.() ?? 0;
     try {
@@ -67,11 +69,15 @@ describe('immutable deployment and rollback scripts', () => {
       await mkdir(candidates, { recursive: true, mode: 0o750 });
       await mkdir(unverified, { recursive: true, mode: 0o750 });
       await mkdir(analytics, { recursive: true, mode: 0o750 });
+      await mkdir(approvals, { recursive: true, mode: 0o750 });
+      await mkdir(publishedCandidates, { recursive: true, mode: 0o750 });
       await chmod(dataDir, 0o750);
       await chmod(incidents, 0o750);
       await chmod(candidates, 0o750);
       await chmod(unverified, 0o750);
       await chmod(analytics, 0o750);
+      await chmod(approvals, 0o750);
+      await chmod(publishedCandidates, 0o750);
       const accepted = join(incidents, 'accepted.yaml');
       const candidate = join(candidates, 'candidate.yaml');
       await writeFile(accepted, 'id: accepted\n', { mode: 0o640 });
@@ -108,6 +114,9 @@ describe('immutable deployment and rollback scripts', () => {
     expect(script).toContain('mktemp -d');
     expect(script).toContain('exit 90');
     expect(script).toContain('nginx-enabled.target');
+    expect(script).toContain('TARGET_HAS_PUBLISHER');
+    expect(script).toContain('flocking-abuse-publisher.service');
+    expect(script).toContain('systemctl disable --now flocking-abuse-publisher.service');
     expect(script).not.toContain('cp -a "$DATA_DIR"');
     expect((await stat('deploy/rollback.sh')).mode & 0o111).toBe(0o111);
   });
@@ -115,6 +124,11 @@ describe('immutable deployment and rollback scripts', () => {
   it('preserves the atomic current symlink for Node entrypoint and dependency resolution', async () => {
     const unit = await readFile('deploy/flocking-abuse.service', 'utf8');
     expect(unit).toContain('ExecStart=/usr/bin/node --preserve-symlinks-main /opt/flocking-abuse/current/dist-server/server/index.js');
+    expect(unit).toContain('Requires=flocking-abuse-publisher.service');
+    const publisher = await readFile('deploy/flocking-abuse-publisher.service', 'utf8');
+    expect(publisher).toContain('User=root');
+    expect(publisher).toContain('RestrictAddressFamilies=AF_UNIX');
+    expect(publisher).toContain('ReadWritePaths=/var/lib/flocking-abuse/data /run/flocking-abuse');
   });
 
   it('documents the dedicated rollback tool instead of an unsafe inline sequence', async () => {

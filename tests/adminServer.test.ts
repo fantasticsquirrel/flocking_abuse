@@ -5,14 +5,14 @@ import bcrypt from 'bcryptjs';
 import request from 'supertest';
 import { afterEach, beforeAll, describe, expect, it } from 'vitest';
 import yaml from 'js-yaml';
-import { createApp } from '../server/app.js';
+import { createApp, type PublicationInput, type PublicationResult } from '../server/app.js';
 import { buildPublicData, validateDataDirectory } from '../scripts/data-utils.js';
 import { bootstrapAdmin } from '../scripts/bootstrap-admin.js';
 
 let passwordHash = '';
 beforeAll(async () => { passwordHash = await bcrypt.hash('correct horse battery staple', 4); });
 const roots: string[] = [];
-const makeHarness = async () => {
+const makeHarness = async (publishCandidate?: (input: PublicationInput) => Promise<PublicationResult>) => {
   const root = await mkdtemp(join(tmpdir(), 'flocking-admin-'));
   roots.push(root);
   const dataDir = join(root, 'data');
@@ -25,6 +25,7 @@ const makeHarness = async () => {
     allowedOrigin: 'https://tracker.test',
     secureCookies: false,
     now: () => new Date('2026-07-30T12:00:00Z'),
+    ...(publishCandidate ? { publishCandidate } : {}),
   });
   return { root, dataDir, agent: request.agent(app), app };
 };
@@ -87,6 +88,28 @@ describe('admin API security', () => {
     const csrfToken = await login(agent);
     expect((await agent.post('/api/admin/candidates').set('Origin', 'https://evil.test').set('X-CSRF-Token', csrfToken).send(validCandidate)).status).toBe(403);
     expect((await agent.post('/api/admin/candidates').set('Origin', 'https://tracker.test').send(validCandidate)).status).toBe(403);
+  });
+
+  it('lists candidates only for authenticated admins and publishes only after exact confirmation', async () => {
+    const published: PublicationInput[] = [];
+    const { agent } = await makeHarness(async (input) => {
+      published.push(input);
+      return { incidentId: input.candidateId, status: 'published', publishedAt: '2026-07-30T12:00:00Z' };
+    });
+    expect((await agent.get('/api/admin/candidates')).status).toBe(401);
+    const csrfToken = await login(agent);
+    const created = await agent.post('/api/admin/candidates').set('Origin', 'https://tracker.test').set('X-CSRF-Token', csrfToken).send(validCandidate);
+    expect(created.status).toBe(201);
+    const candidateId = created.body.id as string;
+    const queue = await agent.get('/api/admin/candidates');
+    expect(queue.body.candidates).toHaveLength(1);
+    expect(queue.body.candidates[0].id).toBe(candidateId);
+    const draft = { candidateId, category: 'system-abuse', outcomes: ['Access was revoked.'], reviewerNotes: 'Reviewed.', confirmation: 'wrong' };
+    expect((await agent.post('/api/admin/publications').set('Origin', 'https://tracker.test').set('X-CSRF-Token', csrfToken).send(draft)).status).toBe(400);
+    expect(published).toHaveLength(0);
+    const accepted = await agent.post('/api/admin/publications').set('Origin', 'https://tracker.test').set('X-CSRF-Token', csrfToken).send({ ...draft, confirmation: `PUBLISH ${candidateId}` });
+    expect(accepted.status).toBe(201);
+    expect(published).toEqual([expect.objectContaining({ candidateId, category: 'system-abuse' })]);
   });
 
   it('validates submissions, writes sanitized unique YAML atomically, and never publishes candidates', async () => {

@@ -1,28 +1,24 @@
 [Unit]
-Description=Flocking Abuse Tracker
-After=network-online.target flocking-abuse-publisher.service
-Wants=network-online.target
-Requires=flocking-abuse-publisher.service
+Description=Flocking Abuse protected report publisher
+After=local-fs.target
+Before=flocking-abuse.service
 
 [Service]
 Type=simple
-User=flocking-abuse
+User=root
 Group=flocking-abuse
 WorkingDirectory=/opt/flocking-abuse/current
 Environment=NODE_ENV=production
-Environment=PORT=8110
-Environment=APP_ORIGIN=https://flockingabuse.multihost.ing
 Environment=DATA_DIR=/var/lib/flocking-abuse/data
-Environment=DIST_DIR=/opt/flocking-abuse/current/dist
 Environment=DOCS_DIR=/opt/flocking-abuse/current/docs
 Environment=PUBLISHER_SOCKET=/run/flocking-abuse/publisher.sock
-EnvironmentFile=/etc/flocking-abuse/flocking-abuse.env
 EnvironmentFile=/etc/flocking-abuse/release.env
-ExecStart=/usr/bin/node --preserve-symlinks-main /opt/flocking-abuse/current/dist-server/server/index.js
+ExecStart=/usr/bin/node --preserve-symlinks-main /opt/flocking-abuse/current/dist-server/server/publisher.js
 Restart=on-failure
 RestartSec=5
-TimeoutStopSec=20
-UMask=0077
+RuntimeDirectory=flocking-abuse
+RuntimeDirectoryMode=0750
+UMask=0007
 NoNewPrivileges=true
 PrivateTmp=true
 PrivateDevices=true
@@ -35,10 +31,10 @@ RestrictSUIDSGID=true
 RestrictNamespaces=true
 LockPersonality=true
 ReadOnlyPaths=/opt/flocking-abuse/current
-ReadWritePaths=/var/lib/flocking-abuse/data
-CapabilityBoundingSet=
+ReadWritePaths=/var/lib/flocking-abuse/data /run/flocking-abuse
+CapabilityBoundingSet=CAP_CHOWN CAP_DAC_OVERRIDE CAP_FOWNER
 AmbientCapabilities=
-RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+RestrictAddressFamilies=AF_UNIX
 
 [Install]
 WantedBy=multi-user.target

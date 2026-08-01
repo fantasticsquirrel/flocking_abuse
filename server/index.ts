@@ -7,6 +7,7 @@ import { marked } from 'marked';
 import { z } from 'zod';
 import { createApp } from './app.js';
 import { AnalyticsStore } from './analytics.js';
+import { createPublisherClient } from './publisher-client.js';
 import { validateDataDirectory } from '../scripts/data-utils.js';
 
 const portSchema = z.coerce.number().int().min(1).max(65_535);
@@ -29,6 +30,7 @@ export interface RuntimeConfig {
   allowedOrigin: string;
   secureCookies: boolean;
   releaseSha: string;
+  publisherSocket: string;
 }
 
 const requireValue = (env: NodeJS.ProcessEnv, name: string): string => {
@@ -64,6 +66,7 @@ export function readRuntimeConfig(env: NodeJS.ProcessEnv, cwd = process.cwd()): 
     allowedOrigin: parsedOrigin.data,
     secureCookies: nodeEnv === 'production',
     releaseSha,
+    publisherSocket: resolve(env.PUBLISHER_SOCKET || '/run/flocking-abuse/publisher.sock'),
   };
 }
 
@@ -77,6 +80,7 @@ export function createProductionApp(config: RuntimeConfig): express.Express {
     allowedOrigin: config.allowedOrigin,
     secureCookies: config.secureCookies,
     analyticsStore,
+    publishCandidate: createPublisherClient(config.publisherSocket),
     readiness: async () => {
       try {
         await access(resolve(config.distDir, 'index.html'), fsConstants.R_OK);

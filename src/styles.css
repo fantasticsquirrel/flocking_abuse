@@ -137,6 +137,16 @@ footer { display: flex; justify-content: space-between; gap: 1rem; padding: 2rem
 .analytics-totals dt { color: var(--muted); font: .7rem var(--mono); text-transform: uppercase; }
 .analytics-totals dd { margin: .35rem 0 0; color: var(--green-strong); font: 700 2rem var(--display); }
 .analytics-table-wrap { overflow-x: auto; }
+.publisher-panel { margin: 2rem 0; padding: 1.25rem; border: 1px solid rgba(114,255,157,.35); background: rgba(8,20,13,.8); }
+.publisher-candidate { margin-top: 1rem; padding: 1.25rem; border: 1px solid rgba(238,248,238,.18); background: #08110c; }
+.publisher-candidate h3 { margin-top: 0; }
+.publisher-candidate dl { display: grid; gap: .6rem; margin: 1rem 0; }
+.publisher-candidate dl div { display: grid; grid-template-columns: minmax(6rem,9rem) 1fr; gap: .75rem; }
+.publisher-candidate dt { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; font-size: .78rem; }
+.publisher-candidate dd { margin: 0; overflow-wrap: anywhere; }
+.publisher-candidate form { display: grid; gap: 1rem; }
+.publisher-candidate form label { display: grid; gap: .4rem; }
+.publisher-candidate code { overflow-wrap: anywhere; }
 .analytics-table-wrap table { width: 100%; border-collapse: collapse; }
 .analytics-table-wrap caption { margin: 1.5rem 0 .5rem; text-align: left; }
 .analytics-table-wrap th, .analytics-table-wrap td { padding: .6rem; border-bottom: 1px solid var(--line); text-align: left; }
