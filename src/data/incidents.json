@@ -275,6 +275,106 @@
   },
   {
     "schema_version": 1,
+    "id": "2024-01-milwaukee-detective-flock-gps-tracking",
+    "title": "Milwaukee internal-affairs detective charged over Flock and GPS tracking",
+    "status": "verified",
+    "summary": "A criminal complaint alleges Milwaukee Police Detective Tehrangi Chapman used the department's Flock system 20 times to track two people for personal reasons, entering \"test\" or \"training\" as search justifications. Prosecutors also allege he placed a GPS device on one person's vehicle. Chapman was charged with felony misconduct in public office and misdemeanor misuse of a GPS device. He remained suspended from the department and received a signature bond at his initial court appearance; the cited sources do not establish a final disposition.",
+    "incident_type": [
+      "unauthorized-search",
+      "law-enforcement-overreach",
+      "retention-or-access-policy"
+    ],
+    "location": {
+      "city": "Milwaukee",
+      "county": "Milwaukee",
+      "state": "WI",
+      "country": "US"
+    },
+    "actors": {
+      "agencies": [
+        "Milwaukee Police Department",
+        "Milwaukee County District Attorney's Office"
+      ],
+      "officials_or_entities": [
+        "Tehrangi Chapman"
+      ],
+      "vendor_entities": [
+        "Flock Safety"
+      ]
+    },
+    "dates": {
+      "occurred": "2024-01",
+      "discovered": "2026-02",
+      "reported": "2026-07-08"
+    },
+    "sources": [
+      {
+        "url": "https://www.fox6now.com/news/milwaukee-police-officer-flock-misuse-chapman-charges.amp",
+        "title": "Milwaukee police detective accused of Flock misuse",
+        "publisher": "FOX6 Milwaukee",
+        "published_date": "2026-07-08",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "The criminal complaint alleged Chapman searched one person's vehicle 17 times from January 2024 through January 2025 and another person's vehicle three times, using test and training as justifications.",
+          "The report said Chapman admitted using Flock to track the two people in violation of department policy and admitted placing a GPS device on one vehicle."
+        ]
+      },
+      {
+        "url": "https://www.nbc26.com/news/local-news/milwaukee-detective-charged-with-misusing-police-flock-camera-system",
+        "title": "Milwaukee detective charged with misusing police Flock camera system",
+        "publisher": "NBC 26",
+        "published_date": "2026-07-09",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "NBC 26 independently reported the complaint's allegation of 20 Flock searches targeting two people and the use of test and training as reasons.",
+          "The report said Chapman faced a public-office-misconduct charge and had remained on full suspension for four months."
+        ]
+      },
+      {
+        "url": "https://www.wisn.com/article/milwaukee-officer-accused-of-license-plate-camera-misuse-receives-signature-bond/73173408",
+        "title": "Milwaukee officer accused of license plate camera misuse receives signature bond",
+        "publisher": "WISN 12",
+        "published_date": "2026-07-17",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "WISN reported that a court commissioner imposed a $1,000 signature bond at Chapman's initial appearance.",
+          "The report identified pending felony misconduct and misdemeanor GPS-device-misuse charges and did not report a final disposition."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [],
+      "statutes_or_policies": [
+        "Wisconsin misconduct in public office law",
+        "Wisconsin GPS-device misuse law",
+        "Milwaukee Police Department policy limiting Flock use to bona fide law-enforcement purposes"
+      ]
+    },
+    "outcomes": [
+      "Milwaukee police placed Chapman on full suspension beginning March 13, 2026.",
+      "Prosecutors charged him with felony misconduct in public office and misdemeanor misuse of a GPS device.",
+      "A court commissioner imposed a $1,000 signature bond at his July 17, 2026 initial appearance.",
+      "The cited sources do not establish a plea, verdict, or other final disposition."
+    ],
+    "uniqueness": {
+      "canonical_key": "us-wi-milwaukee:2024-01:milwaukee-police-department:chapman-flock-gps-tracking",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-01",
+      "approval_reference": "docs/approvals/2026-08-01-milwaukee-chapman.md#approval-milwaukee-chapman",
+      "notes": "Three independent local reports describe the criminal complaint and court posture. The record attributes the conduct to prosecutors and the complaint, distinguishes charges from adjudication, and reports no final disposition."
+    },
+    "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
     "id": "2024-02-prairie-grove-officer-personal-flock-searches",
     "title": "Prairie Grove officer accused of hundreds of personal Flock searches",
     "status": "verified",
