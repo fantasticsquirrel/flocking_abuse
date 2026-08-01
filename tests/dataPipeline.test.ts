@@ -157,6 +157,7 @@ describe('data pipeline', () => {
       '2025-12-greer-officers-false-flock-search-justifications',
       '2026-04-conyers-dispatcher-non-law-enforcement-searches',
       '2026-04-san-jose-flock-constitutional-challenge',
+      '2026-05-coffee-county-deputy-license-plate-data-stalking',
       '2026-06-albany-officers-non-law-enforcement-searches',
       '2026-06-charlotte-officer-non-law-enforcement-flock-query',
       '2026-06-cherokee-county-deputy-coworker-plate-searches',

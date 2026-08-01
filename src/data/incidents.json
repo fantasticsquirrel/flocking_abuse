@@ -698,6 +698,92 @@
   },
   {
     "schema_version": 1,
+    "id": "2026-05-coffee-county-deputy-license-plate-data-stalking",
+    "title": "Former Coffee County deputy charged over plate data and stalking",
+    "status": "verified",
+    "summary": "A Georgia Bureau of Investigation inquiry that began after a woman reported alleged stalking and other misconduct led to the arrest of former Coffee County deputy Chris Ashley Rozar. Charges included prohibited use of captured license plate data, computer invasion of privacy, stalking, and violation of oath.",
+    "incident_type": [
+      "unauthorized-search",
+      "law-enforcement-overreach"
+    ],
+    "location": {
+      "city": "Douglas",
+      "county": "Coffee",
+      "state": "GA",
+      "country": "US"
+    },
+    "actors": {
+      "agencies": [
+        "Coffee County Sheriff's Office",
+        "Georgia Bureau of Investigation"
+      ],
+      "officials_or_entities": [
+        "Chris Ashley Rozar"
+      ],
+      "vendor_entities": [
+        "Flock Safety"
+      ]
+    },
+    "dates": {
+      "occurred": "",
+      "discovered": "2026-05",
+      "reported": "2026-05-05"
+    },
+    "sources": [
+      {
+        "url": "https://www.coffeesheriffga.gov/press/chris-ahsley-rozar",
+        "title": "Former Coffee County Deputy Arrested Following Multi-Count Criminal Charges",
+        "publisher": "Coffee County Sheriff's Office",
+        "published_date": "2026-05-05",
+        "source_type": "official-statement",
+        "reliability": "primary",
+        "key_claims": [
+          "The sheriff's office said the GBI investigation began after a woman reported alleged stalking and other misconduct, and Rozar was terminated after the inquiry began.",
+          "Rozar was arrested May 5 and charged with prohibited use of captured license plate data, stalking, computer invasion of privacy, and violation of oath."
+        ]
+      },
+      {
+        "url": "https://www.fox5atlanta.com/news/coffee-county-deputy-arrested-alleged-stalking-misuse-databases",
+        "title": "Coffee County deputy arrested for alleged stalking, misuse of databases",
+        "publisher": "FOX 5 Atlanta",
+        "published_date": "2026-05-11",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "FOX 5 independently reported that the multi-year GBI investigation began after a woman alleged stalking and other misconduct.",
+          "The reported charges included prohibited use of captured license plate data, computer invasion of privacy, stalking, and violation of oath."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [],
+      "statutes_or_policies": [
+        "Georgia prohibited use of captured license plate data",
+        "Georgia computer invasion of privacy",
+        "Georgia stalking law",
+        "Georgia violation of oath of office"
+      ]
+    },
+    "outcomes": [
+      "Rozar was terminated after the investigation began.",
+      "The GBI arrested Rozar on May 5, 2026; the cited reports state that he is presumed innocent and do not describe a final disposition."
+    ],
+    "uniqueness": {
+      "canonical_key": "us-ga-coffee:unknown:coffee-county-sheriffs-office:rozar-license-plate-data-stalking",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-01",
+      "approval_reference": "docs/approvals/2026-08-01-coffee-county-rozar.md#approval-coffee-county-rozar",
+      "notes": "Charges are allegations; this record does not assert guilt or a final disposition."
+    },
+    "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
     "id": "2026-06-albany-officers-non-law-enforcement-searches",
     "title": "Five Albany officers charged after Flock audit",
     "status": "verified",
