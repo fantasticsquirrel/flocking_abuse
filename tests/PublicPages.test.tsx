@@ -9,6 +9,7 @@ import { SourcePolicyPage } from '../src/SourcePolicyPage.js';
 import { TimelinePage } from '../src/TimelinePage.js';
 import incidents from '../src/data/incidents.json';
 import type { Incident } from '../src/lib/incidentSchema.js';
+import { ReportPage } from '../src/ReportPage.js';
 
 afterEach(() => vi.unstubAllGlobals());
 
@@ -48,7 +49,18 @@ describe('public information pages', () => {
     const timeline = screen.getByRole('list', { name: new RegExp(`${publicIncidents.length} documented reports`) });
     expect(within(timeline).getAllByRole('listitem')).toHaveLength(publicIncidents.length);
     const links = within(timeline).getAllByRole('link');
-    expect(links[0]).toHaveAttribute('href', expect.stringMatching(/^\/#/));
+    expect(links[0]).toHaveAttribute('href', expect.stringMatching(/^\/reports\//));
     expect(links.every((link) => (link.textContent?.trim().split(/\s+/).length ?? 0) <= 3)).toBe(true);
+    const gaps = within(timeline).getAllByRole('listitem').map((item) => Number(item.getAttribute('data-elapsed-months')));
+    expect(Math.max(...gaps)).toBeGreaterThan(Math.min(...gaps));
+  });
+
+  it('renders a dedicated full-report page', () => {
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')));
+    const incident = (incidents as Incident[])[0]!;
+    render(<ReportPage incident={incident} />);
+    expect(screen.getByRole('heading', { level: 1, name: incident.title })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /back to timeline/i })).toHaveAttribute('href', '/timeline');
+    expect(screen.getByText(incident.summary)).toBeInTheDocument();
   });
 });
