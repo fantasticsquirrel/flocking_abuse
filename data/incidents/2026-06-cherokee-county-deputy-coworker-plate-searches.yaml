@@ -1,0 +1,37 @@
+schema_version: 1
+id: 2026-06-cherokee-county-deputy-coworker-plate-searches
+title: "Cherokee County deputy charged over co-worker plate searches"
+status: verified
+summary: >-
+  A Cherokee County Sheriff's Office audit found that Deputy Cynthia Jodesty allegedly used the
+  agency's automated license plate reader database multiple times to locate a co-worker's vehicle
+  without a legitimate law-enforcement purpose. She was fired and charged.
+incident_type: [unauthorized-search, law-enforcement-overreach]
+location: {city: Canton, county: Cherokee, state: GA, country: US}
+actors:
+  agencies: [Cherokee County Sheriff's Office]
+  officials_or_entities: [Cynthia Jodesty]
+  vendor_entities: [Flock Safety]
+dates: {occurred: "2026-05", discovered: "2026-06", reported: "2026-06-14"}
+sources:
+  - url: "https://www.ajc.com/news/2026/06/cherokee-sheriffs-deputy-accused-of-misusing-license-plate-reader-database/"
+    title: "Cherokee sheriff's deputy accused of misusing license plate reader database"
+    publisher: "The Atlanta Journal-Constitution"
+    published_date: "2026-06-14"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["The sheriff's office said Jodesty entered another employee's license tag while not performing a legitimate law-enforcement function.", "Investigators arrested Jodesty after an audit; she faced violation-of-oath and license-plate-data charges."]
+  - url: "https://www.atlantanewsfirst.com/2026/06/23/3-cherokee-county-deputies-fired-arrested-accused-misusing-license-plate-reader-database/"
+    title: "Metro Atlanta deputies fired, arrested, accused of misusing license plate readers"
+    publisher: "Atlanta News First"
+    published_date: "2026-06-23"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["Jodesty's arrest affidavit alleged she used the database multiple times over about a month to locate a vehicle without a legal or investigative purpose.", "The sheriff's office said a self-initiated audit led to the internal investigation and arrests."]
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies: ["Georgia violation of oath of office", "Georgia retention of license plate reader data", "Cherokee County Sheriff's Office acceptable-use policy"]
+outcomes: ["The sheriff's office terminated Jodesty.", "Jodesty was charged; the cited reports did not describe a final disposition."]
+uniqueness: {canonical_key: "us-ga-cherokee:2026-05:cherokee-county-sheriffs-office:jodesty-coworker-plate-searches", duplicate_of: null}
+review: {added_by: manual, approval: human-approved, reviewed_by: "Site owner", reviewed_at: "2026-08-01", approval_reference: "docs/approvals/2026-08-01-cherokee-county-jodesty.md#approval-cherokee-county-jodesty", notes: "This is distinct from the later Bryant and Creeden incident. Charges are allegations; this record does not assert guilt or a final disposition."}
+updated_at: "2026-08-01"
