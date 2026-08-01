@@ -1,6 +1,105 @@
 [
   {
     "schema_version": 1,
+    "id": "2012-01-trendnet-camera-feed-exposure",
+    "title": "TRENDnet camera flaw exposed private live feeds without passwords",
+    "status": "verified",
+    "summary": "A software flaw in TRENDnet SecurView internet cameras allowed people who knew a camera's internet address to view live video, and sometimes audio, without login credentials. The Federal Trade Commission said links to nearly 700 private camera feeds were posted online, including feeds showing children and activity inside homes. TRENDnet issued firmware updates, and the FTC later entered a final consent order requiring a security program and assessments.",
+    "incident_type": [
+      "data-sharing",
+      "retention-or-access-policy"
+    ],
+    "location": {
+      "city": "Torrance",
+      "county": "Los Angeles",
+      "state": "CA",
+      "country": "US"
+    },
+    "actors": {
+      "agencies": [
+        "Federal Trade Commission"
+      ],
+      "officials_or_entities": [
+        "TRENDnet"
+      ],
+      "vendor_entities": [
+        "TRENDnet"
+      ]
+    },
+    "dates": {
+      "occurred": "2012-01",
+      "discovered": "2012-01-13",
+      "reported": "2012-02-07"
+    },
+    "sources": [
+      {
+        "url": "https://www.ftc.gov/system/files/documents/cases/140207trendnetcmpt.pdf",
+        "title": "Complaint, In the Matter of TRENDnet, Inc.",
+        "publisher": "Federal Trade Commission",
+        "published_date": "2013-09-04",
+        "source_type": "government-record",
+        "archive_url": "https://web.archive.org/web/20260707040241/https://www.ftc.gov/system/files/documents/cases/140207trendnetcmpt.pdf",
+        "reliability": "primary",
+        "key_claims": [
+          "The FTC alleged that TRENDnet's security failures allowed unauthorized access to consumers' live camera feeds.",
+          "The complaint states that links to nearly 700 live feeds were posted online and that exposed feeds showed private activities inside homes."
+        ]
+      },
+      {
+        "url": "https://www.trendnet.com/products/features/?featureid=52",
+        "title": "Critical Firmware Update: New IP Camera Firmware Eliminates Security Threat",
+        "publisher": "TRENDnet",
+        "published_date": "",
+        "source_type": "official-statement",
+        "archive_url": "https://web.archive.org/web/20260210211700/https://www.trendnet.com/products/features/?featureid=52",
+        "reliability": "primary",
+        "key_claims": [
+          "TRENDnet acknowledged that hackers could gain unauthorized access to affected SecurView IP-camera video feeds.",
+          "The company published firmware updates for affected cameras purchased between April 2010 and February 2012."
+        ]
+      },
+      {
+        "url": "https://www.wired.com/2012/02/home-cameras-exposed/",
+        "title": "Flaw in Home Security Cameras Exposes Live Feeds to Hackers",
+        "publisher": "WIRED",
+        "published_date": "2012-02-07",
+        "source_type": "news",
+        "archive_url": "https://web.archive.org/web/20250223015342/https://www.wired.com/2012/02/home-cameras-exposed/",
+        "reliability": "corroborating",
+        "key_claims": [
+          "WIRED independently reported that password-protected TRENDnet camera streams could be viewed by anyone who knew the camera address."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [
+        "FTC File No. 122-3090"
+      ],
+      "statutes_or_policies": [
+        "Section 5 of the Federal Trade Commission Act",
+        "FTC final consent order issued February 7, 2014"
+      ]
+    },
+    "outcomes": [
+      "TRENDnet released firmware updates for affected cameras.",
+      "The FTC's final order required a comprehensive information-security program, independent assessments every two years for 20 years, and consumer notice."
+    ],
+    "uniqueness": {
+      "canonical_key": "us-ca-los-angeles:2012-01:federal-trade-commission:private-camera-feeds-exposed",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-01",
+      "approval_reference": "docs/approvals/2026-08-01-trendnet-camera-breach.md#approval-trendnet-camera-breach",
+      "notes": "Publication authorized in the owner's August 1, 2026 Telegram instruction to continue adding qualifying reports until told to stop."
+    },
+    "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
     "id": "2022-10-kechi-lieutenant-flock-stalking",
     "title": "Kechi lieutenant used Flock to track estranged wife",
     "status": "verified",
