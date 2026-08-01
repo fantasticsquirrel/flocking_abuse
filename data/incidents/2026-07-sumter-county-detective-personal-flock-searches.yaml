@@ -1,0 +1,38 @@
+schema_version: 1
+id: 2026-07-sumter-county-detective-personal-flock-searches
+title: "Sumter County detective charged after tracking husband's ex-wife"
+status: verified
+summary: >-
+  A Sumter County Sheriff's Office audit found that Detective Brandy Almany allegedly used the
+  agency's Flock license-plate system and other restricted databases to obtain information about
+  her husband's ex-wife, then used unrelated case numbers and false justifications to make the
+  searches appear connected to legitimate investigations. She was fired and arrested.
+incident_type: [unauthorized-search, law-enforcement-overreach, retention-or-access-policy]
+location: {city: Wildwood, county: Sumter, state: FL, country: US}
+actors:
+  agencies: [Sumter County Sheriff's Office]
+  officials_or_entities: [Brandy Almany]
+  vendor_entities: [Flock Safety]
+dates: {occurred: "", discovered: "2026-07-23", reported: "2026-07-23"}
+sources:
+  - url: "https://www.fox35orlando.com/news/sumter-county-sheriffs-detective-fired-arrested-over-alleged-database-misuse"
+    title: "Sumter County sheriff's detective fired, arrested over alleged database misuse"
+    publisher: "FOX 35 Orlando"
+    published_date: "2026-07-23"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["The sheriff's office said an internal audit found Almany used Flock, CCIS, and DAVID to obtain information about her husband's ex-wife for personal reasons.", "Investigators alleged she used unrelated case numbers and false electronic records to conceal the personal searches."]
+  - url: "https://www.wftv.com/news/local/sumter-detective-fired-arrested-using-police-cameras-spy-husbands-ex-wife/O2ZIHFAP4FC7VINFSGNDGPU6DI/"
+    title: "Sumter detective fired, arrested for using police cameras to spy on husband's ex-wife"
+    publisher: "WFTV 9"
+    published_date: "2026-07-24"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["WFTV reported that Almany was arrested on July 23 and charged with official misconduct and multiple offenses against computer users.", "Sheriff Patrick Breeden said he suspended the agency's use of Flock and ordered a complete audit of its law-enforcement databases."]
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies: ["Florida official misconduct law", "Florida offenses against computer users law", "Sumter County Sheriff's Office database acceptable-use policy"]
+outcomes: ["The sheriff's office terminated Almany after her arrest.", "She was charged with official misconduct and multiple computer-access offenses; the cited reports do not describe a final disposition.", "The sheriff suspended the agency's use of Flock and ordered a broader database audit."]
+uniqueness: {canonical_key: "us-fl-sumter:unknown:sumter-county-sheriffs-office:almany-personal-flock-searches", duplicate_of: null}
+review: {added_by: manual, approval: human-approved, reviewed_by: "Site owner", reviewed_at: "2026-08-01", approval_reference: "docs/approvals/2026-08-01-sumter-county-almany.md#approval-sumter-county-almany", notes: "The charges are allegations. This record does not assert guilt or a final disposition and limits its claims to the cited reporting."}
+updated_at: "2026-08-01"
