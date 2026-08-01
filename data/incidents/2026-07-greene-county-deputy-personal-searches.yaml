@@ -1,0 +1,37 @@
+schema_version: 1
+id: 2026-07-greene-county-deputy-personal-searches
+title: "Greene County deputy charged after personal Flock searches"
+status: verified
+summary: >-
+  The Greene County Sheriff's Office said an audit found that patrol deputy Quinsha Goss accessed
+  its Flock license-plate system without a law-enforcement justification. Investigators said she
+  made multiple inquiries involving at least one plate for personal reasons over three months.
+incident_type: [unauthorized-search, law-enforcement-overreach]
+location: {city: Greensboro, county: Greene, state: GA, country: US}
+actors:
+  agencies: [Greene County Sheriff's Office]
+  officials_or_entities: [Quinsha Goss]
+  vendor_entities: [Flock Safety]
+dates: {occurred: "2026-04", discovered: "2026-06-30", reported: "2026-07-08"}
+sources:
+  - url: "https://www.atlantanewsfirst.com/2026/07/08/greene-county-deputy-arrested-fired-after-allegedly-misusing-flock-cameras/"
+    title: "Greene County deputy arrested, fired after allegedly misusing Flock cameras"
+    publisher: "Atlanta News First"
+    published_date: "2026-07-08"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["A June 30 audit found multiple inquiries involving at least one plate without an authorized law-enforcement justification.", "The sheriff's office said Goss was fired and arrested on two charges."]
+  - url: "https://www.cbsnews.com/atlanta/news/greene-county-deputy-arrested-after-audit-shows-she-used-flock-cameras-for-personal-reasons-sheriff-says/"
+    title: "Greene County deputy arrested after audit shows she used Flock cameras for personal reasons, sheriff says"
+    publisher: "CBS News Atlanta"
+    published_date: "2026-07-08"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["Authorities said Goss accessed the system for personal reasons multiple times over three months.", "CBS reported that the investigation remained active after her arrest and termination."]
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies: ["Georgia violation of oath of office", "Georgia prohibition on law enforcement retaining license-plate data obtained from automated license-plate recognition systems"]
+outcomes: ["The sheriff's office terminated Goss.", "Goss was arrested on alleged violation-of-oath and license-plate-data offenses; the cited reports said the investigation remained active."]
+uniqueness: {canonical_key: "us-ga-greene:2026-04:greene-county-sheriffs-office-quinsha-goss:personal-flock-searches", duplicate_of: null}
+review: {added_by: manual, approval: human-approved, reviewed_by: "Site owner", reviewed_at: "2026-08-01", approval_reference: "docs/approvals/2026-08-01-greene-county-deputy-personal-searches.md#approval-greene-county-deputy-personal-searches", notes: "Charges are allegations; this record does not assert guilt or a final disposition."}
+updated_at: "2026-08-01"
