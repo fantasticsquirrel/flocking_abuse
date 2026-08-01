@@ -21,13 +21,13 @@ sources:
     source_type: news
     reliability: corroborating
     key_claims: ["A June 25 audit found Yarbrough made multiple inquiries involving at least one plate over 28 days without an authorized need.", "Investigators concluded the access was personal; the sheriff's office fired and arrested Yarbrough."]
-  - url: "https://www.cbsnews.com/atlanta/news/3-richmond-county-officers-charged-as-flock-license-plate-reader-investigations-continue-across-georgia/"
-    title: "3 Richmond County officers charged as Flock license plate reader investigations continue across Georgia"
-    publisher: "CBS News Atlanta"
-    published_date: "2026-07-20"
+  - url: "https://www.wsbtv.com/news/georgia/georgia-deputy-fired-misusing-license-plate-reader-system-sheriffs-office-says/OQJQK43MXRCJ5LDEF7ZRZDDFGM/"
+    title: "Georgia deputy fired for misusing license plate reader system, sheriff's office says"
+    publisher: "WSB-TV"
+    published_date: "2026-06-26"
     source_type: news
     reliability: corroborating
-    key_claims: ["CBS separately reported Yarbrough made repeated personal searches involving the same plate over one month.", "CBS reported that Yarbrough was fired, charged, and booked into the county detention center."]
+    key_claims: ["WSB-TV separately reported that Yarbrough ran multiple personal searches involving at least one plate over 28 days.", "WSB-TV reported that Yarbrough was arrested and terminated."]
 legal_or_policy_context:
   case_numbers: []
   statutes_or_policies: ["Georgia violation of oath of office", "Georgia prohibition on law enforcement retaining license-plate data obtained from automated license-plate recognition systems"]

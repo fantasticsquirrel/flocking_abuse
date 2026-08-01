@@ -165,6 +165,7 @@ describe('data pipeline', () => {
       '2026-07-greene-county-deputy-personal-searches',
       '2026-07-greenville-county-employees-romantic-partner-tracking',
       '2026-07-milwaukee-officer-personal-flock-searches',
+      '2026-07-richmond-county-three-employees-personal-flock-searches',
     ]);
   });
 });

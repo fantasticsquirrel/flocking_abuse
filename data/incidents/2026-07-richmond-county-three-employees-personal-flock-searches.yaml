@@ -1,0 +1,37 @@
+schema_version: 1
+id: 2026-07-richmond-county-three-employees-personal-flock-searches
+title: "Three Richmond County employees charged over personal Flock searches"
+status: verified
+summary: >-
+  A Richmond County Sheriff's Office investigation found that Lt. John McKenzie, Investigator
+  Curtis Hoskins, and Deputy Joshua Johnson used Flock to search license plates for personal reasons
+  unrelated to law-enforcement work. All three were fired and charged.
+incident_type: [unauthorized-search, law-enforcement-overreach]
+location: {city: Augusta, county: Richmond, state: GA, country: US}
+actors:
+  agencies: [Richmond County Sheriff's Office]
+  officials_or_entities: [John McKenzie, Curtis Hoskins, Joshua Johnson]
+  vendor_entities: [Flock Safety]
+dates: {occurred: "", discovered: "2026-07", reported: "2026-07-20"}
+sources:
+  - url: "https://www.wjcl.com/article/augusta-georgia-deputies-arrested-flock-cameras/73192880"
+    title: "Georgia deputies arrested for misusing Flock license plate reader system"
+    publisher: "WJCL"
+    published_date: "2026-07-20"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["The sheriff's office said McKenzie, Hoskins, and Johnson knowingly accessed Flock for reasons outside official law-enforcement work.", "Investigators said the plate searches were personal and unrelated to a criminal investigation or other legitimate purpose."]
+  - url: "https://www.cbsnews.com/atlanta/news/3-richmond-county-officers-charged-as-flock-license-plate-reader-investigations-continue-across-georgia/"
+    title: "3 Richmond County officers charged as Flock license plate reader investigations continue across Georgia"
+    publisher: "CBS News Atlanta"
+    published_date: "2026-07-20"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["CBS reported all three employees turned themselves in after the criminal investigation.", "All three were fired and charged with license-plate-reader misuse and violation of oath of office."]
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies: ["Georgia violation of oath of office", "Georgia misuse of license plate reader data", "Richmond County Sheriff's Office acceptable-use policy"]
+outcomes: ["The sheriff's office terminated McKenzie, Hoskins, and Johnson.", "All three were charged; the cited reports did not describe a final disposition."]
+uniqueness: {canonical_key: "us-ga-richmond:unknown:richmond-county-sheriffs-office:three-employees-personal-flock-searches", duplicate_of: null}
+review: {added_by: manual, approval: human-approved, reviewed_by: "Site owner", reviewed_at: "2026-08-01", approval_reference: "docs/approvals/2026-08-01-richmond-county-three-employees.md#approval-richmond-county-three-employees", notes: "This is distinct from Jaquarius Yarbrough's June case. Charges are allegations; this record does not assert guilt or a final disposition."}
+updated_at: "2026-08-01"
