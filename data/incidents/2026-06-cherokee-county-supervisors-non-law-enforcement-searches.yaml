@@ -1,0 +1,37 @@
+schema_version: 1
+id: 2026-06-cherokee-county-supervisors-non-law-enforcement-searches
+title: "Two Cherokee County supervisors charged over plate-reader searches"
+status: verified
+summary: >-
+  Cherokee County Sheriff's Office audits found anomalies tied to Lt. Chris Bryant and Sgt. Mike
+  Creeden, who allegedly used the agency's license plate reader database for non-law-enforcement
+  purposes. Both were fired and charged.
+incident_type: [unauthorized-search, law-enforcement-overreach]
+location: {city: Canton, county: Cherokee, state: GA, country: US}
+actors:
+  agencies: [Cherokee County Sheriff's Office]
+  officials_or_entities: [Chris Bryant, Mike Creeden]
+  vendor_entities: [Flock Safety]
+dates: {occurred: "", discovered: "2026-06", reported: "2026-06-23"}
+sources:
+  - url: "https://www.ajc.com/news/2026/06/2-more-cherokee-deputies-accused-of-misusing-license-plate-reader-database/"
+    title: "2 more Cherokee deputies accused of misusing license plate reader database"
+    publisher: "The Atlanta Journal-Constitution"
+    published_date: "2026-06-23"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["The sheriff's office said Bryant and Creeden were accused of using its license plate reader database for non-law-enforcement purposes.", "Both were fired and faced violation-of-oath and license-plate-data charges after audits found anomalies tied to authorized users."]
+  - url: "https://www.wsbradio.com/news/local/two-more-cherokee-county-deputies-arrested-plate-reader-probe/VGRT3W5YLFCOJHP7YW7SGWH3VU/"
+    title: "Two more Cherokee County deputies arrested in plate reader probe"
+    publisher: "95.5 WSB"
+    published_date: "2026-06-23"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["WSB reported that Bryant and Creeden were fired and arrested after allegations they used the plate-reader system for non-law-enforcement purposes.", "The sheriff's office said an internal audit led to the investigation."]
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies: ["Georgia violation of oath of office", "Georgia retention of license plate reader data", "Cherokee County Sheriff's Office acceptable-use policy"]
+outcomes: ["The sheriff's office terminated Bryant and Creeden.", "Both were charged; the cited reports did not describe final dispositions."]
+uniqueness: {canonical_key: "us-ga-cherokee:unknown:cherokee-county-sheriffs-office:bryant-creeden-non-law-enforcement-searches", duplicate_of: null}
+review: {added_by: manual, approval: human-approved, reviewed_by: "Site owner", reviewed_at: "2026-08-01", approval_reference: "docs/approvals/2026-08-01-cherokee-county-bryant-creeden.md#approval-cherokee-county-bryant-creeden", notes: "This later incident involves two supervisors and is distinct from Cynthia Jodesty's earlier co-worker plate searches. Charges are allegations; this record does not assert guilt or a final disposition."}
+updated_at: "2026-08-01"
