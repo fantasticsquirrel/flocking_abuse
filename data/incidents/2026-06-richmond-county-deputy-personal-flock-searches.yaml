@@ -1,0 +1,37 @@
+schema_version: 1
+id: 2026-06-richmond-county-deputy-personal-flock-searches
+title: "Richmond County deputy charged after repeated personal Flock searches"
+status: verified
+summary: >-
+  A Richmond County Sheriff's Office audit found that transportation deputy Jaquarius Yarbrough
+  made multiple Flock searches involving at least one plate over 28 days despite having no
+  authorized need for the system. Investigators said the searches were personal; he was fired and arrested.
+incident_type: [unauthorized-search, law-enforcement-overreach]
+location: {city: Augusta, county: Richmond, state: GA, country: US}
+actors:
+  agencies: [Richmond County Sheriff's Office]
+  officials_or_entities: [Jaquarius Yarbrough]
+  vendor_entities: [Flock Safety]
+dates: {occurred: "2026-05", discovered: "2026-06-25", reported: "2026-06-26"}
+sources:
+  - url: "https://www.wrdw.com/2026/06/26/richmond-county-deputy-arrested-fired-over-misusing-license-plate-readers/"
+    title: "Richmond County deputy arrested, fired over misusing license plate readers"
+    publisher: "WRDW/WAGT"
+    published_date: "2026-06-26"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["A June 25 audit found Yarbrough made multiple inquiries involving at least one plate over 28 days without an authorized need.", "Investigators concluded the access was personal; the sheriff's office fired and arrested Yarbrough."]
+  - url: "https://www.cbsnews.com/atlanta/news/3-richmond-county-officers-charged-as-flock-license-plate-reader-investigations-continue-across-georgia/"
+    title: "3 Richmond County officers charged as Flock license plate reader investigations continue across Georgia"
+    publisher: "CBS News Atlanta"
+    published_date: "2026-07-20"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["CBS separately reported Yarbrough made repeated personal searches involving the same plate over one month.", "CBS reported that Yarbrough was fired, charged, and booked into the county detention center."]
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies: ["Georgia violation of oath of office", "Georgia prohibition on law enforcement retaining license-plate data obtained from automated license-plate recognition systems"]
+outcomes: ["The sheriff's office terminated Yarbrough and he was arrested.", "The cited reports described pending charges and did not report a final disposition."]
+uniqueness: {canonical_key: "us-ga-richmond:2026-05:richmond-county-sheriffs-office-jaquarius-yarbrough:personal-flock-searches", duplicate_of: null}
+review: {added_by: manual, approval: human-approved, reviewed_by: "Site owner", reviewed_at: "2026-08-01", approval_reference: "docs/approvals/2026-08-01-richmond-county-yarbrough-flock-searches.md#approval-richmond-county-yarbrough-flock-searches", notes: "Charges are allegations; this record does not assert guilt or a final disposition."}
+updated_at: "2026-08-01"
