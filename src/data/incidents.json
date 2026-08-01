@@ -1592,6 +1592,91 @@
   },
   {
     "schema_version": 1,
+    "id": "2026-07-henry-county-officer-non-law-enforcement-flock-use",
+    "title": "Henry County officer charged over non-law-enforcement Flock use",
+    "status": "verified",
+    "summary": "A Henry County Police Department audit found that Officer Patrick Isbell allegedly accessed the agency's Flock network and used retained license plate data for non-law-enforcement purposes. He was fired, arrested, and charged with misuse of license plate data.",
+    "incident_type": [
+      "unauthorized-search",
+      "law-enforcement-overreach"
+    ],
+    "location": {
+      "city": "McDonough",
+      "county": "Henry",
+      "state": "GA",
+      "country": "US"
+    },
+    "actors": {
+      "agencies": [
+        "Henry County Police Department"
+      ],
+      "officials_or_entities": [
+        "Patrick Isbell"
+      ],
+      "vendor_entities": [
+        "Flock Safety"
+      ]
+    },
+    "dates": {
+      "occurred": "",
+      "discovered": "2026-07",
+      "reported": "2026-07-18"
+    },
+    "sources": [
+      {
+        "url": "https://www.ajc.com/news/2026/07/3-more-georgia-police-officers-fired-over-alleged-flock-camera-misuse/",
+        "title": "Officers fired for alleged Flock camera misuse in DeKalb, Henry, Fayetteville",
+        "publisher": "The Atlanta Journal-Constitution",
+        "published_date": "2026-07-18",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "An agency spokesperson said an internal audit found Isbell accessed the department's Flock system and used retained plate data for non-law-enforcement purposes.",
+          "The AJC reported that Isbell was fired, arrested, and charged with misuse of license plate data on July 10; the investigation remained open."
+        ]
+      },
+      {
+        "url": "https://recentlybooked.com/ga/henry/patrick-isbell~1382_2026-00005884",
+        "title": "Patrick Lee Isbell booking record",
+        "publisher": "Recently Booked",
+        "published_date": "2026-07-10",
+        "source_type": "public-record",
+        "reliability": "corroborating",
+        "key_claims": [
+          "The booking-data page records Isbell's July 10, 2026 Henry County booking.",
+          "The listed charge concerns knowingly requesting, using, obtaining, or attempting to obtain captured license plate data."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [
+        "2026-00005884"
+      ],
+      "statutes_or_policies": [
+        "Georgia misuse of captured license plate data",
+        "Henry County Police Department acceptable-use policy"
+      ]
+    },
+    "outcomes": [
+      "The department terminated Isbell.",
+      "Isbell was arrested and charged; the cited reports do not describe a final disposition."
+    ],
+    "uniqueness": {
+      "canonical_key": "us-ga-henry:unknown:henry-county-police-department:isbell-non-law-enforcement-flock-use",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-01",
+      "approval_reference": "docs/approvals/2026-08-01-henry-county-isbell.md#approval-henry-county-isbell",
+      "notes": "Isbell disputed aspects of the department's legal compliance but declined to discuss the case specifics. Charges are allegations; this record does not assert guilt or a final disposition."
+    },
+    "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
     "id": "2026-07-milwaukee-officer-personal-flock-searches",
     "title": "Milwaukee officer sentenced after repeated personal Flock searches",
     "status": "verified",
