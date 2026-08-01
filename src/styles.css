@@ -88,6 +88,9 @@ input:hover, select:hover, textarea:hover { border-color: #4d805e; }
 .incident-card h2 { margin: 0; font: 700 clamp(1.7rem, 3vw, 2.8rem)/1.08 var(--display); }
 .incident-card h3 { margin: 2rem 0 .7rem; color: var(--green-strong); font: 600 .8rem/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
 .status-badge { flex: 0 0 auto; padding: .5rem .65rem; border: 1px solid currentColor; color: var(--green); font: 600 .78rem/1.35 var(--mono); text-transform: uppercase; }
+.incident-card__badges { display: flex; flex: 0 0 auto; flex-wrap: wrap; justify-content: flex-end; gap: .45rem; }
+.category-badge { padding: .5rem .65rem; border: 1px solid var(--incident-color); color: var(--incident-color); font: 600 .78rem/1.35 var(--mono); text-transform: uppercase; }
+.incident-card { border-top-color: var(--incident-color, var(--line)); }
 .status-badge--disputed, .status-badge--retracted { color: var(--amber); }
 .incident-meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin: 2rem 0; background: var(--line); border: 1px solid var(--line); }
 .incident-meta div { padding: .8rem; background: #070d09; }
@@ -157,13 +160,16 @@ footer { display: flex; justify-content: space-between; gap: 1rem; padding: 2rem
 .policy-checklist li::before { content: '✓'; position: absolute; left: 1rem; color: var(--green); font-family: var(--mono); }
 
 .timeline-page { max-width: 1100px; }
+.timeline-legend { display: flex; flex-wrap: wrap; gap: .7rem 1.1rem; margin: 1.5rem 0 0; padding: 0; list-style: none; color: var(--muted); font: 600 .75rem/1.3 var(--mono); text-transform: uppercase; }
+.timeline-legend li { display: inline-flex; align-items: center; gap: .45rem; }
+.timeline-legend span { width: .75rem; height: .75rem; border-radius: 50%; background: var(--incident-color); box-shadow: 0 0 0 1px var(--incident-color); }
 .report-timeline { --timeline-center: 50%; position: relative; display: grid; gap: 1.35rem; margin: 4rem 0 0; padding: 0 0 2rem; list-style: none; }
 .report-timeline::before { content: ''; position: absolute; top: 0; bottom: 0; left: var(--timeline-center); width: 2px; transform: translateX(-50%); background: linear-gradient(var(--green), var(--line)); }
 .report-timeline__item { position: relative; display: grid; grid-template-columns: 1fr 2.5rem 1fr; align-items: center; min-height: 64px; }
 .report-timeline__item { margin-top: var(--timeline-gap, 0); }
 .report-timeline__item time { grid-column: 1; justify-self: end; padding-right: 1rem; color: var(--muted); font: 600 .76rem/1.4 var(--mono); }
-.report-timeline__dot { z-index: 1; grid-column: 2; grid-row: 1; justify-self: center; width: 14px; height: 14px; border: 3px solid var(--background); border-radius: 50%; background: var(--green); box-shadow: 0 0 0 1px var(--green); }
-.report-timeline__bubble { grid-column: 3; grid-row: 1; justify-self: start; min-width: 9rem; margin-left: 1rem; border: 1px solid var(--line); padding: .9rem 1.1rem; background: var(--surface); color: var(--ink); font: 700 1.05rem/1.1 var(--display); text-decoration: none; }
+.report-timeline__dot { z-index: 1; grid-column: 2; grid-row: 1; justify-self: center; width: 14px; height: 14px; border: 3px solid var(--background); border-radius: 50%; background: var(--incident-color, var(--green)); box-shadow: 0 0 0 1px var(--incident-color, var(--green)); }
+.report-timeline__bubble { grid-column: 3; grid-row: 1; justify-self: start; min-width: 9rem; margin-left: 1rem; border: 1px solid var(--incident-color, var(--line)); padding: .9rem 1.1rem; background: var(--surface); color: var(--incident-color, var(--ink)); font: 700 1.05rem/1.1 var(--display); text-decoration: none; }
 .report-timeline__bubble:hover { border-color: var(--green); color: var(--green); background: rgba(114,255,157,.06); }
 .report-timeline__item:nth-child(even) time { grid-column: 3; justify-self: start; padding-right: 0; padding-left: 1rem; }
 .report-timeline__item:nth-child(even) .report-timeline__bubble { grid-column: 1; justify-self: end; margin-right: 1rem; margin-left: 0; }
