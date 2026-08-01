@@ -1,4 +1,6 @@
+import type { CSSProperties } from 'react';
 import type { Incident } from '../lib/incidentSchema.js';
+import { categoryForIncident, incidentCategories } from '../lib/incidentCategory.js';
 
 const formatLocation = (incident: Incident): string => [
   incident.location.city,
@@ -14,16 +16,16 @@ interface IncidentCardProps {
 const humanize = (value: string): string => value.replace(/-/g, ' ').replace(/\b\w/g, (letter) => letter.toLocaleUpperCase('en-US'));
 
 export function IncidentCard({ incident }: IncidentCardProps) {
+  const category = categoryForIncident(incident);
+  const categoryDetails = incidentCategories[category];
   return (
-    <article className="incident-card" id={incident.id} aria-labelledby={`incident-${incident.id}`}>
+    <article className={`incident-card incident-card--${category}`} id={incident.id} aria-labelledby={`incident-${incident.id}`} style={{ '--incident-color': categoryDetails.color } as CSSProperties}>
       <header className="incident-card__header">
         <div>
           <p className="eyebrow">Record {incident.id}</p>
           <h2 id={`incident-${incident.id}`}>{incident.title}</h2>
         </div>
-        <span className={`status-badge status-badge--${incident.status}`}>
-          <span aria-hidden="true">●</span> {incident.status}
-        </span>
+        <div className="incident-card__badges"><span className={`category-badge category-badge--${category}`}><span aria-hidden="true">●</span> {categoryDetails.label}</span><span className={`status-badge status-badge--${incident.status}`}><span aria-hidden="true">●</span> {incident.status}</span></div>
       </header>
 
       <dl className="incident-meta">

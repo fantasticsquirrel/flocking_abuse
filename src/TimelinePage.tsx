@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react';
 import { PublicShell } from './components/SiteChrome.js';
 import type { Incident } from './lib/incidentSchema.js';
+import { categoryForIncident, incidentCategories } from './lib/incidentCategory.js';
 
 const timelineDate = (incident: Incident): string => incident.dates.occurred || incident.dates.discovered || incident.dates.reported || incident.updated_at;
 const monthIndex = (value: string): number => {
@@ -25,6 +26,7 @@ export function TimelinePage({ incidents }: { incidents: Incident[] }) {
     <p className="eyebrow">Chronological record</p>
     <h1>Report timeline</h1>
     <p className="page-lede">Every documented report, ordered by when the underlying event occurred. Select a location bubble to jump directly to the full report.</p>
+    <ul className="timeline-legend" aria-label="Incident categories">{Object.entries(incidentCategories).map(([key, details]) => <li key={key} style={{ '--incident-color': details.color } as CSSProperties}><span aria-hidden="true" />{details.label}</li>)}</ul>
     <ol className="report-timeline" aria-label={`${entries.length} documented reports in chronological order`}>
       {entries.map((incident, index) => {
         const date = timelineDate(incident);
@@ -32,10 +34,13 @@ export function TimelinePage({ incidents }: { incidents: Incident[] }) {
         const elapsedMonths = Math.max(0, monthIndex(date) - monthIndex(previousDate));
         const extraGapRem = timelineGapRem(elapsedMonths);
         const spacing = { '--timeline-gap': `${extraGapRem}rem` } as CSSProperties;
-        return <li className="report-timeline__item" key={incident.id} style={spacing} data-elapsed-months={elapsedMonths}>
+        const category = categoryForIncident(incident);
+        const categoryDetails = incidentCategories[category];
+        const itemStyle = { ...spacing, '--incident-color': categoryDetails.color } as CSSProperties;
+        return <li className={`report-timeline__item report-timeline__item--${category}`} key={incident.id} style={itemStyle} data-elapsed-months={elapsedMonths}>
           <time dateTime={date}>{date}</time>
           <span className="report-timeline__dot" aria-hidden="true" />
-          <a className="report-timeline__bubble" href={`/reports/${incident.id}`} aria-label={`${timelineLabel(incident)}: ${incident.title}`}>
+          <a className="report-timeline__bubble" href={`/reports/${incident.id}`} aria-label={`${categoryDetails.label}, ${timelineLabel(incident)}: ${incident.title}`}>
             {timelineLabel(incident)}
           </a>
         </li>;
