@@ -327,6 +327,103 @@
   },
   {
     "schema_version": 1,
+    "id": "2025-10-niceville-officer-flock-stalking",
+    "title": "Niceville officer pleaded no contest after Flock tracking",
+    "status": "verified",
+    "summary": "Reporting on a Niceville Police Department internal investigation said Officer Coty Hall used the agency's Flock license-plate system and other law-enforcement databases to track another officer and harass that officer's spouse. Hall was arrested and fired, then pleaded no contest to four reduced misdemeanor unauthorized-computer-access counts in April 2026.",
+    "incident_type": [
+      "unauthorized-search",
+      "law-enforcement-overreach",
+      "retention-or-access-policy"
+    ],
+    "location": {
+      "city": "Niceville",
+      "county": "Okaloosa",
+      "state": "FL",
+      "country": "US"
+    },
+    "actors": {
+      "agencies": [
+        "Niceville Police Department"
+      ],
+      "officials_or_entities": [
+        "Coty Wayne Hall"
+      ],
+      "vendor_entities": [
+        "Flock Safety"
+      ]
+    },
+    "dates": {
+      "occurred": "2025-10",
+      "discovered": "2025-10",
+      "reported": "2025-10-11"
+    },
+    "sources": [
+      {
+        "url": "https://midbaynews.com/post/niceville-officer-accused-of-using-police-databases-to-target-fellow-cop",
+        "title": "Niceville Officer Accused of Using Police Databases to Target Fellow Cop",
+        "publisher": "Mid Bay News",
+        "published_date": "2025-10-11",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "The department said an internal audit covering January through October 2025 found unauthorized personal-information searches.",
+          "The department alleged Hall used information from the searches to harass another officer and that officer's spouse, and Hall was arrested on October 10."
+        ]
+      },
+      {
+        "url": "https://www.rnews.news/story/2025/10/10/news/police-officers-arrest-rekindles-flock-camera-controversy-in-hernando-county/1025.html",
+        "title": "Police Officer's Arrest Rekindles Flock Camera Controversy in Hernando County",
+        "publisher": "R News",
+        "published_date": "2025-10-16",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "The report identified Flock license-plate cameras among the systems Hall allegedly used to track a fellow officer and the officer's spouse.",
+          "The report attributed the allegations to a probable-cause affidavit and described repeated unauthorized Flock searches during 2025."
+        ]
+      },
+      {
+        "url": "https://midbaynews.com/post/former-niceville-cop-no-contest-in-flock-stalking-case",
+        "title": "Former Niceville cop: ‘No contest’ in Flock stalking case",
+        "publisher": "Mid Bay News",
+        "published_date": "2026-05-05",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "Hall pleaded no contest to four reduced misdemeanor counts of unauthorized computer access under an April 20, 2026 plea agreement.",
+          "The court imposed 11.29 months of probation, 100 hours of community service, a permanent no-contact order, and withheld adjudication."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [],
+      "statutes_or_policies": [
+        "Florida Statute 815.06",
+        "Niceville Police Department database acceptable-use policy"
+      ]
+    },
+    "outcomes": [
+      "The City of Niceville fired Hall after his October 2025 arrest.",
+      "Hall pleaded no contest to four reduced first-degree misdemeanor unauthorized-computer-access counts.",
+      "The court imposed 11.29 months of probation, 100 hours of community service, a permanent no-contact order, and withheld adjudication."
+    ],
+    "uniqueness": {
+      "canonical_key": "us-fl-okaloosa:2025-10:niceville-police-department:hall-flock-tracking",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-01",
+      "approval_reference": "docs/approvals/2026-08-01-niceville-hall.md#approval-niceville-hall",
+      "notes": "The record distinguishes the 2025 allegations from the reported April 2026 plea disposition and does not state that adjudication was entered."
+    },
+    "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
     "id": "2025-11-braselton-chief-alpr-stalking",
     "title": "Braselton police chief charged after alleged ALPR stalking",
     "status": "verified",

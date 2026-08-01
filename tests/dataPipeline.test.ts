@@ -152,6 +152,7 @@ describe('data pipeline', () => {
       '2024-06-orange-city-officer-flock-stalking',
       '2024-10-norfolk-flock-constitutional-challenge',
       '2025-03-louisville-officer-alpr-stalking',
+      '2025-10-niceville-officer-flock-stalking',
       '2025-11-braselton-chief-alpr-stalking',
       '2025-12-echols-employee-personal-flock-searches',
       '2025-12-greer-officers-false-flock-search-justifications',
