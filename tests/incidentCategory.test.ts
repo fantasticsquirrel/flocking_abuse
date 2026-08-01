@@ -7,10 +7,16 @@ const incidentWithTypes = (...incident_type: Incident['incident_type']): Inciden
 describe('incident categories', () => {
   it('classifies unauthorized access as system abuse', () => {
     expect(categoryForIncident(incidentWithTypes('unauthorized-search'))).toBe('system-abuse');
+    expect(categoryForIncident(incidentWithTypes('unauthorized-search', 'law-enforcement-overreach', 'data-sharing'))).toBe('system-abuse');
   });
 
-  it('classifies exposed or shared data as a security breach', () => {
+  it('reserves security breach for exposed data without authorized-user misuse or policy-overreach signals', () => {
     expect(categoryForIncident(incidentWithTypes('data-sharing'))).toBe('security-breach');
+    expect(categoryForIncident(incidentWithTypes('data-sharing', 'retention-or-access-policy'))).toBe('security-breach');
+  });
+
+  it('classifies policy-driven law-enforcement data sharing as policy abuse', () => {
+    expect(categoryForIncident(incidentWithTypes('law-enforcement-overreach', 'retention-or-access-policy', 'data-sharing'))).toBe('policy-abuse');
   });
 
   it('assigns every public report to a defined colored category', () => {

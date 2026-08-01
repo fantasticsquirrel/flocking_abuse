@@ -13,9 +13,9 @@ export type IncidentCategory = keyof typeof incidentCategories;
 export function categoryForIncident(incident: Incident): IncidentCategory {
   const types = new Set(incident.incident_type);
   if (types.has('political-targeting')) return 'political-abuse';
-  if (types.has('data-sharing')) return 'security-breach';
   if (types.has('unauthorized-search')) return 'system-abuse';
+  if (types.has('law-enforcement-overreach') && types.has('retention-or-access-policy')) return 'policy-abuse';
+  if (types.has('data-sharing')) return 'security-breach';
   if (types.has('retention-or-access-policy') || types.has('vendor-or-contracting')) return 'policy-abuse';
   return 'institutional-overreach';
 }
-
