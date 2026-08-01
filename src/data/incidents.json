@@ -1344,6 +1344,89 @@
   },
   {
     "schema_version": 1,
+    "id": "2026-07-fayetteville-three-officers-personal-flock-searches",
+    "title": "Three Fayetteville officers fired over personal Flock searches",
+    "status": "verified",
+    "summary": "A Fayetteville Police Department audit found that three officers searched their own license plates or plates belonging to family members or acquaintances without a legitimate law-enforcement purpose. All three were placed on administrative leave and later fired.",
+    "incident_type": [
+      "unauthorized-search",
+      "law-enforcement-overreach"
+    ],
+    "location": {
+      "city": "Fayetteville",
+      "county": "Fayette",
+      "state": "GA",
+      "country": "US"
+    },
+    "actors": {
+      "agencies": [
+        "Fayetteville Police Department",
+        "Georgia Bureau of Investigation"
+      ],
+      "officials_or_entities": [
+        "Three unidentified Fayetteville police officers"
+      ],
+      "vendor_entities": [
+        "Flock Safety"
+      ]
+    },
+    "dates": {
+      "occurred": "",
+      "discovered": "2026-07",
+      "reported": "2026-07-17"
+    },
+    "sources": [
+      {
+        "url": "https://thecitizen.com/2026/07/18/3-fayetteville-police-officers-fired-for-misusing-the-flock-camera-system/",
+        "title": "3 Fayetteville Police Officers Fired for Misusing the Flock Camera System",
+        "publisher": "The Citizen",
+        "published_date": "2026-07-18",
+        "source_type": "official-statement",
+        "reliability": "primary",
+        "key_claims": [
+          "The outlet reproduced the police department's statement that an internal audit found three employees searched their own plates or those of family members or acquaintances.",
+          "The department said the searches lacked a legitimate law-enforcement purpose; all three employees were placed on leave and later terminated."
+        ]
+      },
+      {
+        "url": "https://www.fox5atlanta.com/news/3-fayetteville-officers-fired-misusing-license-plate-system",
+        "title": "3 Fayetteville officers fired for misusing license plate system",
+        "publisher": "FOX 5 Atlanta",
+        "published_date": "2026-07-17",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "FOX 5 reported that an internal Flock audit found multiple unauthorized searches involving the officers' own vehicles or plates of family members and acquaintances.",
+          "The three unidentified officers were fired, and the department requested an independent GBI investigation."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [],
+      "statutes_or_policies": [
+        "Fayetteville Police Department Flock acceptable-use policy"
+      ]
+    },
+    "outcomes": [
+      "The department placed all three officers on administrative leave and later terminated them.",
+      "The department requested a GBI criminal investigation; the cited reports said no charges had been announced."
+    ],
+    "uniqueness": {
+      "canonical_key": "us-ga-fayette:unknown:fayetteville-police-department:three-officers-personal-flock-searches",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-01",
+      "approval_reference": "docs/approvals/2026-08-01-fayetteville-three-officers.md#approval-fayetteville-three-officers",
+      "notes": "The department did not identify the three officers. This record does not infer intent or assert that criminal charges were filed."
+    },
+    "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
     "id": "2026-07-greene-county-deputy-personal-searches",
     "title": "Greene County deputy charged after personal Flock searches",
     "status": "verified",
