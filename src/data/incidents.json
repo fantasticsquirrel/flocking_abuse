@@ -735,6 +735,92 @@
   },
   {
     "schema_version": 1,
+    "id": "2024-12-matteson-officer-personal-flock-searches",
+    "title": "Matteson officer resigned during investigation of personal Flock searches",
+    "status": "verified",
+    "summary": "A Matteson Police Department internal investigation found Officer Jaila Cole-Clark used Flock for hundreds of searches involving a former domestic partner and that person's new partner. Investigators concluded the searches had no law-enforcement purpose and violated department policies governing criminal-justice information and technology use. Cole-Clark resigned during the investigation; the internal report says the administrative case was closed after her resignation and does not report criminal charges.",
+    "incident_type": [
+      "unauthorized-search",
+      "law-enforcement-overreach",
+      "retention-or-access-policy"
+    ],
+    "location": {
+      "city": "Matteson",
+      "county": "Cook",
+      "state": "IL",
+      "country": "US"
+    },
+    "actors": {
+      "agencies": [
+        "Matteson Police Department"
+      ],
+      "officials_or_entities": [
+        "Jaila Cole-Clark"
+      ],
+      "vendor_entities": [
+        "Flock Safety"
+      ]
+    },
+    "dates": {
+      "occurred": "2024-12",
+      "discovered": "2025-01",
+      "reported": "2026-04-27"
+    },
+    "sources": [
+      {
+        "url": "https://stopflock.org/foias/matteson-internal-investigation.pdf",
+        "title": "Matteson Police Department internal investigation",
+        "publisher": "Matteson Police Department",
+        "published_date": "2025-01-30",
+        "source_type": "government-record",
+        "reliability": "primary",
+        "key_claims": [
+          "The internal report says Flock logs showed hundreds of searches involving vehicles associated with Cole-Clark's former domestic partner and that person's new partner.",
+          "Investigators concluded the searches lacked a law-enforcement purpose and violated department policies.",
+          "The report says Cole-Clark resigned during the investigation and the administrative case was closed after her resignation."
+        ]
+      },
+      {
+        "url": "https://ij.org/police-have-reportedly-used-license-plate-readers-to-stalk-romantic-interests-at-least-14-times-in-recent-years/",
+        "title": "Police Have Reportedly Used License Plate Readers to Stalk Romantic Interests at Least 28 Times in Recent Years",
+        "publisher": "Institute for Justice",
+        "published_date": "2026-04-27",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "The Institute for Justice identifies Matteson as a Flock case and says Cole-Clark ran hundreds of searches for a former domestic partner and that person's new partner.",
+          "Its case index says Cole-Clark resigned in the middle of the investigation."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [],
+      "statutes_or_policies": [
+        "Matteson Police Department Policy 321 Standards of Conduct",
+        "Matteson Police Department Policy 424 Information Technology Use",
+        "Matteson Police Department Policy 825 Protected Information"
+      ]
+    },
+    "outcomes": [
+      "Cole-Clark resigned during the internal investigation.",
+      "The internal report says the administrative investigation was closed following her resignation and does not report criminal charges."
+    ],
+    "uniqueness": {
+      "canonical_key": "us-il-cook:2024-12:matteson-police-department:cole-clark-personal-flock-searches",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-01",
+      "approval_reference": "docs/approvals/2026-08-01-matteson-cole-clark.md#approval-matteson-cole-clark",
+      "notes": "The department's internal investigation is the primary source and explicitly identifies Flock, the affected relationships, policy findings, and resignation. The summary avoids implying a criminal disposition not stated in the record."
+    },
+    "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
     "id": "2025-03-louisville-officer-alpr-stalking",
     "title": "Louisville officer indicted after alleged ALPR stalking",
     "status": "verified",

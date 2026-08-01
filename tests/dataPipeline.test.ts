@@ -156,6 +156,7 @@ describe('data pipeline', () => {
       '2024-06-orange-city-officer-flock-stalking',
       '2024-06-riverside-deputy-flock-stalking',
       '2024-10-norfolk-flock-constitutional-challenge',
+      '2024-12-matteson-officer-personal-flock-searches',
       '2025-03-louisville-officer-alpr-stalking',
       '2025-07-jerome-county-sheriff-wife-flock-searches',
       '2025-09-kenosha-county-deputy-flock-tracking',
