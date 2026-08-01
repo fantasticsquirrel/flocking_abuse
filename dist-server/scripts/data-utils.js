@@ -5,6 +5,7 @@ import yaml from 'js-yaml';
 import { z } from 'zod';
 import { compareIncidents } from '../src/lib/dedupe.js';
 import { IncidentSchema } from '../src/lib/incidentSchema.js';
+import { UnverifiedReportSchema } from '../src/lib/unverifiedSchema.js';
 const ApprovalMetadataSchema = z.object({
     schema_version: z.literal(1),
     approval_id: z.string().regex(/^approval-[a-z0-9-]+$/),
@@ -45,6 +46,7 @@ async function yamlFiles(directory) {
 export async function validateDataDirectory(dataDir, approvalRoot = join(process.cwd(), 'docs', 'approvals')) {
     const publicFiles = await yamlFiles(join(dataDir, 'incidents'));
     const candidateFiles = await yamlFiles(join(dataDir, 'candidates'));
+    const unverifiedFiles = await yamlFiles(join(dataDir, 'unverified'));
     const files = [
         ...publicFiles.map((file) => ({ file, storage: 'public' })),
         ...candidateFiles.map((file) => ({ file, storage: 'candidate' })),
@@ -53,6 +55,20 @@ export async function validateDataDirectory(dataDir, approvalRoot = join(process
     const publicRecords = [];
     const candidateRecords = [];
     const errors = [];
+    const unverifiedRecords = [];
+    for (const file of unverifiedFiles) {
+        const relativePath = relative(dataDir, file);
+        try {
+            const result = UnverifiedReportSchema.safeParse(yaml.load(await readFile(file, 'utf8')));
+            if (!result.success)
+                errors.push(`${relativePath}: ${result.error.issues.map((issue) => `${issue.path.join('.')}: ${issue.message}`).join('; ')}`);
+            else
+                unverifiedRecords.push(result.data);
+        }
+        catch (error) {
+            errors.push(`${relativePath}: ${error instanceof Error ? error.message : String(error)}`);
+        }
+    }
     const ids = new Map();
     for (const { file, storage } of files) {
         const relativePath = relative(dataDir, file);
@@ -142,7 +158,7 @@ export async function validateDataDirectory(dataDir, approvalRoot = join(process
             }
         }
     }
-    return { valid: errors.length === 0, records, publicRecords, candidateRecords, errors };
+    return { valid: errors.length === 0, records, publicRecords, candidateRecords, unverifiedRecords, errors };
 }
 export async function buildPublicData(dataDir, includeReview = false, approvalRoot = join(process.cwd(), 'docs', 'approvals')) {
     const result = await validateDataDirectory(dataDir, approvalRoot);

@@ -37,6 +37,8 @@ export function IncidentCard({ incident }: IncidentCardProps) {
 
       <p className="incident-summary">{incident.summary}</p>
 
+      <section className="company-panel" aria-labelledby={`companies-${incident.id}`}><h3 id={`companies-${incident.id}`}>Companies involved</h3><ul className="tag-list">{incident.actors.vendor_entities.map((company) => <li key={company}>{company}</li>)}</ul><p>Naming a company identifies the system reportedly involved; it does not imply the company directed the conduct.</p></section>
+
       <section aria-labelledby={`types-${incident.id}`}>
         <h3 id={`types-${incident.id}`}>Incident classification</h3>
         <ul className="tag-list">{incident.incident_type.map((type) => <li key={type}>{humanize(type)}</li>)}</ul>
@@ -46,7 +48,6 @@ export function IncidentCard({ incident }: IncidentCardProps) {
         <h3 id={`accountability-${incident.id}`}>Accountability context</h3>
         <dl className="accountability-meta">
           <div><dt>Officials or entities</dt><dd>{incident.actors.officials_or_entities.join(', ') || 'Not identified'}</dd></div>
-          <div><dt>Technology vendors</dt><dd>{incident.actors.vendor_entities.join(', ') || 'Not identified'}</dd></div>
           <div><dt>Cases</dt><dd>{incident.legal_or_policy_context.case_numbers.join(', ') || 'None cited'}</dd></div>
           <div><dt>Policies or statutes</dt><dd>{incident.legal_or_policy_context.statutes_or_policies.join(', ') || 'None cited'}</dd></div>
         </dl>

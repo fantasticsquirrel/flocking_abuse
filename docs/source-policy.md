@@ -2,6 +2,12 @@
 
 The tracker should be useful because every incident is grounded in inspectable sources.
 
+## Reported but unverified lane
+
+Reports that lack a primary record or independent corroboration may be shown only in the separate **Reported but unverified** lane. Each public lead must identify the companies involved, state why verification is incomplete, list the evidence still needed, and link its sources. These entries are excluded from the documented incident count and may never be silently promoted.
+
+Company attribution identifies the camera or data-system provider reported in the evidence. It does not, by itself, allege that the provider directed or endorsed a user's conduct.
+
 ## Source hierarchy
 
 1. **Primary sources:** court filings, docket records, official audits, public-record releases, city/county/state records, official statements, contracts, policies, meeting minutes.

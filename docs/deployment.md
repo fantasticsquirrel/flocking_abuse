@@ -6,7 +6,7 @@ Production is an exact-commit release, not a mutable working tree. The public ed
 
 - immutable releases: `/opt/flocking-abuse/releases/<40-character Git SHA>`
 - atomic active link: `/opt/flocking-abuse/current`
-- mutable accepted/candidate data: `/var/lib/flocking-abuse/data`
+- mutable accepted/candidate/unverified data and first-party analytics: `/var/lib/flocking-abuse/data`
 - secrets: `/etc/flocking-abuse/flocking-abuse.env` (`0600`, root-owned)
 - non-secret release identity: `/etc/flocking-abuse/release.env`
 - systemd unit: `/etc/systemd/system/flocking-abuse.service`
@@ -48,7 +48,7 @@ The script:
 8. requires `/health` to report `ready` and the exact SHA;
 9. installs/tests nginx and reloads the edge only after application readiness.
 
-The deploy requires pre-provisioned mutable-data directories that pass `deploy/verify-data-permissions.sh`: no symlinks, special entries, or multiply linked files; accepted data is root-owned and service-readable but not service-writable; candidate data alone is service-owned. Code deployment never changes or restores mutable-data ownership, modes, or contents. Any one-time metadata migration requires a separate root-only backup and explicit maintenance operation. The release takes an exclusive host deployment lock and automatically restores the prior release, service enablement/activity, nginx configuration, and enabled-site link if readiness or edge activation fails. Schema migrations require their own application-consistent backup and maintenance window.
+The deploy requires pre-provisioned mutable-data directories that pass `deploy/verify-data-permissions.sh`: no symlinks, special entries, or multiply linked files. Accepted and reported-unverified records are root-owned and service-readable but not service-writable; candidate and analytics directories are service-owned. Pre-provision `incidents` and `unverified` as `root:flocking-abuse` mode `0750`, and `candidates` and `analytics` as `flocking-abuse:flocking-abuse` mode `0750`. Analytics are atomically written to `analytics/analytics.json` mode `0600`; back that file up with the mutable data store. Code deployment never changes or restores mutable-data ownership, modes, or contents. Any one-time metadata migration requires a separate root-only backup and explicit maintenance operation. The release takes an exclusive host deployment lock and automatically restores the prior release, service enablement/activity, nginx configuration, and enabled-site link if readiness or edge activation fails. Schema migrations require their own application-consistent backup and maintenance window.
 
 ## Verification
 

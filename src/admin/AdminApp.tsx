@@ -5,6 +5,7 @@ interface SessionResponse { authenticated: boolean; csrfToken?: string }
 interface ApiIssue { path: Array<string | number>; message: string }
 interface DuplicateWarning { incidentId: string; score: number; reasons: string[] }
 interface ApiPayload { filename?: string; error?: string; issues?: ApiIssue[]; duplicateWarnings?: DuplicateWarning[] }
+interface AnalyticsPayload { today: { date: string; pageViews: number; visitors: number }; totalPageViews: number; totalVisitors: number; daily: Array<{ date: string; pageViews: number; visitors: number }> }
 type PendingOperation = '' | 'login' | 'save' | 'logout';
 
 const incidentTypes = IncidentTypeSchema.options;
@@ -31,6 +32,7 @@ export function AdminApp() {
   const [sourceType, setSourceType] = useState('news');
   const [reliability, setReliability] = useState('corroborating');
   const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
+  const [analytics, setAnalytics] = useState<AnalyticsPayload | null>(null);
   const intakeHeading = useRef<HTMLHeadingElement>(null);
   const passwordInput = useRef<HTMLInputElement>(null);
 
@@ -48,6 +50,17 @@ export function AdminApp() {
     if (sessionExpired || !csrfToken) passwordInput.current?.focus();
     else intakeHeading.current?.focus();
   }, [csrfToken, loading, sessionExpired]);
+
+  const loadAnalytics = async () => {
+    try {
+      const response = await fetch('/api/admin/analytics', { credentials: 'same-origin', cache: 'no-store' });
+      if (response.status === 401) { expireSession(); return; }
+      if (!response.ok) throw new Error('analytics request failed');
+      const payload = await readJson<AnalyticsPayload>(response);
+      if (!payload.today || !Array.isArray(payload.daily)) throw new Error('analytics response invalid');
+      setAnalytics(payload);
+    } catch { setAnalytics(null); setError('Analytics could not be loaded. Intake remains available.'); }
+  };
 
   const expireSession = () => {
     setSessionExpired(true);
@@ -116,6 +129,7 @@ export function AdminApp() {
           reliability: String(data.get('reliability') ?? ''),
           location: { city: String(data.get('city') ?? ''), county: String(data.get('county') ?? ''), state: String(data.get('state') ?? ''), country: String(data.get('country') ?? '') },
           agency: String(data.get('agency') ?? ''), summary: String(data.get('summary') ?? ''),
+          companies: String(data.get('companies') ?? '').split(/[\n,]/).map((company) => company.trim()).filter(Boolean),
           eventKey: String(data.get('eventKey') ?? ''), occurredDate: String(data.get('occurredDate') ?? ''),
           incidentTypes: selectedIncidentTypes,
           keyClaims: String(data.get('keyClaims') ?? '').split('\n').map((claim) => claim.trim()).filter(Boolean),
@@ -194,6 +208,7 @@ export function AdminApp() {
               </section>
             ) : null}
             <section className="admin-panel" aria-labelledby="candidate-heading">
+              <div className="analytics-panel" aria-labelledby="analytics-heading"><div className="admin-panel__heading"><div><p className="classification">PRIVATE AGGREGATE ANALYTICS</p><h2 id="analytics-heading">Site activity</h2></div><button className="button button--quiet" type="button" onClick={() => { void loadAnalytics(); }}>Load analytics</button></div>{analytics ? <><dl className="analytics-totals"><div><dt>Visitors today</dt><dd>{analytics.today.visitors}</dd></div><div><dt>Total visitors</dt><dd>{analytics.totalVisitors}</dd></div><div><dt>Views today</dt><dd>{analytics.today.pageViews}</dd></div><div><dt>Total views</dt><dd>{analytics.totalPageViews}</dd></div></dl><div className="analytics-table-wrap"><table><caption>Recent daily activity</caption><thead><tr><th>Date</th><th>Visitors</th><th>Views</th></tr></thead><tbody>{analytics.daily.slice(0, 30).map((day) => <tr key={day.date}><td>{day.date}</td><td>{day.visitors}</td><td>{day.pageViews}</td></tr>)}</tbody></table></div></> : <p>Load the privacy-preserving visitor and page-view totals when needed.</p>}</div>
               <div className="admin-panel__heading"><div><p className="classification">MANUAL SOURCE ENTRY</p><h2 ref={intakeHeading} tabIndex={-1} id="candidate-heading">Candidate intake</h2></div><button disabled={pending !== '' || sessionExpired} className="button button--quiet" type="button" onClick={() => { void logout(); }}>End session</button></div>
               <form className="intake-form" onSubmit={(event) => { void saveCandidate(event); }}>
                 <fieldset disabled={formLocked}><legend>Source record</legend><div className="form-grid">
@@ -209,6 +224,7 @@ export function AdminApp() {
                   <label><span>City</span><input {...fieldProps('location.city')} name="city" maxLength={120} />{fieldError('location.city')}</label><label><span>County</span><input {...fieldProps('location.county')} name="county" maxLength={120} />{fieldError('location.county')}</label>
                   <label><span>State</span><input {...fieldProps('location.state')} name="state" maxLength={80} />{fieldError('location.state')}</label><label><span>Country</span><input {...fieldProps('location.country')} name="country" defaultValue="US" required minLength={2} maxLength={80} />{fieldError('location.country')}</label>
                   <label className="wide"><span>Agency or entity</span><input {...fieldProps('agency')} name="agency" required maxLength={200} />{fieldError('agency')}</label>
+                  <label className="wide"><span>Camera-system companies</span><input {...fieldProps('companies')} name="companies" defaultValue="Flock Safety" required maxLength={1000} /><small>One or more company names, separated by commas.</small>{fieldError('companies')}</label>
                   <label><span>Occurrence date <small>optional when unknown</small></span><input {...fieldProps('occurredDate')} name="occurredDate" type="text" inputMode="numeric" pattern="[0-9]{4}-[0-9]{2}(-[0-9]{2})?" placeholder="YYYY-MM or YYYY-MM-DD" />{fieldError('occurredDate')}</label>
                   <label><span>Distinct event key</span><input {...fieldProps('eventKey')} name="eventKey" required minLength={4} maxLength={160} /><small>Stable factual label for the event, not the article title.</small>{fieldError('eventKey')}</label>
                   <fieldset {...fieldProps('incidentTypes')} tabIndex={-1} className="wide classification-options"><legend>Incident types</legend><p>Select every classification that applies.</p><div>{incidentTypes.map((value) => <label key={value}><input name="incidentTypes" type="checkbox" value={value} /><span>{humanize(value)}</span></label>)}</div>{fieldError('incidentTypes')}</fieldset>

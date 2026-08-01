@@ -10,6 +10,7 @@ import { z } from 'zod';
 import { canonicalizeUrl, findDuplicates } from '../src/lib/dedupe.js';
 import { canonicalLocation, canonicalSlug, IncidentSchema, IncidentTypeSchema, PartialDateSchema, SourceReliabilitySchema, SourceTypeSchema, type Incident } from '../src/lib/incidentSchema.js';
 import { validateDataDirectory } from '../scripts/data-utils.js';
+import { AnalyticsStore } from './analytics.js';
 
 const SESSION_COOKIE = 'flocking_admin';
 const SESSION_TTL_SECONDS = 30 * 60;
@@ -33,6 +34,7 @@ const CandidateInputSchema = z.object({
     state: z.string().trim().max(80), country: z.string().trim().min(2).max(80),
   }).strict(),
   agency: z.string().trim().min(1).max(200),
+  companies: z.array(z.string().trim().min(1).max(160)).min(1).max(20).default(['Flock Safety']),
   eventKey: z.string().trim().min(4).max(160),
   occurredDate: z.union([PartialDateSchema, z.literal('')]),
   summary: z.string().trim().min(20).max(3000),
@@ -64,6 +66,7 @@ export interface AppOptions {
   loginLimit?: number;
   mutationLimit?: number;
   readiness?: () => Promise<{ ready: boolean; release?: string; error?: string }>;
+  analyticsStore?: AnalyticsStore;
 }
 
 const cookieValue = (request: Request, name: string): string | undefined => {
@@ -130,7 +133,7 @@ function toIncident(input: CandidateInput, now: Date): Incident {
     summary: input.summary,
     incident_type: input.incidentTypes,
     location: input.location,
-    actors: { agencies: [input.agency], officials_or_entities: [], vendor_entities: ['Flock Safety'] },
+    actors: { agencies: [input.agency], officials_or_entities: [], vendor_entities: input.companies },
     dates: { occurred: input.occurredDate, discovered: date, reported: input.publishedDate },
     sources: [{
       url: input.url, title: input.title, publisher: input.publisher, published_date: input.publishedDate,
@@ -190,6 +193,26 @@ export function createApp(options: AppOptions): express.Express {
   app.get('/api/admin/session', (request, response) => {
     const session = readSession(request, options);
     response.json(session ? { authenticated: true, csrfToken: session.csrf } : { authenticated: false });
+  });
+  app.post('/api/analytics/visit', async (request, response) => {
+    if (!options.analyticsStore) { response.json({ today: { visitors: 0 }, totalVisitors: 0 }); return; }
+    const userAgent = request.get('User-Agent') ?? '';
+    if (!userAgent || /bot|crawler|spider|preview|headless|lighthouse/i.test(userAgent)) {
+      const summary = await options.analyticsStore.summary();
+      response.json({ today: { visitors: summary.today.visitors }, totalVisitors: summary.totalVisitors });
+      return;
+    }
+    let visitorId = cookieValue(request, 'fat_visitor');
+    if (!visitorId || !/^[A-Za-z0-9_-]{32,64}$/.test(visitorId)) visitorId = randomBytes(24).toString('base64url');
+    response.append('Set-Cookie', `fat_visitor=${encodeURIComponent(visitorId)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=31536000${options.secureCookies ? '; Secure' : ''}`);
+    const summary = await options.analyticsStore.record(visitorId);
+    response.set('Cache-Control', 'no-store').json({ today: { visitors: summary.today.visitors }, totalVisitors: summary.totalVisitors });
+  });
+  app.get('/api/admin/analytics', requireAdmin(options), async (_request, response, next) => {
+    try {
+      if (!options.analyticsStore) { response.json({ today: { date: '', pageViews: 0, visitors: 0 }, totalPageViews: 0, totalVisitors: 0, daily: [] }); return; }
+      response.json(await options.analyticsStore.summary());
+    } catch (error) { next(error); }
   });
 
   const loginLimiter = rateLimit({ windowMs: 15 * 60 * 1000, limit: options.loginLimit ?? 8, standardHeaders: true, legacyHeaders: false });

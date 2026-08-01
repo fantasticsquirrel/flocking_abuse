@@ -1,0 +1,40 @@
+schema_version: 1
+id: 2025-05-texas-abortion-related-national-flock-search
+title: "Texas sheriff's office reportedly used national Flock search in abortion-related investigation"
+summary: >-
+  404 Media reported that the Johnson County Sheriff's Office searched a nationwide Flock camera network for a
+  woman who had self-administered an abortion. The same newsroom later reported that court records characterized
+  the matter as a death investigation and showed investigators considered possible criminal charges.
+location:
+  city: ""
+  county: Johnson
+  state: TX
+  country: US
+companies:
+  - Flock Safety
+agencies:
+  - Johnson County Sheriff's Office
+reported: "2025-05-29"
+sources:
+  - url: "https://www.404media.co/a-texas-cop-searched-license-plate-cameras-nationwide-for-a-woman-who-got-an-abortion/"
+    title: "A Texas Cop Searched License Plate Cameras Nationwide for a Woman Who Got an Abortion"
+    publisher: "404 Media"
+    published_date: "2025-05-29"
+    source_type: news
+    reliability: corroborating
+    key_claims:
+      - "404 Media reported that the sheriff's office searched a nationwide Flock camera network for the woman."
+  - url: "https://www.404media.co/police-said-they-surveilled-woman-who-had-an-abortion-for-her-safety-court-records-show-they-considered-charging-her-with-a-crime/"
+    title: "Police Said They Surveilled Woman Who Had an Abortion for Her 'Safety.' Court Records Show They Considered Charging Her With a Crime"
+    publisher: "404 Media"
+    published_date: "2025-10-07"
+    source_type: news
+    reliability: background
+    key_claims:
+      - "The follow-up said court records described a death investigation and possible criminal charges."
+verification_status:
+  reason: "Both available reports come from the same newsroom, and the underlying court record is not linked in a stable public copy."
+  evidence_needed:
+    - "The underlying court record or another primary official record"
+    - "Independent reliable corroboration of the Flock search and its purpose"
+updated_at: "2026-08-01"

@@ -24,6 +24,8 @@ metadata() {
 [[ -d $DATA_DIR && ! -L $DATA_DIR ]] || fail "Mutable data root must be a regular directory"
 [[ -d $DATA_DIR/incidents && ! -L $DATA_DIR/incidents ]] || fail "Accepted incident storage must be a regular directory"
 [[ -d $DATA_DIR/candidates && ! -L $DATA_DIR/candidates ]] || fail "Candidate inbox must be a regular directory"
+[[ -d $DATA_DIR/unverified && ! -L $DATA_DIR/unverified ]] || fail "Unverified report storage must be a regular directory"
+[[ -d $DATA_DIR/analytics && ! -L $DATA_DIR/analytics ]] || fail "Analytics storage must be a regular directory"
 
 unexpected=$(find "$DATA_DIR" -xdev -mindepth 1 ! -type d ! -type f -print -quit)
 [[ -z $unexpected ]] || fail "Mutable data must contain only directories and regular files"
@@ -34,6 +36,8 @@ multiply_linked=$(find "$DATA_DIR" -xdev -type f -links +1 -print -quit)
 [[ $(metadata "$DATA_DIR") == "$TRUSTED_UID:$SHARED_GID:750" ]] || fail "Mutable data root metadata is unsafe"
 [[ $(metadata "$DATA_DIR/incidents") == "$TRUSTED_UID:$SHARED_GID:750" ]] || fail "Accepted directory metadata is unsafe"
 [[ $(metadata "$DATA_DIR/candidates") == "$SERVICE_UID:$SERVICE_GID:750" ]] || fail "Candidate directory metadata is unsafe"
+[[ $(metadata "$DATA_DIR/unverified") == "$TRUSTED_UID:$SHARED_GID:750" ]] || fail "Unverified directory metadata is unsafe"
+[[ $(metadata "$DATA_DIR/analytics") == "$SERVICE_UID:$SERVICE_GID:750" ]] || fail "Analytics directory metadata is unsafe"
 
 while IFS= read -r -d '' path; do
   [[ $(metadata "$path") == "$TRUSTED_UID:$SHARED_GID:750" ]] || fail "Accepted directory metadata is unsafe: $path"
@@ -42,6 +46,14 @@ done < <(find "$DATA_DIR/incidents" -xdev -type d -print0)
 while IFS= read -r -d '' path; do
   [[ $(metadata "$path") == "$TRUSTED_UID:$SHARED_GID:640" ]] || fail "Accepted file metadata is unsafe: $path"
 done < <(find "$DATA_DIR/incidents" -xdev -type f -print0)
+
+while IFS= read -r -d '' path; do
+  [[ $(metadata "$path") == "$TRUSTED_UID:$SHARED_GID:750" ]] || fail "Unverified directory metadata is unsafe: $path"
+done < <(find "$DATA_DIR/unverified" -xdev -type d -print0)
+
+while IFS= read -r -d '' path; do
+  [[ $(metadata "$path") == "$TRUSTED_UID:$SHARED_GID:640" ]] || fail "Unverified file metadata is unsafe: $path"
+done < <(find "$DATA_DIR/unverified" -xdev -type f -print0)
 
 while IFS= read -r -d '' path; do
   [[ $(metadata "$path") == "$SERVICE_UID:$SERVICE_GID:750" ]] || fail "Candidate directory metadata is unsafe: $path"
@@ -53,9 +65,17 @@ while IFS= read -r -d '' path; do
 done < <(find "$DATA_DIR/candidates" -xdev -type f -print0)
 
 while IFS= read -r -d '' path; do
+  [[ $(metadata "$path") == "$SERVICE_UID:$SERVICE_GID:750" ]] || fail "Analytics directory metadata is unsafe: $path"
+done < <(find "$DATA_DIR/analytics" -xdev -type d -print0)
+
+while IFS= read -r -d '' path; do
+  [[ $(metadata "$path") == "$SERVICE_UID:$SERVICE_GID:600" ]] || fail "Analytics file metadata is unsafe: $path"
+done < <(find "$DATA_DIR/analytics" -xdev -type f -print0)
+
+while IFS= read -r -d '' path; do
   [[ -f $path ]] || fail "Unexpected directory beneath mutable data root: $path"
   current=$(metadata "$path")
   [[ $current == "$TRUSTED_UID:"*:600 || $current == "$TRUSTED_UID:"*:640 ]] || fail "Root-level mutable data file metadata is unsafe: $path"
-done < <(find "$DATA_DIR" -xdev -mindepth 1 -maxdepth 1 ! -name incidents ! -name candidates -print0)
+done < <(find "$DATA_DIR" -xdev -mindepth 1 -maxdepth 1 ! -name incidents ! -name candidates ! -name unverified ! -name analytics -print0)
 
 printf 'DATA_PERMISSIONS=secure\n'

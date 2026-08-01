@@ -58,14 +58,20 @@ describe('immutable deployment and rollback scripts', () => {
     const dataDir = join(root, 'data');
     const incidents = join(dataDir, 'incidents');
     const candidates = join(dataDir, 'candidates');
+    const unverified = join(dataDir, 'unverified');
+    const analytics = join(dataDir, 'analytics');
     const uid = process.getuid?.() ?? 0;
     const gid = process.getgid?.() ?? 0;
     try {
       await mkdir(incidents, { recursive: true, mode: 0o750 });
       await mkdir(candidates, { recursive: true, mode: 0o750 });
+      await mkdir(unverified, { recursive: true, mode: 0o750 });
+      await mkdir(analytics, { recursive: true, mode: 0o750 });
       await chmod(dataDir, 0o750);
       await chmod(incidents, 0o750);
       await chmod(candidates, 0o750);
+      await chmod(unverified, 0o750);
+      await chmod(analytics, 0o750);
       const accepted = join(incidents, 'accepted.yaml');
       const candidate = join(candidates, 'candidate.yaml');
       await writeFile(accepted, 'id: accepted\n', { mode: 0o640 });

@@ -5,6 +5,7 @@ import yaml from 'js-yaml';
 import { z } from 'zod';
 import { compareIncidents } from '../src/lib/dedupe.js';
 import { IncidentSchema, type Incident } from '../src/lib/incidentSchema.js';
+import { UnverifiedReportSchema, type UnverifiedReport } from '../src/lib/unverifiedSchema.js';
 
 export interface ValidationResult {
   valid: boolean;
@@ -12,6 +13,7 @@ export interface ValidationResult {
   publicRecords: Incident[];
   candidateRecords: Incident[];
   errors: string[];
+  unverifiedRecords: UnverifiedReport[];
 }
 
 const ApprovalMetadataSchema = z.object({
@@ -55,6 +57,7 @@ async function yamlFiles(directory: string): Promise<string[]> {
 export async function validateDataDirectory(dataDir: string, approvalRoot = join(process.cwd(), 'docs', 'approvals')): Promise<ValidationResult> {
   const publicFiles = await yamlFiles(join(dataDir, 'incidents'));
   const candidateFiles = await yamlFiles(join(dataDir, 'candidates'));
+  const unverifiedFiles = await yamlFiles(join(dataDir, 'unverified'));
   const files = [
     ...publicFiles.map((file) => ({ file, storage: 'public' as const })),
     ...candidateFiles.map((file) => ({ file, storage: 'candidate' as const })),
@@ -63,6 +66,15 @@ export async function validateDataDirectory(dataDir: string, approvalRoot = join
   const publicRecords: Incident[] = [];
   const candidateRecords: Incident[] = [];
   const errors: string[] = [];
+  const unverifiedRecords: UnverifiedReport[] = [];
+  for (const file of unverifiedFiles) {
+    const relativePath = relative(dataDir, file);
+    try {
+      const result = UnverifiedReportSchema.safeParse(yaml.load(await readFile(file, 'utf8')));
+      if (!result.success) errors.push(`${relativePath}: ${result.error.issues.map((issue) => `${issue.path.join('.')}: ${issue.message}`).join('; ')}`);
+      else unverifiedRecords.push(result.data);
+    } catch (error) { errors.push(`${relativePath}: ${error instanceof Error ? error.message : String(error)}`); }
+  }
   const ids = new Map<string, string>();
   for (const { file, storage } of files) {
     const relativePath = relative(dataDir, file);
@@ -136,7 +148,7 @@ export async function validateDataDirectory(dataDir: string, approvalRoot = join
       }
     }
   }
-  return { valid: errors.length === 0, records, publicRecords, candidateRecords, errors };
+  return { valid: errors.length === 0, records, publicRecords, candidateRecords, unverifiedRecords, errors };
 }
 
 export async function buildPublicData(dataDir: string, includeReview = false, approvalRoot = join(process.cwd(), 'docs', 'approvals')): Promise<Incident[]> {

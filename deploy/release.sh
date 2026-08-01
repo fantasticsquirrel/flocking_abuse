@@ -117,7 +117,7 @@ rollback_on_error() {
 
 [[ ! -L /opt/flocking-abuse && ! -L $RELEASE_ROOT ]] || { echo "Release root must not be a symlink" >&2; exit 6; }
 install -d -m 0755 -o root -g root /opt/flocking-abuse "$RELEASE_ROOT"
-for required_data_dir in "$DATA_DIR" "$DATA_DIR/incidents" "$DATA_DIR/candidates"; do
+for required_data_dir in "$DATA_DIR" "$DATA_DIR/incidents" "$DATA_DIR/candidates" "$DATA_DIR/unverified" "$DATA_DIR/analytics"; do
   [[ -d $required_data_dir && ! -L $required_data_dir ]] || { echo "Pre-provisioned mutable data directories are required" >&2; exit 6; }
 done
 require_regular_artifact "$SOURCE_ROOT" deploy/verify-data-permissions.sh || { echo "Source permission verifier is unconfined" >&2; exit 6; }

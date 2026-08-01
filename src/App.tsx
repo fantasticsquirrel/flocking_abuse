@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { IncidentCard } from './components/IncidentCard.js';
 import { IncidentFilters, type FilterState } from './components/IncidentFilters.js';
 import type { Incident } from './lib/incidentSchema.js';
+import { PublicShell } from './components/SiteChrome.js';
 
 const fromQuery = (): FilterState => {
   if (typeof window === 'undefined') return { q: '', state: '', incidentType: '', status: '', year: '', sourceType: '' };
@@ -74,28 +75,13 @@ export function App({ incidents }: AppProps) {
   };
 
   return (
-    <div className="app-shell">
-      <a className="skip-link" href="#main-content">Skip to incident records</a>
-      <div className="scanlines" aria-hidden="true" />
-      <header className="site-header">
-        <a className="wordmark" href="/" aria-label="Flocking Abuse Tracker home">
-          <span aria-hidden="true" className="wordmark__mark">FA</span>
-          <span className="wordmark__text"><strong>Flocking Abuse</strong><small>Public incident tracker</small></span>
-        </a>
-        <nav aria-label="Primary">
-          <a href="/" aria-current="page">Incidents</a>
-          <a href="/docs/source-policy.html">Source policy</a>
-          <a href="/docs/reporting-format.html">Reporting format</a>
-          <a href="/admin">Admin intake</a>
-        </nav>
-      </header>
-
+    <PublicShell current="incidents" skip="Skip to incident records">
       <main id="main-content" tabIndex={-1}>
         <section className="hero" aria-labelledby="page-title">
           <div className="hero__copy">
             <p className="eyebrow">Public records of camera misuse</p>
             <h1 id="page-title">Flocking<br /><span>Abuse Tracker</span></h1>
-            <p className="hero__lede">Reported Flock Safety camera misuse, legal challenges, audit findings, and policy failures—documented with links to the record.</p>
+            <p className="hero__lede">Reported misuse, legal challenges, audit findings, and policy failures involving Flock Safety, Axon, and other camera systems—documented with links to the record.</p>
             <p className="hero__note">Claims are attributed to their sources. Allegations remain allegations unless established by an official record.</p>
           </div>
           <aside className="monitor-panel" aria-label="Published incident count">
@@ -126,7 +112,6 @@ export function App({ incidents }: AppProps) {
         </section>
       </main>
 
-      <footer><p>Flocking Abuse Tracker</p><p>Sources and reporting links accompany each record.</p></footer>
-    </div>
+    </PublicShell>
   );
 }

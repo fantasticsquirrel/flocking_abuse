@@ -6,6 +6,7 @@ import express, { type Request, type Response } from 'express';
 import { marked } from 'marked';
 import { z } from 'zod';
 import { createApp } from './app.js';
+import { AnalyticsStore } from './analytics.js';
 import { validateDataDirectory } from '../scripts/data-utils.js';
 
 const portSchema = z.coerce.number().int().min(1).max(65_535);
@@ -67,6 +68,7 @@ export function readRuntimeConfig(env: NodeJS.ProcessEnv, cwd = process.cwd()): 
 }
 
 export function createProductionApp(config: RuntimeConfig): express.Express {
+  const analyticsStore = new AnalyticsStore(resolve(config.dataDir, 'analytics', 'analytics.json'), config.sessionSecret);
   const app = createApp({
     dataDir: config.dataDir,
     approvalRoot: resolve(config.docsDir, 'approvals'),
@@ -74,6 +76,7 @@ export function createProductionApp(config: RuntimeConfig): express.Express {
     sessionSecret: config.sessionSecret,
     allowedOrigin: config.allowedOrigin,
     secureCookies: config.secureCookies,
+    analyticsStore,
     readiness: async () => {
       try {
         await access(resolve(config.distDir, 'index.html'), fsConstants.R_OK);
