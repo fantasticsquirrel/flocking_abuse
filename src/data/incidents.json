@@ -751,6 +751,105 @@
   },
   {
     "schema_version": 1,
+    "id": "2025-12-joplin-officer-flock-misuse",
+    "title": "Joplin officer left department after Flock policy violation",
+    "status": "verified",
+    "summary": "The Joplin Police Department said an internal investigation found that an unidentified officer violated policy through improper use of its Flock license-plate reader system. The officer was placed on leave and later left city employment. Public-record reporting found one plate had allegedly been searched about 395 times. The department referred the matter to the Missouri State Highway Patrol for an independent criminal review.",
+    "incident_type": [
+      "unauthorized-search",
+      "law-enforcement-overreach",
+      "retention-or-access-policy"
+    ],
+    "location": {
+      "city": "Joplin",
+      "county": "Jasper",
+      "state": "MO",
+      "country": "US"
+    },
+    "actors": {
+      "agencies": [
+        "Joplin Police Department",
+        "Missouri State Highway Patrol"
+      ],
+      "officials_or_entities": [
+        "Unidentified former Joplin police officer"
+      ],
+      "vendor_entities": [
+        "Flock Safety"
+      ]
+    },
+    "dates": {
+      "occurred": "",
+      "discovered": "2025-12",
+      "reported": "2026-01-10"
+    },
+    "sources": [
+      {
+        "url": "https://www.joplinmo.org/m/newsflash/home/detail/3949",
+        "title": "Joplin Police Statement Regarding Flock LPR Misuse Incident",
+        "publisher": "Joplin Police Department",
+        "published_date": "2026-01-10",
+        "source_type": "official-statement",
+        "reliability": "primary",
+        "key_claims": [
+          "Joplin police said an internal investigation found one officer violated department policy through improper use of the Flock LPR system.",
+          "The officer was placed on administrative leave and was no longer employed by the city; the department requested an independent Missouri State Highway Patrol investigation and announced monthly audits and policy updates."
+        ]
+      },
+      {
+        "url": "https://www.ky3.com/2026/01/12/joplin-officer-no-longer-employed-after-alleged-misuse-license-plate-tracking-system/",
+        "title": "Joplin officer no longer employed after alleged misuse of license plate tracking system",
+        "publisher": "KY3 / KCTV5",
+        "published_date": "2026-01-12",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "The report said public audit research found one license plate had been searched about 395 times and that a single user accounted for roughly one quarter of the department's Flock activity.",
+          "The department confirmed its audit found a policy violation and that the officer no longer worked for the city, but did not say whether the officer resigned or was fired."
+        ]
+      },
+      {
+        "url": "https://www.ksmu.org/news/2026-01-21/joplin-residents-investigating-citys-use-of-flock-cameras",
+        "title": "Joplin residents investigating city's use of Flock Cameras",
+        "publisher": "KSMU Ozarks Public Radio",
+        "published_date": "2026-01-21",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "KSMU reported that Joplin police publicly acknowledged one officer's misuse of the department's Flock system.",
+          "The department said the employee had left and potential criminal violations were referred to the Missouri State Highway Patrol."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [],
+      "statutes_or_policies": [
+        "Joplin Police Department policy governing department equipment and systems",
+        "Joplin Police Department license-plate reader policy"
+      ]
+    },
+    "outcomes": [
+      "The officer was placed on administrative leave and later left city employment.",
+      "Joplin police referred potential criminal violations to the Missouri State Highway Patrol for an independent investigation.",
+      "The department announced monthly Flock audits, policy updates, and added oversight.",
+      "The cited sources do not identify the officer or report a final criminal disposition."
+    ],
+    "uniqueness": {
+      "canonical_key": "us-mo-jasper:unknown:joplin-police-department:unidentified-officer-flock-policy-violation",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-01",
+      "approval_reference": "docs/approvals/2026-08-01-joplin-officer.md#approval-joplin-officer",
+      "notes": "The agency confirmed the policy violation and employment outcome. The approximate query count comes from public-record reporting and is attributed accordingly; this record does not infer a motive or criminal conduct."
+    },
+    "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
     "id": "2026-04-conyers-dispatcher-non-law-enforcement-searches",
     "title": "Conyers dispatcher supervisor charged after Flock audit",
     "status": "verified",
