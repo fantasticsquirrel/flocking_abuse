@@ -154,6 +154,7 @@ describe('data pipeline', () => {
       '2024-01-milwaukee-detective-flock-gps-tracking',
       '2024-02-prairie-grove-officer-personal-flock-searches',
       '2024-06-orange-city-officer-flock-stalking',
+      '2024-06-riverside-deputy-flock-stalking',
       '2024-10-norfolk-flock-constitutional-challenge',
       '2025-03-louisville-officer-alpr-stalking',
       '2025-07-jerome-county-sheriff-wife-flock-searches',

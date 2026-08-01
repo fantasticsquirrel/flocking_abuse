@@ -1,0 +1,46 @@
+schema_version: 1
+id: 2024-06-riverside-deputy-flock-stalking
+title: "Riverside County deputy convicted after using Flock in stalking campaign"
+status: verified
+summary: >-
+  Prosecutors said former Riverside County Sheriff's Deputy Alexander Ravy Vanny used the agency's
+  Flock system to obtain license-plate information for vehicles associated with his former fiancée,
+  including a close friend's vehicle, as part of a broader stalking campaign. A jury convicted
+  Vanny of stalking, unauthorized use of protected electronic data, and several other offenses in
+  December 2025. He was sentenced to six years in California state prison in February 2026.
+incident_type: [unauthorized-search, law-enforcement-overreach, retention-or-access-policy]
+location: {city: Hemet, county: Riverside, state: CA, country: US}
+actors:
+  agencies: [Riverside County Sheriff's Office, Riverside County District Attorney's Office]
+  officials_or_entities: [Alexander Ravy Vanny]
+  vendor_entities: [Flock Safety]
+dates: {occurred: "2024-06", discovered: "2024-06", reported: "2025-11-18"}
+sources:
+  - url: "https://patch.com/california/temecula/ex-rivco-deputy-was-self-service-over-everything-else-prosecutor"
+    title: "Ex-RivCo deputy 'was about self-service over everything else': prosecutor"
+    publisher: "Patch / City News Service"
+    published_date: "2025-11-18"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["Trial reporting said prosecutors alleged Vanny used the sheriff's Flock system to obtain plate information for vehicles belonging to men visiting his former fiancée, particularly a close friend.", "The report said Vanny had been fired after his 2024 arrest and faced charges including stalking and unauthorized use of protected electronic data."]
+  - url: "https://www.yahoo.com/news/articles/ex-riverside-deputy-convicted-stalking-153001768.html"
+    title: "Ex-Riverside deputy convicted of stalking, child porn charges"
+    publisher: "Palm Springs Desert Sun / City News Service"
+    published_date: "2025-12-06"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["A Riverside County jury convicted Vanny of stalking, unauthorized use of protected electronic data, and multiple other offenses on December 5, 2025.", "Jurors also sustained an enhancement that he committed a felony while released on bail."]
+  - url: "https://kesq.com/news/crime/2026/02/06/ex-rso-deputy-who-stalked-former-fiancee-harassed-volunteer-sentenced/"
+    title: "Ex-RSO deputy who stalked former fiancée, harassed volunteer sentenced"
+    publisher: "KESQ / City News Service"
+    published_date: "2026-02-06"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["KESQ reported that Vanny received a six-year state-prison sentence after the December convictions.", "The report listed stalking and unauthorized use of protected electronic data among the offenses of conviction."]
+legal_or_policy_context:
+  case_numbers: ["SWF2401912", "SWF2402105"]
+  statutes_or_policies: ["California law prohibiting unauthorized use of protected electronic data", "Riverside County Sheriff's Office automated license plate reader policy", "California stalking law"]
+outcomes: ["The Riverside County Sheriff's Office fired Vanny after his 2024 arrest.", "A jury convicted him in December 2025 of stalking, unauthorized use of protected electronic data, and several other offenses.", "A judge sentenced Vanny to six years in California state prison on February 6, 2026."]
+uniqueness: {canonical_key: "us-ca-riverside:2024-06:riverside-county-sheriffs-office:vanny-flock-stalking", duplicate_of: null}
+review: {added_by: manual, approval: human-approved, reviewed_by: "Site owner", reviewed_at: "2026-08-01", approval_reference: "docs/approvals/2026-08-01-riverside-vanny.md#approval-riverside-vanny", notes: "Trial reporting specifically ties the alleged protected-data misuse to the agency's Flock system. Independent conviction and sentencing reports establish the adjudicated outcomes. The summary stays focused on the Flock-related conduct while acknowledging the broader case."}
+updated_at: "2026-08-01"
