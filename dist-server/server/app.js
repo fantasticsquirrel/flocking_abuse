@@ -10,6 +10,7 @@ import { z } from 'zod';
 import { canonicalizeUrl, findDuplicates } from '../src/lib/dedupe.js';
 import { canonicalLocation, canonicalSlug, IncidentCategorySchema, IncidentSchema, IncidentTypeSchema, PartialDateSchema, SourceReliabilitySchema, SourceTypeSchema } from '../src/lib/incidentSchema.js';
 import { buildPublicData, validateDataDirectory } from '../scripts/data-utils.js';
+import { PublisherRejectionError } from './publisher-client.js';
 const SESSION_COOKIE = 'flocking_admin';
 const SESSION_TTL_SECONDS = 30 * 60;
 const httpUrl = z.string().url().refine((value) => {
@@ -354,6 +355,10 @@ export function createApp(options) {
             response.status(201).json(await options.publishCandidate(parsed.data));
         }
         catch (error) {
+            if (error instanceof PublisherRejectionError) {
+                response.status(error.statusCode).json({ error: error.message });
+                return;
+            }
             next(error);
         }
     });

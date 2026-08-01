@@ -11,6 +11,7 @@ import { canonicalizeUrl, findDuplicates } from '../src/lib/dedupe.js';
 import { canonicalLocation, canonicalSlug, IncidentCategorySchema, IncidentSchema, IncidentTypeSchema, PartialDateSchema, SourceReliabilitySchema, SourceTypeSchema, type Incident } from '../src/lib/incidentSchema.js';
 import { buildPublicData, validateDataDirectory } from '../scripts/data-utils.js';
 import type { AnalyticsStore } from './analytics.js';
+import { PublisherRejectionError } from './publisher-client.js';
 
 const SESSION_COOKIE = 'flocking_admin';
 const SESSION_TTL_SECONDS = 30 * 60;
@@ -292,7 +293,13 @@ export function createApp(options: AppOptions): express.Express {
       if (!existing.valid) { response.status(500).json({ error: 'Existing data failed validation' }); return; }
       if (!existing.candidateRecords.some((candidate) => candidate.id === parsed.data.candidateId)) { response.status(404).json({ error: 'Candidate not found' }); return; }
       response.status(201).json(await options.publishCandidate(parsed.data));
-    } catch (error) { next(error); }
+    } catch (error) {
+      if (error instanceof PublisherRejectionError) {
+        response.status(error.statusCode).json({ error: error.message });
+        return;
+      }
+      next(error);
+    }
   });
 
   app.use((error: unknown, _request: Request, response: Response, _next: NextFunction) => {

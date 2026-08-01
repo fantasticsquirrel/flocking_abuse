@@ -1,5 +1,5 @@
 import { createServer } from 'node:http';
-import { access, chmod, link, lstat, mkdir, readFile, readdir, rename, unlink, writeFile } from 'node:fs/promises';
+import { access, chmod, chown, link, lstat, mkdir, readFile, readdir, rename, unlink, writeFile } from 'node:fs/promises';
 import { constants as fsConstants } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { randomBytes } from 'node:crypto';
@@ -23,6 +23,24 @@ const RequestSchema = z.object({
     if (input.confirmation !== `PUBLISH ${input.candidateId}`)
         context.addIssue({ code: 'custom', path: ['confirmation'], message: 'Publication confirmation does not match' });
 });
+class SafePublisherError extends Error {
+    status;
+    constructor(status, message) {
+        super(message);
+        this.status = status;
+        this.name = 'SafePublisherError';
+    }
+}
+function publicationError(error) {
+    if (error instanceof SafePublisherError)
+        return { status: error.status, message: error.message };
+    if (error instanceof z.ZodError) {
+        return { status: 400, message: 'Publication request validation failed.' };
+    }
+    if (error instanceof Error && error.message === 'Candidate not found')
+        return { status: 404, message: 'Candidate not found.' };
+    return { status: 400, message: 'Publication failed. The candidate remains unpublished.' };
+}
 async function atomicInstall(directory, filename, content) {
     await mkdir(directory, { recursive: true, mode: 0o750 });
     const destination = join(directory, filename);
@@ -66,7 +84,7 @@ async function publish(input) {
     const approvalId = `approval-admin-publish-${input.candidateId}`;
     const approvalFilename = `${date}-${input.candidateId}.md`;
     const approvalReference = `data/approvals/${approvalFilename}#${approvalId}`;
-    const incident = IncidentSchema.parse({
+    const parsedIncident = IncidentSchema.safeParse({
         ...source.incident,
         status: 'verified',
         category: input.category,
@@ -81,6 +99,10 @@ async function publish(input) {
         },
         updated_at: date,
     });
+    if (!parsedIncident.success) {
+        throw new SafePublisherError(422, 'This candidate cannot be published yet. Add one primary source or sources from two independent secondary publishers.');
+    }
+    const incident = parsedIncident.data;
     const contentSha = publicationContentDigest(incident);
     const metadata = {
         schema_version: 1,
@@ -103,7 +125,22 @@ async function publish(input) {
         throw error;
     }
     await mkdir(join(dataDir, 'published-candidates'), { recursive: true, mode: 0o750 });
-    await rename(join(dataDir, 'candidates', source.filename), join(dataDir, 'published-candidates', source.filename));
+    const archiveDirectory = join(dataDir, 'published-candidates');
+    const archiveStats = await lstat(archiveDirectory);
+    if (!archiveStats.isDirectory() || archiveStats.isSymbolicLink() || (archiveStats.mode & 0o022) !== 0) {
+        throw new Error('Published-candidate archive metadata is unsafe');
+    }
+    const candidatePath = join(dataDir, 'candidates', source.filename);
+    const archivePath = join(archiveDirectory, source.filename);
+    await rename(candidatePath, archivePath);
+    try {
+        await chown(archivePath, archiveStats.uid, archiveStats.gid);
+        await chmod(archivePath, 0o640);
+    }
+    catch (error) {
+        await rename(archivePath, candidatePath).catch(() => undefined);
+        throw error;
+    }
     return { incidentId: incident.id, status: 'published', publishedAt: new Date().toISOString() };
 }
 await mkdir(dirname(socketPath), { recursive: true, mode: 0o750 });
@@ -131,7 +168,8 @@ const server = createServer((request, response) => {
                 response.writeHead(201, { 'Content-Type': 'application/json' }).end(JSON.stringify(result));
             }
             catch (error) {
-                response.writeHead(400, { 'Content-Type': 'application/json' }).end(JSON.stringify({ error: error instanceof Error ? error.message : 'Publication failed' }));
+                const safeError = publicationError(error);
+                response.writeHead(safeError.status, { 'Content-Type': 'application/json' }).end(JSON.stringify({ error: safeError.message }));
             }
         })();
     });

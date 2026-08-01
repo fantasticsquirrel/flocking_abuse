@@ -1,4 +1,12 @@
 import http from 'node:http';
+export class PublisherRejectionError extends Error {
+    statusCode;
+    constructor(message, statusCode) {
+        super(message);
+        this.statusCode = statusCode;
+        this.name = 'PublisherRejectionError';
+    }
+}
 export function createPublisherClient(socketPath) {
     return (input) => new Promise((resolve, reject) => {
         const body = JSON.stringify(input);
@@ -15,7 +23,10 @@ export function createPublisherClient(socketPath) {
                 try {
                     const payload = JSON.parse(Buffer.concat(chunks).toString('utf8'));
                     if (response.statusCode !== 201) {
-                        reject(new Error(payload.error || 'Publisher rejected the request'));
+                        const statusCode = response.statusCode && response.statusCode >= 400 && response.statusCode < 500
+                            ? response.statusCode
+                            : 502;
+                        reject(new PublisherRejectionError(payload.error || 'Publisher rejected the request', statusCode));
                         return;
                     }
                     resolve(payload);

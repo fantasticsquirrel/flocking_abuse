@@ -8,6 +8,7 @@ import yaml from 'js-yaml';
 import { createApp, type PublicationInput, type PublicationResult } from '../server/app.js';
 import { buildPublicData, validateDataDirectory } from '../scripts/data-utils.js';
 import { bootstrapAdmin } from '../scripts/bootstrap-admin.js';
+import { PublisherRejectionError } from '../server/publisher-client.js';
 
 let passwordHash = '';
 beforeAll(async () => { passwordHash = await bcrypt.hash('correct horse battery staple', 4); });
@@ -110,6 +111,29 @@ describe('admin API security', () => {
     const accepted = await agent.post('/api/admin/publications').set('Origin', 'https://tracker.test').set('X-CSRF-Token', csrfToken).send({ ...draft, confirmation: `PUBLISH ${candidateId}` });
     expect(accepted.status).toBe(201);
     expect(published).toEqual([expect.objectContaining({ candidateId, category: 'system-abuse' })]);
+  });
+
+  it('returns an actionable 4xx response when the protected publisher rejects evidence', async () => {
+    const { agent } = await makeHarness(async () => {
+      throw new PublisherRejectionError(
+        'This candidate cannot be published yet. Add one primary source or sources from two independent secondary publishers.',
+        422,
+      );
+    });
+    const csrfToken = await login(agent);
+    const created = await agent.post('/api/admin/candidates').set('Origin', 'https://tracker.test').set('X-CSRF-Token', csrfToken).send(validCandidate);
+    const candidateId = created.body.id as string;
+    const response = await agent.post('/api/admin/publications').set('Origin', 'https://tracker.test').set('X-CSRF-Token', csrfToken).send({
+      candidateId,
+      category: 'system-abuse',
+      outcomes: ['Pending stronger evidence.'],
+      reviewerNotes: 'Reviewed.',
+      confirmation: `PUBLISH ${candidateId}`,
+    });
+    expect(response.status).toBe(422);
+    expect(response.body).toEqual({
+      error: 'This candidate cannot be published yet. Add one primary source or sources from two independent secondary publishers.',
+    });
   });
 
   it('validates submissions, writes sanitized unique YAML atomically, and never publishes candidates', async () => {

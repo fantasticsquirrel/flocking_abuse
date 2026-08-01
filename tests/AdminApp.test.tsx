@@ -42,6 +42,22 @@ describe('admin intake accessibility and recovery', () => {
     expect(fetchMock).toHaveBeenLastCalledWith('/api/admin/publications', expect.objectContaining({ method: 'POST' }));
   });
 
+  it('shows the publisher evidence requirement when publication is rejected', async () => {
+    const fetchMock = vi.fn()
+      .mockResolvedValueOnce(jsonResponse({ authenticated: true, csrfToken: 'csrf-token' }))
+      .mockResolvedValueOnce(jsonResponse({ candidates: [candidate] }))
+      .mockResolvedValueOnce(jsonResponse({
+        error: 'This candidate cannot be published yet. Add one primary source or sources from two independent secondary publishers.',
+      }, 422));
+    vi.stubGlobal('fetch', fetchMock);
+    render(<AdminApp />);
+    expect(await screen.findByRole('heading', { name: candidate.title })).toBeInTheDocument();
+    await userEvent.type(screen.getByRole('textbox', { name: /Reported outcomes/i }), 'Pending stronger evidence.');
+    await userEvent.type(screen.getByRole('textbox', { name: /Type PUBLISH/i }), `PUBLISH ${candidate.id}`);
+    await userEvent.click(screen.getByRole('button', { name: 'Approve and publish' }));
+    expect(await screen.findByRole('alert')).toHaveTextContent(/add one primary source or sources from two independent secondary publishers/i);
+  });
+
   it('focuses intake after login, uses touch-friendly incident checkboxes, and sets an admin title', async () => {
     const fetchMock = vi.fn()
       .mockResolvedValueOnce(jsonResponse({ authenticated: false }))
