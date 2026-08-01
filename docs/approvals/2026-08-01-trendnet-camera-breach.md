@@ -13,3 +13,4 @@
 - **Scope:** Exact source-grounded public incident content for the TRENDnet camera-feed exposure record.
 - **Decision:** Publish this evidence-qualified security-breach report under the standing instruction to continue adding qualifying reports until told to stop.
 - **Publication boundary:** This approval covers only the exact incident content bound by the digest above.
+- **Production activation:** The accepted YAML was installed into the root-owned mutable incident store after validation; release builds consume that store rather than the repository seed.
