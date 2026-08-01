@@ -13,4 +13,4 @@
 - **Scope:** Exact source-grounded public incident content for the Wyze cross-account camera exposure.
 - **Decision:** Publish this evidence-qualified Security breach report under the standing instruction to continue adding qualifying reports until told to stop.
 - **Publication boundary:** This approval covers only the exact incident content bound by the digest above.
-- **Production activation:** The validated YAML was installed into the root-owned mutable incident store before the release build.
+- **Production activation:** Release `42835c9b5f07f9bd0ee961ca2795d5a33812dd0d` first deployed the approval document; the validated YAML was then installed into the root-owned mutable incident store for this activation build.
