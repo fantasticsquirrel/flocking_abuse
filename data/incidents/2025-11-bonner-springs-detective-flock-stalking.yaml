@@ -1,0 +1,45 @@
+schema_version: 1
+id: 2025-11-bonner-springs-detective-flock-stalking
+title: "Bonner Springs detective charged after alleged plate-reader stalking"
+status: verified
+summary: >-
+  The Kansas Bureau of Investigation said former Bonner Springs detective Kyle Rector allegedly
+  used department resources to monitor and stalk his estranged wife while on duty. Court-record
+  reporting said the resources included license-plate readers such as Flock, which he allegedly
+  used to track his wife and two men he suspected she was seeing. He was fired and later arrested.
+incident_type: [unauthorized-search, law-enforcement-overreach, retention-or-access-policy]
+location: {city: Bonner Springs, county: Wyandotte, state: KS, country: US}
+actors:
+  agencies: [Bonner Springs Police Department, Kansas Bureau of Investigation]
+  officials_or_entities: [Kyle P. Rector]
+  vendor_entities: [Flock Safety]
+dates: {occurred: "2025-11", discovered: "2026-01", reported: "2026-03-18"}
+sources:
+  - url: "https://content.govdelivery.com/accounts/KSKBI/bulletins/40ef130"
+    title: "KBI arrests former Bonner Springs detective"
+    publisher: "Kansas Bureau of Investigation"
+    published_date: "2026-03-18"
+    source_type: official-statement
+    reliability: primary
+    key_claims: ["The KBI said Bonner Springs police requested an investigation after Rector was suspected of using department resources to monitor and stalk his spouse while on duty.", "The KBI said Rector was terminated on January 26 and arrested March 18 on stalking, privacy, computer, official-misconduct, and child-sexual-exploitation allegations."]
+  - url: "https://www.kshb.com/news/crime/affidavit-former-bonner-springs-detective-used-license-plate-cameras-to-stalk-wife"
+    title: "Affidavit: Former Bonner Springs detective used license plate cameras to stalk wife"
+    publisher: "KSHB 41"
+    published_date: "2026-04-06"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["KSHB reported that the charging affidavit described Rector using license-plate readers, including Flock cameras, to track his wife and two men.", "The report said the department found the searches were not connected to cases assigned to Rector and that he continued some searches after a protection order was served."]
+  - url: "https://www.kctv5.com/2026/04/06/court-records-reveal-fired-detective-stalked-wife-with-police-tools-possessed-child-porn/"
+    title: "Court records reveal fired detective stalked wife with police tools"
+    publisher: "KCTV5"
+    published_date: "2026-04-06"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["KCTV reported that court records alleged Rector used license-plate readers and other police resources to track his wife and two men.", "The report said Bonner Springs police confirmed the searches were not tied to any case assigned to Rector."]
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies: ["Kansas stalking law", "Kansas breach-of-privacy law", "Kansas unlawful acts concerning computers law", "Kansas official misconduct law", "Bonner Springs Police Department acceptable-use policy"]
+outcomes: ["Bonner Springs police terminated Rector on January 26, 2026.", "The KBI arrested Rector on March 18, 2026.", "The cited sources report multiple pending charges and do not describe a final disposition."]
+uniqueness: {canonical_key: "us-ks-wyandotte:2025-11:bonner-springs-police-department:rector-flock-stalking", duplicate_of: null}
+review: {added_by: manual, approval: human-approved, reviewed_by: "Site owner", reviewed_at: "2026-08-01", approval_reference: "docs/approvals/2026-08-01-bonner-springs-rector.md#approval-bonner-springs-rector", notes: "All criminal allegations remain unresolved in the cited sources. The record includes only the Flock-related conduct relevant to this tracker and does not detail unrelated alleged evidence."}
+updated_at: "2026-08-01"
