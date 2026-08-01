@@ -149,6 +149,7 @@ describe('data pipeline', () => {
     expect(approvalDocument).toContain(`<a id="${approvalAnchor}"></a>`);
     expect((await buildPublicData('data')).map((record) => record.id)).toEqual([
       '2023-06-costa-mesa-officer-personal-flock-tracking',
+      '2023-06-sedgwick-chief-flock-tracking',
       '2024-06-orange-city-officer-flock-stalking',
       '2024-10-norfolk-flock-constitutional-challenge',
       '2025-03-louisville-officer-alpr-stalking',

@@ -74,6 +74,106 @@
   },
   {
     "schema_version": 1,
+    "id": "2023-06-sedgwick-chief-flock-tracking",
+    "title": "Sedgwick chief used Flock to track former partner and her boyfriend",
+    "status": "verified",
+    "summary": "A Kansas certification order found that former Sedgwick Police Chief Lee Nygaard used Flock license-plate readers 164 times to track his former girlfriend's vehicle and 64 times to track her new boyfriend's vehicle. He also followed them in a police vehicle and admitted jealousy influenced his conduct. Nygaard resigned during a city misconduct investigation, and Kansas revoked his law-enforcement certification.",
+    "incident_type": [
+      "unauthorized-search",
+      "law-enforcement-overreach",
+      "retention-or-access-policy"
+    ],
+    "location": {
+      "city": "Sedgwick",
+      "county": "Harvey",
+      "state": "KS",
+      "country": "US"
+    },
+    "actors": {
+      "agencies": [
+        "Sedgwick Police Department",
+        "Kansas Commission on Peace Officers' Standards and Training"
+      ],
+      "officials_or_entities": [
+        "Lee Nygaard"
+      ],
+      "vendor_entities": [
+        "Flock Safety"
+      ]
+    },
+    "dates": {
+      "occurred": "2023-06-24",
+      "discovered": "2023-10",
+      "reported": "2024-08-17"
+    },
+    "sources": [
+      {
+        "url": "https://kscpost.gov/orders/2024/lnygaard.pdf",
+        "title": "In the Matter of Lee Nygaard: Summary Order of Revocation",
+        "publisher": "Kansas Commission on Peace Officers' Standards and Training",
+        "published_date": "2024-08-13",
+        "source_type": "government-record",
+        "reliability": "primary",
+        "key_claims": [
+          "The commission found Nygaard searched his former girlfriend's vehicle through Flock 164 times and her new boyfriend's vehicle 64 times during 2023.",
+          "The order found he followed the couple in a police vehicle, admitted jealousy was involved, resigned in October 2023, and had his Kansas law-enforcement certification revoked."
+        ]
+      },
+      {
+        "url": "https://www.kansas.com/news/local/article291026180.html",
+        "title": "Kansas police chief used Flock license plate cameras 164 times to track ex-girlfriend",
+        "publisher": "The Wichita Eagle",
+        "published_date": "2024-08-17",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "The Eagle reported a total of 228 Flock searches involving Nygaard's former girlfriend and her new boyfriend over more than four months.",
+          "City Administrator Kyle Nordick said Nygaard admitted the misuse during an unrelated investigation; the report said he resigned, lost his certification, and faced no criminal charge."
+        ]
+      },
+      {
+        "url": "https://www.kwch.com/2024/08/19/certification-revoked-sedgwick-police-chief-who-resigned/",
+        "title": "Certification revoked for Sedgwick police chief who resigned",
+        "publisher": "KWCH 12",
+        "published_date": "2024-08-19",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "KWCH confirmed the Kansas commission revoked Nygaard's certification after his 2023 resignation.",
+          "The city said its investigation involved harassment, unauthorized use of city equipment, and conduct harmful to the integrity of the city and police department."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [
+        "KSCPOST Case No. 2023-0155"
+      ],
+      "statutes_or_policies": [
+        "Kansas Law Enforcement Training Act",
+        "Sedgwick city ethics and equipment-use policies"
+      ]
+    },
+    "outcomes": [
+      "Nygaard resigned as Sedgwick police chief in October 2023 during the misconduct investigation.",
+      "The Kansas commission revoked his law-enforcement certification in August 2024.",
+      "The cited sources report no criminal charge arising from the Flock misuse."
+    ],
+    "uniqueness": {
+      "canonical_key": "us-ks-harvey:2023-06:sedgwick-police-department:nygaard-former-partner-flock-tracking",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-01",
+      "approval_reference": "docs/approvals/2026-08-01-sedgwick-nygaard.md#approval-sedgwick-nygaard",
+      "notes": "The government order establishes the searches, personal tracking, resignation, and certification revocation. The record does not characterize the 18-month probation mentioned in secondary reporting as a criminal sentence."
+    },
+    "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
     "id": "2024-06-orange-city-officer-flock-stalking",
     "title": "Orange City officer accused of repeated Flock tracking",
     "status": "verified",
