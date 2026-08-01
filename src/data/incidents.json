@@ -528,6 +528,106 @@
   },
   {
     "schema_version": 1,
+    "id": "2025-10-menasha-officer-flock-tracking",
+    "title": "Menasha officer accused of using Flock to track former partner",
+    "status": "verified",
+    "summary": "A criminal complaint alleged that Menasha Police Officer Cristian Morales used his Flock account while off duty to search for a former partner's vehicles five times over eight days, listing \"welfare\" as a reason for some searches. Appleton police arrested Morales, prosecutors charged him with felony misconduct in public office, and Menasha placed him on administrative leave.",
+    "incident_type": [
+      "unauthorized-search",
+      "law-enforcement-overreach",
+      "retention-or-access-policy"
+    ],
+    "location": {
+      "city": "Menasha",
+      "county": "Winnebago",
+      "state": "WI",
+      "country": "US"
+    },
+    "actors": {
+      "agencies": [
+        "Menasha Police Department",
+        "Appleton Police Department",
+        "Outagamie County District Attorney's Office"
+      ],
+      "officials_or_entities": [
+        "Cristian Morales"
+      ],
+      "vendor_entities": [
+        "Flock Safety"
+      ]
+    },
+    "dates": {
+      "occurred": "2025-10-07",
+      "discovered": "2025-10",
+      "reported": "2026-01-07"
+    },
+    "sources": [
+      {
+        "url": "https://cms2.revize.com/revize/appletonwi/01.07.26%20MENASHA%20POLICE%20OFFICER%20ARRESTED%20FOLLOWING%20APPLETON%20INVESTIGATION.pdf?t=202602041535190",
+        "title": "Menasha police officer arrested following Appleton investigation",
+        "publisher": "Appleton Police Department",
+        "published_date": "2026-01-07",
+        "source_type": "government-record",
+        "reliability": "primary",
+        "key_claims": [
+          "Appleton police announced Morales's arrest after an investigation that began with an October 2025 stalking complaint.",
+          "The department said Morales was confined in the Outagamie County Jail on one stalking count."
+        ]
+      },
+      {
+        "url": "https://www.wbay.com/2026/01/09/complaint-menasha-police-officer-allegedly-used-flock-cameras-find-victims-car/",
+        "title": "Complaint: Menasha police officer allegedly used Flock cameras to find victim's car",
+        "publisher": "WBAY",
+        "published_date": "2026-01-09",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "WBAY reported that account records showed seven Flock searches from October 7 through October 14, including five for the complainant's vehicles.",
+          "The complaint said Morales admitted searching while off duty, knew the use was wrong, and attributed it to desperation, bad judgment, and lack of sleep."
+        ]
+      },
+      {
+        "url": "https://wtaq.com/2026/01/09/menasha-police-officer-accused-of-using-license-plate-recognition-system-to-track-his-ex/",
+        "title": "Menasha police officer accused of using license plate recognition system to track his ex",
+        "publisher": "WTAQ-WLUK",
+        "published_date": "2026-01-09",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "WTAQ-WLUK reported that Morales was charged with felony misconduct in office and that the complaint alleged five Flock searches for his former partner's vehicles.",
+          "The report said Menasha placed Morales on administrative leave and the court imposed conditions barring access to Flock systems or police work while the case was pending."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [],
+      "statutes_or_policies": [
+        "Wisconsin misconduct in public office law",
+        "Menasha Police Department Flock-use policy"
+      ]
+    },
+    "outcomes": [
+      "Appleton police arrested Morales in January 2026 after investigating a stalking complaint.",
+      "Prosecutors charged him with one felony count of misconduct in public office.",
+      "Menasha placed him on administrative leave while its administrative investigation continued.",
+      "Morales pleaded not guilty in February 2026; the cited sources do not establish a final disposition."
+    ],
+    "uniqueness": {
+      "canonical_key": "us-wi-winnebago:2025-10:menasha-police-department:morales-former-partner-flock-tracking",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-01",
+      "approval_reference": "docs/approvals/2026-08-01-menasha-morales.md#approval-menasha-morales",
+      "notes": "The official release establishes the arrest and investigation. Two independent reports tied the alleged conduct to Flock and described the complaint, charge, and leave status. No final disposition was located as of review."
+    },
+    "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
     "id": "2025-10-niceville-officer-flock-stalking",
     "title": "Niceville officer pleaded no contest after Flock tracking",
     "status": "verified",
