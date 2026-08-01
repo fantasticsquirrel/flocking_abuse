@@ -10,7 +10,7 @@ import { z } from 'zod';
 import { canonicalizeUrl, findDuplicates } from '../src/lib/dedupe.js';
 import { canonicalLocation, canonicalSlug, IncidentSchema, IncidentTypeSchema, PartialDateSchema, SourceReliabilitySchema, SourceTypeSchema, type Incident } from '../src/lib/incidentSchema.js';
 import { validateDataDirectory } from '../scripts/data-utils.js';
-import { AnalyticsStore } from './analytics.js';
+import type { AnalyticsStore } from './analytics.js';
 
 const SESSION_COOKIE = 'flocking_admin';
 const SESSION_TTL_SECONDS = 30 * 60;
