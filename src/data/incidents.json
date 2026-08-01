@@ -1,6 +1,107 @@
 [
   {
     "schema_version": 1,
+    "id": "2022-10-kechi-lieutenant-flock-stalking",
+    "title": "Kechi lieutenant used Flock to track estranged wife",
+    "status": "verified",
+    "summary": "Sedgwick County prosecutors said former Kechi Police Lieutenant Victor Heiar used Wichita's Flock license-plate-reader system to monitor his estranged wife's location. Heiar pleaded guilty to misdemeanor computer crime and stalking, received 18 months of probation from a controlling 24-month jail term, and later had his Kansas law-enforcement certification revoked.",
+    "incident_type": [
+      "unauthorized-search",
+      "law-enforcement-overreach",
+      "retention-or-access-policy"
+    ],
+    "location": {
+      "city": "Kechi",
+      "county": "Sedgwick",
+      "state": "KS",
+      "country": "US"
+    },
+    "actors": {
+      "agencies": [
+        "Kechi Police Department",
+        "Wichita Police Department",
+        "Sedgwick County District Attorney's Office"
+      ],
+      "officials_or_entities": [
+        "Victor Heiar"
+      ],
+      "vendor_entities": [
+        "Flock Safety"
+      ]
+    },
+    "dates": {
+      "occurred": "2022-10",
+      "discovered": "2022-10-26",
+      "reported": "2022-10-30"
+    },
+    "sources": [
+      {
+        "url": "https://www.sedgwickcounty.org/media/63863/heiar-sentenced-news-release.pdf",
+        "title": "Former Kechi police lieutenant sentenced for computer crime and stalking",
+        "publisher": "Sedgwick County District Attorney's Office",
+        "published_date": "2023-04-05",
+        "source_type": "government-record",
+        "reliability": "primary",
+        "key_claims": [
+          "The district attorney said Heiar used the Flock License Plate Reader system to monitor his estranged wife's location.",
+          "Heiar pleaded guilty to misdemeanor computer crime and stalking and received 18 months of probation from a controlling 24-month jail term."
+        ]
+      },
+      {
+        "url": "https://www.kwch.com/2022/11/04/kechi-police-lieutenants-arrest-puts-flock-technology-under-scrutiny/",
+        "title": "Kechi police lieutenant's arrest puts Flock technology under scrutiny",
+        "publisher": "KWCH 12",
+        "published_date": "2022-11-04",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "KWCH reported that Heiar used Wichita's Flock system to stalk his estranged wife.",
+          "Wichita police revoked the entire Kechi Police Department's access and reviewed safeguards for outside-agency access."
+        ]
+      },
+      {
+        "url": "https://www.kwch.com/2023/08/31/certifications-revoked-former-wichita-pd-captain-kechi-pd-lieutenant/",
+        "title": "Certifications revoked for former Wichita PD captain, Kechi PD lieutenant",
+        "publisher": "KWCH 12",
+        "published_date": "2023-08-30",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "KWCH reported that Kansas revoked Heiar's law-enforcement certification after his conviction and sentence.",
+          "The report confirmed the 18-month probation sentence and misdemeanor guilty pleas."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [],
+      "statutes_or_policies": [
+        "Kansas computer-crime law",
+        "Kansas stalking law",
+        "Wichita Police Department Flock access policy"
+      ]
+    },
+    "outcomes": [
+      "Heiar was removed from the Kechi Police Department after his October 2022 arrest.",
+      "He pleaded guilty to misdemeanor computer crime and stalking and received 18 months of probation from a controlling 24-month jail term in April 2023.",
+      "Kansas revoked his law-enforcement certification in August 2023.",
+      "Wichita police revoked Kechi Police Department access to its Flock system and reviewed outside-agency safeguards."
+    ],
+    "uniqueness": {
+      "canonical_key": "us-ks-sedgwick:2022-10:kechi-police-department:heiar-estranged-wife-flock-stalking",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-01",
+      "approval_reference": "docs/approvals/2026-08-01-kechi-heiar.md#approval-kechi-heiar",
+      "notes": "The district attorney's release establishes the Flock use, guilty pleas, and sentence. Secondary reporting corroborates the access revocation and later certification revocation."
+    },
+    "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
     "id": "2023-06-costa-mesa-officer-personal-flock-tracking",
     "title": "Costa Mesa officer pleaded guilty after personal Flock tracking",
     "status": "verified",
