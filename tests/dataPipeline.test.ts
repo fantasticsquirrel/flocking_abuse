@@ -151,6 +151,7 @@ describe('data pipeline', () => {
       '2022-10-kechi-lieutenant-flock-stalking',
       '2023-06-costa-mesa-officer-personal-flock-tracking',
       '2023-06-sedgwick-chief-flock-tracking',
+      '2024-02-prairie-grove-officer-personal-flock-searches',
       '2024-06-orange-city-officer-flock-stalking',
       '2024-10-norfolk-flock-constitutional-challenge',
       '2025-03-louisville-officer-alpr-stalking',

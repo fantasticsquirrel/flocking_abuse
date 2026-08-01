@@ -275,6 +275,107 @@
   },
   {
     "schema_version": 1,
+    "id": "2024-02-prairie-grove-officer-personal-flock-searches",
+    "title": "Prairie Grove officer accused of hundreds of personal Flock searches",
+    "status": "verified",
+    "summary": "McHenry County prosecutors allege that William Copp, a part-time Prairie Grove officer who also served as Holiday Hills police chief, used Prairie Grove's Flock system nearly 250 times and the Illinois LEADS database 31 times for personal purposes. The alleged searches involved six people, including three former romantic partners and another partner's former boyfriend. Prairie Grove fired Copp, Holiday Hills records show he resigned, and 12 felony official-misconduct counts were pending in July 2026.",
+    "incident_type": [
+      "unauthorized-search",
+      "law-enforcement-overreach",
+      "retention-or-access-policy"
+    ],
+    "location": {
+      "city": "Prairie Grove",
+      "county": "McHenry",
+      "state": "IL",
+      "country": "US"
+    },
+    "actors": {
+      "agencies": [
+        "Prairie Grove Police Department",
+        "Holiday Hills Police Department",
+        "McHenry County State's Attorney's Office"
+      ],
+      "officials_or_entities": [
+        "William C. Copp"
+      ],
+      "vendor_entities": [
+        "Flock Safety"
+      ]
+    },
+    "dates": {
+      "occurred": "2024-02-26",
+      "discovered": "2025-11",
+      "reported": "2026-06-18"
+    },
+    "sources": [
+      {
+        "url": "https://www.shawlocal.com/northwest-herald/2026/06/18/holiday-hills-police-chief-charged-with-official-misconduct-was-also-prairie-grove-cop/",
+        "title": "McHenry County cop accused of using Flock plate reader hundreds of times to track women he dated, others",
+        "publisher": "Shaw Local",
+        "published_date": "2026-06-18",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "Shaw Local reported from the criminal complaint and initial hearing that Copp allegedly used Flock and LEADS to track six personally connected people while on and off duty.",
+          "Prairie Grove said its November 2025 investigation found searches unrelated to official investigations and that it fired Copp in May 2026."
+        ]
+      },
+      {
+        "url": "https://www.lakemchenryscanner.com/2026/06/19/prosecutors-say-mchenry-county-police-chief-used-flock-license-plate-reader-data-hundreds-of-times-to-track-people-he-knew/",
+        "title": "Prosecutors say McHenry County police chief used Flock license plate reader data hundreds of times to track people he knew",
+        "publisher": "Lake and McHenry County Scanner",
+        "published_date": "2026-06-19",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "Court reporting said three of the six people were former romantic partners and that Copp tracked one former partner's ex-boyfriend 140 times.",
+          "The report confirmed Copp's arrest, Prairie Grove termination, release conditions, and pending felony official-misconduct charges."
+        ]
+      },
+      {
+        "url": "https://chicago.suntimes.com/crime/2026/07/20/former-holiday-hills-police-chief-charged-with-making-nearly-300-unauthorized-searches-court-records",
+        "title": "Former Holiday Hills police chief charged with making nearly 300 unauthorized searches: court records",
+        "publisher": "Chicago Sun-Times",
+        "published_date": "2026-07-20",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "The Sun-Times reported that updated court records listed 12 felony official-misconduct counts and nearly 250 unauthorized Flock searches.",
+          "The report said Copp resigned as Holiday Hills chief after the warrant was authorized and remained barred from police work while the charges were pending."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [],
+      "statutes_or_policies": [
+        "Illinois official misconduct law",
+        "Illinois State Police LEADS access rules",
+        "Prairie Grove Police Department Flock-use policy"
+      ]
+    },
+    "outcomes": [
+      "Prairie Grove placed Copp on administrative leave in November 2025 and fired him in May 2026.",
+      "Police arrested Copp in June 2026, and updated court records reported 12 pending felony official-misconduct counts in July.",
+      "Court records reported that Copp resigned as Holiday Hills police chief after the arrest warrant was authorized.",
+      "Release conditions barred Copp from contacting most alleged targets, possessing firearms, entering the departments except to retrieve belongings, or working as a police officer while the case remained pending."
+    ],
+    "uniqueness": {
+      "canonical_key": "us-il-mchenry:2024-02:prairie-grove-police-department:copp-personal-flock-searches",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-01",
+      "approval_reference": "docs/approvals/2026-08-01-prairie-grove-copp.md#approval-prairie-grove-copp",
+      "notes": "Three independent publishers grounded their reports in the criminal complaint, court hearings, court records, and Prairie Grove's statement. The record treats all criminal allegations as pending."
+    },
+    "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
     "id": "2024-06-orange-city-officer-flock-stalking",
     "title": "Orange City officer accused of repeated Flock tracking",
     "status": "verified",
