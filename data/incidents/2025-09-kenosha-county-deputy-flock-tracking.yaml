@@ -1,0 +1,47 @@
+schema_version: 1
+id: 2025-09-kenosha-county-deputy-flock-tracking
+title: "Kenosha County deputy used Flock to monitor coworker"
+status: verified
+summary: >-
+  A Kenosha County Sheriff's Office internal investigation found Deputy Frank McGrath used Flock
+  and the agency's Polaris squad-vehicle tracking system to monitor a coworker with whom he had a
+  personal relationship. Records described about 16 Flock searches on one day without a case number
+  or documented law-enforcement purpose and roughly 40 off-duty Polaris checks over several months.
+  McGrath resigned through a negotiated separation agreement. He was not criminally charged, and a
+  later John Doe petition seeking an investigation was sealed.
+incident_type: [unauthorized-search, law-enforcement-overreach, retention-or-access-policy]
+location: {city: Kenosha, county: Kenosha, state: WI, country: US}
+actors:
+  agencies: [Kenosha County Sheriff's Office, Kenosha County District Attorney's Office]
+  officials_or_entities: [Frank McGrath]
+  vendor_entities: [Flock Safety]
+dates: {occurred: "2025-09-30", discovered: "2025-10", reported: "2025-12-12"}
+sources:
+  - url: "https://kenoshacountyeye.com/wp-content/uploads/2026/03/McGrath-Declaration_compressed.pdf"
+    title: "Declaration supporting petition for John Doe investigation"
+    publisher: "Kenosha County Circuit Court filing"
+    published_date: "2026-03-06"
+    source_type: government-record
+    reliability: primary
+    key_claims: ["The filed declaration reproduced internal-investigation findings concerning McGrath's use of Flock and the Polaris squad-tracking system.", "The filing sought judicial review of whether the conduct warranted a criminal investigation; it was not itself a criminal charge or finding of guilt."]
+  - url: "https://kenoshacountyeye.com/2026/03/06/kce-editor-files-john-doe-petition-seeking-criminal-investigation-into-former-kenosha-deputy-over-alleged-database-misuse/"
+    title: "KCE editor files John Doe petition seeking criminal investigation into former Kenosha deputy over alleged database misuse"
+    publisher: "Kenosha County Eye"
+    published_date: "2026-03-06"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["The report said the internal investigation identified about 16 Flock searches on September 30, 2025, labeled suspicious and lacking a case number or documented law-enforcement purpose.", "Records showed McGrath resigned effective December 12, 2025, under a negotiated separation agreement that included limited severance and continued benefits."]
+  - url: "https://www.newsfromthestates.com/article/wisconsin-communities-grapple-police-misuse-flock-surveillance"
+    title: "Wisconsin communities grapple with police misuse of Flock surveillance"
+    publisher: "News From The States / Wisconsin Examiner"
+    published_date: "2026-03-13"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["Independent reporting based on records requests said McGrath used Flock and Polaris to monitor another deputy he had been dating.", "The report described the internal finding that formal discipline was warranted and noted McGrath's resignation after the investigation."]
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies: ["Kenosha County Sheriff's Office Flock-use policy", "Wisconsin misconduct in public office law", "Wisconsin John Doe procedure"]
+outcomes: ["The sheriff's office completed an internal investigation that found formal discipline was warranted.", "McGrath resigned effective December 12, 2025, through a negotiated separation agreement.", "No criminal charge was filed against McGrath.", "A private John Doe petition later sought judicial review of the matter; subsequent reporting said the proceeding was sealed."]
+uniqueness: {canonical_key: "us-wi-kenosha:2025-09:kenosha-county-sheriffs-office:mcgrath-coworker-flock-tracking", duplicate_of: null}
+review: {added_by: manual, approval: human-approved, reviewed_by: "Site owner", reviewed_at: "2026-08-01", approval_reference: "docs/approvals/2026-08-01-kenosha-county-mcgrath.md#approval-kenosha-county-mcgrath", notes: "A court-filed declaration preserves the internal-investigation record, and independent reporting corroborates the Flock use and employment outcome. The record distinguishes administrative findings and allegations from criminal adjudication and states that no charge was filed."}
+updated_at: "2026-08-01"
