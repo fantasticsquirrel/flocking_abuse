@@ -1,0 +1,47 @@
+schema_version: 1
+id: 2025-07-jerome-county-sheriff-wife-flock-searches
+title: "Jerome County sheriff repeatedly searched wife's plate in Flock"
+status: verified
+summary: >-
+  Flock logs obtained by local reporters showed Jerome County Sheriff George Oppedyk searched his
+  wife's license plate more than 700 times from early July through mid-September 2025, labeling the
+  searches as tests. Oppedyk told Idaho attorney-general investigators he was evaluating the system
+  before a contract decision. The attorney general found insufficient evidence to prove a crime,
+  while noting its review did not decide policy violations. Oppedyk retired early and relinquished
+  his law-enforcement certification in April 2026.
+incident_type: [unauthorized-search, law-enforcement-overreach, retention-or-access-policy]
+location: {city: Jerome, county: Jerome, state: ID, country: US}
+actors:
+  agencies: [Jerome County Sheriff's Office, Idaho Attorney General's Office, Twin Falls Police Department]
+  officials_or_entities: [George Oppedyk]
+  vendor_entities: [Flock Safety]
+dates: {occurred: "2025-07", discovered: "2025-09", reported: "2026-04-01"}
+sources:
+  - url: "https://www.aol.com/news/jerome-county-sheriff-used-flock-144148273.html"
+    title: "Jerome County sheriff used Flock cameras to search for wife's vehicle, documents show"
+    publisher: "EastIdahoNews.com / KMVT-KSVT"
+    published_date: "2026-04-01"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["Flock logs obtained by KMVT showed more than 700 searches for Oppedyk's wife's vehicle between early July and mid-September 2025, all labeled as tests.", "The Idaho attorney general's February letter said it found insufficient evidence to prove a crime beyond a reasonable doubt and reported Oppedyk's explanation that he was testing reliability before a contract decision."]
+  - url: "https://www.kivitv.com/jerome/jerome-county-names-gary-taylor-as-new-sheriff-after-oppedyke-resigns-over-flock-camera-data-misuse"
+    title: "Gary Taylor named Jerome County sheriff following Flock camera controversy"
+    publisher: "Idaho News 6"
+    published_date: "2026-04-20"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["Idaho News 6 independently reported the investigation into Oppedyk's repeated searches for his wife's plate and the attorney general's no-charge decision.", "The report said Oppedyk retired before completing his elected term and relinquished his Idaho law-enforcement certification."]
+  - url: "https://www.kmvt.com/2026/04/22/gary-taylor-sworn-jerome-county-sheriff/"
+    title: "Gary Taylor sworn in as Jerome County sheriff"
+    publisher: "KMVT-KSVT"
+    published_date: "2026-04-22"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["KMVT reported that Oppedyk had left office and that his successor discussed rebuilding trust after the Flock controversy.", "The report again described records showing hundreds of searches for Oppedyk's wife's vehicle between July and September 2025."]
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies: ["Jerome County Sheriff's Office Flock-use policy", "Idaho public-corruption criminal law", "Idaho POST certification rules"]
+outcomes: ["The Idaho Attorney General's Office found insufficient evidence to prove a crime beyond a reasonable doubt and did not bring charges.", "Access to the Twin Falls Flock network was temporarily suspended during the controversy.", "Oppedyk retired as sheriff in April 2026 before completing his term and relinquished his Idaho law-enforcement certification.", "Jerome County appointed Gary Taylor to complete the term."]
+uniqueness: {canonical_key: "us-id-jerome:2025-07:jerome-county-sheriffs-office:oppedyk-wife-flock-searches", duplicate_of: null}
+review: {added_by: manual, approval: human-approved, reviewed_by: "Site owner", reviewed_at: "2026-08-01", approval_reference: "docs/approvals/2026-08-01-jerome-county-oppedyk.md#approval-jerome-county-oppedyk", notes: "Two independent local publishers reported from Flock logs and the Idaho attorney general's letter. The record preserves Oppedyk's testing explanation and the no-charge finding rather than characterizing the searches as criminal stalking."}
+updated_at: "2026-08-01"
