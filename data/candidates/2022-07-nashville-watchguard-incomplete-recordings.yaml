@@ -1,0 +1,71 @@
+schema_version: 1
+id: 2022-07-nashville-watchguard-incomplete-recordings
+status: candidate
+title: "WatchGuard transfers left Nashville police recordings incomplete"
+summary: >-
+  The Metropolitan Nashville Police Department reported that recordings fully received by its upload server were
+  incomplete after transfer to long-term storage in its Motorola Solutions WatchGuard system. The affected material
+  included body-worn and in-car recordings associated with 183 arrest or citation situations plus hundreds of other
+  submissions. A random review also found at least 1 continuous second of frame loss on 12 of 14 body cameras tested.
+incident_type:
+  - retention-or-access-policy
+  - vendor-or-contracting
+  - other
+location:
+  city: Nashville
+  county: Davidson
+  state: TN
+  country: US
+actors:
+  agencies:
+    - Metropolitan Nashville Police Department
+  officials_or_entities: []
+  vendor_entities:
+    - Motorola Solutions
+    - WatchGuard
+dates:
+  occurred: "2021-04"
+  discovered: "2022-05-06"
+  reported: "2022-07-12"
+sources:
+  - url: "https://www.nashville.gov/departments/police/news/mnpd-asks-motorola-watchguard-urgently-resolve-incomplete-issue-small"
+    title: "MNPD Asks Motorola-WatchGuard to Urgently Resolve Incomplete Issue in Small Percentage of Recordings"
+    publisher: "Metropolitan Nashville Police Department"
+    published_date: "2022-07-12"
+    source_type: official-statement
+    archive_url: "https://web.archive.org/web/20260801170348/https://www.nashville.gov/departments/police/news/mnpd-asks-motorola-watchguard-urgently-resolve-incomplete-issue-small"
+    reliability: primary
+    key_claims:
+      - "MNPD said recordings were fully received by the upload server but did not transfer completely to the storage server."
+      - "MNPD identified incomplete recordings associated with 183 arrest or citation situations and 526 additional submissions in other categories."
+      - "MNPD found at least 1 continuous second of frame loss on 12 of 14 randomly reviewed body cameras."
+  - url: "https://wpln.org/post/mnpd-says-some-camera-footage-is-missing-from-at-least-180-arrests-or-citations/"
+    title: "MNPD says some camera footage is missing from at least 180 arrests or citations"
+    publisher: "WPLN News"
+    published_date: "2022-07-12"
+    source_type: news
+    archive_url: "https://web.archive.org/web/20260801170354/https://wpln.org/post/mnpd-says-some-camera-footage-is-missing-from-at-least-180-arrests-or-citations/"
+    reliability: corroborating
+    key_claims:
+      - "WPLN independently reported the incomplete recordings and the server-transfer explanation."
+      - "WPLN reported that the district attorney's office was notifying defense counsel in affected prosecutions."
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies:
+    - "Criminal discovery and evidence preservation"
+outcomes:
+  - "MNPD wrote alerting scripts and asked Motorola Solutions and WatchGuard to investigate urgently."
+  - "The district attorney's office said it was notifying defense counsel in affected prosecutions."
+uniqueness:
+  canonical_key: "us-tn-davidson:2021-04:metropolitan-nashville-police-department:watchguard-incomplete-recordings"
+  duplicate_of: null
+review:
+  added_by: manual
+  approval: pending
+  reviewed_by: ""
+  reviewed_at: ""
+  approval_reference: ""
+  notes: >-
+    Verification gate is satisfied by MNPD's primary official disclosure, corroborated by WPLN. Candidate remains
+    non-public until the site owner approves the exact incident content.
+updated_at: "2026-08-01"

@@ -26,7 +26,7 @@ describe('public information pages', () => {
   it('keeps an unverified report visibly separate and states its evidence gap and companies', () => {
     vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')));
     render(<UnverifiedPage reports={reports as UnverifiedReport[]} />);
-    const article = screen.getByRole('article');
+    const article = screen.getByRole('heading', { name: /Texas sheriff's office reportedly used national Flock search/i }).closest('article')!;
     expect(within(article).getByText(/Unverified/i)).toBeInTheDocument();
     expect(within(article).getByText('Flock Safety')).toBeInTheDocument();
     expect(within(article).getByRole('heading', { name: /why this is not verified/i })).toBeInTheDocument();

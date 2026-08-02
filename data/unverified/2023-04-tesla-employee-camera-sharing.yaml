@@ -1,0 +1,54 @@
+schema_version: 1
+id: 2023-04-tesla-employee-camera-sharing
+title: "Tesla employees reportedly shared sensitive vehicle-camera recordings"
+summary: >-
+  Reuters reported, based on interviews with nine former employees, that Tesla workers circulated sensitive images
+  and videos captured by customer-vehicle cameras through internal messaging channels between 2019 and 2022. A later
+  proposed class action repeated the allegations, and two U.S. senators requested answers from Tesla. No public
+  regulator finding, adjudicated merits finding, or company admission has been located, so the case remains reported
+  but unverified.
+location:
+  city: Fremont
+  county: Alameda
+  state: CA
+  country: US
+companies:
+  - Tesla
+agencies:
+  - U.S. Senate
+reported: "2023-04-06"
+sources:
+  - url: "https://www.investing.com/news/stock-market-news/tesla-hit-with-class-action-lawsuit-over-alleged-privacy-intrusion-3050974"
+    title: "Tesla hit with class action lawsuit over alleged privacy intrusion"
+    publisher: "Reuters"
+    published_date: "2023-04-07"
+    source_type: news
+    archive_url: "https://web.archive.org/web/20230516051201/https://www.investing.com/news/stock-market-news/tesla-hit-with-class-action-lawsuit-over-alleged-privacy-intrusion-3050974"
+    reliability: corroborating
+    key_claims:
+      - "Reuters reported that nine former employees described internal sharing of sensitive customer-camera recordings between 2019 and 2022."
+  - url: "https://www.thedrive.com/wp-content/uploads/2023/04/10/1.pdf"
+    title: "Yeh v. Tesla class-action complaint"
+    publisher: "U.S. District Court for the Northern District of California"
+    published_date: "2023-04-07"
+    source_type: court-record
+    reliability: primary
+    key_claims:
+      - "The complaint alleged that Tesla employees accessed and shared invasive customer-camera recordings for personal entertainment."
+  - url: "https://www.markey.senate.gov/imo/media/doc/letter_to_tesla_on_vehicle_camera_recordings_from_senators_markey_and_blumenthal.pdf"
+    title: "Letter to Tesla on Vehicle Camera Recordings"
+    publisher: "U.S. Senators Edward Markey and Richard Blumenthal"
+    published_date: "2023-04-14"
+    source_type: government-record
+    archive_url: "https://web.archive.org/web/20250505202937/https://www.markey.senate.gov/imo/media/doc/letter_to_tesla_on_vehicle_camera_recordings_from_senators_markey_and_blumenthal.pdf"
+    reliability: primary
+    key_claims:
+      - "The senators requested information from Tesla about employee access, internal sharing, safeguards, and customer notice."
+verification_status:
+  reason: >-
+    Detailed allegations come from former-employee reporting and a civil complaint, neither of which is an adjudicated
+    finding. No regulator finding or Tesla admission has been located.
+  evidence_needed:
+    - "A public regulator or law-enforcement finding substantiating employee sharing"
+    - "A Tesla admission, audit record, or adjudicated court finding on the alleged conduct"
+updated_at: "2026-08-01"
