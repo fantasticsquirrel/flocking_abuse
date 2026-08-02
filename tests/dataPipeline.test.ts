@@ -189,6 +189,7 @@ describe('data pipeline', () => {
       '2026-07-milwaukee-officer-personal-flock-searches',
       '2026-07-richmond-county-three-employees-personal-flock-searches',
       '2026-07-sumter-county-detective-personal-flock-searches',
+      '2026-08-02-ubiquiti-cloud-misconfiguration-exposed-unifi-accounts-across-customer-6ee1593785c6',
     ]);
   });
 });

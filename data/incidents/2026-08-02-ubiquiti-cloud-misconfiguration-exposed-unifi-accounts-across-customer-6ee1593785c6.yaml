@@ -1,0 +1,98 @@
+schema_version: 1
+id: 2026-08-02-ubiquiti-cloud-misconfiguration-exposed-unifi-accounts-across-customer-6ee1593785c6
+title: Ubiquiti cloud misconfiguration exposed UniFi Protect camera data across customers
+status: verified
+category: security-breach
+summary: >-
+  Ubiquiti said an upgrade to its UniFi Cloud infrastructure improperly associated 1,216 customer accounts with a
+  separate group of 1,177 accounts on December 13, 2023. The company said some users received push notifications from
+  consoles assigned to other accounts and users attempting to sign in may have been granted temporary remote access to
+  an account that was not theirs. Ars Technica documented user reports and screenshots showing UniFi Protect
+  notifications and private security-camera images or feeds from systems that did not belong to the viewers. Ubiquiti
+  said it fixed the misconfiguration and believed fewer than a dozen accounts were actually accessed by another user.
+incident_type:
+  - data-sharing
+  - retention-or-access-policy
+  - vendor-or-contracting
+location:
+  city: ''
+  county: ''
+  state: ''
+  country: US
+actors:
+  agencies:
+    - Ubiquiti Inc.
+  officials_or_entities: []
+  vendor_entities:
+    - Ubiquiti
+dates:
+  occurred: '2023-12-13'
+  discovered: '2026-08-02'
+  reported: ''
+sources:
+  - url: https://community.ui.com/questions/Bug-Fix-Cloud-Access-Misconfiguration/fe8d4479-e187-4471-bf95-b2799183ceb7
+    title: Bug Fix - Cloud Access Misconfiguration
+    publisher: Ubiquiti Inc.
+    published_date: ''
+    source_type: official-statement
+    archive_url: >-
+      https://web.archive.org/web/20250820034726/https://community.ui.com/questions/Bug-Fix-Cloud-Access-Misconfiguration/fe8d4479-e187-4471-bf95-b2799183ceb7
+    reliability: primary
+    key_claims:
+      - >-
+        Ubiquiti said an upgrade to its UniFi Cloud infrastructure caused 1,216 accounts to be improperly associated
+        with a separate group of 1,177 accounts.
+      - Ubiquiti said the misconfiguration lasted from 06:47 to 15:45 UTC on December 13, 2023.
+      - >-
+        Ubiquiti said some users received push notifications from consoles assigned to other accounts, and users
+        attempting to sign in may have been granted temporary remote access to an account that was not theirs.
+      - >-
+        Ubiquiti said it solved the misconfiguration and believed fewer than a dozen accounts were actually accessed by
+        another user.
+      - Ubiquiti said it planned to notify accounts in the potentially affected group by email.
+  - url: https://arstechnica.com/security/2023/12/unifi-devices-broadcasted-private-video-to-other-users-accounts/
+    title: UniFi devices broadcasted private video to other users’ accounts
+    publisher: Ars Technica
+    published_date: '2023-12-14'
+    source_type: news
+    archive_url: >-
+      https://web.archive.org/web/20260608220341/https://arstechnica.com/security/2023/12/unifi-devices-broadcasted-private-video-to-other-users-accounts/
+    reliability: corroborating
+    key_claims:
+      - >-
+        Ars Technica documented reports that UniFi users received private camera feeds from, and control over, devices
+        belonging to other users.
+      - >-
+        Ars Technica inspected screenshots accompanying a report that a UniFi Protect notification included a still
+        image from a security camera that did not belong to the recipient.
+      - >-
+        Ars Technica reported another user’s account of receiving full access to 88 consoles belonging to a different
+        account until a forced browser refresh.
+      - >-
+        Ars Technica reproduced Ubiquiti’s statement that the account associations resulted from an upgrade to its UniFi
+        Cloud infrastructure and had been corrected.
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies: []
+outcomes:
+  - Ubiquiti said it fixed the UniFi Cloud infrastructure misconfiguration and restored proper account associations.
+  - Ubiquiti said it planned to notify accounts in the potentially affected group by email.
+uniqueness:
+  canonical_key: us:2023-12:ubiquiti-inc:unifi-cloud-cross-account-exposure
+  duplicate_of: null
+review:
+  added_by: manual
+  approval: human-approved
+  reviewed_by: Site owner
+  reviewed_at: '2026-08-02'
+  approval_reference: >-
+    data/approvals/2026-08-02-2026-08-02-ubiquiti-cloud-misconfiguration-exposed-unifi-accounts-across-customer-6ee1593785c6.md#approval-admin-publish-2026-08-02-ubiquiti-cloud-misconfiguration-exposed-unifi-accounts-across-customer-6ee1593785c6
+  notes: >-
+    Standing site-owner authorization applies to this continuous publication workflow. Ubiquiti's official statement is
+    a primary source for the cloud-account misassociation, duration, potential remote-access path, affected-account
+    groups, estimated actual-access count, remediation, and notification plan. Ars Technica independently documents the
+    UniFi Protect camera-specific impact through user reports and screenshots. The report attributes those observations
+    and does not claim that all associated accounts or camera feeds were viewed. Post-enrichment deterministic dedupe
+    against 67 other runtime incident/candidate records returned no exact or probable match, and no Ubiquiti/UniFi match
+    appeared in the unverified lane.
+updated_at: '2026-08-02'
