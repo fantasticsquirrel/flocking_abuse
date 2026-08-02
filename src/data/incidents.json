@@ -3600,5 +3600,115 @@
       "notes": "The charges are allegations. This record does not assert guilt or a final disposition and limits its claims to the cited reporting."
     },
     "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
+    "id": "2026-08-02-detroit-arrested-robert-williams-after-facial-recognition-lead-49ff36c20554",
+    "title": "Detroit arrested Robert Williams after facial-recognition lead",
+    "status": "verified",
+    "category": "institutional-overreach",
+    "summary": "NPR reported that Detroit police arrested Robert Williams after a Michigan State Police facial-recognition search of a low-quality store-security image returned him as a possible match; NPR said the charge was later dismissed for insufficient evidence. In a federal lawsuit, Williams alleged that investigators relied on the facial-recognition lead and a deficient lineup while omitting reliability problems from the warrant application. The parties settled the disputed claims in 2024 without an admission of liability, and Detroit agreed to investigation, training, audit, and independent-evidence safeguards.",
+    "incident_type": [
+      "law-enforcement-overreach",
+      "other"
+    ],
+    "location": {
+      "city": "Detroit",
+      "county": "Wayne County",
+      "state": "Michigan",
+      "country": "US"
+    },
+    "actors": {
+      "agencies": [
+        "Detroit Police Department",
+        "Michigan State Police"
+      ],
+      "officials_or_entities": [
+        "Robert Williams"
+      ],
+      "vendor_entities": [
+        "DataWorks Plus"
+      ]
+    },
+    "dates": {
+      "occurred": "2020-01-09",
+      "discovered": "2026-08-02",
+      "reported": "2020-06-24"
+    },
+    "sources": [
+      {
+        "url": "https://assets.aclu.org/live/uploads/2024/01/54.-First-Amended-Complaint.pdf",
+        "title": "First Amended Complaint, Williams v. City of Detroit",
+        "publisher": "U.S. District Court for the Eastern District of Michigan",
+        "published_date": "2023-06-23",
+        "source_type": "court-record",
+        "archive_url": "https://web.archive.org/web/20260503063320/https://assets.aclu.org/live/uploads/2024/01/54.-First-Amended-Complaint.pdf",
+        "reliability": "primary",
+        "key_claims": [
+          "The complaint alleged that Detroit police arrested Robert Williams on January 9, 2020 after a facial-recognition search of a poorly lit security-camera image identified him as a possible match.",
+          "The complaint alleged that investigators relied on a lineup involving a security consultant who had not witnessed the theft and that the warrant application omitted facts undermining the facial-recognition and lineup evidence.",
+          "The complaint stated that both the Detroit Police Department and Michigan State Police contracted with DataWorks, a system shell through which facial-recognition algorithms could be run.",
+          "The complaint alleged constitutional and state-law violations; these allegations were disputed and were not adjudicated on the merits."
+        ]
+      },
+      {
+        "url": "https://assets.aclu.org/live/uploads/2024/06/Final-Order-of-Dismissal-and-Settlement-Agreement.pdf",
+        "title": "Stipulated Order of Voluntary Dismissal and Settlement Agreement, Williams v. City of Detroit",
+        "publisher": "U.S. District Court for the Eastern District of Michigan",
+        "published_date": "2024-06-28",
+        "source_type": "court-record",
+        "archive_url": "https://web.archive.org/web/20260503063321/https://assets.aclu.org/live/uploads/2024/06/Final-Order-of-Dismissal-and-Settlement-Agreement.pdf",
+        "reliability": "primary",
+        "key_claims": [
+          "The court entered the parties’ stipulated dismissal with prejudice after a negotiated settlement and retained jurisdiction to enforce the agreement for four years.",
+          "The agreement states that it compromises disputed claims and is not an admission of liability by Detroit or the other defendants.",
+          "Detroit agreed to require independent reliable evidence beyond a facial-recognition lead and lineup before an arrest or warrant request, train personnel, and audit earlier facial-recognition cases followed by arrests or warrants."
+        ]
+      },
+      {
+        "url": "https://www.npr.org/2020/06/24/882683463/the-computer-got-it-wrong-how-facial-recognition-led-to-a-false-arrest-in-michig",
+        "title": "'The Computer Got It Wrong': How Facial Recognition Led To False Arrest Of Black Man",
+        "publisher": "NPR",
+        "published_date": "2020-06-24",
+        "source_type": "news",
+        "archive_url": "https://web.archive.org/web/20260423072510/https://www.npr.org/2020/06/24/882683463/the-computer-got-it-wrong-how-facial-recognition-led-to-a-false-arrest-in-michig",
+        "reliability": "corroborating",
+        "key_claims": [
+          "NPR reported that Michigan State Police conducted the facial-recognition search at Detroit police’s request and that the resulting lead prompted the arrest.",
+          "NPR reported that Williams was detained for 30 hours and that the Wayne County prosecutor dropped the charge for insufficient evidence and apologized, saying the case should not have been issued based on the police investigation.",
+          "NPR identified DataWorks Plus as the company that supplied Detroit police with its facial-recognition software; that attribution does not establish that the company directed the investigation or arrest."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [
+        "2:21-cv-10827-LJM-DRG"
+      ],
+      "statutes_or_policies": [
+        "Fourth Amendment",
+        "42 U.S.C. § 1983",
+        "Detroit Police Department Manual Directive 307.5",
+        "Detroit Police Department Manual Directive 203.11"
+      ]
+    },
+    "outcomes": [
+      "NPR reported that the Wayne County prosecutor dismissed the criminal charge for insufficient evidence and apologized, stating that the case should not have been issued based on the Detroit Police Department investigation.",
+      "On June 28, 2024, the federal court dismissed the civil claims with prejudice pursuant to the parties’ settlement and retained jurisdiction to enforce the agreement for four years.",
+      "The settlement expressly states that it is a compromise of disputed claims and not an admission of liability by the defendants.",
+      "Detroit agreed to independent-evidence requirements, supervisory review, training, revised lineup procedures, and an audit of earlier facial-recognition cases followed by arrests or warrants."
+    ],
+    "uniqueness": {
+      "canonical_key": "us-michigan-wayne-county:2020-01:detroit-police-department:robert-williams-facial-recognition-arrest",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-02",
+      "approval_reference": "data/approvals/2026-08-02-2026-08-02-detroit-arrested-robert-williams-after-facial-recognition-lead-49ff36c20554.md#approval-admin-publish-2026-08-02-detroit-arrested-robert-williams-after-facial-recognition-lead-49ff36c20554",
+      "notes": "Published under the site owner’s standing authorization after direct inspection of the amended federal complaint, the court-entered settlement, and NPR’s contemporaneous report. Classified as Institutional overreach because this concerns a formally authorized police facial-recognition workflow and investigation rather than a technical breach or personal misuse of valid credentials. The report attributes disputed allegations to the complaint, states that the settlement was not an admission of liability, and limits adjudicated facts to the court’s dismissal and enforceable settlement terms. DataWorks Plus attribution is sourced to the complaint and NPR and does not allege that the vendor directed the investigation or arrest. Protected intake and fresh post-enrichment comparison against 69 other runtime records returned no exact or probable duplicate."
+    },
+    "updated_at": "2026-08-02"
   }
 ]
