@@ -1,0 +1,76 @@
+schema_version: 1
+id: 2026-08-02-fourth-circuit-held-baltimore-aerial-surveillance-pilot-violated-the-f-978f7be852c8
+title: Fourth Circuit held Baltimore aerial surveillance pilot violated the Fourth Amendment
+status: verified
+category: institutional-overreach
+summary: >-
+  In a June 24, 2021 en banc opinion, the U.S. Court of Appeals for the Fourth Circuit held that accessing data from the
+  Baltimore Police Department's Aerial Investigation Research pilot was a search and that the program's warrantless
+  operation violated the Fourth Amendment. The court described a citywide system operated with Persistent Surveillance
+  Systems that captured roughly 32 square miles per image each second and retained imagery for later investigative use.
+incident_type:
+  - law-enforcement-overreach
+location:
+  city: Baltimore
+  county: Baltimore City
+  state: Maryland
+  country: US
+actors:
+  agencies:
+    - Baltimore Police Department
+  officials_or_entities: []
+  vendor_entities:
+    - Persistent Surveillance Systems
+dates:
+  occurred: 2020-05
+  discovered: '2026-08-02'
+  reported: '2021-06-24'
+sources:
+  - url: https://www.ca4.uscourts.gov/opinions/201495A.P.pdf
+    title: Fourth Circuit held Baltimore aerial surveillance pilot violated the Fourth Amendment
+    publisher: U.S. Court of Appeals for the Fourth Circuit
+    published_date: '2021-06-24'
+    source_type: court-record
+    archive_url: https://web.archive.org/web/20260425080831/https://www.ca4.uscourts.gov/opinions/201495A.P.pdf
+    reliability: primary
+    key_claims:
+      - >-
+        The en banc Fourth Circuit identified the Baltimore Police Department and its commissioner as operators of the
+        Aerial Investigation Research program in partnership with Persistent Surveillance Systems.
+      - >-
+        The court described the cameras as capturing roughly 32 square miles per image each second, with planes flying
+        at least 40 hours per week and obtaining an estimated 12 hours of coverage of about 90 percent of Baltimore each
+        day.
+      - >-
+        The court held that accessing AIR data was a search and that the program's warrantless operation violated the
+        Fourth Amendment, then reversed and remanded the case.
+legal_or_policy_context:
+  case_numbers:
+    - No. 20-1495
+    - D. Md. No. 1:20-cv-00929-RDB
+  statutes_or_policies:
+    - U.S. Constitution, Fourth Amendment
+    - 42 U.S.C. § 1983
+outcomes:
+  - >-
+    The en banc Fourth Circuit reversed and remanded after holding that accessing AIR data was a search and that the
+    program’s warrantless operation violated the Fourth Amendment.
+  - >-
+    Baltimore City leadership did not renew the pilot; the court said the Baltimore Police Department deleted most AIR
+    data while retaining material tied to specific investigations.
+uniqueness:
+  canonical_key: >-
+    us-maryland-baltimore-city:2020-05:baltimore-police-department:2020-air-warrantless-citywide-aerial-surveillance-pilot
+  duplicate_of: null
+review:
+  added_by: manual
+  approval: human-approved
+  reviewed_by: Site owner
+  reviewed_at: '2026-08-02'
+  approval_reference: >-
+    data/approvals/2026-08-02-2026-08-02-fourth-circuit-held-baltimore-aerial-surveillance-pilot-violated-the-f-978f7be852c8.md#approval-admin-publish-2026-08-02-fourth-circuit-held-baltimore-aerial-surveillance-pilot-violated-the-f-978f7be852c8
+  notes: >-
+    Standing owner authorization applied after primary-source inspection, live-frontier dedupe, service-account
+    validation, and archive checks. Classification is institutional overreach because the conduct was a formally
+    authorized citywide surveillance program, not credential misuse or a technical breach.
+updated_at: '2026-08-02'
