@@ -1,0 +1,85 @@
+schema_version: 1
+id: 2026-08-02-ring-accounts-hijacked-for-livestreamed-swatting-attacks-5ca483da0bdf
+title: Ring accounts hijacked for livestreamed swatting attacks
+status: verified
+category: security-breach
+summary: >-
+  The U.S. Attorney's Office reported that conspirators used compromised email credentials that victims had reused for
+  Ring accounts to access internet-connected doorbell cameras during a one-week nationwide swatting spree in November
+  2020. They made hoax emergency calls, livestreamed responding police through the compromised cameras, and sometimes
+  taunted officers and residents. One participant pleaded guilty to conspiracy and unauthorized computer access and was
+  sentenced to 44 months in federal prison.
+incident_type:
+  - unauthorized-search
+  - data-sharing
+  - other
+location:
+  city: ''
+  county: ''
+  state: ''
+  country: US
+actors:
+  agencies:
+    - Ring LLC
+  officials_or_entities: []
+  vendor_entities:
+    - Ring
+    - Amazon
+dates:
+  occurred: '2020-11-07'
+  discovered: '2026-08-02'
+  reported: '2025-05-01'
+sources:
+  - url: >-
+      https://www.justice.gov/usao-cdca/pr/wisconsin-man-sentenced-more-3-12-years-prison-swatting-spree-hacked-doorbell-cameras
+    title: Ring accounts hijacked for livestreamed swatting attacks
+    publisher: U.S. Attorney's Office, Central District of California
+    published_date: '2025-05-01'
+    source_type: official-statement
+    archive_url: >-
+      https://web.archive.org/web/20260524070447/https://www.justice.gov/usao-cdca/pr/wisconsin-man-sentenced-more-3-12-years-prison-swatting-spree-hacked-doorbell-cameras
+    reliability: primary
+    key_claims:
+      - >-
+        The U.S. Attorney's Office said that from November 7 through November 13, 2020, the conspirators gained
+        unauthorized access to Ring home-security cameras by testing compromised Yahoo account credentials against Ring
+        accounts using the same email address and password.
+      - >-
+        The U.S. Attorney's Office said the conspirators made false emergency reports to provoke armed police responses,
+        then transmitted audio and video from compromised Ring devices on social media and sometimes taunted responding
+        officers and residents through the devices.
+      - >-
+        The U.S. Attorney's Office said Kya Christian Nelson pleaded guilty to conspiracy and two counts of unauthorized
+        access to a protected computer and was sentenced on May 1, 2025 to 44 months in federal prison.
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies: []
+outcomes:
+  - >-
+    Kya Christian Nelson pleaded guilty on January 23, 2025 to one count of conspiracy and two counts of unauthorized
+    access to a protected computer to obtain information.
+  - A federal judge sentenced Nelson on May 1, 2025 to 44 months in prison.
+  - >-
+    The Justice Department reported that co-conspirator James Thomas Andrew McCarty pleaded guilty to the same
+    conspiracy and received a seven-year federal sentence in June 2024 for this case and additional charges.
+uniqueness:
+  canonical_key: us:2020-11:ring-llc:credential-compromise-swatting-livestream-attacks
+  duplicate_of: null
+review:
+  added_by: manual
+  approval: human-approved
+  reviewed_by: Site owner
+  reviewed_at: '2026-08-02'
+  approval_reference: >-
+    data/approvals/2026-08-02-2026-08-02-ring-accounts-hijacked-for-livestreamed-swatting-attacks-5ca483da0bdf.md#approval-admin-publish-2026-08-02-ring-accounts-hijacked-for-livestreamed-swatting-attacks-5ca483da0bdf
+  notes: >-
+    Published under the site owner’s standing authorization after candidate-bound review. Classified as Security breach
+    because the conduct involved compromised credentials and unauthorized technical access to Ring accounts, not misuse
+    of legitimate authorized access. Primary evidence: U.S. Attorney’s Office, Central District of California, May 1,
+    2025 sentencing release. Dedupe against repository, runtime, production API, candidates, unverified records,
+    research notes, normalized source URLs, canonical keys, actors, dates, and event fingerprints found no exact or
+    probable duplicate; the existing Ring employee-spying report concerns a different internal-access event. Wayback
+    availability confirmed the cited 2026-05-24 snapshot. Fresh Wayback save returned HTTP 429; archive.ph lookup and
+    submission returned HTTP 429 with CAPTCHA, which was not bypassed. Discovery provenance queries are preserved in the
+    candidate review notes and /tmp/flock-query-url-map.json.
+updated_at: '2026-08-02'
