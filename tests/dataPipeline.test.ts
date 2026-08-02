@@ -189,6 +189,7 @@ describe('data pipeline', () => {
       '2026-07-milwaukee-officer-personal-flock-searches',
       '2026-07-richmond-county-three-employees-personal-flock-searches',
       '2026-07-sumter-county-detective-personal-flock-searches',
+      '2026-08-02-cisa-reported-public-exploitation-of-avtech-ip-camera-command-injectio-0a1aaabb111d',
       '2026-08-02-detroit-arrested-robert-williams-after-facial-recognition-lead-49ff36c20554',
     ]);
   });
