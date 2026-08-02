@@ -3600,5 +3600,102 @@
       "notes": "The charges are allegations. This record does not assert guilt or a final disposition and limits its claims to the cited reporting."
     },
     "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
+    "id": "2026-08-02-polismyndigheten-clearview-ai-8f82104c56ce",
+    "title": "Swedish police employees used unapproved Clearview AI application",
+    "status": "verified",
+    "category": "policy-abuse",
+    "summary": "Sweden's data-protection authority, IMY, recorded that employees of the Swedish Police Authority used Clearview AI in operational police work from autumn 2019 through 3 March 2020 even though the authority had not provided or approved the application. IMY found that the processing violated the Criminal Data Act, imposed a 2.5 million SEK fine, and issued corrective orders. IMY's current case page states that the Court of Appeal later annulled the fine and that the Supreme Administrative Court denied leave to appeal, so that appellate outcome stands.",
+    "incident_type": [
+      "retention-or-access-policy",
+      "law-enforcement-overreach",
+      "data-sharing"
+    ],
+    "location": {
+      "city": "",
+      "county": "",
+      "state": "",
+      "country": "Sweden"
+    },
+    "actors": {
+      "agencies": [
+        "Swedish Police Authority"
+      ],
+      "officials_or_entities": [],
+      "vendor_entities": [
+        "Clearview AI"
+      ]
+    },
+    "dates": {
+      "occurred": "",
+      "discovered": "2026-08-02",
+      "reported": "2021-02-10"
+    },
+    "sources": [
+      {
+        "url": "https://www.imy.se/tillsyner/polismyndigheten/",
+        "title": "Polismyndigheten, Clearview AI",
+        "publisher": "Integritetsskyddsmyndigheten (IMY)",
+        "published_date": "2021-02-10",
+        "source_type": "government-record",
+        "archive_url": "https://web.archive.org/web/20260314203228/https://www.imy.se/tillsyner/polismyndigheten/",
+        "reliability": "primary",
+        "key_claims": [
+          "IMY states that the Swedish Police Authority's use of Clearview AI processed personal data contrary to the Criminal Data Act.",
+          "IMY states that it issued a 2.5 million SEK administrative fine.",
+          "IMY's case page states that the Court of Appeal annulled the fine on 7 November 2022 and that the Supreme Administrative Court denied leave to appeal on 17 November 2023, leaving the appellate judgment standing."
+        ]
+      },
+      {
+        "url": "https://www.imy.se/globalassets/dokument/beslut/beslut-tillsyn-polismyndigheten-cvai.pdf",
+        "title": "Beslut efter tillsyn enligt brottsdatalagen – Polismyndighetens användning av Clearview AI",
+        "publisher": "Integritetsskyddsmyndigheten (IMY)",
+        "published_date": "2021-02-10",
+        "source_type": "government-record",
+        "archive_url": "https://web.archive.org/web/20260314201058/https://www.imy.se/globalassets/dokument/beslut/beslut-tillsyn-polismyndigheten-cvai.pdf",
+        "reliability": "primary",
+        "key_claims": [
+          "The decision records that Police Authority employees used Clearview AI on multiple occasions from autumn 2019 through 3 March 2020 without the authority providing or approving the application.",
+          "The decision says employees in the National Operations Department and Police Region South used the application, including in operational investigations and testing against police-held imagery.",
+          "IMY found that the Police Authority had not demonstrated adequate organizational controls, processed biometric data contrary to the Criminal Data Act, and failed to perform a required impact assessment.",
+          "IMY imposed a 2.5 million SEK fine and ordered training and organizational measures, notice to affected data subjects subject to statutory limits, and feasible steps to delete data uploaded to Clearview AI."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [
+        "DI-2020-2719",
+        "A126.614/2020",
+        "4756-21",
+        "7678-21",
+        "6943-22"
+      ],
+      "statutes_or_policies": [
+        "Swedish Criminal Data Act (2018:1177), Chapter 2 Section 12 and Chapter 3 Sections 2 and 7",
+        "Swedish Act (2018:1693) on Police Processing of Personal Data within the Criminal Data Act Area, Chapter 2 Section 4"
+      ]
+    },
+    "outcomes": [
+      "IMY imposed a 2.5 million SEK administrative fine and corrective orders on 10 February 2021.",
+      "The Administrative Court dismissed the appeal on 30 September 2021 in case 4756-21.",
+      "The Stockholm Court of Appeal annulled the lower-court judgment and IMY fine on 7 November 2022 in case 7678-21.",
+      "The Supreme Administrative Court denied leave to appeal on 17 November 2023 in case 6943-22, leaving the appellate judgment standing.",
+      "The cited official records do not establish that any identified data subject suffered actual harm."
+    ],
+    "uniqueness": {
+      "canonical_key": "sweden:unknown:swedish-police-authority:employees-used-unapproved-clearview-facial-recognition-application",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-02",
+      "approval_reference": "data/approvals/2026-08-02-2026-08-02-polismyndigheten-clearview-ai-8f82104c56ce.md#approval-admin-publish-2026-08-02-polismyndigheten-clearview-ai-8f82104c56ce",
+      "notes": "Standing owner authorization applies to this continuous camera-system hunt. Classified as Policy abuse because the official decision documents employees using valid occupational access and police-held images with an application the authority had neither provided nor approved, contrary to data-protection controls; this was not a technical compromise. Source and appellate posture were directly inspected, and deterministic post-enrichment dedupe returned no exact or probable matches."
+    },
+    "updated_at": "2026-08-02"
   }
 ]
