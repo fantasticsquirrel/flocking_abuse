@@ -1,0 +1,82 @@
+schema_version: 1
+id: 2026-08-02-ring-disclosed-customer-camera-videos-to-police-through-emergency-requ-28bc7d10b896
+title: Ring disclosed customer camera videos to police through emergency requests without owner consent
+status: verified
+category: institutional-overreach
+summary: >-
+  Amazon told U.S. Senator Edward J. Markey that Ring had provided customer videos to law-enforcement agencies 11 times
+  during 2022 in response to emergency requests without device-owner consent. Amazon said it made a good-faith
+  determination in each instance that imminent danger of death or serious physical injury required disclosure without
+  delay. The public response did not identify the requesting agencies, affected customers, or underlying emergencies.
+incident_type:
+  - law-enforcement-overreach
+  - data-sharing
+location:
+  city: ''
+  county: ''
+  state: ''
+  country: US
+actors:
+  agencies:
+    - Ring LLC and Amazon.com, Inc.
+  officials_or_entities: []
+  vendor_entities:
+    - Ring
+    - Amazon
+dates:
+  occurred: ''
+  discovered: '2026-08-02'
+  reported: '2022-07-13'
+sources:
+  - url: https://www.markey.senate.gov/imo/media/doc/amazon_response_to_senator_markey-july_13_2022.pdf
+    title: Ring disclosed customer camera videos to police through emergency requests without owner consent
+    publisher: Amazon.com, Inc., response published by U.S. Senator Edward J. Markey
+    published_date: '2022-07-13'
+    source_type: public-record
+    archive_url: >-
+      https://web.archive.org/web/20260209171556/https://www.markey.senate.gov/imo/media/doc/amazon_response_to_senator_markey-july_13_2022.pdf
+    reliability: primary
+    key_claims:
+      - >-
+        In its July 13, 2022 response to Senator Markey, Amazon stated that Ring had provided videos to law enforcement
+        11 times so far that year in response to emergency requests.
+      - >-
+        Amazon stated that in each instance Ring made a good-faith determination that imminent danger of death or
+        serious physical injury required disclosure without delay.
+      - >-
+        The response documented an emergency-disclosure process under which customer video could be provided without
+        first obtaining the device owner's consent.
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies: []
+outcomes:
+  - >-
+    Amazon disclosed that Ring had provided customer camera videos to law enforcement in 11 emergency cases during 2022
+    without device-owner consent.
+  - >-
+    Amazon said each disclosure followed a good-faith determination that imminent danger of death or serious physical
+    injury required action without delay; the cited response did not identify affected customers, requesting agencies,
+    or the underlying emergencies.
+uniqueness:
+  canonical_key: us:unknown:ring-llc-and-amazon-com-inc:2022-emergency-disclosures-of-customer-camera-videos-to-law-enforcement
+  duplicate_of: null
+review:
+  added_by: manual
+  approval: human-approved
+  reviewed_by: Site owner
+  reviewed_at: '2026-08-02'
+  approval_reference: >-
+    data/approvals/2026-08-02-2026-08-02-ring-disclosed-customer-camera-videos-to-police-through-emergency-requ-28bc7d10b896.md#approval-admin-publish-2026-08-02-ring-disclosed-customer-camera-videos-to-police-through-emergency-requ-28bc7d10b896
+  notes: >-
+    Standing owner authorization applied through the protected candidate-bound publisher. Classified as institutional
+    overreach because Ring described institution-level emergency disclosures that it considered legally authorized, not
+    a technical breach, policy violation, or rogue credential use. The event is distinct from the published Ring
+    employee internal-access and external credential-compromise/swatting incidents. Originating queries: `Amazon Ring
+    police video without consent 11 emergency requests letter Markey`; `site:markey.senate.gov Ring Amazon police video
+    emergency requests 2022`; `Ring police emergency disclosure without consent 11 times 2022 Amazon`; `site:eff.org
+    Ring police video without user consent warrant 11`; `site:techcrunch.com Ring police footage without owners
+    permission 2022`. The primary host returned HTTP 403 and robots.txt disallowed scraper access; the Wayback
+    availability API confirmed the cited existing snapshot. Fresh Wayback and archive.ph submissions returned HTTP 429.
+    The exact primary-source claims were independently cross-checked against accessible TechCrunch and CNN reports
+    before publication.
+updated_at: '2026-08-02'
