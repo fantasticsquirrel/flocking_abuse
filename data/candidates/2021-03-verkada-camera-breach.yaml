@@ -1,0 +1,72 @@
+schema_version: 1
+id: 2021-03-verkada-camera-breach
+status: candidate
+title: "FTC alleged Verkada security failures exposed more than 150,000 live cameras"
+summary: >-
+  The Federal Trade Commission alleged that Verkada failed to use appropriate security controls, enabling a March
+  2021 breach that exposed more than 150,000 live customer cameras along with addresses, audio recordings, and Wi-Fi
+  credentials. The accessed feeds included psychiatric hospitals and women's health clinics. Verkada entered a federal
+  settlement requiring a comprehensive security program, third-party audits, and restrictions on future security and
+  privacy claims.
+incident_type:
+  - retention-or-access-policy
+  - vendor-or-contracting
+  - other
+location:
+  city: San Mateo
+  county: San Mateo
+  state: CA
+  country: US
+actors:
+  agencies:
+    - Federal Trade Commission
+    - U.S. Department of Justice
+  officials_or_entities:
+    - Verkada Inc.
+  vendor_entities:
+    - Verkada
+dates:
+  occurred: "2021-03"
+  discovered: "2021-03-09"
+  reported: "2021-03-09"
+sources:
+  - url: "https://www.ftc.gov/news-events/news/press-releases/2024/08/ftc-takes-action-against-security-camera-firm-verkada-over-charges-it-failed-secure-videos-other"
+    title: "FTC Takes Action Against Security Camera Firm Verkada"
+    publisher: "Federal Trade Commission"
+    published_date: "2024-08-30"
+    source_type: official-statement
+    archive_url: "https://web.archive.org/web/20260425071802/https://www.ftc.gov/news-events/news/press-releases/2024/08/ftc-takes-action-against-security-camera-firm-verkada-over-charges-it-failed-secure-videos-other"
+    reliability: primary
+    key_claims:
+      - "The FTC alleged that inadequate security allowed access to more than 150,000 live Verkada customer cameras."
+      - "The FTC said exposed locations included psychiatric hospitals and women's health clinics."
+      - "The settlement required a comprehensive information-security program and third-party audits."
+  - url: "https://www.verkada.com/blog/support-permission-system/"
+    title: "Introducing Verkada's Support Permission System"
+    publisher: "Verkada"
+    published_date: "2021-03-31"
+    source_type: official-statement
+    archive_url: "https://web.archive.org/web/20260210103447/https://www.verkada.com/blog/support-permission-system/"
+    reliability: primary
+    key_claims:
+      - "Verkada acknowledged that its prior internal-administrator tool was involved in a security incident."
+      - "Verkada said it revoked internal-administrator access and introduced time-limited customer-approved support access with audit logging."
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies:
+    - "Federal Trade Commission Act, Section 5"
+    - "Health Insurance Portability and Accountability Act representations"
+outcomes:
+  - "Verkada was ordered to implement a comprehensive information-security program with third-party audits."
+  - "Verkada replaced internal administrator access with customer-controlled, time-limited support permissions."
+uniqueness:
+  canonical_key: "us-ca-san-mateo:2021-03:federal-trade-commission:verkada-live-camera-breach"
+  duplicate_of: null
+review:
+  added_by: manual
+  approval: pending
+  reviewed_by: ""
+  reviewed_at: ""
+  approval_reference: ""
+  notes: "Verified by federal enforcement records and Verkada's own post-incident control announcement; pending exact-content owner approval."
+updated_at: "2026-08-01"

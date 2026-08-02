@@ -1,0 +1,73 @@
+schema_version: 1
+id: 2017-06-ring-employee-private-video-spying
+status: candidate
+title: "FTC alleged Ring employees used broad access to spy through customer cameras"
+summary: >-
+  The Federal Trade Commission alleged that Ring gave every employee and hundreds of contractors unrestricted access
+  to customer videos, enabling repeated misuse. One employee viewed thousands of recordings from at least 81 female
+  users, focusing on cameras labeled as bedrooms or bathrooms, while later incidents included employees watching a
+  colleague, disclosing recording information to a customer's former spouse, and accessing videos without consent.
+  Ring settled the FTC case and agreed to privacy controls, video deletion, and consumer payments.
+incident_type:
+  - retention-or-access-policy
+  - vendor-or-contracting
+  - other
+location:
+  city: Santa Monica
+  county: Los Angeles
+  state: CA
+  country: US
+actors:
+  agencies:
+    - Federal Trade Commission
+  officials_or_entities:
+    - Ring LLC
+  vendor_entities:
+    - Ring
+    - Amazon
+dates:
+  occurred: "2017-06"
+  discovered: "2017-08"
+  reported: "2023-05-31"
+sources:
+  - url: "https://www.ftc.gov/system/files/ftc_gov/pdf/complaint_ring.pdf"
+    title: "Federal Trade Commission v. Ring LLC complaint"
+    publisher: "Federal Trade Commission"
+    published_date: "2023-05-31"
+    source_type: court-record
+    archive_url: "https://web.archive.org/web/20260602003758/https://www.ftc.gov/system/files/ftc_gov/pdf/complaint_ring.pdf"
+    reliability: primary
+    key_claims:
+      - "The FTC alleged that Ring gave every employee and hundreds of contractors full access to every customer video before September 2017."
+      - "The FTC alleged that one employee viewed thousands of recordings from at least 81 female users and focused on cameras labeled as intimate spaces."
+      - "The complaint documented additional incidents involving unauthorized employee or contractor access through 2019."
+  - url: "https://www.ftc.gov/news-events/news/press-releases/2024/04/ftc-sends-refunds-ring-customers-stemming-2023-settlement-over-charges-company-failed-block"
+    title: "FTC Sends Refunds to Ring Customers Stemming from 2023 Settlement"
+    publisher: "Federal Trade Commission"
+    published_date: "2024-04-23"
+    source_type: official-statement
+    reliability: primary
+    key_claims:
+      - "The FTC said the settlement addressed employee and contractor access to private videos and inadequate account security."
+      - "The FTC reported more than 5.6 million U.S. dollars in consumer refunds arising from the settlement."
+legal_or_policy_context:
+  case_numbers:
+    - "1:23-cv-01549"
+  statutes_or_policies:
+    - "Federal Trade Commission Act, Section 5"
+outcomes:
+  - "Ring agreed to establish a privacy and security program and delete videos it should not possess."
+  - "The settlement funded more than 5.6 million U.S. dollars in consumer refunds."
+uniqueness:
+  canonical_key: "us-ca-los-angeles:2017-06:federal-trade-commission:ring-employee-private-video-spying"
+  duplicate_of: null
+review:
+  added_by: manual
+  approval: pending
+  reviewed_by: ""
+  reviewed_at: ""
+  approval_reference: ""
+  notes: >-
+    Verified by an FTC court complaint and resulting settlement notice. The summary groups the connected access-control
+    failures addressed in the same enforcement action. Candidate remains non-public until exact-content owner approval.
+updated_at: "2026-08-01"

@@ -1,0 +1,48 @@
+schema_version: 1
+id: 2022-08-nashville-watchguard-footage-editing
+title: "Nashville employees reportedly edited WatchGuard body-camera footage without permission"
+summary: >-
+  WPLN reported that a Metro Nashville Police Department internal investigation found two civilian IT employees had
+  removed profanity from body-camera recordings without permission, including footage supplied to the Community
+  Oversight Board for a police-misconduct investigation. WPLN later reported that MNPD was reviewing more than 300
+  recordings, but the underlying internal-investigation file is not linked in a stable public copy and the available
+  reports are from one newsroom.
+location:
+  city: Nashville
+  county: Davidson
+  state: TN
+  country: US
+companies:
+  - Motorola Solutions
+  - WatchGuard
+agencies:
+  - Metropolitan Nashville Police Department
+reported: "2022-08-05"
+sources:
+  - url: "https://wpln.org/post/internal-investigation-shows-editing-of-mnpd-body-camera-footage-was-more-widespread-than-claimed/"
+    title: "Internal investigation shows editing of MNPD body camera footage was more widespread than claimed"
+    publisher: "WPLN News"
+    published_date: "2022-08-05"
+    source_type: news
+    archive_url: "https://web.archive.org/web/20220922221926/https://wpln.org/post/internal-investigation-shows-editing-of-mnpd-body-camera-footage-was-more-widespread-than-claimed/"
+    reliability: corroborating
+    key_claims:
+      - "WPLN reported that an obtained internal investigation found two IT employees edited body-camera footage without permission."
+      - "WPLN reported that edited footage had been supplied to the Community Oversight Board during a police-misconduct investigation."
+  - url: "https://wpln.org/post/more-than-300-body-camera-videos-are-under-review-by-mnpd-for-improper-editing/"
+    title: "More than 300 body camera videos are under review by MNPD for improper editing"
+    publisher: "WPLN News"
+    published_date: "2022-09-14"
+    source_type: news
+    archive_url: "https://web.archive.org/web/20220922221702/https://wpln.org/post/more-than-300-body-camera-videos-are-under-review-by-mnpd-for-improper-editing/"
+    reliability: background
+    key_claims:
+      - "WPLN reported that MNPD was reviewing more than 300 recordings for improper editing."
+verification_status:
+  reason: >-
+    The reports quote and describe an MNPD internal investigation, but the underlying record is not linked in a stable
+    public copy and all available detailed reporting located so far comes from one newsroom.
+  evidence_needed:
+    - "A stable copy of the MNPD internal-investigation record or audit findings"
+    - "Independent reliable corroboration of the unauthorized editing and its scope"
+updated_at: "2026-08-01"

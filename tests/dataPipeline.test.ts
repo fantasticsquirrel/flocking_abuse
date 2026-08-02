@@ -136,6 +136,20 @@ describe('data pipeline', () => {
     expect(result.errors.join('\n')).toMatch(/approval reference is already used/i);
   });
 
+  it('keeps unresolved allegations qualified in review-only titles and summaries', async () => {
+    const ring = yaml.load(await readFile('data/candidates/2017-06-ring-employee-private-video-spying.yaml', 'utf8')) as { title: string };
+    const verkada = yaml.load(await readFile('data/candidates/2021-03-verkada-camera-breach.yaml', 'utf8')) as { title: string };
+    const nashville = yaml.load(await readFile('data/unverified/2022-08-nashville-watchguard-footage-editing.yaml', 'utf8')) as { title: string; summary: string };
+    const tesla = yaml.load(await readFile('data/unverified/2023-04-tesla-employee-camera-sharing.yaml', 'utf8')) as { title: string; summary: string; verification_status: { reason: string } };
+    expect(ring.title).toBe('FTC alleged Ring employees used broad access to spy through customer cameras');
+    expect(verkada.title).toBe('FTC alleged Verkada security failures exposed more than 150,000 live cameras');
+    expect(nashville.title).toBe('Nashville employees reportedly edited WatchGuard body-camera footage without permission');
+    expect(nashville.summary).toContain('WPLN later reported that MNPD was reviewing more than 300 recordings');
+    expect(tesla.title).toBe('Tesla employees reportedly shared sensitive vehicle-camera recordings');
+    expect(tesla.summary).not.toMatch(/compelled to .*arbitration/i);
+    expect(tesla.verification_status.reason).not.toMatch(/sent to arbitration/i);
+  });
+
   it('ships a source-verified public seed without exposing the review-only abortion-search candidate', async () => {
     const result = await validateDataDirectory('data');
     expect(result.errors).toEqual([]);
