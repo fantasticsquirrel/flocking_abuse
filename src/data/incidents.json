@@ -3600,5 +3600,76 @@
       "notes": "The charges are allegations. This record does not assert guilt or a final disposition and limits its claims to the cited reporting."
     },
     "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
+    "id": "2026-08-02-ftc-alleged-rite-aid-facial-recognition-program-produced-false-matches-54d07f3fe218",
+    "title": "FTC alleged Rite Aid facial-recognition program produced false matches",
+    "status": "verified",
+    "category": "institutional-overreach",
+    "summary": "The Federal Trade Commission alleged that Rite Aid deployed facial-recognition surveillance in hundreds of stores from 2012 through 2020 without reasonable safeguards and that false matches led employees to accuse or confront customers. The FTC said the system generated thousands of false-positive matches and disproportionately affected people of color. The agency filed a complaint and proposed an order that included a five-year facial-recognition ban; the cited release stated that the order still required bankruptcy-court and federal-district-court approval.",
+    "incident_type": [
+      "retention-or-access-policy",
+      "other"
+    ],
+    "location": {
+      "city": "",
+      "county": "",
+      "state": "",
+      "country": "US"
+    },
+    "actors": {
+      "agencies": [
+        "Rite Aid Corporation"
+      ],
+      "officials_or_entities": [],
+      "vendor_entities": [
+        "Rite Aid Corporation"
+      ]
+    },
+    "dates": {
+      "occurred": "",
+      "discovered": "2026-08-02",
+      "reported": "2023-12-19"
+    },
+    "sources": [
+      {
+        "url": "https://www.ftc.gov/news-events/news/press-releases/2023/12/rite-aid-banned-using-ai-facial-recognition-after-ftc-says-retailer-deployed-technology-without",
+        "title": "FTC alleged Rite Aid facial-recognition program produced false matches",
+        "publisher": "Federal Trade Commission",
+        "published_date": "2023-12-19",
+        "source_type": "official-statement",
+        "archive_url": "https://web.archive.org/web/20260521165041/https://www.ftc.gov/news-events/news/press-releases/2023/12/rite-aid-banned-using-ai-facial-recognition-after-ftc-says-retailer-deployed-technology-without",
+        "reliability": "primary",
+        "key_claims": [
+          "The FTC said Rite Aid deployed artificial-intelligence-based facial recognition in hundreds of stores from 2012 through 2020 to identify customers believed to have engaged in shoplifting or other problematic behavior.",
+          "The FTC alleged that the system generated thousands of false-positive matches and that employees acting on alerts followed, searched, removed, called police on, or publicly accused some customers.",
+          "The FTC said false-positive alerts were more likely in stores located in plurality-Black and Asian communities than in plurality-White communities.",
+          "The FTC filed a complaint and proposed an order that would prohibit Rite Aid from using facial recognition for surveillance for five years and require deletion, notice, complaint-response, and data-security safeguards."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [],
+      "statutes_or_policies": []
+    },
+    "outcomes": [
+      "The FTC filed a federal complaint and a proposed stipulated order concerning Rite Aid’s facial-recognition deployment.",
+      "The proposed order would prohibit Rite Aid from using facial recognition for surveillance for five years and require deletion, consumer notice, complaint-response, biometric-data, and information-security safeguards.",
+      "The FTC’s December 19, 2023 release stated that the proposed order still required bankruptcy-court and federal-district-court approval and modification of a 2010 Commission order."
+    ],
+    "uniqueness": {
+      "canonical_key": "us:unknown:rite-aid-corporation:2012-2020-retail-facial-recognition-false-matches-and-safeguards-enforcement",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-02",
+      "approval_reference": "data/approvals/2026-08-02-2026-08-02-ftc-alleged-rite-aid-facial-recognition-program-produced-false-matches-54d07f3fe218.md#approval-admin-publish-2026-08-02-ftc-alleged-rite-aid-facial-recognition-program-produced-false-matches-54d07f3fe218",
+      "notes": "Published under the site owner’s standing authorization through the candidate-bound protected publisher. Classified as Institutional overreach because Rite Aid formally deployed the surveillance program across hundreds of stores; the record does not describe a technical breach or rogue authorized-access misuse. The report attributes the allegations and procedural posture to the FTC and does not present the proposed order as a final adjudication. The two facial-recognition vendors were not named in the cited FTC release, so only Rite Aid is identified as the system operator. The official FTC statement is a primary source; its live page returned HTTP 403 to automated direct access, the repository scraper nevertheless recovered official title/date and an excerpt, and Wayback availability confirmed the cited existing snapshot. Fresh Wayback and archive.ph/archive.is requests returned HTTP 429. Intake and fresh deterministic comparison against 61 other runtime records returned no exact or probable duplicate."
+    },
+    "updated_at": "2026-08-02"
   }
 ]
