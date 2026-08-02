@@ -1,7 +1,7 @@
 import { cp, mkdir, rm } from 'node:fs/promises';
 import { resolve } from 'node:path';
 
-const dataDir = resolve('.local/e2e-data');
+const dataDir = resolve(process.env.DATA_DIR || '.local/e2e-data');
 await rm(dataDir, { recursive: true, force: true });
 await Promise.all([
   cp(resolve('data', 'incidents'), resolve(dataDir, 'incidents'), { recursive: true }),

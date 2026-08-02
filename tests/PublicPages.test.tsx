@@ -66,7 +66,8 @@ describe('public information pages', () => {
 
     render(<TimelinePage incidents={[incident]} />);
 
-    expect(screen.getByText('2022-07-13')).toBeInTheDocument();
+    expect(screen.getByText('2022-07-13')).toHaveAttribute('datetime', '2022-07-13');
+    expect(screen.getByRole('link', { name: new RegExp(incident.title, 'i') })).toHaveAttribute('href', '/reports/timeline-date-fallback');
     expect(screen.queryByText('2026-08-02')).not.toBeInTheDocument();
   });
 

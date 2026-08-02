@@ -135,10 +135,14 @@ describe('immutable deployment and rollback scripts', () => {
     const config = await readFile('playwright.config.ts', 'utf8');
     const preparation = await readFile('scripts/prepare-e2e.ts', 'utf8');
     expect(config).toContain("const e2ePort = process.env.E2E_PORT || '4173';");
+    expect(config).toContain('const e2eDataDir = process.env.E2E_DATA_DIR || `./.local/e2e-data-${e2ePort}`;');
+    expect(config).toContain('workers: 1');
     expect(config).toContain('baseURL: `http://127.0.0.1:${e2ePort}`');
     expect(config).toContain('PORT: e2ePort');
-    expect(config).toContain("command: 'npm run prepare:e2e && npm run build && node dist-server/server/index.js'");
+    expect(config).toContain("flock -n .local/e2e.lock -c");
+    expect(config).toContain('DATA_DIR: e2eDataDir');
     expect(config).not.toContain('DATA_DIR=data npm run build');
+    expect(preparation).toContain("resolve(process.env.DATA_DIR || '.local/e2e-data')");
     expect(preparation).toContain("resolve('data', 'incidents')");
     expect(preparation).toContain("resolve(dataDir, 'incidents')");
   });
