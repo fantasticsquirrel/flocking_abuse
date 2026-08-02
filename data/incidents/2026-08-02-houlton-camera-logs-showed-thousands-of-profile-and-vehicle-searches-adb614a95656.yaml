@@ -1,0 +1,128 @@
+schema_version: 1
+id: 2026-08-02-houlton-camera-logs-showed-thousands-of-profile-and-vehicle-searches-adb614a95656
+title: Houlton camera logs showed thousands of profile and vehicle searches
+status: verified
+category: institutional-overreach
+summary: >-
+  Access logs obtained by the Bangor Daily News showed that Houlton employees used the town's Verkada camera system
+  throughout 2024, including more than 56,000 live-feed activations, 4,867 vehicle searches, and 5,266 entries labeled
+  "Profile Searched" or "Profile Searched with Details." The logs did not establish whether those profile-search events
+  invoked facial recognition, town officials had not confirmed that point, and residents' allegations that the system
+  violated Maine law were not adjudicated. Official minutes record that the Town Council unanimously approved signing an
+  amended settlement concerning the camera system; the Bangor Daily News reported that the agreement required camera
+  removal, data deletion subject to legal-preservation duties, and a third-party audit.
+incident_type:
+  - law-enforcement-overreach
+  - retention-or-access-policy
+location:
+  city: Houlton
+  county: Aroostook County
+  state: Maine
+  country: US
+actors:
+  agencies:
+    - Town of Houlton
+  officials_or_entities: []
+  vendor_entities:
+    - Verkada
+dates:
+  occurred: 2024-01
+  discovered: '2026-08-02'
+  reported: '2025-08-26'
+sources:
+  - url: >-
+      https://www.bangordailynews.com/2025/08/26/aroostook/aroostook-government/houlton-maine-surveillance-cameras-facial-recognition-data-documents-foaa/
+    title: Town employees used Houlton's surveillance cameras to look up people
+    publisher: Bangor Daily News
+    published_date: '2025-08-26'
+    source_type: news
+    archive_url: >-
+      https://web.archive.org/web/20260124123238/https://www.bangordailynews.com/2025/08/26/aroostook/aroostook-government/houlton-maine-surveillance-cameras-facial-recognition-data-documents-foaa/
+    reliability: corroborating
+    key_claims:
+      - The access logs recorded more than 56,000 live-video activations during 2024.
+      - >-
+        The logs recorded 4,867 vehicle searches and 5,266 entries labeled "Profile Searched" or "Profile Searched with
+        Details."
+      - >-
+        Employees from police, public works, recreation, code enforcement, and civic-center operations used the Verkada
+        system, including outside ordinary work hours.
+      - >-
+        The reporting said the logs did not by themselves establish whether profile-search events invoked
+        facial-recognition features, and town officials had not confirmed whether those features were used.
+  - url: https://www.houlton-maine.com/wp-content/uploads/2025/11/November-10-2025-Agenda-Packet.pdf
+    title: November 10, 2025 Agenda & Packet, including October 27 special council meeting minutes
+    publisher: Town of Houlton
+    published_date: '2025-11-07'
+    source_type: government-record
+    archive_url: >-
+      https://web.archive.org/web/20260116220408/https://www.houlton-maine.com/wp-content/uploads/2025/11/November-10-2025-Agenda-Packet.pdf
+    reliability: primary
+    key_claims:
+      - >-
+        The official minutes record that the council entered executive session to discuss pending and potential
+        litigation concerning the town camera system.
+      - >-
+        The minutes record a unanimous vote on October 27, 2025, approving an amended motion to sign the settlement
+        agreement and release concerning the town camera system.
+      - >-
+        The minutes identify the agreement as between the Town of Houlton and three residents; they do not record an
+        admission of legal liability or adjudication that the camera system violated state law.
+  - url: https://www.bangordailynews.com/2025/10/27/aroostook/aroostook-government/houlton-remove-surveillance-cameras/
+    title: Houlton agrees to remove surveillance cameras and destroy data
+    publisher: Bangor Daily News
+    published_date: '2025-10-27'
+    source_type: news
+    archive_url: >-
+      https://web.archive.org/web/20251107012543/https://www.bangordailynews.com/2025/10/27/aroostook/aroostook-government/houlton-remove-surveillance-cameras/
+    reliability: corroborating
+    key_claims:
+      - >-
+        The report said the approved settlement required the town to remove cameras within 60 days and stop using camera
+        systems with facial-recognition capabilities.
+      - >-
+        The report said the agreement required deletion of recordings, facial-recognition data, biometric identifiers,
+        and other system data, except material preserved for public-record requests, litigation, or other legal duties.
+      - The report said a town-funded third-party auditor would verify data removal and prepare a written report.
+      - >-
+        The article attributes allegations of unlawful facial-recognition use to the three residents and does not report
+        a court finding or town admission that state law was violated.
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies:
+    - Maine facial surveillance law, 25 M.R.S. § 6001
+outcomes:
+  - >-
+    The Houlton Town Council unanimously approved an amended motion on October 27, 2025, to sign the settlement
+    agreement and release concerning the town camera system.
+  - >-
+    The Bangor Daily News reported that the settlement required the town to remove the cameras within 60 days and stop
+    using camera systems with facial-recognition capabilities.
+  - >-
+    The Bangor Daily News reported that the settlement required deletion of camera-system data subject to
+    legal-preservation duties and a town-funded third-party audit of the deletion.
+uniqueness:
+  canonical_key: >-
+    us-maine-aroostook-county:2024-01:town-of-houlton:yearlong-municipal-camera-profile-and-vehicle-searches-and-settlement
+  duplicate_of: null
+review:
+  added_by: manual
+  approval: human-approved
+  reviewed_by: Site owner
+  reviewed_at: '2026-08-02'
+  approval_reference: >-
+    data/approvals/2026-08-02-2026-08-02-houlton-camera-logs-showed-thousands-of-profile-and-vehicle-searches-adb614a95656.md#approval-admin-publish-2026-08-02-houlton-camera-logs-showed-thousands-of-profile-and-vehicle-searches-adb614a95656
+  notes: >-
+    Standing owner authorization applied through the protected candidate-bound publisher. Classified as institutional
+    overreach because this concerns institution-level municipal deployment and use, not a technical breach or proven
+    personal misuse. The public-record logs establish the scale and types of system use but do not establish whether
+    profile searches invoked facial recognition; resident allegations of illegality were not adjudicated, and the
+    settlement is not described as an admission. The Town of Houlton minutes are a directly inspected primary government
+    record and record the unanimous settlement vote. Bangor Daily News reporting supplies the access-log detail and
+    settlement terms. No Houlton record, canonical URL, matching canonical key, agency/date/event fingerprint, or case
+    appeared in repository, runtime, live, unverified, or research-note indexes; deterministic comparison against 57
+    other runtime records returned no exact or probable match. Originating-query provenance is preserved in
+    /tmp/flock-query-url-map.json; the URL-only scraper used manual-seed-file. Existing Wayback snapshots were found for
+    every cited source. Fresh Wayback saves and archive.ph lookups/submissions returned HTTP 429, and no restriction was
+    bypassed. Both official PDFs were downloaded and OCR-inspected; the scraper rejected PDF content as unsupported.
+updated_at: '2026-08-02'
