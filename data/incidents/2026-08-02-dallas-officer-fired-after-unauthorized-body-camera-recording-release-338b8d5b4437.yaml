@@ -1,0 +1,112 @@
+schema_version: 1
+id: 2026-08-02-dallas-officer-fired-after-unauthorized-body-camera-recording-release-338b8d5b4437
+title: Dallas officer fired after unauthorized body-camera recording release
+status: verified
+category: system-abuse
+summary: >-
+  The Dallas Police Department stated that officer Ali Toppa turned himself in on an outstanding Class A misdemeanor
+  warrant alleging unauthorized release of a body-worn-camera recording. The department placed him on administrative
+  leave and later terminated him after a disciplinary hearing. The public statements do not describe the recording,
+  recipient, release date, or disposition of the criminal charge; a City Auditor report separately identifies Axon as
+  Dallas Police Department’s body-worn and in-car camera-system vendor.
+incident_type:
+  - data-sharing
+  - retention-or-access-policy
+location:
+  city: Dallas
+  county: Dallas County
+  state: Texas
+  country: US
+actors:
+  agencies:
+    - Dallas Police Department
+  officials_or_entities:
+    - Ali Toppa
+  vendor_entities:
+    - Axon Enterprise
+dates:
+  occurred: ''
+  discovered: '2024-11-21'
+  reported: '2024-11-21'
+sources:
+  - url: https://dpdbeat.com/2024/11/21/dallas-police-officer-arrested-5/
+    title: Dallas Police Officer Arrested
+    publisher: Dallas Police Department (DPD Beat)
+    published_date: '2024-11-21'
+    source_type: official-statement
+    archive_url: https://web.archive.org/web/20250725060045/https://dpdbeat.com/2024/11/21/dallas-police-officer-arrested-5/
+    reliability: primary
+    key_claims:
+      - >-
+        The Dallas Police Department stated that Ali Toppa turned himself in on November 21, 2024 on an outstanding
+        Dallas warrant for unauthorized release of a body-worn-camera recording.
+      - >-
+        The department identified the alleged offense as a Class A misdemeanor and said Toppa was placed on
+        administrative leave pending an Internal Affairs investigation.
+  - url: https://dpdbeat.com/2025/04/30/dallas-police-officer-terminated-2/
+    title: The following officer was terminated during a disciplinary hearing on April 30, 2025, with Chief Comeaux
+    publisher: Dallas Police Department (DPD Beat)
+    published_date: '2025-04-30'
+    source_type: official-statement
+    archive_url: https://web.archive.org/web/20250725182501/https://dpdbeat.com/2025/04/30/dallas-police-officer-terminated-2/
+    reliability: primary
+    key_claims:
+      - >-
+        The Dallas Police Department stated that Toppa was terminated after an April 30, 2025 disciplinary hearing for
+        adverse conduct tied to the arrest.
+      - >-
+        The termination statement again identified the alleged offense as unauthorized release of a body-worn-camera
+        recording, a Class A misdemeanor.
+  - url: >-
+      https://dallascityhall.com/departments/auditor/DCH%20Documents/FINAL%20REPORT%20-%20Dallas%20Police%20Department%20Body%20Worn%20and%20In%20Car%20Camera%20Operations.pdf
+    title: Audit of Dallas Police Department Body Worn and In Car Camera Operations
+    publisher: City of Dallas Office of the City Auditor
+    published_date: '2024-02-26'
+    source_type: government-record
+    archive_url: >-
+      https://web.archive.org/web/20250318052109/https://dallascityhall.com/departments/auditor/DCH%20Documents/FINAL%20REPORT%20-%20Dallas%20Police%20Department%20Body%20Worn%20and%20In%20Car%20Camera%20Operations.pdf
+    reliability: primary
+    key_claims:
+      - >-
+        The official City of Dallas search index for the February 2024 audit identifies Axon as the city’s body-worn and
+        in-car camera-system vendor and describes fiscal-year 2024 payment for 3,000 body-worn cameras and 3,245 in-car
+        camera systems.
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies: []
+outcomes:
+  - >-
+    The Dallas Police Department placed Toppa on administrative leave pending an Internal Affairs investigation after
+    the November 2024 arrest.
+  - The department terminated Toppa after an April 30, 2025 disciplinary hearing.
+  - The cited public statements do not report the disposition of the criminal charge.
+uniqueness:
+  canonical_key: us-texas-dallas-county:unknown:dallas-police-department:ali-toppa-unauthorized-body-camera-recording-release
+  duplicate_of: null
+review:
+  added_by: manual
+  approval: human-approved
+  reviewed_by: Site owner
+  reviewed_at: '2026-08-02'
+  approval_reference: >-
+    data/approvals/2026-08-02-2026-08-02-dallas-officer-fired-after-unauthorized-body-camera-recording-release-338b8d5b4437.md#approval-admin-publish-2026-08-02-dallas-officer-fired-after-unauthorized-body-camera-recording-release-338b8d5b4437
+  notes: >-
+    Standing owner authorization applies through the protected candidate-bound publisher. Classified as system abuse
+    because the official record describes an officer’s unauthorized release of a recording from an occupational
+    body-camera system; this is not a technical breach. The City Auditor source identifies Axon as DPD’s camera-system
+    vendor but does not suggest Axon directed or endorsed the conduct. The official statements do not disclose the
+    recording, recipient, release date, access method, or criminal-case disposition, so the report makes no inference
+    about those points and leaves occurred unknown. Dedupe covered 109 repository/runtime frontier records, 58 live
+    incidents, current candidates and unverified records, all research notes, URLs, canonical keys, agencies, people,
+    dates, and event fingerprints; no Ali Toppa, Dallas Police Department, or matching unauthorized-recording-release
+    record appeared. This event is distinct from the published Columbus Axon footage-download/disclosure case and the
+    Nashville WatchGuard transfer/editing records. Originating queries were `"body camera" officer unauthorized access
+    footage internal affairs`, `"Ali Toppa" Dallas Police Department`, and `Axon body worn camera Dallas Police`;
+    `/tmp/flock-query-url-map.json` preserves the exact query-to-URL map because the URL-only scraper recorded
+    `manual-seed-file`. The scraper directly fetched both DPD Beat official statements but its Flock/ALPR relevance
+    model scored them uncertain; it failed the City audit PDF because the source host omitted its TLS intermediate
+    certificate. Direct curl inspection likewise failed closed on certificate verification, while browser inspection of
+    the official City search result exposed the audit title and Axon/camera-count excerpt. Existing Wayback snapshots
+    were found for all three cited sources. Fresh Wayback saves and all archive.ph lookups/submissions returned HTTP
+    429; no restriction or CAPTCHA was bypassed.
+updated_at: '2026-08-02'
