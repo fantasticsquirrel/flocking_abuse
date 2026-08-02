@@ -23,7 +23,7 @@ test('admin rejects a wrong password then creates a candidate with an authentica
   await page.getByLabel('Distinct event key').fill(`synthetic browser candidate event ${suffix}`);
   await page.getByLabel('Neutral summary').fill('This is a synthetic browser candidate used only to verify the protected intake flow.');
   await page.getByLabel('Key claims').fill('The synthetic source reported a browser-only test claim.');
-  await page.getByLabel('Reviewer notes').fill('E2E synthetic fixture.');
+  await page.getByLabel('Reviewer notes', { exact: true }).fill('E2E synthetic fixture.');
   await page.getByRole('checkbox', { name: 'Other' }).check();
   await page.getByRole('button', { name: 'Save candidate for review' }).click();
   await expect(page.getByRole('status')).toContainText('Candidate saved');

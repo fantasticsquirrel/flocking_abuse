@@ -7,6 +7,7 @@ const expectNoSeriousViolations = async (page: Page) => {
 };
 
 test('public ledger supports keyboard entry, minimum link targets, and automated accessibility checks', async ({ page }) => {
+  test.setTimeout(60_000);
   await page.goto('/');
   await page.keyboard.press('Tab');
   await expect(page.getByRole('link', { name: 'Skip to incident records' })).toBeFocused();

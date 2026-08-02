@@ -56,6 +56,20 @@ describe('public information pages', () => {
     expect(Math.max(...gaps)).toBeGreaterThan(Math.min(...gaps));
   });
 
+  it('uses the earlier report date instead of the tracker-added date when occurrence is unknown', () => {
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')));
+    const incident = structuredClone((incidents as Incident[])[0]!);
+    incident.id = 'timeline-date-fallback';
+    incident.dates.occurred = '';
+    incident.dates.discovered = '2026-08-02';
+    incident.dates.reported = '2022-07-13';
+
+    render(<TimelinePage incidents={[incident]} />);
+
+    expect(screen.getByText('2022-07-13')).toBeInTheDocument();
+    expect(screen.queryByText('2026-08-02')).not.toBeInTheDocument();
+  });
+
   it('makes quiet chronological periods visibly wider than clustered reports', () => {
     expect(timelineGapRem(0)).toBe(0);
     expect(timelineGapRem(1)).toBe(0);

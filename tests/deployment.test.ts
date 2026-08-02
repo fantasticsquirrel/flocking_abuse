@@ -131,6 +131,18 @@ describe('immutable deployment and rollback scripts', () => {
     expect(publisher).toContain('ReadWritePaths=/var/lib/flocking-abuse/data /run/flocking-abuse');
   });
 
+  it('builds and serves E2E tests from the same isolated accepted-data snapshot', async () => {
+    const config = await readFile('playwright.config.ts', 'utf8');
+    const preparation = await readFile('scripts/prepare-e2e.ts', 'utf8');
+    expect(config).toContain("const e2ePort = process.env.E2E_PORT || '4173';");
+    expect(config).toContain('baseURL: `http://127.0.0.1:${e2ePort}`');
+    expect(config).toContain('PORT: e2ePort');
+    expect(config).toContain("command: 'npm run prepare:e2e && npm run build && node dist-server/server/index.js'");
+    expect(config).not.toContain('DATA_DIR=data npm run build');
+    expect(preparation).toContain("resolve('data', 'incidents')");
+    expect(preparation).toContain("resolve(dataDir, 'incidents')");
+  });
+
   it('documents the dedicated rollback tool instead of an unsafe inline sequence', async () => {
     const documentation = await readFile('docs/deployment.md', 'utf8');
     expect(documentation).toContain('sudo ./deploy/rollback.sh');

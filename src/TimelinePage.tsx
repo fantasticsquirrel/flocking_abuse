@@ -4,7 +4,13 @@ import type { Incident } from './lib/incidentSchema.js';
 import { categoryForIncident, incidentCategories } from './lib/incidentCategory.js';
 import { timelineGapRem } from './lib/timelineSpacing.js';
 
-const timelineDate = (incident: Incident): string => incident.dates.occurred || incident.dates.discovered || incident.dates.reported || incident.updated_at;
+const timelineDate = (incident: Incident): string => {
+  if (incident.dates.occurred) return incident.dates.occurred;
+  const earliestKnownDate = [incident.dates.discovered, incident.dates.reported]
+    .filter((date): date is string => Boolean(date))
+    .sort((left, right) => left.localeCompare(right))[0];
+  return earliestKnownDate || incident.updated_at;
+};
 const monthIndex = (value: string): number => {
   const [year = '0', month = '1'] = value.split('-');
   return Number(year) * 12 + Number(month) - 1;
