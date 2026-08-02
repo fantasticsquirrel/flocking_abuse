@@ -3600,5 +3600,103 @@
       "notes": "The charges are allegations. This record does not assert guilt or a final disposition and limits its claims to the cited reporting."
     },
     "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
+    "id": "2026-08-02-new-york-ag-settlement-addressed-insecure-eufy-video-streams-f457e74e2dcd",
+    "title": "New York AG settlement addressed insecure Eufy video streams",
+    "status": "verified",
+    "category": "security-breach",
+    "summary": "A January 2025 Assurance of Discontinuance said the New York Attorney General's investigation found that, before November 1, 2022, Eufy livestream video sent to its web portal lacked end-to-end encryption and at least part of the connection used no encryption. The office found active streams could be accessed without authentication by anyone with the relevant URL and that URLs might have been deducible. The respondents neither admitted nor denied the findings; the settlement required $450,000 in penalties and costs plus security controls.",
+    "incident_type": [
+      "retention-or-access-policy",
+      "vendor-or-contracting",
+      "other"
+    ],
+    "location": {
+      "city": "",
+      "county": "",
+      "state": "New York",
+      "country": "US"
+    },
+    "actors": {
+      "agencies": [
+        "Anker Innovations Technology Co., Ltd."
+      ],
+      "officials_or_entities": [
+        "Fantasia Trading LLC",
+        "Power Mobile Life LLC",
+        "Smart Innovation, LLC"
+      ],
+      "vendor_entities": [
+        "Eufy Security",
+        "Anker Innovations Technology Co., Ltd.",
+        "Fantasia Trading LLC",
+        "Power Mobile Life LLC",
+        "Smart Innovation, LLC"
+      ]
+    },
+    "dates": {
+      "occurred": "",
+      "discovered": "2022-11",
+      "reported": "2025-01-28"
+    },
+    "sources": [
+      {
+        "url": "https://ag.ny.gov/press-release/2025/attorney-general-james-secures-450000-companies-selling-home-security-cameras",
+        "title": "Attorney General James Secures $450,000 from Companies Selling Home Security Cameras that Failed to Secure Private Videos",
+        "publisher": "Office of the New York Attorney General",
+        "published_date": "2025-01-28",
+        "source_type": "official-statement",
+        "archive_url": "https://web.archive.org/web/20250129152737/https://ag.ny.gov/press-release/2025/attorney-general-james-secures-450000-companies-selling-home-security-cameras",
+        "reliability": "primary",
+        "key_claims": [
+          "The New York Attorney General said its investigation found that Eufy video streams were not always securely encrypted and could be accessible without authentication to anyone with the relevant link.",
+          "The office said the investigation found that an active stream URL might have been deducible without obtaining it from a user.",
+          "The settlement required Fantasia Trading, Power Mobile Life, and Smart Innovation to pay $450,000 and substantiate information-security, vulnerability-management, secure-development, and encryption controls."
+        ]
+      },
+      {
+        "url": "https://ag.ny.gov/sites/default/files/settlements-agreements/state-of-new-york-v-fantasia-training-llc-aod-2025.pdf",
+        "title": "Assurance of Discontinuance, In the Matter of Fantasia Trading LLC, Power Mobile Life LLC, and Smart Innovation, LLC",
+        "publisher": "Office of the New York Attorney General",
+        "published_date": "",
+        "source_type": "government-record",
+        "reliability": "primary",
+        "key_claims": [
+          "Assurance No. 24-103 states that, before November 1, 2022, Eufy livestream video sent to the web portal lacked end-to-end encryption and at least part of the connection used no encryption.",
+          "The Assurance states that design and implementation flaws allowed anyone with a relevant URL to access an active stream without authentication and that deterministic URL rules may have made stream URLs deducible.",
+          "The Assurance says Anker acted promptly after the November 2022 public disclosure by implementing end-to-end encryption for web streams and strengthening access controls.",
+          "The respondents neither admitted nor denied the attorney general's findings, and the Assurance was accepted in lieu of a statutory proceeding."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [
+        "Assurance No. 24-103"
+      ],
+      "statutes_or_policies": [
+        "New York Executive Law § 63(12)",
+        "New York General Business Law §§ 349 and 350"
+      ]
+    },
+    "outcomes": [
+      "The respondents agreed to pay New York $450,000 in penalties and costs.",
+      "The Assurance requires substantiation of a comprehensive security program, secure-development processes, vulnerability testing, and encryption of covered audio-visual information in storage and transit.",
+      "The Assurance states that Anker acted promptly after the November 2022 disclosure by implementing end-to-end encryption for web streams and enhancing access controls."
+    ],
+    "uniqueness": {
+      "canonical_key": "us-new-york:unknown:anker-innovations-technology-co-ltd:eufy-web-streams-lacked-encryption-and-authentication",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-02",
+      "approval_reference": "data/approvals/2026-08-02-2026-08-02-new-york-ag-settlement-addressed-insecure-eufy-video-streams-f457e74e2dcd.md#approval-admin-publish-2026-08-02-new-york-ag-settlement-addressed-insecure-eufy-video-streams-f457e74e2dcd",
+      "notes": "Standing site-owner publication authorization applies. Two directly inspected New York Attorney General primary records support the findings and settlement, with the Assurance's neither-admit-nor-deny posture preserved. Classified as Security breach because the official findings document technical encryption and authentication failures that exposed active video streams to unauthorized access; this is not authorized credential misuse. Fresh live validation passed and deterministic dedupe against 78 other incident/candidate records returned no exact or probable match. The separate May 2021 Eufy server-upgrade cross-account mapping record was reviewed and is a distinct event."
+    },
+    "updated_at": "2026-08-02"
   }
 ]
