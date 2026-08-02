@@ -3600,5 +3600,89 @@
       "notes": "The charges are allegations. This record does not assert guilt or a final disposition and limits its claims to the cited reporting."
     },
     "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
+    "id": "2026-08-02-doj-found-phoenix-officers-routinely-muted-body-cameras-64443feffbbb",
+    "title": "DOJ found Phoenix officers routinely muted body cameras",
+    "status": "verified",
+    "category": "institutional-overreach",
+    "summary": "In a June 2024 findings report, the U.S. Department of Justice said Phoenix officers frequently muted body-worn cameras after uses of force, often without a clear reason, and that officers and sergeants routinely did so. The report said some timing raised concerns about intentional obfuscation or enabling conversations officers knew were inappropriate. It also said department policy required activation during law-enforcement contacts but did not address muting.",
+    "incident_type": [
+      "law-enforcement-overreach",
+      "retention-or-access-policy"
+    ],
+    "location": {
+      "city": "Phoenix",
+      "county": "Maricopa County",
+      "state": "Arizona",
+      "country": "US"
+    },
+    "actors": {
+      "agencies": [
+        "Phoenix Police Department"
+      ],
+      "officials_or_entities": [],
+      "vendor_entities": [
+        "Axon Enterprise"
+      ]
+    },
+    "dates": {
+      "occurred": "",
+      "discovered": "2026-08-02",
+      "reported": "2024-06-13"
+    },
+    "sources": [
+      {
+        "url": "https://www.justice.gov/crt/media/1355866/dl?inline",
+        "title": "DOJ found Phoenix officers routinely muted body cameras",
+        "publisher": "U.S. Department of Justice Civil Rights Division",
+        "published_date": "2024-06-13",
+        "source_type": "government-record",
+        "archive_url": "https://web.archive.org/web/20260525073838/https://www.justice.gov/crt/media/1355866/dl?inline",
+        "reliability": "primary",
+        "key_claims": [
+          "The Justice Department said Phoenix Police Department policy required officers to activate body-worn cameras during law-enforcement contacts but did not address muting, even though the department configured the cameras to permit it.",
+          "The findings report said officers frequently muted body-worn cameras after uses of force and that officers and sergeants routinely did so, often without a clear reason.",
+          "The report said the timing in some incidents raised concerns that officers muted cameras to intentionally obfuscate or enable conversations they knew were inappropriate.",
+          "The Justice Department recommended consistent activation, deactivation, and supervisory review and preventing officers from muting cameras."
+        ]
+      },
+      {
+        "url": "https://www.abc15.com/news/region-phoenix-metro/phoenix-police-roll-out-new-body-cameras",
+        "title": "Phoenix police roll out new body cameras",
+        "publisher": "ABC15 Arizona / Associated Press",
+        "published_date": "2019-04-15",
+        "source_type": "news",
+        "reliability": "background",
+        "key_claims": [
+          "ABC15 and the Associated Press reported that Phoenix Police Department began deploying Axon body-worn cameras in April 2019.",
+          "The report said the Phoenix City Council had approved a five-year contract with Axon Enterprise to provide cameras for 2,000 officers and maintain video."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [],
+      "statutes_or_policies": [
+        "Phoenix Police Department body-worn-camera activation policy, as described in the Justice Department findings report"
+      ]
+    },
+    "outcomes": [
+      "The Justice Department recommended requiring consistent body-camera activation and deactivation, supervisory footage review, and preventing officers from muting cameras.",
+      "The cited findings report did not identify the outcome of every incident in which officers muted cameras."
+    ],
+    "uniqueness": {
+      "canonical_key": "us-arizona-maricopa-county:unknown:phoenix-police-department:routine-body-camera-muting-and-accountability-gaps",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-02",
+      "approval_reference": "data/approvals/2026-08-02-2026-08-02-doj-found-phoenix-officers-routinely-muted-body-cameras-64443feffbbb.md#approval-admin-publish-2026-08-02-doj-found-phoenix-officers-routinely-muted-body-cameras-64443feffbbb",
+      "notes": "The June 2024 Justice Department findings report is the primary source for the department-wide camera-accountability findings; all findings remain attributed to DOJ. ABC15/Associated Press identifies Axon Enterprise as Phoenix's body-worn-camera and video-maintenance vendor, but does not suggest Axon directed or endorsed the conduct. Classified as Institutional overreach because DOJ described an institution-level camera configuration and policy gap, routine muting by officers and sergeants, and weak supervisory accountability; this is not a technical breach or cross-account exposure. Occurrence date remains unknown because the report does not establish a complete date range for the practice. Protected intake returned no duplicate warning, and post-enrichment deterministic comparison against 80 other live incident/candidate records returned empty exact and probable arrays; Reported but Unverified had no matching identity. The event is distinct from the Columbus deliberate camera-disablement records and Dallas unauthorized recording-release record. Existing Wayback preservation was found for the DOJ PDF; no ABC15 snapshot was available, and fresh Wayback and archive.ph requests returned HTTP 429. Originating queries are preserved in the coordination notes and claim-scoped query map because the URL-only scraper recorded manual-seed-file."
+    },
+    "updated_at": "2026-08-02"
   }
 ]
