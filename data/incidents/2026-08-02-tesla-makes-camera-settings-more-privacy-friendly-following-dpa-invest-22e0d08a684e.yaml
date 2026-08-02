@@ -1,0 +1,81 @@
+schema_version: 1
+id: 2026-08-02-tesla-makes-camera-settings-more-privacy-friendly-following-dpa-invest-22e0d08a684e
+title: Tesla makes camera settings more privacy-friendly following DPA investigation
+status: verified
+category: institutional-overreach
+summary: >-
+  The Dutch Data Protection Authority said its investigation found that Tesla Sentry Mode had continuously filmed around
+  parked vehicles and retained footage for one hour. Tesla then changed the feature so cameras are disabled by default,
+  recording requires user activation, and retained footage is limited to one to ten minutes. The authority imposed no
+  fine or other sanction because it concluded that vehicle owners, not Tesla, were legally responsible for recorded
+  images.
+incident_type:
+  - retention-or-access-policy
+  - vendor-or-contracting
+  - other
+location:
+  city: ''
+  county: ''
+  state: ''
+  country: NL
+actors:
+  agencies: []
+  officials_or_entities:
+    - Tesla, Inc.
+  vendor_entities:
+    - Tesla
+dates:
+  occurred: ''
+  discovered: '2023-02-22'
+  reported: '2023-02-22'
+sources:
+  - url: >-
+      https://www.autoriteitpersoonsgegevens.nl/en/current/tesla-makes-camera-settings-more-privacy-friendly-following-dpa-investigation
+    title: Tesla makes camera settings more privacy-friendly following DPA investigation
+    publisher: Autoriteit Persoonsgegevens (Dutch Data Protection Authority)
+    published_date: '2023-02-22'
+    source_type: official-statement
+    archive_url: >-
+      https://web.archive.org/web/20231001031143/https://autoriteitpersoonsgegevens.nl/en/current/tesla-makes-camera-settings-more-privacy-friendly-following-dpa-investigation
+    reliability: primary
+    key_claims:
+      - The authority investigated Tesla Sentry Mode, which used four external vehicle cameras.
+      - >-
+        Before software updates, enabled Sentry Mode continuously filmed around parked vehicles and saved images for one
+        hour.
+      - >-
+        Tesla changed the feature so cameras are disabled by default and retained footage is limited to no more than ten
+        minutes.
+      - >-
+        The authority imposed no fine or other sanction because it concluded vehicle owners were legally responsible for
+        recorded images.
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies:
+    - Dutch rules governing camera surveillance in public space
+outcomes:
+  - >-
+    Tesla changed Sentry Mode defaults, activation triggers, recording notices, and retention settings following the
+    Dutch DPA investigation.
+  - >-
+    The Dutch DPA imposed no fine or other sanction because it concluded vehicle owners were legally responsible for
+    recorded images.
+uniqueness:
+  canonical_key: nl:unknown:tesla-inc:sentry-mode-continuous-public-space-recording-settings
+  duplicate_of: null
+review:
+  added_by: manual
+  approval: human-approved
+  reviewed_by: Site owner
+  reviewed_at: '2026-08-02'
+  approval_reference: >-
+    data/approvals/2026-08-02-2026-08-02-tesla-makes-camera-settings-more-privacy-friendly-following-dpa-invest-22e0d08a684e.md#approval-admin-publish-2026-08-02-tesla-makes-camera-settings-more-privacy-friendly-following-dpa-invest-22e0d08a684e
+  notes: >-
+    Standing owner authorization applied to this candidate-bound publication. Evidence gate: one inspectable primary
+    official statement from the Dutch Data Protection Authority. Classification is Institutional overreach because this
+    was a formally designed vehicle-camera feature creating public-space privacy risks, not hacking or misuse of
+    legitimate credentials. The authority imposed no sanction and attributed legal responsibility for recorded images to
+    vehicle owners. Fresh post-enrichment deterministic dedupe found no exact or probable match across 88
+    repository/runtime incident and candidate records; the separate Tesla employee-sharing lead concerns distinct
+    alleged internal access and remains unverified.
+updated_at: '2026-08-02'
