@@ -191,6 +191,7 @@ describe('data pipeline', () => {
       '2026-07-sumter-county-detective-personal-flock-searches',
       '2026-08-02-cisa-reported-public-exploitation-of-avtech-ip-camera-command-injectio-0a1aaabb111d',
       '2026-08-02-detroit-arrested-robert-williams-after-facial-recognition-lead-49ff36c20554',
+      '2026-08-02-lower-merion-remotely-activated-student-laptop-webcams-38923fb4ca11',
     ]);
   });
 });
