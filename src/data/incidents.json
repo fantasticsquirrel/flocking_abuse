@@ -3600,5 +3600,75 @@
       "notes": "The charges are allegations. This record does not assert guilt or a final disposition and limits its claims to the cited reporting."
     },
     "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
+    "id": "2026-08-02-quebec-regulator-ordered-crane-supply-to-limit-continuous-in-cab-camer-8a555de0ffbe",
+    "title": "Quebec regulator ordered Crane Supply to limit continuous in-cab camera recording",
+    "status": "verified",
+    "category": "institutional-overreach",
+    "summary": "Quebec’s privacy regulator found that Crane Supply had not sufficiently minimized the privacy intrusion from an AI-enabled, dual-facing camera system installed across its delivery fleet. The system linked recordings to identified drivers, recorded vehicle cabins while engines were running and for 20 minutes after shutdown, and generated incident reports. The regulator recognized legitimate safety purposes but ordered the company to limit in-cab recording to brief incident windows or stop collecting it, end post-shutdown recording, and destroy excess footage.",
+    "incident_type": [
+      "retention-or-access-policy",
+      "other"
+    ],
+    "location": {
+      "city": "Montreal",
+      "county": "",
+      "state": "Quebec",
+      "country": "Canada"
+    },
+    "actors": {
+      "agencies": [
+        "13859380 Canada Inc. (Crane Supply)"
+      ],
+      "officials_or_entities": [],
+      "vendor_entities": [
+        "Crane Supply"
+      ]
+    },
+    "dates": {
+      "occurred": "2023-02",
+      "discovered": "2026-08-02",
+      "reported": "2025-05-20"
+    },
+    "sources": [
+      {
+        "url": "https://www.cai.gouv.qc.ca/uploads/pdfs/decisions-en-surveillance/1031833-S_decision-cai-13859380-canada-inc-2025-05-20.pdf",
+        "title": "Quebec regulator ordered Crane Supply to limit continuous in-cab camera recording",
+        "publisher": "Commission d’accès à l’information du Québec",
+        "published_date": "2025-05-20",
+        "source_type": "government-record",
+        "reliability": "primary",
+        "key_claims": [
+          "The decision states that Crane Supply installed a bidirectional video-surveillance system in all delivery vehicles around February 2023 and linked camera recordings to drivers through personal identification codes.",
+          "The system recorded inside vehicle cabins from engine start until 20 minutes after shutdown and used AI-driven features to generate reports about predefined events including phone use, smoking, camera obstruction, possible collisions, and speeding.",
+          "The Commission concluded that the company had not sufficiently minimized the privacy intrusion and had not demonstrated that the full collection was necessary.",
+          "The Commission ordered the company within 90 days to limit in-cab image collection to a few seconds before and after a defined incident or stop collecting it, cease post-shutdown capture, and destroy recording portions beyond an accident or major-incident sequence."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [],
+      "statutes_or_policies": []
+    },
+    "outcomes": [
+      "The Commission ordered Crane Supply within 90 days to limit in-cab image collection to a few seconds before and after a defined incident or, failing that, stop collecting interior images.",
+      "The Commission ordered the company to stop collecting interior images after the engine is turned off and to destroy recording portions beyond accident or major-incident sequences.",
+      "The Commission recommended revising the dash-camera policy so interior images may be accessed and used only for accidents or major incidents."
+    ],
+    "uniqueness": {
+      "canonical_key": "canada-quebec-montreal:2023-02:13859380-canada-inc-crane-supply:fleet-driver-continuous-in-cab-video-surveillance-privacy-order",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-02",
+      "approval_reference": "data/approvals/2026-08-02-2026-08-02-quebec-regulator-ordered-crane-supply-to-limit-continuous-in-cab-camer-8a555de0ffbe.md#approval-admin-publish-2026-08-02-quebec-regulator-ordered-crane-supply-to-limit-continuous-in-cab-camer-8a555de0ffbe",
+      "notes": "Standing owner authorization applied through the protected candidate-bound publisher. Classified as institutional overreach because Crane Supply formally deployed the driver-monitoring system across its fleet; this was not a technical breach or rogue credential use. Quebec privacy regulator decision 1031833-S is a directly inspected primary government record. It found that the collection was not sufficiently minimized and ordered limits, while recognizing legitimate fleet-safety purposes. The system vendor is not named in the decision. The case is unique against repository and live incidents, candidates, unverified records, research notes, URLs, entities, dates, and event fingerprints. Originating queries: `dashcam camera privacy breach unauthorized access`; `fleet camera misuse lawsuit surveillance driver`; `vehicle camera footage employee shared regulator`; `Quebec Privacy Regulator Publishes Decision on Video Surveillance in Delivery Vehicles`; `13859380 Canada Inc. camera decision`. The URL-only scraper labeled sources `manual-seed-file`; a mode-0600 companion map preserved actual provenance. The primary PDF was directly downloaded and inspected, but the scraper reported `Unsupported source content type: application/pdf`; its Flock/ALPR-oriented model scored the accessible Blakes analysis uncertain. Wayback had no existing snapshot for the primary PDF; fresh Wayback and archive.ph save/lookup requests returned HTTP 429, and no bypass was attempted."
+    },
+    "updated_at": "2026-08-02"
   }
 ]
