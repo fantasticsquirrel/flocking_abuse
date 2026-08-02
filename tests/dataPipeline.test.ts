@@ -189,6 +189,7 @@ describe('data pipeline', () => {
       '2026-07-milwaukee-officer-personal-flock-searches',
       '2026-07-richmond-county-three-employees-personal-flock-searches',
       '2026-07-sumter-county-detective-personal-flock-searches',
+      '2026-08-02-cisa-identified-edimax-ic-7100-camera-command-injection-b57028749a18',
     ]);
   });
 });

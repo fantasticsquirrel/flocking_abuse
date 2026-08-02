@@ -3600,5 +3600,106 @@
       "notes": "The charges are allegations. This record does not assert guilt or a final disposition and limits its claims to the cited reporting."
     },
     "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
+    "id": "2026-08-02-cisa-identified-edimax-ic-7100-camera-command-injection-b57028749a18",
+    "title": "CISA cataloged Edimax IC-7100 camera flaw as known exploited",
+    "status": "verified",
+    "category": "security-breach",
+    "summary": "The U.S. Cybersecurity and Infrastructure Security Agency identified an operating-system command-injection vulnerability affecting all versions of the Edimax IC-7100 IP camera and later listed it in the agency’s Known Exploited Vulnerabilities Catalog. CISA said specially crafted requests could enable remote code execution; Edimax said the camera was a discontinued legacy product for which no security patch or firmware update could be provided.",
+    "incident_type": [
+      "vendor-or-contracting",
+      "other"
+    ],
+    "location": {
+      "city": "",
+      "county": "",
+      "state": "",
+      "country": "Global"
+    },
+    "actors": {
+      "agencies": [
+        "Edimax Technology Co., Ltd."
+      ],
+      "officials_or_entities": [],
+      "vendor_entities": [
+        "Edimax Technology Co., Ltd."
+      ]
+    },
+    "dates": {
+      "occurred": "",
+      "discovered": "2026-08-02",
+      "reported": "2025-03-19"
+    },
+    "sources": [
+      {
+        "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-25-063-08",
+        "title": "Edimax IC-7100 IP Camera",
+        "publisher": "Cybersecurity and Infrastructure Security Agency",
+        "published_date": "2025-03-04",
+        "source_type": "government-record",
+        "archive_url": "https://web.archive.org/web/20260709154426/https://www.cisa.gov/news-events/ics-advisories/icsa-25-063-08",
+        "reliability": "primary",
+        "key_claims": [
+          "CISA identified all versions of the Edimax IC-7100 IP camera as affected by CVE-2025-1316.",
+          "CISA said specially crafted requests could achieve remote code execution on the device.",
+          "CISA characterized the vulnerability as remotely exploitable with low attack complexity and public exploits available.",
+          "CISA said Akamai SIRT reported the vulnerability to the agency."
+        ]
+      },
+      {
+        "url": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+        "title": "CISA Catalog of Known Exploited Vulnerabilities",
+        "publisher": "Cybersecurity and Infrastructure Security Agency",
+        "published_date": "2026-07-29",
+        "source_type": "government-record",
+        "reliability": "primary",
+        "key_claims": [
+          "CISA’s catalog includes CVE-2025-1316 under Edimax and the IC-7100 IP Camera, with a date-added value of March 19, 2025.",
+          "The catalog describes operating-system command injection that permits remote code execution through specially crafted requests.",
+          "CISA required federal agencies to apply mitigations or discontinue use if mitigations were unavailable by April 9, 2025.",
+          "The catalog marks known ransomware-campaign use as unknown and does not identify an attacker or quantify affected devices."
+        ]
+      },
+      {
+        "url": "https://www.edimax.com/edimax/post/post/data/edimax/global/press_releases/4801/",
+        "title": "Official Statement on CVE-2025-1316 (Legacy IC-7100 Camera)",
+        "publisher": "Edimax Technology Co., Ltd.",
+        "published_date": "2025-03-10",
+        "source_type": "official-statement",
+        "archive_url": "https://web.archive.org/web/20260731070001/https://www.edimax.com/edimax/post/post/data/edimax/global/press_releases/4801/",
+        "reliability": "primary",
+        "key_claims": [
+          "Edimax acknowledged the security report concerning CVE-2025-1316 and the IC-7100 network camera.",
+          "Edimax said the IC-7100 had been discontinued for more than ten years and that technical support and firmware maintenance had ended.",
+          "Edimax said no security patch or firmware update could be provided because the development environment and source code were unavailable.",
+          "Edimax recommended avoiding internet exposure, restricting access with a firewall or NAT, changing the default administrator password, and monitoring access logs."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [],
+      "statutes_or_policies": [
+        "CISA Binding Operational Directive 22-01"
+      ]
+    },
+    "outcomes": [
+      "CISA directed federal agencies to apply mitigations or discontinue use if mitigations were unavailable by April 9, 2025.",
+      "Edimax said no patch or firmware update could be provided for the discontinued IC-7100 and recommended network-access restrictions and monitoring."
+    ],
+    "uniqueness": {
+      "canonical_key": "global:unknown:edimax-technology-co-ltd:cve-2025-1316-remote-command-injection",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-02",
+      "approval_reference": "data/approvals/2026-08-02-2026-08-02-cisa-identified-edimax-ic-7100-camera-command-injection-b57028749a18.md#approval-admin-publish-2026-08-02-cisa-identified-edimax-ic-7100-camera-command-injection-b57028749a18",
+      "notes": "Originating queries: Edimax IC-7100 CVE-2025-1316; site:edimax.com \"CVE-2025-1316\"; site:cisa.gov \"CVE-2025-1316\". Published under standing owner authorization only after source inspection, archive checks, vendor attribution, live schema validation, and deterministic deduplication. Classification is Security breach because the official sources document a technical remote-code-execution path and CISA includes the flaw in its Known Exploited Vulnerabilities Catalog. The report does not identify an attacker, quantify affected devices, claim ransomware use, or assert that any camera feed was viewed."
+    },
+    "updated_at": "2026-08-02"
   }
 ]
