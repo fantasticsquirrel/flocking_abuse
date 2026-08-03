@@ -1,0 +1,84 @@
+schema_version: 1
+id: 2025-11-san-diego-flock-exculpatory-hit-arrest
+status: candidate
+title: "San Diego lawsuit says police used a Flock hit that placed suspects away from crime"
+summary: >-
+  Hugo Parra and Ariel Beltran allege San Diego police arrested them after treating a Flock image
+  of Beltran's red Alfa Romeo as corroboration for an attempted carjacking, even though the image's
+  time and location placed the car about five miles from the crime. Parra spent nearly a month in
+  jail before prosecutors dropped the assault-with-a-firearm and evasion charges. The men filed a
+  federal civil-rights lawsuit in June 2026; their allegations have not been adjudicated.
+incident_type:
+  - law-enforcement-overreach
+location:
+  city: San Diego
+  county: San Diego
+  state: CA
+  country: US
+actors:
+  agencies:
+    - San Diego Police Department
+    - City of San Diego
+  officials_or_entities:
+    - Hugo Parra
+    - Ariel Alonso Beltran
+  vendor_entities:
+    - Flock Safety
+dates:
+  occurred: "2025-11"
+  discovered: "2026-04"
+  reported: "2026-06-07"
+sources:
+  - url: "https://timesofsandiego.com/crime/2026/06/07/a-flock-license-plate-reader-linked-a-san-diego-man-to-a-violent-crime-he-was-five-miles-away/"
+    title: "A Flock license plate reader linked a San Diego man to a violent crime. He was five miles away."
+    publisher: "Times of San Diego"
+    published_date: "2026-06-07"
+    source_type: news
+    reliability: corroborating
+    key_claims:
+      - "Police records and the men's tort claims showed that the Flock image was captured before the pursuit and placed the Alfa Romeo about five miles from the crime scene."
+      - "Parra spent nearly one month jailed before the assault-with-a-firearm and evasion charges were dropped."
+      - "The reporting places the arrest in November 2025 and says the men alleged police ignored additional Flock and phone-location evidence."
+  - url: "https://arstechnica.com/tech-policy/2026/06/man-jailed-for-a-month-despite-flock-showing-he-was-5-miles-from-crime-scene/"
+    title: "Man jailed for a month despite Flock showing he was 5 miles from crime scene"
+    publisher: "Ars Technica"
+    published_date: "2026-06-08"
+    source_type: news
+    reliability: corroborating
+    key_claims:
+      - "Ars independently reported that police relied on the vehicle resemblance despite the Flock timestamp and location being inconsistent with the crime."
+      - "Ars reported that Parra remained jailed for nearly a month before the charges were dropped."
+  - url: "https://dockets.justia.com/docket/california/casdce/3%3A2026cv03694/860478"
+    title: "Parra et al v. City of San Diego et al"
+    publisher: "Justia Dockets & Filings"
+    published_date: "2026-06-23"
+    source_type: court-record
+    reliability: primary
+    key_claims:
+      - "The docket records the June 23, 2026 civil-rights complaint filed by Hugo Parra and Ariel Alonso Beltran against the City of San Diego and named officers."
+      - "The case is pending in the U.S. District Court for the Southern District of California."
+legal_or_policy_context:
+  case_numbers:
+    - "3:26-cv-03694-AJB-MSB"
+  statutes_or_policies:
+    - "42 U.S.C. § 1983"
+outcomes:
+  - "Beltran was released on bail the following day."
+  - "Parra spent nearly one month in jail before the criminal charges were dropped."
+  - "Parra and Beltran filed a federal civil-rights lawsuit on June 23, 2026; no merits ruling is established."
+uniqueness:
+  canonical_key: "us-ca-san-diego:2025-11:san-diego-police-department:flock-exculpatory-hit-arrest"
+  duplicate_of: null
+review:
+  added_by: manual
+  approval: pending
+  reviewed_by: ""
+  reviewed_at: ""
+  approval_reference: ""
+  notes: >-
+    Two independent newsrooms and the federal docket support a distinct candidate. The precise
+    November arrest date is not established by the strongest available sources, so chronology is
+    month-level; discovery uses the April 2026 tort-claim month reported by Times of San Diego. The
+    civil-rights claims remain allegations; this record does not attribute an OCR
+    error to Flock because the reporting instead describes police interpretation of the image.
+updated_at: "2026-08-03"
