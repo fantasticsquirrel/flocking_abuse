@@ -180,6 +180,7 @@ describe('data pipeline', () => {
       '2025-10-niceville-officer-flock-stalking',
       '2025-11-bonner-springs-detective-flock-stalking',
       '2025-11-braselton-chief-alpr-stalking',
+      '2025-11-san-diego-flock-exculpatory-hit-arrest',
       '2025-12-echols-employee-personal-flock-searches',
       '2025-12-greer-officers-false-flock-search-justifications',
       '2025-12-joplin-officer-flock-misuse',

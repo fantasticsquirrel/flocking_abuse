@@ -1,6 +1,7 @@
 schema_version: 1
 id: 2025-11-san-diego-flock-exculpatory-hit-arrest
-status: candidate
+status: verified
+category: system-abuse
 title: "San Diego lawsuit says police used a Flock hit that placed suspects away from crime"
 summary: >-
   Hugo Parra and Ariel Beltran allege San Diego police arrested them after treating a Flock image
@@ -71,10 +72,10 @@ uniqueness:
   duplicate_of: null
 review:
   added_by: manual
-  approval: pending
-  reviewed_by: ""
-  reviewed_at: ""
-  approval_reference: ""
+  approval: human-approved
+  reviewed_by: "Site owner"
+  reviewed_at: "2026-08-03"
+  approval_reference: "docs/approvals/2026-08-03-san-diego-parra-beltran-flock-arrest.md#approval-san-diego-parra-beltran-flock-arrest"
   notes: >-
     Two independent newsrooms and the federal docket support a distinct candidate. The precise
     November arrest date is not established by the strongest available sources, so chronology is
