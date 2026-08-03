@@ -3868,5 +3868,88 @@
       "notes": "The charges are allegations. This record does not assert guilt or a final disposition and limits its claims to the cited reporting."
     },
     "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
+    "id": "2026-08-03-xortec-reports-october-2025-cyberattack-and-data-deletion-9f89332da8f3",
+    "title": "Xortec reports October 2025 cyberattack and data deletion",
+    "status": "verified",
+    "category": "security-breach",
+    "summary": "Xortec GmbH said a cyberattack on October 1, 2025 deleted data on individual IT systems and sought to extort a ransom. The company said its ordering systems, website, and contact channels were unaffected and that all data was restored by October 4. Xortec did not report data exfiltration or exposure of customer or surveillance data in its notice.",
+    "incident_type": [
+      "other"
+    ],
+    "location": {
+      "city": "Frankfurt",
+      "county": "",
+      "state": "Hesse",
+      "country": "Germany"
+    },
+    "actors": {
+      "agencies": [],
+      "officials_or_entities": [
+        "Xortec GmbH"
+      ],
+      "vendor_entities": [
+        "Xortec GmbH"
+      ]
+    },
+    "dates": {
+      "occurred": "2025-10-01",
+      "discovered": "2025-10-01",
+      "reported": "2025-10-26"
+    },
+    "sources": [
+      {
+        "url": "https://xortec.de/blog/die-xortec-gmbh-wurde-opfer-eines-cyberangriffes",
+        "title": "Die Xortec GmbH wurde Opfer eines Cyberangriffes",
+        "publisher": "Xortec GmbH",
+        "published_date": "2025-10-28",
+        "source_type": "official-statement",
+        "reliability": "primary",
+        "key_claims": [
+          "Xortec states that it was attacked on October 1, 2025 and that data on individual IT systems was deleted.",
+          "Xortec states that the attack sought to extort a ransom.",
+          "Xortec states that its ordering systems, website, and contact channels were unaffected.",
+          "Xortec states that it contacted external specialists and law enforcement and began securing and restoring data.",
+          "Xortec states that all data was fully restored by October 4, 2025 and regular operations continued."
+        ]
+      },
+      {
+        "url": "https://securityaffairs.com/183868/malware/safepay-ransomware-group-claims-the-hack-of-professional-video-surveillance-provider-xortec.html",
+        "title": "Safepay ransomware group claims the hack of professional video surveillance provider Xortec",
+        "publisher": "Security Affairs",
+        "published_date": "2025-10-26",
+        "source_type": "news",
+        "reliability": "background",
+        "key_claims": [
+          "Security Affairs attributes a claim of responsibility for the Xortec incident to the SafePay ransomware group.",
+          "Security Affairs reports that SafePay listed Xortec on its data-leak site and set an October 27, 2025 payment deadline.",
+          "Security Affairs identifies Xortec as a Frankfurt-based distributor and systems integrator for video-surveillance, networking, and security products."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [],
+      "statutes_or_policies": []
+    },
+    "outcomes": [
+      "Xortec said its ordering systems, website, and contact channels were unaffected and that orders and deliveries continued without delay.",
+      "Xortec said it contacted external specialists and law enforcement and began measures to secure and restore data.",
+      "Xortec said all data was fully restored by October 4, 2025 and regular operations continued."
+    ],
+    "uniqueness": {
+      "canonical_key": "germany-hesse-frankfurt:2025-10:xortec-gmbh:october-2025-cyberattack-data-deletion",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-03",
+      "approval_reference": "data/approvals/2026-08-03-2026-08-03-xortec-reports-october-2025-cyberattack-and-data-deletion-9f89332da8f3.md#approval-admin-publish-2026-08-03-xortec-reports-october-2025-cyberattack-and-data-deletion-9f89332da8f3",
+      "notes": "Owner-authorized protected publication after direct source inspection, service-account validation, post-enrichment deterministic deduplication, and an independent exact-candidate review. The Xortec official statement is primary evidence for the October 1 cyberattack, deletion of data on individual IT systems, ransom-extortion objective, unaffected ordering/site/contact channels, and recovery. Security Affairs is background only for attributed SafePay and leak-site claims. Neither source establishes exfiltration, leaked footage, customer-data exposure, an attack vector, compromised credentials, affected counts, or compromise of deployed camera systems; none of those impacts is asserted. Independent reviewer approved candidate SHA-256 cdf7471adbbb57cc5671fd0eb05f96e04a0b244ea82c35f869d3c3ac850d697b at repository revision 70162ff9aca2458183ad627afdab2baef6816478 with no blocking findings."
+    },
+    "updated_at": "2026-08-03"
   }
 ]

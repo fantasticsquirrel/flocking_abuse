@@ -206,6 +206,7 @@ describe('data pipeline', () => {
       '2026-07-richmond-county-three-employees-personal-flock-searches',
       '2026-07-springville-officer-family-member-flock-searches',
       '2026-07-sumter-county-detective-personal-flock-searches',
+      '2026-08-03-xortec-reports-october-2025-cyberattack-and-data-deletion-9f89332da8f3',
     ]);
   });
 });
