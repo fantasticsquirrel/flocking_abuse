@@ -41,6 +41,18 @@ describe('compareIncidents', () => {
     expect(compareIncidents(candidate, existing).reasons).toContain('canonical incident key match');
   });
 
+  it('allows one article to document distinct incidents at different agencies', () => {
+    const existing = fixture();
+    const candidate = structuredClone(existing);
+    candidate.id = 'different-agency-same-article';
+    candidate.title = 'Separate officer misuse at a neighboring department';
+    candidate.actors.agencies = ['Neighboring Police Department'];
+    candidate.location.city = 'Neighboring City';
+    candidate.dates.occurred = '';
+    candidate.uniqueness.canonical_key = 'us-zz-neighboring:unknown:neighboring-police:separate-misuse';
+    expect(compareIncidents(candidate, existing).classification).toBe('distinct');
+  });
+
   it('scores fuzzy title plus agency, location, date, and type and explains each signal', () => {
     const existing = fixture();
     const candidate = structuredClone(existing);

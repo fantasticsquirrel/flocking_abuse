@@ -47,7 +47,11 @@ const monthIndex = (value: string): number | undefined => {
 export function compareIncidents(candidate: Incident, existing: Incident): DuplicateComparison {
   const reasons: string[] = [];
   const candidateUrls = new Set(candidate.sources.map((source) => canonicalizeUrl(source.url)));
-  if (existing.sources.some((source) => candidateUrls.has(canonicalizeUrl(source.url)))) {
+  const sharesSource = existing.sources.some((source) => candidateUrls.has(canonicalizeUrl(source.url)));
+  const candidateCity = normalize(candidate.location.city);
+  const existingCity = normalize(existing.location.city);
+  const sameCity = Boolean(candidateCity && existingCity && candidateCity === existingCity);
+  if (sharesSource && sameCity && overlaps(candidate.actors.agencies, existing.actors.agencies)) {
     return { incidentId: existing.id, isDuplicate: true, classification: 'exact', score: 1, reasons: ['canonical source URL match'] };
   }
 
