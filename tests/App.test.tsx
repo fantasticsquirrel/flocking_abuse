@@ -64,6 +64,7 @@ describe('public tracker', () => {
     second.title = 'Different contracting challenge';
     second.location.state = 'ZZ';
     second.incident_type = ['vendor-or-contracting'];
+    second.actors.vendor_entities = ['Axon', 'Motorola Solutions'];
     second.status = 'disputed';
     second.sources[0]!.publisher = 'Other Publisher';
     second.sources[0]!.source_type = 'court-record';
@@ -80,8 +81,40 @@ describe('public tracker', () => {
     await user.selectOptions(screen.getByLabelText('Year'), '2025');
     await user.selectOptions(screen.getByLabelText('Source type'), 'court-record');
     await user.selectOptions(screen.getByLabelText('Incident type'), 'vendor-or-contracting');
+    await user.selectOptions(screen.getByLabelText('Company'), 'Axon');
     expect(screen.getByRole('heading', { name: 'Different contracting challenge' })).toBeInTheDocument();
     expect(window.location.search).toContain('state=ZZ');
+    expect(new URLSearchParams(window.location.search).get('company')).toBe('Axon');
+  });
+
+  it('derives sorted company options, filters multi-vendor reports, and clears the company filter', async () => {
+    const flock = fixture();
+    const multiVendor = structuredClone(flock);
+    multiVendor.id = '2025-01-multi-vendor-record';
+    multiVendor.title = 'Multi-vendor camera report';
+    multiVendor.actors.vendor_entities = ['Motorola Solutions', 'Axon'];
+    render(<App incidents={[flock, multiVendor]} />);
+    const user = userEvent.setup();
+    const company = screen.getByLabelText('Company');
+
+    expect(within(company).getAllByRole('option').map((option) => option.textContent)).toEqual([
+      'All companies', 'Axon', 'Flock Safety', 'Motorola Solutions',
+    ]);
+    await user.selectOptions(company, 'Motorola Solutions');
+    expect(screen.getByRole('heading', { name: 'Multi-vendor camera report' })).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: /synthetic fixture/i })).not.toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Clear filters' }));
+    expect(company).toHaveValue('');
+    expect(screen.getAllByRole('article')).toHaveLength(2);
+    expect(window.location.search).toBe('');
+  });
+
+  it('restores the company and incident type filters from URL query parameters', () => {
+    window.history.replaceState({}, '', '/?company=Flock+Safety&type=retention-or-access-policy');
+    render(<App incidents={[fixture()]} />);
+    expect(screen.getByLabelText('Company')).toHaveValue('Flock Safety');
+    expect(screen.getByLabelText('Incident type')).toHaveValue('retention-or-access-policy');
+    expect(screen.getAllByRole('article')).toHaveLength(1);
   });
 
   it('searches accountability fields such as agencies and policy context', async () => {

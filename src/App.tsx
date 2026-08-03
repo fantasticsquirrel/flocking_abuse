@@ -5,12 +5,13 @@ import type { Incident } from './lib/incidentSchema.js';
 import { PublicShell } from './components/SiteChrome.js';
 
 const fromQuery = (): FilterState => {
-  if (typeof window === 'undefined') return { q: '', state: '', incidentType: '', status: '', year: '', sourceType: '' };
+  if (typeof window === 'undefined') return { q: '', state: '', incidentType: '', company: '', status: '', year: '', sourceType: '' };
   const query = new URLSearchParams(window.location.search);
   return {
     q: query.get('q') ?? '',
     state: query.get('state') ?? '',
     incidentType: query.get('type') ?? '',
+    company: query.get('company') ?? '',
     status: query.get('status') ?? '',
     year: query.get('year') ?? '',
     sourceType: query.get('source') ?? '',
@@ -42,7 +43,7 @@ const updateQuery = (filters: FilterState) => {
   if (typeof window === 'undefined') return;
   const query = new URLSearchParams();
   const entries: Array<[string, string]> = [
-    ['q', filters.q], ['state', filters.state], ['type', filters.incidentType],
+    ['q', filters.q], ['state', filters.state], ['type', filters.incidentType], ['company', filters.company],
     ['status', filters.status], ['year', filters.year], ['source', filters.sourceType],
   ];
   for (const [key, value] of entries) if (value) query.set(key, value);
@@ -57,6 +58,8 @@ interface AppProps {
 export function App({ incidents }: AppProps) {
   const [filters, setFilters] = useState<FilterState>(fromQuery);
   const states = useMemo(() => [...new Set(incidents.map((incident) => incident.location.state).filter(Boolean))].sort(), [incidents]);
+  const companies = useMemo(() => [...new Set(incidents.flatMap((incident) => incident.actors.vendor_entities).filter(Boolean))]
+    .sort((left, right) => left.localeCompare(right, 'en-US')), [incidents]);
   const years = useMemo(() => [...new Set(incidents.map((incident) => incident.dates.reported.slice(0, 4)).filter(Boolean))].sort().reverse(), [incidents]);
   const publicCount = useMemo(() => incidents.filter((incident) => ['verified', 'disputed'].includes(incident.status)).length, [incidents]);
   const shown = useMemo(() => incidents.filter((incident) => {
@@ -64,6 +67,7 @@ export function App({ incidents }: AppProps) {
     return (!query || normalizedText(incident).includes(query))
       && (!filters.state || incident.location.state === filters.state)
       && (!filters.incidentType || incident.incident_type.includes(filters.incidentType as Incident['incident_type'][number]))
+      && (!filters.company || incident.actors.vendor_entities.includes(filters.company))
       && (filters.status ? incident.status === filters.status : incident.status !== 'retracted')
       && (!filters.year || incident.dates.reported.startsWith(filters.year))
       && (!filters.sourceType || incident.sources.some((source) => source.source_type === filters.sourceType));
@@ -98,7 +102,7 @@ export function App({ incidents }: AppProps) {
           </aside>
         </section>
 
-        <IncidentFilters filters={filters} states={states} years={years} onChange={changeFilters} />
+        <IncidentFilters filters={filters} states={states} companies={companies} years={years} onChange={changeFilters} />
 
         <section className="incident-index" id="incident-records" aria-labelledby="index-heading">
           <div className="index-heading"><p className="eyebrow">{shown.length === 1 ? '1 record' : `${shown.length} records`}</p><h2 id="index-heading">Documented incidents</h2></div>

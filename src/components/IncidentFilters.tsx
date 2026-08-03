@@ -4,6 +4,7 @@ export interface FilterState {
   q: string;
   state: string;
   incidentType: string;
+  company: string;
   status: string;
   year: string;
   sourceType: string;
@@ -12,6 +13,7 @@ export interface FilterState {
 interface IncidentFiltersProps {
   filters: FilterState;
   states: string[];
+  companies: string[];
   years: string[];
   onChange: (next: FilterState) => void;
 }
@@ -28,7 +30,7 @@ const sourceTypes: SourceType[] = [
 
 const humanize = (value: string): string => value.replace(/-/g, ' ').replace(/\b\w/g, (letter) => letter.toLocaleUpperCase('en-US'));
 
-export function IncidentFilters({ filters, states, years, onChange }: IncidentFiltersProps) {
+export function IncidentFilters({ filters, states, companies, years, onChange }: IncidentFiltersProps) {
   const set = (key: keyof FilterState, value: string) => onChange({ ...filters, [key]: value });
   return (
     <section className="filters" aria-labelledby="filter-heading">
@@ -37,7 +39,7 @@ export function IncidentFilters({ filters, states, years, onChange }: IncidentFi
           <p className="eyebrow">Public records</p>
           <h2 id="filter-heading">Search records</h2>
         </div>
-        <button className="button button--quiet" type="button" onClick={() => onChange({ q: '', state: '', incidentType: '', status: '', year: '', sourceType: '' })}>
+        <button className="button button--quiet" type="button" onClick={() => onChange({ q: '', state: '', incidentType: '', company: '', status: '', year: '', sourceType: '' })}>
           Clear filters
         </button>
       </div>
@@ -47,6 +49,7 @@ export function IncidentFilters({ filters, states, years, onChange }: IncidentFi
           <input aria-label="Search incidents" type="search" value={filters.q} onChange={(event) => set('q', event.target.value)} placeholder="Title, place, publisher…" />
         </label>
         <label><span>State</span><select aria-label="State" value={filters.state} onChange={(event) => set('state', event.target.value)}><option value="">All states</option>{states.map((state) => <option key={state}>{state}</option>)}</select></label>
+        <label><span>Company</span><select aria-label="Company" value={filters.company} onChange={(event) => set('company', event.target.value)}><option value="">All companies</option>{companies.map((company) => <option key={company} value={company}>{company}</option>)}</select></label>
         <label><span>Incident type</span><select aria-label="Incident type" value={filters.incidentType} onChange={(event) => set('incidentType', event.target.value)}><option value="">All types</option>{incidentTypes.map((type) => <option key={type} value={type}>{humanize(type)}</option>)}</select></label>
         <label><span>Status</span><select aria-label="Status" value={filters.status} onChange={(event) => set('status', event.target.value)}><option value="">Public statuses</option>{statuses.map((status) => <option key={status} value={status}>{humanize(status)}</option>)}</select></label>
         <label><span>Year</span><select aria-label="Year" value={filters.year} onChange={(event) => set('year', event.target.value)}><option value="">All years</option>{years.map((year) => <option key={year}>{year}</option>)}</select></label>
