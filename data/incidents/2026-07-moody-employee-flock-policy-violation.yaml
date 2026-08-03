@@ -1,0 +1,38 @@
+schema_version: 1
+id: 2026-07-moody-employee-flock-policy-violation
+title: "Moody employee fired after Flock policy violation"
+status: verified
+category: system-abuse
+summary: >-
+  Moody Police Chief Reece Smith said an audit found that a police-department employee violated
+  the department's license-plate-reader policy. The employee was placed on leave and fired after
+  an internal investigation; the matter was referred to the Alabama Law Enforcement Agency.
+incident_type: [unauthorized-search, law-enforcement-overreach]
+location: {city: Moody, county: St. Clair, state: AL, country: US}
+actors:
+  agencies: [Moody Police Department, Alabama Law Enforcement Agency]
+  officials_or_entities: [Undisclosed Moody Police Department employee]
+  vendor_entities: [Flock Safety]
+dates: {occurred: "", discovered: "2026-07-10", reported: "2026-07-27"}
+sources:
+  - url: "https://www.wbrc.com/2026/07/27/employees-2-police-departments-st-clair-county-violated-flock-camera-policy/"
+    title: "Employees at 2 police departments in St. Clair County violated Flock camera policy"
+    publisher: "WBRC"
+    published_date: "2026-07-27"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["Chief Reece Smith said an audit found that an employee violated the license-plate-reader policy.", "Smith said the employee was placed on leave, fired three days later after an internal investigation, and the matter was referred to ALEA."]
+  - url: "https://www.trussvilletribune.com/2026/07/28/reports-police-officers-in-moody-springville-removed-amid-flock-camera-abuse-allegations/"
+    title: "Reports: Police officers in Moody, Springville removed amid Flock camera abuse allegations"
+    publisher: "The Trussville Tribune"
+    published_date: "2026-07-28"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["The Tribune reported that Moody's internal audit began July 10 and found an LPR-policy violation.", "It reported that the officer was terminated July 16 and the findings were forwarded to ALEA."]
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies: ["Moody Police Department license-plate-reader policy"]
+outcomes: ["The department fired the employee on July 16, 2026 after its internal investigation.", "The case was referred to the Alabama Law Enforcement Agency for review."]
+uniqueness: {canonical_key: "us-al-st-clair:unknown:moody-police-department:flock-policy-violation", duplicate_of: null}
+review: {added_by: manual, approval: human-approved, reviewed_by: "Site owner", reviewed_at: "2026-08-03", approval_reference: "docs/approvals/2026-08-03-moody-flock-policy-violation.md#approval-moody-flock-policy-violation", notes: "The employee was not named. The chief said there was no victim but did not disclose the conduct, search count, or search dates; this record does not infer them. Timeline uses the July 10 audit-start/discovery date."}
+updated_at: "2026-08-03"

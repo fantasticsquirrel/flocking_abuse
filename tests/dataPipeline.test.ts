@@ -201,7 +201,9 @@ describe('data pipeline', () => {
       '2026-07-greenville-county-employees-romantic-partner-tracking',
       '2026-07-henry-county-officer-non-law-enforcement-flock-use',
       '2026-07-milwaukee-officer-personal-flock-searches',
+      '2026-07-moody-employee-flock-policy-violation',
       '2026-07-richmond-county-three-employees-personal-flock-searches',
+      '2026-07-springville-officer-family-member-flock-searches',
       '2026-07-sumter-county-detective-personal-flock-searches',
     ]);
   });

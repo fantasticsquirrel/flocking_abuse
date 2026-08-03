@@ -1,0 +1,38 @@
+schema_version: 1
+id: 2026-07-springville-officer-family-member-flock-searches
+title: "Springville officer resigned after family-member Flock searches"
+status: verified
+category: system-abuse
+summary: >-
+  Springville Police Chief Jason Mize said an audit found that an officer used the department's
+  Flock system to conduct checks on a family member. The officer resigned on July 8 after the
+  investigation; the matter was referred to the Alabama Law Enforcement Agency.
+incident_type: [unauthorized-search, law-enforcement-overreach]
+location: {city: Springville, county: St. Clair, state: AL, country: US}
+actors:
+  agencies: [Springville Police Department, Alabama Law Enforcement Agency]
+  officials_or_entities: [Undisclosed former Springville police officer]
+  vendor_entities: [Flock Safety]
+dates: {occurred: "", discovered: "2026-06-23", reported: "2026-07-27"}
+sources:
+  - url: "https://www.wbrc.com/2026/07/27/employees-2-police-departments-st-clair-county-violated-flock-camera-policy/"
+    title: "Employees at 2 police departments in St. Clair County violated Flock camera policy"
+    publisher: "WBRC"
+    published_date: "2026-07-27"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["Chief Jason Mize said an audit found that an officer conducted Flock checks on a family member.", "Mize said the officer resigned on July 8 after the family member was notified and the investigation concluded; the matter was referred to ALEA."]
+  - url: "https://www.trussvilletribune.com/2026/07/28/reports-police-officers-in-moody-springville-removed-amid-flock-camera-abuse-allegations/"
+    title: "Reports: Police officers in Moody, Springville removed amid Flock camera abuse allegations"
+    publisher: "The Trussville Tribune"
+    published_date: "2026-07-28"
+    source_type: news
+    reliability: corroborating
+    key_claims: ["The Tribune reported that Springville's investigation began June 23 and found multiple searches of a family member in one day.", "It reported that the officer resigned and the findings were forwarded to ALEA."]
+legal_or_policy_context:
+  case_numbers: []
+  statutes_or_policies: ["Springville Police Department Flock camera policy"]
+outcomes: ["The officer resigned on July 8, 2026 after the investigation.", "The case was referred to the Alabama Law Enforcement Agency for review."]
+uniqueness: {canonical_key: "us-al-st-clair:unknown:springville-police-department:family-member-flock-searches", duplicate_of: null}
+review: {added_by: manual, approval: human-approved, reviewed_by: "Site owner", reviewed_at: "2026-08-03", approval_reference: "docs/approvals/2026-08-03-springville-family-member-flock-searches.md#approval-springville-family-member-flock-searches", notes: "The officer and family member were not named. The source establishes multiple searches in one day but not the search date, exact count, or motive; this record does not infer them. Timeline uses the June 23 investigation/discovery date."}
+updated_at: "2026-08-03"
