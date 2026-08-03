@@ -205,6 +205,7 @@ describe('data pipeline', () => {
       '2026-07-richmond-county-three-employees-personal-flock-searches',
       '2026-07-springville-officer-family-member-flock-searches',
       '2026-07-sumter-county-detective-personal-flock-searches',
+      '2026-08-03-former-richland-county-deputy-accused-of-misusing-flock-cameras-to-tra-2cc15a29e3a1',
     ]);
   });
 });

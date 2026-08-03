@@ -3768,5 +3768,102 @@
       "notes": "The charges are allegations. This record does not assert guilt or a final disposition and limits its claims to the cited reporting."
     },
     "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
+    "id": "2026-08-03-former-richland-county-deputy-accused-of-misusing-flock-cameras-to-tra-2cc15a29e3a1",
+    "title": "Former Richland County deputy accused of misusing Flock cameras to track ex-girlfriend",
+    "status": "verified",
+    "category": "system-abuse",
+    "summary": "Richland County Sheriff Leon Lott said former deputy Russell Kenton II used the department's Flock license-plate-reader system for personal reasons involving an ex-girlfriend. The department said a July 24 Professional Standards audit found searches unrelated to law-enforcement work. Kenton was fired and arrested on a misconduct-in-office charge; the charge remains an allegation, and the cited reports do not state a final disposition.",
+    "incident_type": [
+      "unauthorized-search",
+      "law-enforcement-overreach"
+    ],
+    "location": {
+      "city": "",
+      "county": "Richland",
+      "state": "SC",
+      "country": "US"
+    },
+    "actors": {
+      "agencies": [
+        "Richland County Sheriff's Department"
+      ],
+      "officials_or_entities": [
+        "Russell Kenton II"
+      ],
+      "vendor_entities": [
+        "Flock Safety"
+      ]
+    },
+    "dates": {
+      "occurred": "",
+      "discovered": "2026-07-24",
+      "reported": "2026-07-29"
+    },
+    "sources": [
+      {
+        "url": "https://www.yahoo.com/news/us/articles/former-richland-county-deputy-accused-221309879.html",
+        "title": "Former Richland County deputy accused of misusing Flock cameras to track ex-girlfriend",
+        "publisher": "WLTX via Yahoo News",
+        "published_date": "2026-07-30",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "WLTX quoted Sheriff Leon Lott saying Kenton used the department's tag reader in connection with an ex to find out where she was.",
+          "WLTX reported that the department notified the affected former partner during its investigation.",
+          "WLTX reported that Kenton was fired, arrested, and charged with misconduct in office."
+        ]
+      },
+      {
+        "url": "https://www.wistv.com/2026/07/29/rcsd-former-deputy-arrested-misuse-flock-camera-system/",
+        "title": "Richland County deputy fired, arrested for misusing Flock camera system",
+        "publisher": "WIS News 10",
+        "published_date": "2026-07-29",
+        "source_type": "news",
+        "archive_url": "https://web.archive.org/web/20260801112220/https://www.wistv.com/2026/07/29/rcsd-former-deputy-arrested-misuse-flock-camera-system/",
+        "reliability": "corroborating",
+        "key_claims": [
+          "WIS reported that a July 24 Professional Standards audit found Kenton used Flock to research information unrelated to law-enforcement purposes.",
+          "WIS reported that Kenton was fired and arrested on July 29 and received a $20,000 personal-recognizance bond."
+        ]
+      },
+      {
+        "url": "https://www.southcarolinapublicradio.org/sc-news/2026-07-30/flock-camera-controversy-another-law-enforcement-officer-accused-of-misuse",
+        "title": "Flock camera controversy: another law enforcement officer accused of misuse",
+        "publisher": "South Carolina Public Radio",
+        "published_date": "2026-07-30",
+        "source_type": "news",
+        "archive_url": "https://web.archive.org/web/20260730195949/https://www.southcarolinapublicradio.org/sc-news/2026-07-30/flock-camera-controversy-another-law-enforcement-officer-accused-of-misuse",
+        "reliability": "corroborating",
+        "key_claims": [
+          "South Carolina Public Radio reported that RCSD said an audit found Kenton used Flock for research outside law-enforcement purposes.",
+          "South Carolina Public Radio reported that Kenton was charged with misconduct in office."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [],
+      "statutes_or_policies": []
+    },
+    "outcomes": [
+      "The department fired Kenton on July 29, 2026.",
+      "Kenton was arrested and charged with misconduct in office; WIS reported a $20,000 personal-recognizance bond.",
+      "The cited reports do not state a final disposition of the charge."
+    ],
+    "uniqueness": {
+      "canonical_key": "us-sc-richland:unknown:richland-county-sheriffs-department:russell-kenton-personal-flock-searches-involving-former-partner",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-03",
+      "approval_reference": "data/approvals/2026-08-03-2026-08-03-former-richland-county-deputy-accused-of-misusing-flock-cameras-to-tra-2cc15a29e3a1.md#approval-admin-publish-2026-08-03-former-richland-county-deputy-accused-of-misusing-flock-cameras-to-tra-2cc15a29e3a1",
+      "notes": "Standing owner publication authority for the continuous camera-system hunt. Claim-level evidence review passed: WLTX, quoting Sheriff Leon Lott, supports the personal-purpose/ex-girlfriend allegation; independent WIS News 10 and South Carolina Public Radio reports corroborate the July 24 audit finding, Flock attribution, charge, and termination. No source is treated as establishing a conviction or final disposition. No private victim identity is included. Exact/probable deterministic dedupe was empty across current repository and mutable accepted/candidate frontiers; published-candidates and unverified identity/URL checks were empty. Service-account runtime validation passed for 102 records, permission boundary check returned DATA_PERMISSIONS=secure, and health was ready on release 34b4c55cf2ed7a0d169397b72e27363eee654ee0. Independent Hermes review session 20260803_040729_93de4f returned VERDICT: PASS on the approved candidate digest."
+    },
+    "updated_at": "2026-08-03"
   }
 ]
