@@ -3868,5 +3868,75 @@
       "notes": "The charges are allegations. This record does not assert guilt or a final disposition and limits its claims to the cited reporting."
     },
     "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
+    "id": "2026-08-03-wyze-left-customer-and-camera-metadata-exposed-in-unsecured-databases-807cba992326",
+    "title": "Wyze disclosed customer metadata exposure and a second unprotected database",
+    "status": "verified",
+    "category": "security-breach",
+    "summary": "Wyze said a separate query database containing a subset of production data was left exposed from December 4 through December 26, 2019 after an employee removed its security protocols. The company then disclosed an additional unprotected non-production database while saying it was still determining what further information leaked and why. In its aggregate update, Wyze said the exposed information included account, camera, device, network, profile, integration-token, and limited beta-tester body-metric data; it said the leak did not contain passwords, financial information, or video files, and that all users who had created an account before December 26 were affected.",
+    "incident_type": [
+      "data-sharing",
+      "retention-or-access-policy"
+    ],
+    "location": {
+      "city": "Seattle",
+      "county": "",
+      "state": "WA",
+      "country": "US"
+    },
+    "actors": {
+      "agencies": [],
+      "officials_or_entities": [
+        "Wyze Labs"
+      ],
+      "vendor_entities": [
+        "Wyze Labs"
+      ]
+    },
+    "dates": {
+      "occurred": "2019-12-04",
+      "discovered": "2019-12-26",
+      "reported": "2019-12-27"
+    },
+    "sources": [
+      {
+        "url": "https://forums.wyze.com/t/updated-02-13-20-data-leak-12-26-2019/79046",
+        "title": "[Updated 02-13-20] Data leak 12-26-2019",
+        "publisher": "Wyze Labs",
+        "published_date": "2019-12-27",
+        "source_type": "official-statement",
+        "reliability": "primary",
+        "key_claims": [
+          "Wyze confirmed that a separate query database containing a subset of production data was left exposed from December 4 through December 26, 2019 after an employee removed its security protocols.",
+          "Wyze said it found an additional unprotected non-production database and was still determining what additional information leaked and the circumstances of that exposure.",
+          "In its aggregate update, Wyze said exposed information included account nicknames, device names, user emails, profile photos, WiFi network names, some Alexa integration tokens, and body metrics for about 140 beta testers.",
+          "Wyze said the leak did not contain passwords, government-regulated personal or financial information, or video files, and that all users who created accounts before December 26, 2019 were affected.",
+          "Wyze said it restricted database access, refreshed integration tokens, forced account reauthentication, notified customers, and later completed initial investigation and internal server and database security measures."
+        ]
+      }
+    ],
+    "legal_or_policy_context": {
+      "case_numbers": [],
+      "statutes_or_policies": []
+    },
+    "outcomes": [
+      "Wyze said it restricted database access, forced users to reauthenticate, and refreshed third-party integration tokens.",
+      "Wyze said it notified affected customers and later completed its initial investigation and internal measures to secure servers and databases."
+    ],
+    "uniqueness": {
+      "canonical_key": "us-wa-seattle:2019-12:wyze-labs:unsecured-customer-metadata-databases",
+      "duplicate_of": null
+    },
+    "review": {
+      "added_by": "manual",
+      "approval": "human-approved",
+      "reviewed_by": "Site owner",
+      "reviewed_at": "2026-08-03",
+      "approval_reference": "data/approvals/2026-08-03-2026-08-03-wyze-left-customer-and-camera-metadata-exposed-in-unsecured-databases-807cba992326.md#approval-admin-publish-2026-08-03-wyze-left-customer-and-camera-metadata-exposed-in-unsecured-databases-807cba992326",
+      "notes": "Originating query: Wyze 2019 data breach 2.4 million camera users. Discovery transport: Google News RSS, followed by the robots-allowed Wyze forum sitemap. The primary source is Wyze’s official, incrementally updated disclosure; claims are bounded to the company’s statements. News headlines estimated roughly 2.4 million customers, but this candidate does not adopt that numeric estimate because the directly cited primary source states scope as all accounts created before December 26, 2019. Deterministic comparison found no exact or probable matches against the complete live and current-repository incident/candidate frontiers; unverified and published-candidate identity indexes were also checked. This event is distinct from the accepted February 2024 Wyze cross-account camera-thumbnail/video exposure: the 2019 event involved customer and camera metadata in one unsecured query database plus a separately disclosed unprotected database whose additional contents remained unresolved, and Wyze said the aggregate leak included no video files. The URL-only scraper recorded manual-seed-file; the real query provenance is preserved here. Wayback CDX was unavailable with HTTP 429 through curl and browser retry, so no archive URL is claimed. An initial independent review of the pre-fix candidate rejected conflation of the first query database with a separately disclosed additional database and misclassification of Wyze Labs as an agency. This version separates the two database claims, labels later scope and data types as aggregate, uses Wyze Labs as the entity/vendor, and limits location to the source-stated Seattle headquarters. A second independent review rejected the prior title because it could imply that both databases had established customer/camera contents and rejected the workflow-placeholder outcome. This version avoids assigning contents to the second database and records the source-attributed remediation outcomes. Final independent exact-candidate review APPROVED digest 3aad2b5686080b0d19fc6035cd00a34b3990e4453164164867ee7ba284399f82 at repository revision 70162ff9aca2458183ad627afdab2baef6816478 in independent Hermes review session 20260803_143832_abfd16 after two earlier rejected digests were corrected. Publication uses the owner-authorized protected admin workflow and preserves attribution and the unresolved second-database contents."
+    },
+    "updated_at": "2026-08-03"
   }
 ]
