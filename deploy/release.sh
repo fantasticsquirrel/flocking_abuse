@@ -50,7 +50,7 @@ require_regular_artifact() {
 verify_health() {
   local expected_sha=$1
   for _ in $(seq 1 30); do
-    if curl --fail --silent --show-error --max-time 2 http://127.0.0.1:8110/health \
+    if curl --fail --silent --show-error --max-time 10 http://127.0.0.1:8110/health \
       | RELEASE_SHA="$expected_sha" node -e 'let b="";process.stdin.on("data",d=>b+=d).on("end",()=>{const j=JSON.parse(b);process.exit(j.status==="ready"&&j.release===process.env.RELEASE_SHA?0:1)})'; then
       return 0
     fi
