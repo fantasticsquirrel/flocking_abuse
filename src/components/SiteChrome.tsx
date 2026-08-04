@@ -1,12 +1,13 @@
 import { useEffect, useState, type ReactNode } from 'react';
 
-type PublicPage = 'incidents' | 'timeline' | 'unverified' | 'about' | 'source-policy';
+type PublicPage = 'incidents' | 'summary' | 'timeline' | 'unverified' | 'about' | 'source-policy';
 
 export function SiteHeader({ current }: { current: PublicPage }) {
   return <header className="site-header">
     <a className="wordmark" href="/" aria-label="Flocking Abuse Tracker home"><span aria-hidden="true" className="wordmark__mark">FA</span><span className="wordmark__text"><strong>Flocking Abuse</strong><small>Camera-system accountability</small></span></a>
     <nav aria-label="Primary">
       <a href="/" aria-current={current === 'incidents' ? 'page' : undefined}>Documented</a>
+      <a href="/summary" aria-current={current === 'summary' ? 'page' : undefined}>Summary</a>
       <a href="/timeline" aria-current={current === 'timeline' ? 'page' : undefined}>Timeline</a>
       <a href="/reported-unverified" aria-current={current === 'unverified' ? 'page' : undefined}>Reported / unverified</a>
       <a href="/about" aria-current={current === 'about' ? 'page' : undefined}>About</a>

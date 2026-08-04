@@ -7,6 +7,7 @@ import reports from '../src/data/unverified.json';
 import type { UnverifiedReport } from '../src/lib/unverifiedSchema.js';
 import { SourcePolicyPage } from '../src/SourcePolicyPage.js';
 import { TimelinePage } from '../src/TimelinePage.js';
+import { SummaryPage } from '../src/SummaryPage.js';
 import { timelineGapRem } from '../src/lib/timelineSpacing.js';
 import incidents from '../src/data/incidents.json';
 import type { Incident } from '../src/lib/incidentSchema.js';
@@ -15,6 +16,41 @@ import { ReportPage } from '../src/ReportPage.js';
 afterEach(() => vi.unstubAllGlobals());
 
 describe('public information pages', () => {
+  it('summarizes public reports by company, incident type, year, and recent chronology', () => {
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')));
+    const first = structuredClone((incidents as Incident[])[0]!);
+    first.id = 'summary-first';
+    first.status = 'verified';
+    first.actors.vendor_entities = ['Flock Safety', 'Axon Enterprise'];
+    first.incident_type = ['unauthorized-search', 'data-sharing'];
+    first.dates.occurred = '2024-03';
+    const second = structuredClone((incidents as Incident[])[1]!);
+    second.id = 'summary-second';
+    second.status = 'disputed';
+    second.actors.vendor_entities = ['Flock Safety'];
+    second.incident_type = ['unauthorized-search'];
+    second.dates.occurred = '2025-06';
+
+    render(<SummaryPage incidents={[first, second]} />);
+
+    expect(screen.getByRole('heading', { name: /report summary/i })).toBeInTheDocument();
+    expect(screen.getByRole('navigation', { name: /primary/i })).toHaveTextContent('Summary');
+    expect(screen.getByRole('link', { name: 'Summary' })).toHaveAttribute('aria-current', 'page');
+    const companySection = screen.getByRole('heading', { name: /reports by company/i }).closest('section')!;
+    expect(within(companySection).getByRole('link', { name: /flock safety.*2/i })).toHaveAttribute('href', '/?company=Flock%20Safety');
+    expect(screen.getByRole('link', { name: /unauthorized search.*2/i })).toHaveAttribute('href', '/?type=unauthorized-search');
+    expect(screen.getByRole('heading', { name: /reports by year/i }).closest('section')).toHaveTextContent('2025');
+    const recent = screen.getByRole('heading', { name: /recent reports/i }).closest('section')!;
+    expect(within(recent).getAllByRole('link')[1]).toHaveAttribute('href', '/reports/summary-second');
+  });
+
+  it('shows a clear summary empty state without fabricated totals', () => {
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')));
+    render(<SummaryPage incidents={[]} />);
+    expect(screen.getByRole('heading', { name: /no reports to summarize yet/i })).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: /reports by company/i })).not.toBeInTheDocument();
+  });
+
   it('explains evidence lanes, multi-company coverage, and visitor privacy', () => {
     vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')));
     render(<AboutPage />);

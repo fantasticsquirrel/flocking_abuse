@@ -7,6 +7,7 @@ import { IncidentSchema, type Incident } from './lib/incidentSchema.js';
 import type { UnverifiedReport } from './lib/unverifiedSchema.js';
 import { ReportPage } from './ReportPage.js';
 import { SourcePolicyPage } from './SourcePolicyPage.js';
+import { SummaryPage } from './SummaryPage.js';
 import { TimelinePage } from './TimelinePage.js';
 import { UnverifiedPage } from './UnverifiedPage.js';
 
@@ -27,6 +28,7 @@ export function PublicApplication() {
   const reportId = path.startsWith('/reports/') ? decodeURIComponent(path.slice('/reports/'.length)) : '';
   const report = reportId ? liveIncidents.find((incident) => incident.id === reportId) : undefined;
   return path === '/about' ? <AboutPage />
+    : path === '/summary' ? <SummaryPage incidents={liveIncidents} />
     : path === '/reported-unverified' ? <UnverifiedPage reports={unverified as UnverifiedReport[]} />
     : path === '/timeline' ? <TimelinePage incidents={liveIncidents} />
     : path === '/docs/source-policy.html' ? <SourcePolicyPage />
