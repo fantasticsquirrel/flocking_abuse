@@ -32,6 +32,7 @@ UNIT=/etc/systemd/system/flocking-abuse.service
 PUBLISHER_UNIT=/etc/systemd/system/flocking-abuse-publisher.service
 NGINX_SITE=/etc/nginx/sites-available/flockingabuse.multihost.ing
 NGINX_ENABLED=/etc/nginx/sites-enabled/flockingabuse.multihost.ing
+NGINX_BIN=${NGINX_BIN:-/usr/sbin/nginx}
 RELEASE_ENV=/etc/flocking-abuse/release.env
 TARGET_NGINX_TEST=
 SERVICE_TOUCHED=0
@@ -114,7 +115,7 @@ rollback_on_error() {
     rm -f "$CURRENT" || recovery_failed=1
   fi
   restore_service_state || recovery_failed=1
-  if ! nginx -t || ! systemctl reload nginx; then recovery_failed=1; fi
+  if ! "$NGINX_BIN" -t || ! systemctl reload nginx; then recovery_failed=1; fi
   rm -rf "$STAGING" "$RELEASE_DIR" || recovery_failed=1
   if [[ -n ${TARGET_NGINX_TEST:-} ]]; then rm -f "$TARGET_NGINX_TEST" || recovery_failed=1; fi
   if (( recovery_failed != 0 )); then
@@ -194,7 +195,7 @@ systemd-analyze verify "$STAGING/deploy/flocking-abuse.service"
 systemd-analyze verify "$STAGING/deploy/flocking-abuse-publisher.service"
 TARGET_NGINX_TEST=$(mktemp /etc/nginx/.flocking-release-target.XXXXXX.conf)
 printf 'events {}\nhttp { include /etc/nginx/mime.types; include %s; }\n' "$STAGING/deploy/flockingabuse.multihost.ing.nginx" > "$TARGET_NGINX_TEST"
-if ! nginx -t -c "$TARGET_NGINX_TEST"; then
+if ! "$NGINX_BIN" -t -c "$TARGET_NGINX_TEST"; then
   rm -f "$TARGET_NGINX_TEST"
   echo "Target nginx configuration failed preflight" >&2
   false
@@ -224,7 +225,7 @@ verify_health "$RELEASE_SHA"
 
 install -m 0644 -o root -g root "$RELEASE_DIR/deploy/flockingabuse.multihost.ing.nginx" "$NGINX_SITE"
 ln -sfn "$NGINX_SITE" "$NGINX_ENABLED"
-nginx -t
+"$NGINX_BIN" -t
 systemctl reload nginx
 trap - ERR INT TERM
 printf 'DEPLOYED_RELEASE=%s\nBACKUP=%s\n' "$RELEASE_SHA" "$BACKUP"
