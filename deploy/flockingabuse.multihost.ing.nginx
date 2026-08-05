@@ -5,7 +5,7 @@ upstream flocking_abuse_app {
 
 server {
     listen 0.0.0.0:80;
-    server_name flockingabuse.multihost.ing;
+    server_name tass.multihost.ing flockingabuse.multihost.ing;
 
     location ^~ /.well-known/acme-challenge/ {
         root /var/www/letsencrypt;
@@ -14,13 +14,22 @@ server {
     }
 
     location / {
-        return 301 https://flockingabuse.multihost.ing$request_uri;
+        return 301 https://tass.multihost.ing$request_uri;
     }
 }
 
 server {
     listen 0.0.0.0:443 ssl http2;
     server_name flockingabuse.multihost.ing;
+    ssl_certificate /etc/letsencrypt/live/flockingabuse.multihost.ing/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/flockingabuse.multihost.ing/privkey.pem;
+
+    return 301 https://tass.multihost.ing$request_uri;
+}
+
+server {
+    listen 0.0.0.0:443 ssl http2;
+    server_name tass.multihost.ing;
     client_max_body_size 64k;
 
     ssl_certificate /etc/letsencrypt/live/flockingabuse.multihost.ing/fullchain.pem;

@@ -89,9 +89,9 @@ export function App({ incidents }: AppProps) {
       <main id="main-content" tabIndex={-1}>
         <section className="hero" aria-labelledby="page-title">
           <div className="hero__copy">
-            <p className="eyebrow">Public records of camera misuse</p>
-            <h1 id="page-title">Flocking<br /><span>Abuse Tracker</span></h1>
-            <p className="hero__lede">Reported misuse, legal challenges, audit findings, and policy failures involving Flock Safety, Axon, and other camera systems—documented with links to the record.</p>
+            <p className="eyebrow">Public records of surveillance abuse</p>
+            <h1 id="page-title">The Abusive<br /><span>Surveillance State</span></h1>
+            <p className="hero__lede">Reported misuse, legal challenges, audit findings, and policy failures involving ALPR, facial recognition, camera networks, and other surveillance systems—documented with links to the record.</p>
             <p className="hero__note">Claims are attributed to their sources. Allegations remain allegations unless established by an official record.</p>
           </div>
           <aside className="monitor-panel" aria-label="Published incident count">

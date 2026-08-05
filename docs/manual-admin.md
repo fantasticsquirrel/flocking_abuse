@@ -1,6 +1,6 @@
 # Manual Admin Intake
 
-The owner intake at `https://flockingabuse.multihost.ing/admin` uses the same simple authentication shape as Hermes WebUI: **one password, no username, no signup**. It does not reuse or expose the Hermes password.
+The owner intake at `https://tass.multihost.ing/admin` uses the same simple authentication shape as Hermes WebUI: **one password, no username, no signup**. It does not reuse or expose the Hermes password.
 
 ## Production password
 

@@ -10,13 +10,13 @@ Production is an exact-commit release, not a mutable working tree. The public ed
 - secrets: `/etc/flocking-abuse/flocking-abuse.env` (`0600`, root-owned)
 - non-secret release identity: `/etc/flocking-abuse/release.env`
 - systemd unit: `/etc/systemd/system/flocking-abuse.service`
-- nginx site: `/etc/nginx/sites-available/flockingabuse.multihost.ing`
+- nginx site: `/etc/nginx/sites-available/flockingabuse.multihost.ing` (serves canonical `tass.multihost.ing` and redirects the legacy hostname)
 - deployment backups: `/var/backups/flocking-abuse/release-*`
 
 ## Prerequisites
 
-1. DNS resolves `flockingabuse.multihost.ing` to the host.
-2. A dedicated certificate exists under `/etc/letsencrypt/live/flockingabuse.multihost.ing/` and `certbot renew --dry-run` passes.
+1. DNS resolves `tass.multihost.ing` and `flockingabuse.multihost.ing` to the host.
+2. A dedicated certificate covering both names exists under `/etc/letsencrypt/live/flockingabuse.multihost.ing/` and `certbot renew --dry-run` passes.
 3. The service account, secret file, data directories, and root-only backup directory exist.
 4. The candidate/public data tree validates under the release schema. Every YAML record declares `schema_version: 1`; public records also carry `review.approval: human-approved`, non-automation reviewer provenance, and an anchored repository approval reference.
 5. The requested Git SHA has green CI and a clean exact-SHA local release gate.
@@ -58,7 +58,8 @@ systemctl show flocking-abuse.service -p User -p Group -p FragmentPath
 ss -ltnp | grep '127.0.0.1:8110'
 curl --fail --silent http://127.0.0.1:8110/live
 curl --fail --silent http://127.0.0.1:8110/health
-curl --fail --silent --show-error https://flockingabuse.multihost.ing/health
+curl --fail --silent --show-error https://tass.multihost.ing/health
+curl -I https://tass.multihost.ing/
 curl -I https://flockingabuse.multihost.ing/
 ```
 

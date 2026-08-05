@@ -40,7 +40,7 @@ export function AdminApp() {
   const passwordInput = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    document.title = 'Admin intake — Flocking Abuse Tracker';
+    document.title = 'Admin intake — The Abusive Surveillance State';
     void fetch('/api/admin/session', { credentials: 'same-origin', cache: 'no-store' })
       .then(async (response) => readJson<SessionResponse>(response))
       .then((session) => { if (session.authenticated && session.csrfToken) setCsrfToken(session.csrfToken); })

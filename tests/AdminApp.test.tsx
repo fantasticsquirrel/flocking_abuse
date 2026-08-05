@@ -70,7 +70,7 @@ describe('admin intake accessibility and recovery', () => {
     await user.click(screen.getByRole('button', { name: 'Authenticate' }));
     const heading = await screen.findByRole('heading', { name: 'Candidate intake' });
     await waitFor(() => expect(heading).toHaveFocus());
-    expect(document.title).toBe('Admin intake — Flocking Abuse Tracker');
+    expect(document.title).toBe('Admin intake — The Abusive Surveillance State');
     expect(screen.getAllByRole('checkbox', { name: /unauthorized search|political targeting|law enforcement overreach|data sharing/i }).length).toBeGreaterThan(0);
     expect(screen.getByRole('option', { name: 'Primary' })).toBeDisabled();
   });

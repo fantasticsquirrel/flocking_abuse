@@ -55,7 +55,7 @@ describe('public information pages', () => {
     vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')));
     render(<AboutPage />);
     expect(screen.getByRole('heading', { name: /about the tracker/i })).toBeInTheDocument();
-    expect(screen.getByText(/began with Flock Safety.*Axon and other vendors/i)).toBeInTheDocument();
+    expect(screen.getByText(/began with Flock Safety.*expanded.*vendors and technologies/i)).toBeInTheDocument();
     expect(screen.getByText(/random, HTTP-only visitor token/i)).toBeInTheDocument();
   });
 

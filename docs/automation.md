@@ -50,7 +50,7 @@ With GitHub auth, delivery uses an isolated worktree and opens a pull request. A
 ## Daily prompt
 
 ```text
-Run the Flocking Abuse daily discovery workflow. Search for new source-grounded reports of Flock Safety or flock-camera abuse, misuse, legal challenges, audits, or policy failures. Dedupe against data/incidents and data/candidates. Create candidate YAML only for likely unique incidents with exact source-supported claims. Validate the data and open a review PR or produce a patch. Never change a candidate to verified or publish it. Report queries, new candidates, duplicates, uncertain items, validation, and source-access failures.
+Run the TASS surveillance-abuse discovery workflow. Search for new source-grounded reports of ALPR, facial-recognition, camera-network, and related surveillance abuse, misuse, legal challenges, audits, or policy failures. Dedupe against data/incidents and data/candidates. Create candidate YAML only for likely unique incidents with exact source-supported claims. Validate the data and open a review PR or produce a patch. Never change a candidate to verified or publish it. Report queries, new candidates, duplicates, uncertain items, validation, and source-access failures.
 ```
 
 ## Publication gate

@@ -1,5 +1,5 @@
 [Unit]
-Description=Flocking Abuse Tracker
+Description=The Abusive Surveillance State
 After=network-online.target flocking-abuse-publisher.service
 Wants=network-online.target
 Requires=flocking-abuse-publisher.service
@@ -11,7 +11,7 @@ Group=flocking-abuse
 WorkingDirectory=/opt/flocking-abuse/current
 Environment=NODE_ENV=production
 Environment=PORT=8110
-Environment=APP_ORIGIN=https://flockingabuse.multihost.ing
+Environment=APP_ORIGIN=https://tass.multihost.ing
 Environment=DATA_DIR=/var/lib/flocking-abuse/data
 Environment=DIST_DIR=/opt/flocking-abuse/current/dist
 Environment=DOCS_DIR=/opt/flocking-abuse/current/docs

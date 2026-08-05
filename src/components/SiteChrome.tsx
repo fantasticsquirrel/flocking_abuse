@@ -1,10 +1,11 @@
 import { useEffect, useState, type ReactNode } from 'react';
+import tassLogo from '../assets/brand/tass-logo.png';
 
 type PublicPage = 'incidents' | 'summary' | 'timeline' | 'unverified' | 'about' | 'source-policy';
 
 export function SiteHeader({ current }: { current: PublicPage }) {
   return <header className="site-header">
-    <a className="wordmark" href="/" aria-label="Flocking Abuse Tracker home"><span aria-hidden="true" className="wordmark__mark">FA</span><span className="wordmark__text"><strong>Flocking Abuse</strong><small>Camera-system accountability</small></span></a>
+    <a className="wordmark" href="/" aria-label="The Abusive Surveillance State home"><img aria-hidden="true" className="wordmark__mark" src={tassLogo} /><span className="wordmark__text"><strong>TASS</strong><small>The Abusive Surveillance State</small></span></a>
     <nav aria-label="Primary">
       <a href="/" aria-current={current === 'incidents' ? 'page' : undefined}>Documented</a>
       <a href="/summary" aria-current={current === 'summary' ? 'page' : undefined}>Summary</a>
@@ -25,7 +26,7 @@ export function SiteFooter() {
       .then((data) => setCounts({ today: data.today.visitors, total: data.totalVisitors }))
       .catch(() => setCounts(null));
   }, []);
-  return <footer><p>Flocking Abuse Tracker</p><p>Sources accompany every record.</p><p className="visitor-counts" aria-label="Visitor counts">Today: <strong>{counts?.today ?? '—'}</strong> · Total: <strong>{counts?.total ?? '—'}</strong></p></footer>;
+  return <footer><p>The Abusive Surveillance State</p><p>Sources accompany every record.</p><p className="visitor-counts" aria-label="Visitor counts">Today: <strong>{counts?.today ?? '—'}</strong> · Total: <strong>{counts?.total ?? '—'}</strong></p></footer>;
 }
 
 export function PublicShell({ current, skip, children }: { current: PublicPage; skip: string; children: ReactNode }) {

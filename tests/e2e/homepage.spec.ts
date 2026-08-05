@@ -2,8 +2,8 @@ import { expect, test } from '@playwright/test';
 
 test('public homepage presents the source-grounded incident ledger', async ({ page }) => {
   await page.goto('/');
-  await expect(page).toHaveTitle(/Flocking Abuse Tracker/);
-  await expect(page.getByRole('heading', { name: 'Flocking Abuse Tracker', level: 1 })).toBeVisible();
+  await expect(page).toHaveTitle(/The Abusive Surveillance State/);
+  await expect(page.getByRole('heading', { name: 'The Abusive Surveillance State', level: 1 })).toBeVisible();
   const record = page.getByRole('article', { name: /Milwaukee officer sentenced after repeated personal Flock searches/i });
   await expect(record).toBeVisible();
   await expect(record.getByText(/179 times for personal reasons/i)).toBeVisible();

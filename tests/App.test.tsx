@@ -15,7 +15,7 @@ beforeEach(() => window.history.replaceState({}, '', '/'));
 describe('public tracker', () => {
   it('shows a truthful evidence-focused empty state and methodology links', () => {
     render(<App incidents={[]} />);
-    expect(screen.getByRole('heading', { name: 'Flocking Abuse Tracker', level: 1 })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'The Abusive Surveillance State', level: 1 })).toBeInTheDocument();
     expect(screen.getByText(/no verified or disputed incidents have been published/i)).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /read the source policy/i })).toHaveAttribute('href', '/docs/source-policy.html');
     expect(screen.queryByText(/synthetic fixture/i)).not.toBeInTheDocument();

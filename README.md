@@ -1,8 +1,8 @@
-# Flocking Abuse Tracker
+# The Abusive Surveillance State (TASS)
 
 A source-grounded public ledger for reported abuses, misuse, legal challenges, audit findings, and policy failures involving Flock Safety / automatic license-plate-reader systems.
 
-**Live:** https://flockingabuse.multihost.ing
+**Live:** https://tass.multihost.ing
 
 ## What this repository contains
 
@@ -68,7 +68,7 @@ The admin API prevents a GitHub-Pages-only deployment. Production uses one loopb
 - Atomic active link: `/opt/flocking-abuse/current`
 - Service: `flocking-abuse.service`
 - Loopback: `127.0.0.1:8110`
-- Public host: `https://flockingabuse.multihost.ing`
+- Public host: `https://tass.multihost.ing`
 - Mutable data: `/var/lib/flocking-abuse/data`
 - Secret env: `/etc/flocking-abuse/flocking-abuse.env` (`0600`)
 - Copyable owner password: `/root/.credentials/flocking-abuse-admin-password.txt` (`0600`)
