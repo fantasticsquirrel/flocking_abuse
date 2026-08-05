@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import tassLogo from '../assets/brand/tass-logo.png';
+import tassLogo from '../assets/brand/tass-logo.svg';
 
 type PublicPage = 'incidents' | 'summary' | 'timeline' | 'unverified' | 'about' | 'source-policy';
 
