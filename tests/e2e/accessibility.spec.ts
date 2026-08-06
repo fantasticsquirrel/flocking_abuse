@@ -13,6 +13,11 @@ test('public ledger supports keyboard entry, minimum link targets, and automated
   await expect(page.getByRole('link', { name: 'Skip to incident records' })).toBeFocused();
   await page.keyboard.press('Enter');
   await expect(page.locator('#main-content')).toBeFocused();
+  const menuToggle = page.getByRole('button', { name: 'Menu' });
+  if (await menuToggle.isVisible()) {
+    await menuToggle.click();
+    await expect(page.getByRole('navigation', { name: /primary/i })).toBeVisible();
+  }
   const undersized = await page.locator('.site-header nav a, .source-record > a:first-child, .archive-link').evaluateAll((links) => links.filter((link) => {
     const box = link.getBoundingClientRect();
     return box.height < 44;

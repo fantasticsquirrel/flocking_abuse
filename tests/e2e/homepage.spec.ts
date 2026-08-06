@@ -8,6 +8,8 @@ test('public homepage presents the source-grounded incident ledger', async ({ pa
   await expect(record).toBeVisible();
   await expect(record.getByText(/179 times for personal reasons/i)).toBeVisible();
   await expect(record.getByRole('link', { name: /FOX6 News Milwaukee/i })).toHaveAttribute('rel', /noopener/);
+  const menuToggle = page.getByRole('button', { name: 'Menu' });
+  if (await menuToggle.isVisible()) await menuToggle.click();
   await expect(page.getByRole('navigation', { name: /primary/i })).toBeVisible();
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
   expect(overflow).toBe(false);
