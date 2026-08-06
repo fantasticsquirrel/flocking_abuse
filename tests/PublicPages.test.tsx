@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { AboutPage } from '../src/AboutPage.js';
 import { UnverifiedPage } from '../src/UnverifiedPage.js';
@@ -12,10 +12,22 @@ import { timelineGapRem } from '../src/lib/timelineSpacing.js';
 import incidents from '../src/data/incidents.json';
 import type { Incident } from '../src/lib/incidentSchema.js';
 import { ReportPage } from '../src/ReportPage.js';
+import { SiteHeader } from '../src/components/SiteChrome.js';
 
 afterEach(() => vi.unstubAllGlobals());
 
 describe('public information pages', () => {
+  it('exposes an accessible mobile navigation toggle', () => {
+    render(<SiteHeader current="incidents" />);
+    const toggle = screen.getByRole('button', { name: /menu/i });
+    const navigation = screen.getByRole('navigation', { name: /primary/i });
+    expect(toggle).toHaveAttribute('aria-expanded', 'false');
+    expect(navigation).toHaveAttribute('data-open', 'false');
+    fireEvent.click(toggle);
+    expect(toggle).toHaveAttribute('aria-expanded', 'true');
+    expect(navigation).toHaveAttribute('data-open', 'true');
+  });
+
   it('summarizes public reports by company, incident type, year, and recent chronology', () => {
     vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')));
     const first = structuredClone((incidents as Incident[])[0]!);

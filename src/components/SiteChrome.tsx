@@ -1,12 +1,18 @@
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useId, useState, type ReactNode } from 'react';
 import tassLogo from '../assets/brand/tass-logo.svg';
 
 type PublicPage = 'incidents' | 'summary' | 'timeline' | 'unverified' | 'about' | 'source-policy';
 
 export function SiteHeader({ current }: { current: PublicPage }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const navigationId = useId();
+
   return <header className="site-header">
     <a className="wordmark" href="/" aria-label="The Abusive Surveillance State home"><img aria-hidden="true" className="wordmark__mark" src={tassLogo} /><span className="wordmark__text"><strong>TASS</strong><small>The Abusive Surveillance State</small></span></a>
-    <nav aria-label="Primary">
+    <button className="menu-toggle" type="button" aria-controls={navigationId} aria-expanded={menuOpen} onClick={() => setMenuOpen((open) => !open)}>
+      <span>{menuOpen ? 'Close' : 'Menu'}</span><span className="menu-toggle__icon" aria-hidden="true" />
+    </button>
+    <nav id={navigationId} aria-label="Primary" data-open={menuOpen ? 'true' : 'false'}>
       <a href="/" aria-current={current === 'incidents' ? 'page' : undefined}>Documented</a>
       <a href="/summary" aria-current={current === 'summary' ? 'page' : undefined}>Summary</a>
       <a href="/timeline" aria-current={current === 'timeline' ? 'page' : undefined}>Timeline</a>
