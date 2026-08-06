@@ -105,7 +105,7 @@ export function createProductionApp(config) {
             }
             const markdown = await readFile(resolve(config.docsDir, `${documentName}.md`), 'utf8');
             const content = await marked.parse(markdown, { gfm: true });
-            response.type('html').send(`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title} — Flocking Abuse Tracker</title><style>body{max-width:76ch;margin:auto;padding:2rem;font:18px/1.65 system-ui;background:#050907;color:#eef8ee}a{color:#72ff9d}code,pre{background:#0d1712}pre{padding:1rem;overflow:auto}</style></head><body><header><nav aria-label="Primary"><a href="/">Public ledger</a> · <a href="/admin">Admin intake</a></nav></header><main>${content}</main></body></html>`);
+            response.type('html').send(`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title} — The Abusive Surveillance State</title><style>body{max-width:76ch;margin:auto;padding:2rem;font:18px/1.65 system-ui;background:#050907;color:#eef8ee}a{color:#72ff9d}code,pre{background:#0d1712}pre{padding:1rem;overflow:auto}</style></head><body><header><nav aria-label="Primary"><a href="/">Public ledger</a> · <a href="/admin">Admin intake</a></nav></header><main>${content}</main></body></html>`);
         }
         catch (error) {
             next(error);
@@ -142,11 +142,11 @@ if (isEntrypoint) {
         const config = readRuntimeConfig(process.env);
         const app = createProductionApp(config);
         app.listen(config.port, config.host, () => {
-            console.log(`Flocking Abuse Tracker listening on http://${config.host}:${config.port}`);
+            console.log(`The Abusive Surveillance State listening on http://${config.host}:${config.port}`);
         });
     }
     catch (error) {
-        console.error(error instanceof Error ? error.message : 'Unable to start Flocking Abuse Tracker');
+        console.error(error instanceof Error ? error.message : 'Unable to start The Abusive Surveillance State');
         process.exitCode = 1;
     }
 }
