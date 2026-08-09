@@ -1,0 +1,2 @@
+export const INCIDENT_REFRESH_INTERVAL_MS = 5 * 60 * 1000;
+export const INCIDENT_RETRY_DELAYS_MS = [1000, 5000, 15_000, 60_000] as const;
