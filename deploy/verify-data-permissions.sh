@@ -28,6 +28,7 @@ metadata() {
 [[ -d $DATA_DIR/analytics && ! -L $DATA_DIR/analytics ]] || fail "Analytics storage must be a regular directory"
 [[ -d $DATA_DIR/approvals && ! -L $DATA_DIR/approvals ]] || fail "Runtime approval storage must be a regular directory"
 [[ -d $DATA_DIR/published-candidates && ! -L $DATA_DIR/published-candidates ]] || fail "Published-candidate archive must be a regular directory"
+[[ -d $DATA_DIR/.delivered-candidates && ! -L $DATA_DIR/.delivered-candidates ]] || fail "Delivered-candidate archive must be a regular directory"
 
 unexpected=$(find "$DATA_DIR" -xdev -mindepth 1 ! -type d ! -type f -print -quit)
 [[ -z $unexpected ]] || fail "Mutable data must contain only directories and regular files"
@@ -42,6 +43,7 @@ multiply_linked=$(find "$DATA_DIR" -xdev -type f -links +1 -print -quit)
 [[ $(metadata "$DATA_DIR/analytics") == "$SERVICE_UID:$SERVICE_GID:750" ]] || fail "Analytics directory metadata is unsafe"
 [[ $(metadata "$DATA_DIR/approvals") == "$TRUSTED_UID:$SHARED_GID:750" ]] || fail "Runtime approval directory metadata is unsafe"
 [[ $(metadata "$DATA_DIR/published-candidates") == "$TRUSTED_UID:$SHARED_GID:750" ]] || fail "Published-candidate archive metadata is unsafe"
+[[ $(metadata "$DATA_DIR/.delivered-candidates") == "$TRUSTED_UID:"*:700 ]] || fail "Delivered-candidate archive metadata is unsafe"
 
 while IFS= read -r -d '' path; do
   [[ $(metadata "$path") == "$TRUSTED_UID:$SHARED_GID:750" ]] || fail "Accepted directory metadata is unsafe: $path"
@@ -86,9 +88,17 @@ for protected_directory in approvals published-candidates; do
 done
 
 while IFS= read -r -d '' path; do
+  [[ $(metadata "$path") == "$TRUSTED_UID:"*:700 ]] || fail "Delivered-candidate archive directory metadata is unsafe: $path"
+done < <(find "$DATA_DIR/.delivered-candidates" -xdev -type d -print0)
+
+while IFS= read -r -d '' path; do
+  [[ $(metadata "$path") == "$TRUSTED_UID:"*:600 ]] || fail "Delivered-candidate archive file metadata is unsafe: $path"
+done < <(find "$DATA_DIR/.delivered-candidates" -xdev -type f -print0)
+
+while IFS= read -r -d '' path; do
   [[ -f $path ]] || fail "Unexpected directory beneath mutable data root: $path"
   current=$(metadata "$path")
   [[ $current == "$TRUSTED_UID:"*:600 || $current == "$TRUSTED_UID:"*:640 ]] || fail "Root-level mutable data file metadata is unsafe: $path"
-done < <(find "$DATA_DIR" -xdev -mindepth 1 -maxdepth 1 ! -name incidents ! -name candidates ! -name unverified ! -name analytics ! -name approvals ! -name published-candidates -print0)
+done < <(find "$DATA_DIR" -xdev -mindepth 1 -maxdepth 1 ! -name incidents ! -name candidates ! -name unverified ! -name analytics ! -name approvals ! -name published-candidates ! -name .delivered-candidates -print0)
 
 printf 'DATA_PERMISSIONS=secure\n'

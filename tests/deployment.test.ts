@@ -62,6 +62,7 @@ describe('immutable deployment and rollback scripts', () => {
     const analytics = join(dataDir, 'analytics');
     const approvals = join(dataDir, 'approvals');
     const publishedCandidates = join(dataDir, 'published-candidates');
+    const deliveredCandidates = join(dataDir, '.delivered-candidates');
     const uid = process.getuid?.() ?? 0;
     const gid = process.getgid?.() ?? 0;
     try {
@@ -71,6 +72,7 @@ describe('immutable deployment and rollback scripts', () => {
       await mkdir(analytics, { recursive: true, mode: 0o750 });
       await mkdir(approvals, { recursive: true, mode: 0o750 });
       await mkdir(publishedCandidates, { recursive: true, mode: 0o750 });
+      await mkdir(deliveredCandidates, { recursive: true, mode: 0o700 });
       await chmod(dataDir, 0o750);
       await chmod(incidents, 0o750);
       await chmod(candidates, 0o750);
@@ -78,10 +80,13 @@ describe('immutable deployment and rollback scripts', () => {
       await chmod(analytics, 0o750);
       await chmod(approvals, 0o750);
       await chmod(publishedCandidates, 0o750);
+      await chmod(deliveredCandidates, 0o700);
       const accepted = join(incidents, 'accepted.yaml');
       const candidate = join(candidates, 'candidate.yaml');
+      const delivered = join(deliveredCandidates, 'delivered.yaml');
       await writeFile(accepted, 'id: accepted\n', { mode: 0o640 });
       await writeFile(candidate, 'id: candidate\n', { mode: 0o600 });
+      await writeFile(delivered, 'id: delivered\n', { mode: 0o600 });
       const args = [dataDir, String(uid), String(gid), String(uid), String(gid)];
       await expect(execFileAsync('bash', ['deploy/verify-data-permissions.sh', ...args])).resolves.toBeDefined();
 
@@ -97,6 +102,9 @@ describe('immutable deployment and rollback scripts', () => {
 
       await chmod(accepted, 0o660);
       await expect(execFileAsync('bash', ['deploy/verify-data-permissions.sh', ...args])).rejects.toThrow(/accepted file metadata/i);
+      await chmod(accepted, 0o640);
+      await chmod(delivered, 0o640);
+      await expect(execFileAsync('bash', ['deploy/verify-data-permissions.sh', ...args])).rejects.toThrow(/delivered-candidate archive file metadata/i);
     } finally {
       await rm(root, { recursive: true, force: true });
     }
