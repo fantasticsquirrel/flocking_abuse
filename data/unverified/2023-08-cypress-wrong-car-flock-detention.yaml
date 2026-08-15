@@ -1,0 +1,36 @@
+schema_version: 1
+id: 2023-08-cypress-wrong-car-flock-detention
+title: "Cypress men reportedly detained after deputies followed the wrong Flock-flagged car"
+summary: >-
+  ABC13 reported that Harris County deputies detained two 19-year-old men at gunpoint on August 3, 2023 after a
+  Flock alert identified a stolen Chevrolet Camaro and an undercover unit followed a similar car without confirming
+  its plate. Deputies released the men after determining they had stopped the wrong vehicle. No incident report,
+  department finding, lawsuit, or independent contemporaneous report has been located.
+location:
+  city: Cypress
+  county: Harris
+  state: TX
+  country: US
+companies:
+  - Flock Safety
+agencies:
+  - Harris County Sheriff's Office
+reported: "2023-08-08"
+sources:
+  - url: "https://abc13.com/post/cypress-neighborhood-arrest-men-wrongfully-arrested-harris-countys-office-investigation-deputies-wrong-suspects/13614720/"
+    title: "'I'm going to shoot you': 2 men held at gunpoint before deputies realize their mistake, victims say"
+    publisher: "ABC13 Houston"
+    published_date: "2023-08-08"
+    source_type: news
+    reliability: corroborating
+    key_claims:
+      - "ABC13 reported that deputies detained two men after following a similar Camaro without confirming it matched the plate in a Flock stolen-vehicle alert."
+verification_status:
+  reason: >-
+    The incident is supported by one contemporaneous local-news report. Later indexes repeat that account rather
+    than independently corroborating it, and no underlying department or court record has been located.
+  evidence_needed:
+    - "The Harris County Sheriff's Office incident report, dispatch record, or internal review"
+    - "A direct copy of the Flock alert and records identifying where the vehicle match failed"
+    - "Independent contemporaneous reporting or a court filing from the detained men"
+updated_at: "2026-08-15"

@@ -1,0 +1,36 @@
+schema_version: 1
+id: 2026-06-burbank-former-employees-flock-access
+title: "Burbank audit reportedly found former employees retained Flock access"
+summary: >-
+  Public Records Southern California reported that a Burbank Police Department audit, signed May 15, 2026,
+  recorded the deactivation of three recently separated employees' Flock accounts. The report links the audit
+  produced through a California public-records request, but no independent newsroom or direct city finding has
+  established how long the accounts remained usable or whether any former employee accessed the system.
+location:
+  city: Burbank
+  county: Los Angeles
+  state: CA
+  country: US
+companies:
+  - Flock Safety
+agencies:
+  - Burbank Police Department
+reported: "2026-06-30"
+sources:
+  - url: "https://publicrecordssocal.substack.com/p/burbank-built-a-surveillance-network"
+    title: "Burbank Built a Surveillance Network And Nobody Was Watching."
+    publisher: "Public Records Southern California"
+    published_date: "2026-06-30"
+    source_type: advocacy-report
+    reliability: corroborating
+    key_claims:
+      - "The report says a May 2026 department audit recorded the deactivation of three recently separated employees' Flock accounts."
+verification_status:
+  reason: >-
+    The claim currently rests on one advocacy publisher's interpretation of records it obtained. The linked audit
+    does not establish how long the accounts remained active or whether the former employees used them after leaving.
+  evidence_needed:
+    - "A stable direct copy of the complete audit production from the City of Burbank"
+    - "Account or access logs establishing whether the former employees logged in after separation"
+    - "An official city response or independent reliable corroboration"
+updated_at: "2026-08-15"

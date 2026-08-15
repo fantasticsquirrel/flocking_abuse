@@ -1,0 +1,44 @@
+schema_version: 1
+id: 2026-08-raleigh-former-employees-flock-access
+title: "Raleigh audits reportedly listed former employees as active Flock users"
+summary: >-
+  A Raleigh community post, citing audit files released through MuckRock, reported that an April 8, 2026 Raleigh
+  Police Department audit found several active Flock users were no longer department employees. The post further
+  alleged the condition remained unresolved in a May audit. The underlying public-record production is linked, but
+  the claim has not been independently reported and the affected accounts have not been publicly identified.
+location:
+  city: Raleigh
+  county: Wake
+  state: NC
+  country: US
+companies:
+  - Flock Safety
+agencies:
+  - Raleigh Police Department
+reported: "2026-08-11"
+sources:
+  - url: "https://www.reddit.com/r/raleigh/comments/1vljffk/raleigh_police_appears_to_have_ignored_their_own/"
+    title: "Raleigh Police appears to have ignored their own audits"
+    publisher: "Reddit / raleigh"
+    published_date: "2026-08-11"
+    source_type: other
+    reliability: background
+    key_claims:
+      - "The post quotes an April 2026 audit as saying several active Flock users were no longer employed by the department."
+  - url: "https://www.muckrock.com/foi/raleigh-346/flock-safety-alpr-data-request-raleigh-police-department-216003/#comms"
+    title: "Flock Safety ALPR data request — Raleigh Police Department"
+    publisher: "MuckRock"
+    published_date: ""
+    source_type: public-record
+    reliability: primary
+    key_claims:
+      - "The request page is the cited repository for the Raleigh Police Department audit files discussed in the community post."
+verification_status:
+  reason: >-
+    The allegation is explained only in a community post. Although that post points to a public-record production,
+    no independent report or official response has verified the interpretation or whether access persisted.
+  evidence_needed:
+    - "Stable direct links to the April 8 and May 5, 2026 audit documents"
+    - "Raleigh Police confirmation of the number and status of former-employee accounts"
+    - "Access logs showing whether any former employee used an account after separation"
+updated_at: "2026-08-15"

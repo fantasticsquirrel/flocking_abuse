@@ -1,0 +1,36 @@
+schema_version: 1
+id: 2026-08-goodyear-officer-suspected-flock-misuse
+title: "Goodyear officer reportedly investigated for suspected Flock misuse"
+summary: >-
+  ABC15 Arizona reported that a July 2026 Goodyear Police Department audit identified concerning Flock activity
+  and that one officer was placed on leave pending a criminal investigation handled by another agency. The
+  department's underlying audit, press release, officer identity, searches, and alleged purpose have not been
+  located in a stable public record, so the suspected misuse remains unverified.
+location:
+  city: Goodyear
+  county: Maricopa
+  state: AZ
+  country: US
+companies:
+  - Flock Safety
+agencies:
+  - Goodyear Police Department
+reported: "2026-08-12"
+sources:
+  - url: "https://www.youtube.com/watch?v=NXka3HUw9uQ"
+    title: "Goodyear Police Dept. investigate whether officer misused Flock license plate reader system"
+    publisher: "ABC15 Arizona"
+    published_date: "2026-08-12"
+    source_type: news
+    reliability: corroborating
+    key_claims:
+      - "ABC15 reported that a July audit raised concerns and one officer was placed on leave pending a criminal investigation."
+verification_status:
+  reason: >-
+    Only one news report has been located, and the department's referenced press release and audit are not available
+    in a stable public copy. The report does not identify the officer, searches, alleged target, or purpose.
+  evidence_needed:
+    - "The Goodyear Police Department press release and underlying July 2026 Flock audit"
+    - "A charging record, investigative finding, or official case disposition"
+    - "Independent reliable reporting that identifies the suspected searches and their purpose"
+updated_at: "2026-08-15"

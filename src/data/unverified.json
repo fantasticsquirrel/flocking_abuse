@@ -120,6 +120,47 @@
   },
   {
     "schema_version": 1,
+    "id": "2023-08-cypress-wrong-car-flock-detention",
+    "title": "Cypress men reportedly detained after deputies followed the wrong Flock-flagged car",
+    "summary": "ABC13 reported that Harris County deputies detained two 19-year-old men at gunpoint on August 3, 2023 after a Flock alert identified a stolen Chevrolet Camaro and an undercover unit followed a similar car without confirming its plate. Deputies released the men after determining they had stopped the wrong vehicle. No incident report, department finding, lawsuit, or independent contemporaneous report has been located.",
+    "location": {
+      "city": "Cypress",
+      "county": "Harris",
+      "state": "TX",
+      "country": "US"
+    },
+    "companies": [
+      "Flock Safety"
+    ],
+    "agencies": [
+      "Harris County Sheriff's Office"
+    ],
+    "reported": "2023-08-08",
+    "sources": [
+      {
+        "url": "https://abc13.com/post/cypress-neighborhood-arrest-men-wrongfully-arrested-harris-countys-office-investigation-deputies-wrong-suspects/13614720/",
+        "title": "'I'm going to shoot you': 2 men held at gunpoint before deputies realize their mistake, victims say",
+        "publisher": "ABC13 Houston",
+        "published_date": "2023-08-08",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "ABC13 reported that deputies detained two men after following a similar Camaro without confirming it matched the plate in a Flock stolen-vehicle alert."
+        ]
+      }
+    ],
+    "verification_status": {
+      "reason": "The incident is supported by one contemporaneous local-news report. Later indexes repeat that account rather than independently corroborating it, and no underlying department or court record has been located.",
+      "evidence_needed": [
+        "The Harris County Sheriff's Office incident report, dispatch record, or internal review",
+        "A direct copy of the Flock alert and records identifying where the vehicle match failed",
+        "Independent contemporaneous reporting or a court filing from the detained men"
+      ]
+    },
+    "updated_at": "2026-08-15"
+  },
+  {
+    "schema_version": 1,
     "id": "2025-05-texas-abortion-related-national-flock-search",
     "title": "Texas sheriff's office reportedly used national Flock search in abortion-related investigation",
     "summary": "404 Media reported that the Johnson County Sheriff's Office searched a nationwide Flock camera network for a woman who had self-administered an abortion. The same newsroom later reported that court records characterized the matter as a death investigation and showed investigators considered possible criminal charges.",
@@ -168,5 +209,139 @@
       ]
     },
     "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
+    "id": "2026-06-burbank-former-employees-flock-access",
+    "title": "Burbank audit reportedly found former employees retained Flock access",
+    "summary": "Public Records Southern California reported that a Burbank Police Department audit, signed May 15, 2026, recorded the deactivation of three recently separated employees' Flock accounts. The report links the audit produced through a California public-records request, but no independent newsroom or direct city finding has established how long the accounts remained usable or whether any former employee accessed the system.",
+    "location": {
+      "city": "Burbank",
+      "county": "Los Angeles",
+      "state": "CA",
+      "country": "US"
+    },
+    "companies": [
+      "Flock Safety"
+    ],
+    "agencies": [
+      "Burbank Police Department"
+    ],
+    "reported": "2026-06-30",
+    "sources": [
+      {
+        "url": "https://publicrecordssocal.substack.com/p/burbank-built-a-surveillance-network",
+        "title": "Burbank Built a Surveillance Network And Nobody Was Watching.",
+        "publisher": "Public Records Southern California",
+        "published_date": "2026-06-30",
+        "source_type": "advocacy-report",
+        "reliability": "corroborating",
+        "key_claims": [
+          "The report says a May 2026 department audit recorded the deactivation of three recently separated employees' Flock accounts."
+        ]
+      }
+    ],
+    "verification_status": {
+      "reason": "The claim currently rests on one advocacy publisher's interpretation of records it obtained. The linked audit does not establish how long the accounts remained active or whether the former employees used them after leaving.",
+      "evidence_needed": [
+        "A stable direct copy of the complete audit production from the City of Burbank",
+        "Account or access logs establishing whether the former employees logged in after separation",
+        "An official city response or independent reliable corroboration"
+      ]
+    },
+    "updated_at": "2026-08-15"
+  },
+  {
+    "schema_version": 1,
+    "id": "2026-08-goodyear-officer-suspected-flock-misuse",
+    "title": "Goodyear officer reportedly investigated for suspected Flock misuse",
+    "summary": "ABC15 Arizona reported that a July 2026 Goodyear Police Department audit identified concerning Flock activity and that one officer was placed on leave pending a criminal investigation handled by another agency. The department's underlying audit, press release, officer identity, searches, and alleged purpose have not been located in a stable public record, so the suspected misuse remains unverified.",
+    "location": {
+      "city": "Goodyear",
+      "county": "Maricopa",
+      "state": "AZ",
+      "country": "US"
+    },
+    "companies": [
+      "Flock Safety"
+    ],
+    "agencies": [
+      "Goodyear Police Department"
+    ],
+    "reported": "2026-08-12",
+    "sources": [
+      {
+        "url": "https://www.youtube.com/watch?v=NXka3HUw9uQ",
+        "title": "Goodyear Police Dept. investigate whether officer misused Flock license plate reader system",
+        "publisher": "ABC15 Arizona",
+        "published_date": "2026-08-12",
+        "source_type": "news",
+        "reliability": "corroborating",
+        "key_claims": [
+          "ABC15 reported that a July audit raised concerns and one officer was placed on leave pending a criminal investigation."
+        ]
+      }
+    ],
+    "verification_status": {
+      "reason": "Only one news report has been located, and the department's referenced press release and audit are not available in a stable public copy. The report does not identify the officer, searches, alleged target, or purpose.",
+      "evidence_needed": [
+        "The Goodyear Police Department press release and underlying July 2026 Flock audit",
+        "A charging record, investigative finding, or official case disposition",
+        "Independent reliable reporting that identifies the suspected searches and their purpose"
+      ]
+    },
+    "updated_at": "2026-08-15"
+  },
+  {
+    "schema_version": 1,
+    "id": "2026-08-raleigh-former-employees-flock-access",
+    "title": "Raleigh audits reportedly listed former employees as active Flock users",
+    "summary": "A Raleigh community post, citing audit files released through MuckRock, reported that an April 8, 2026 Raleigh Police Department audit found several active Flock users were no longer department employees. The post further alleged the condition remained unresolved in a May audit. The underlying public-record production is linked, but the claim has not been independently reported and the affected accounts have not been publicly identified.",
+    "location": {
+      "city": "Raleigh",
+      "county": "Wake",
+      "state": "NC",
+      "country": "US"
+    },
+    "companies": [
+      "Flock Safety"
+    ],
+    "agencies": [
+      "Raleigh Police Department"
+    ],
+    "reported": "2026-08-11",
+    "sources": [
+      {
+        "url": "https://www.reddit.com/r/raleigh/comments/1vljffk/raleigh_police_appears_to_have_ignored_their_own/",
+        "title": "Raleigh Police appears to have ignored their own audits",
+        "publisher": "Reddit / raleigh",
+        "published_date": "2026-08-11",
+        "source_type": "other",
+        "reliability": "background",
+        "key_claims": [
+          "The post quotes an April 2026 audit as saying several active Flock users were no longer employed by the department."
+        ]
+      },
+      {
+        "url": "https://www.muckrock.com/foi/raleigh-346/flock-safety-alpr-data-request-raleigh-police-department-216003/#comms",
+        "title": "Flock Safety ALPR data request — Raleigh Police Department",
+        "publisher": "MuckRock",
+        "published_date": "",
+        "source_type": "public-record",
+        "reliability": "primary",
+        "key_claims": [
+          "The request page is the cited repository for the Raleigh Police Department audit files discussed in the community post."
+        ]
+      }
+    ],
+    "verification_status": {
+      "reason": "The allegation is explained only in a community post. Although that post points to a public-record production, no independent report or official response has verified the interpretation or whether access persisted.",
+      "evidence_needed": [
+        "Stable direct links to the April 8 and May 5, 2026 audit documents",
+        "Raleigh Police confirmation of the number and status of former-employee accounts",
+        "Access logs showing whether any former employee used an account after separation"
+      ]
+    },
+    "updated_at": "2026-08-15"
   }
 ]
