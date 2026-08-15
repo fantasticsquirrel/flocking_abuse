@@ -1,0 +1,37 @@
+schema_version: 1
+id: 2020-01-iopc-deleted-body-camera-footage-after-search
+title: "IOPC case study reported body-camera footage deleted days after a search of a 17-year-old"
+summary: >-
+  An Independent Office for Police Conduct case study says an officer recorded a search and use of force involving
+  a 17-year-old, showed the footage to a line manager, and deleted it about five days later because the officer did
+  not expect a complaint. The anonymized case study does not identify the police force or state the incident or
+  discovery date, so it cannot be safely matched or placed in the documented timeline.
+location:
+  city: ""
+  county: ""
+  state: England
+  country: GB
+companies:
+  - Unidentified body-camera provider
+agencies:
+  - Unidentified UK police force
+reported: "2020-01"
+sources:
+  - url: "https://www.policeconduct.gov.uk/sites/default/files/documents/Issue_37_Case7.pdf"
+    title: "Body worn video deleted after searching 17-year-old"
+    publisher: "Independent Office for Police Conduct"
+    published_date: ""
+    source_type: government-record
+    reliability: primary
+    key_claims:
+      - "The IOPC case study says an officer deleted body-camera footage about five days after recording the search and use of force."
+      - "The officer said the footage had been shown to a line manager before deletion."
+verification_status:
+  reason: >-
+    The primary regulator account supports the deletion claim, but it anonymizes the force and omits the incident
+    and discovery dates. Those omissions prevent reliable deduplication and chronology-safe publication.
+  evidence_needed:
+    - "The police force, complaint reference, or IOPC case identifier for exact deduplication"
+    - "A source-supported date for the search, deletion, complaint, or investigation"
+    - "The underlying investigation or disciplinary outcome, if one exists"
+updated_at: "2026-08-15"

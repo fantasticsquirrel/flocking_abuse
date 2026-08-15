@@ -1,6 +1,48 @@
 [
   {
     "schema_version": 1,
+    "id": "2020-01-iopc-deleted-body-camera-footage-after-search",
+    "title": "IOPC case study reported body-camera footage deleted days after a search of a 17-year-old",
+    "summary": "An Independent Office for Police Conduct case study says an officer recorded a search and use of force involving a 17-year-old, showed the footage to a line manager, and deleted it about five days later because the officer did not expect a complaint. The anonymized case study does not identify the police force or state the incident or discovery date, so it cannot be safely matched or placed in the documented timeline.",
+    "location": {
+      "city": "",
+      "county": "",
+      "state": "England",
+      "country": "GB"
+    },
+    "companies": [
+      "Unidentified body-camera provider"
+    ],
+    "agencies": [
+      "Unidentified UK police force"
+    ],
+    "reported": "2020-01",
+    "sources": [
+      {
+        "url": "https://www.policeconduct.gov.uk/sites/default/files/documents/Issue_37_Case7.pdf",
+        "title": "Body worn video deleted after searching 17-year-old",
+        "publisher": "Independent Office for Police Conduct",
+        "published_date": "",
+        "source_type": "government-record",
+        "reliability": "primary",
+        "key_claims": [
+          "The IOPC case study says an officer deleted body-camera footage about five days after recording the search and use of force.",
+          "The officer said the footage had been shown to a line manager before deletion."
+        ]
+      }
+    ],
+    "verification_status": {
+      "reason": "The primary regulator account supports the deletion claim, but it anonymizes the force and omits the incident and discovery dates. Those omissions prevent reliable deduplication and chronology-safe publication.",
+      "evidence_needed": [
+        "The police force, complaint reference, or IOPC case identifier for exact deduplication",
+        "A source-supported date for the search, deletion, complaint, or investigation",
+        "The underlying investigation or disciplinary outcome, if one exists"
+      ]
+    },
+    "updated_at": "2026-08-15"
+  },
+  {
+    "schema_version": 1,
     "id": "2022-08-nashville-watchguard-footage-editing",
     "title": "Nashville employees reportedly edited WatchGuard body-camera footage without permission",
     "summary": "WPLN reported that a Metro Nashville Police Department internal investigation found two civilian IT employees had removed profanity from body-camera recordings without permission, including footage supplied to the Community Oversight Board for a police-misconduct investigation. WPLN later reported that MNPD was reviewing more than 300 recordings, but the underlying internal-investigation file is not linked in a stable public copy and the available reports are from one newsroom.",
@@ -161,6 +203,48 @@
   },
   {
     "schema_version": 1,
+    "id": "2025-05-dea-office-blink-camera-remote-monitoring",
+    "title": "DOJ OIG substantiated unauthorized remote monitoring through a personal Blink camera in a DEA office",
+    "summary": "The U.S. Department of Justice Office of the Inspector General substantiated that a DEA Special Agent in Charge installed a personally owned Blink camera in a DEA office and used it to remotely monitor real-time video and audio without the knowledge of people in view. The public investigative summary reports a policy violation, but the dates and location of the underlying conduct are redacted, preventing chronology-safe placement as a documented incident.",
+    "location": {
+      "city": "",
+      "county": "",
+      "state": "",
+      "country": "US"
+    },
+    "companies": [
+      "Amazon Blink"
+    ],
+    "agencies": [
+      "Drug Enforcement Administration"
+    ],
+    "reported": "2025-05-06",
+    "sources": [
+      {
+        "url": "https://oig.justice.gov/reports/investigative-summary-findings-misconduct-drug-enforcement-administration-special-agent",
+        "title": "Investigative Summary: Findings of Misconduct by a Drug Enforcement Administration Special Agent in Charge for Installing and Remotely Monitoring an Unauthorized Personally-Owned Camera in the DEA Office",
+        "publisher": "U.S. Department of Justice Office of the Inspector General",
+        "published_date": "2025-05-06",
+        "source_type": "government-record",
+        "reliability": "primary",
+        "key_claims": [
+          "DOJ OIG substantiated that a DEA Special Agent in Charge installed and remotely monitored an unauthorized personally owned camera in a DEA office.",
+          "The public summary says the camera captured real-time video and audio and was used to monitor people without their knowledge."
+        ]
+      }
+    ],
+    "verification_status": {
+      "reason": "The misconduct finding is authoritative, but the public record redacts the office location and all usable occurred and discovery dates. It therefore cannot be placed on the documented chronology without inventing a date.",
+      "evidence_needed": [
+        "An unredacted or independently documented date range for installation and remote monitoring",
+        "A source-supported date when DEA or DOJ first discovered the camera use",
+        "The office location, if it can be published without exposing protected personnel information"
+      ]
+    },
+    "updated_at": "2026-08-15"
+  },
+  {
+    "schema_version": 1,
     "id": "2025-05-texas-abortion-related-national-flock-search",
     "title": "Texas sheriff's office reportedly used national Flock search in abortion-related investigation",
     "summary": "404 Media reported that the Johnson County Sheriff's Office searched a nationwide Flock camera network for a woman who had self-administered an abortion. The same newsroom later reported that court records characterized the matter as a death investigation and showed investigators considered possible criminal charges.",
@@ -209,6 +293,89 @@
       ]
     },
     "updated_at": "2026-08-01"
+  },
+  {
+    "schema_version": 1,
+    "id": "2025-06-north-wales-officer-alleged-footage-sharing",
+    "title": "North Wales officer accused of sharing body-camera and council CCTV recordings through personal channels",
+    "summary": "North Wales Police alleges that Constable 4021 Sheppard shared body-worn-video and local-authority CCTV recordings with colleagues through social-media messaging platforms and a personal phone between June 12, 2025 and January 17, 2026 without a policing purpose. The matter is scheduled for a misconduct hearing on September 2, 2026 and has not been adjudicated.",
+    "location": {
+      "city": "",
+      "county": "",
+      "state": "Wales",
+      "country": "GB"
+    },
+    "companies": [
+      "Unidentified body-camera provider"
+    ],
+    "agencies": [
+      "North Wales Police"
+    ],
+    "reported": "",
+    "sources": [
+      {
+        "url": "https://www.northwales.police.uk/police-forces/north-wales-police/areas/mis/upcoming-misconduct-hearings/",
+        "title": "Attend a misconduct hearing",
+        "publisher": "North Wales Police",
+        "published_date": "",
+        "source_type": "official-statement",
+        "reliability": "primary",
+        "key_claims": [
+          "North Wales Police alleges that Constable 4021 Sheppard shared body-worn-video and local-authority CCTV recordings without a policing purpose between June 12, 2025 and January 17, 2026.",
+          "The official notice schedules a gross-misconduct hearing for September 2, 2026."
+        ]
+      }
+    ],
+    "verification_status": {
+      "reason": "The official notice establishes the allegation and conduct range, but it is a pending disciplinary matter with no adjudicated finding. The page also provides no stable publication date or detailed account of the recordings.",
+      "evidence_needed": [
+        "The misconduct panel decision and findings after the scheduled hearing",
+        "A stable dated copy or archive of the official hearing notice",
+        "Records identifying what footage was shared and whether any disclosure reached people outside policing"
+      ]
+    },
+    "updated_at": "2026-08-15"
+  },
+  {
+    "schema_version": 1,
+    "id": "2026-02-pelco-sarix-professional-3-unauthenticated-live-feed",
+    "title": "Pelco Sarix Professional 3 vulnerability reportedly allowed unauthenticated live-feed access",
+    "summary": "NIST's National Vulnerability Database describes CVE-2026-1241 as an access-control flaw in affected Pelco Sarix Professional 3 camera firmware that can allow an unauthenticated attacker to view a live feed. The disclosure does not establish malicious exploitation, an exposed deployment, or a source-supported discovery date distinct from the vulnerability's publication chronology.",
+    "location": {
+      "city": "",
+      "county": "",
+      "state": "",
+      "country": "Global"
+    },
+    "companies": [
+      "Pelco"
+    ],
+    "agencies": [
+      "NIST National Vulnerability Database"
+    ],
+    "reported": "",
+    "sources": [
+      {
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-1241",
+        "title": "CVE-2026-1241 Detail",
+        "publisher": "NIST National Vulnerability Database",
+        "published_date": "",
+        "source_type": "government-record",
+        "reliability": "primary",
+        "key_claims": [
+          "NVD describes an access-control flaw in affected Pelco Sarix Professional 3 firmware that can permit unauthenticated viewing of a live video feed."
+        ]
+      }
+    ],
+    "verification_status": {
+      "reason": "The vulnerability is officially catalogued, but the available record does not support a distinct discovery date and no malicious exploitation, exposed deployment, or actual footage access has been confirmed.",
+      "evidence_needed": [
+        "A vendor or CNA advisory establishing the discovery and disclosure chronology",
+        "Affected firmware versions and remediation details from a primary vendor source",
+        "Evidence of an exposed deployment or confirmed unauthorized live-feed access, if any"
+      ]
+    },
+    "updated_at": "2026-08-15"
   },
   {
     "schema_version": 1,

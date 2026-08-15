@@ -1,0 +1,37 @@
+schema_version: 1
+id: 2025-06-north-wales-officer-alleged-footage-sharing
+title: "North Wales officer accused of sharing body-camera and council CCTV recordings through personal channels"
+summary: >-
+  North Wales Police alleges that Constable 4021 Sheppard shared body-worn-video and local-authority CCTV
+  recordings with colleagues through social-media messaging platforms and a personal phone between June 12, 2025
+  and January 17, 2026 without a policing purpose. The matter is scheduled for a misconduct hearing on September 2,
+  2026 and has not been adjudicated.
+location:
+  city: ""
+  county: ""
+  state: Wales
+  country: GB
+companies:
+  - Unidentified body-camera provider
+agencies:
+  - North Wales Police
+reported: ""
+sources:
+  - url: "https://www.northwales.police.uk/police-forces/north-wales-police/areas/mis/upcoming-misconduct-hearings/"
+    title: "Attend a misconduct hearing"
+    publisher: "North Wales Police"
+    published_date: ""
+    source_type: official-statement
+    reliability: primary
+    key_claims:
+      - "North Wales Police alleges that Constable 4021 Sheppard shared body-worn-video and local-authority CCTV recordings without a policing purpose between June 12, 2025 and January 17, 2026."
+      - "The official notice schedules a gross-misconduct hearing for September 2, 2026."
+verification_status:
+  reason: >-
+    The official notice establishes the allegation and conduct range, but it is a pending disciplinary matter with
+    no adjudicated finding. The page also provides no stable publication date or detailed account of the recordings.
+  evidence_needed:
+    - "The misconduct panel decision and findings after the scheduled hearing"
+    - "A stable dated copy or archive of the official hearing notice"
+    - "Records identifying what footage was shared and whether any disclosure reached people outside policing"
+updated_at: "2026-08-15"

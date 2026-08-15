@@ -1,0 +1,36 @@
+schema_version: 1
+id: 2026-02-pelco-sarix-professional-3-unauthenticated-live-feed
+title: "Pelco Sarix Professional 3 vulnerability reportedly allowed unauthenticated live-feed access"
+summary: >-
+  NIST's National Vulnerability Database describes CVE-2026-1241 as an access-control flaw in affected Pelco Sarix
+  Professional 3 camera firmware that can allow an unauthenticated attacker to view a live feed. The disclosure does
+  not establish malicious exploitation, an exposed deployment, or a source-supported discovery date distinct from
+  the vulnerability's publication chronology.
+location:
+  city: ""
+  county: ""
+  state: ""
+  country: Global
+companies:
+  - Pelco
+agencies:
+  - NIST National Vulnerability Database
+reported: ""
+sources:
+  - url: "https://nvd.nist.gov/vuln/detail/CVE-2026-1241"
+    title: "CVE-2026-1241 Detail"
+    publisher: "NIST National Vulnerability Database"
+    published_date: ""
+    source_type: government-record
+    reliability: primary
+    key_claims:
+      - "NVD describes an access-control flaw in affected Pelco Sarix Professional 3 firmware that can permit unauthenticated viewing of a live video feed."
+verification_status:
+  reason: >-
+    The vulnerability is officially catalogued, but the available record does not support a distinct discovery date
+    and no malicious exploitation, exposed deployment, or actual footage access has been confirmed.
+  evidence_needed:
+    - "A vendor or CNA advisory establishing the discovery and disclosure chronology"
+    - "Affected firmware versions and remediation details from a primary vendor source"
+    - "Evidence of an exposed deployment or confirmed unauthorized live-feed access, if any"
+updated_at: "2026-08-15"

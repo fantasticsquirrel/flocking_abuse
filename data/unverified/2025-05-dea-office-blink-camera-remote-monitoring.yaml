@@ -1,0 +1,38 @@
+schema_version: 1
+id: 2025-05-dea-office-blink-camera-remote-monitoring
+title: "DOJ OIG substantiated unauthorized remote monitoring through a personal Blink camera in a DEA office"
+summary: >-
+  The U.S. Department of Justice Office of the Inspector General substantiated that a DEA Special Agent in Charge
+  installed a personally owned Blink camera in a DEA office and used it to remotely monitor real-time video and
+  audio without the knowledge of people in view. The public investigative summary reports a policy violation, but
+  the dates and location of the underlying conduct are redacted, preventing chronology-safe placement as a
+  documented incident.
+location:
+  city: ""
+  county: ""
+  state: ""
+  country: US
+companies:
+  - Amazon Blink
+agencies:
+  - Drug Enforcement Administration
+reported: "2025-05-06"
+sources:
+  - url: "https://oig.justice.gov/reports/investigative-summary-findings-misconduct-drug-enforcement-administration-special-agent"
+    title: "Investigative Summary: Findings of Misconduct by a Drug Enforcement Administration Special Agent in Charge for Installing and Remotely Monitoring an Unauthorized Personally-Owned Camera in the DEA Office"
+    publisher: "U.S. Department of Justice Office of the Inspector General"
+    published_date: "2025-05-06"
+    source_type: government-record
+    reliability: primary
+    key_claims:
+      - "DOJ OIG substantiated that a DEA Special Agent in Charge installed and remotely monitored an unauthorized personally owned camera in a DEA office."
+      - "The public summary says the camera captured real-time video and audio and was used to monitor people without their knowledge."
+verification_status:
+  reason: >-
+    The misconduct finding is authoritative, but the public record redacts the office location and all usable
+    occurred and discovery dates. It therefore cannot be placed on the documented chronology without inventing a date.
+  evidence_needed:
+    - "An unredacted or independently documented date range for installation and remote monitoring"
+    - "A source-supported date when DEA or DOJ first discovered the camera use"
+    - "The office location, if it can be published without exposing protected personnel information"
+updated_at: "2026-08-15"
